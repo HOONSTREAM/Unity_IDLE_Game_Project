@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class Base_Manager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Base_Manager instance;
+
+
+    private static Pool_Manager _pool = new Pool_Manager();
+
+    public static Pool_Manager Pool { get { return _pool; } }
+    private void Awake()
     {
-        
+        Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Init()
     {
-        
+        if(instance == null)
+        {
+            instance = this;
+            Pool.Initialize(transform);
+            DontDestroyOnLoad(this.gameObject);
+        }
+
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
+
+    public GameObject Instantiate_Path(string path)
+    {
+        return Instantiate(Resources.Load<GameObject>(path));
+    }
+
 }

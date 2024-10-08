@@ -33,7 +33,14 @@ public class Spawner : MonoBehaviour
                 pos.y = 0.0f;
             }
 
-            var go = Instantiate(Monster_Prefab, pos, Quaternion.identity);
+            var go = Base_Manager.Pool.Pooling_OBJ("Monster").Get((value) => 
+            {
+                // 풀링이 생성될때의 기능을 구현한다.
+
+                value.GetComponent<Monster>().Init();
+                value.transform.position = pos;
+                value.transform.LookAt(Vector3.zero);
+            });
 
         }
 

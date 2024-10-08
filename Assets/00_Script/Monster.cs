@@ -11,10 +11,18 @@ public class Monster : MonoBehaviour
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();      
+    }
+
+    public void Init()
+    {
         StartCoroutine(Spawn_Start());
     }
 
+    /// <summary>
+    /// 몬스터가 스폰이 될 때, 스케일의 크기변화를 줍니다.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Spawn_Start()
     {
         float current = 0.0f;
