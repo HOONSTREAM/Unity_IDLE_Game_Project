@@ -2,18 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : Character
 {
     public float M_Speed;
-    private Animator animator;
+    
 
     bool isSpawn = false;
 
-    private void Start()
-    {
-        animator = GetComponent<Animator>();      
-    }
-
+   
     public void Init()
     {
         StartCoroutine(Spawn_Start());
@@ -72,12 +68,5 @@ public class Monster : MonoBehaviour
         
     }
 
-    private void AnimatorChange(string temp)
-    {
-        animator.SetBool("isIDLE", false);
-        animator.SetBool("isMOVE", false);
-
-        animator.SetBool(temp, true);
-    }
-
+   
 }

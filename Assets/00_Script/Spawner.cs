@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject Monster_Prefab;
-
     public int M_Count; // 몬스터의 수
     public float M_SpawnTime; // 몇 초마다 스폰이 될 것인지 결정.
     // 1. 몬스터는 여러마리가 몇 초 마다 수시로 여러번 스폰 되어야 한다.
+
+    //Spawner 에 손쉽게 접근하기 위해, static으로 설계
+    public static List<Monster> m_monsters = new List<Monster>();
+    public static List<Player> m_players = new List<Player>();
 
 
     private void Start()
@@ -33,6 +35,7 @@ public class Spawner : MonoBehaviour
                 pos.y = 0.0f;
             }
 
+            //몬스터 스폰
             var go = Base_Manager.Pool.Pooling_OBJ("Monster").Get((value) => 
             {
                 // 풀링이 생성될때의 기능을 구현한다.
@@ -40,6 +43,8 @@ public class Spawner : MonoBehaviour
                 value.GetComponent<Monster>().Init();
                 value.transform.position = pos;
                 value.transform.LookAt(Vector3.zero);
+                m_monsters.Add(value.GetComponent<Monster>());
+
             });
 
         }
