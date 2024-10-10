@@ -9,9 +9,20 @@ public class Monster : Character
 
     bool isSpawn = false;
 
-   
+    protected override void Start()
+    {
+        base.Start();
+
+    }
+
+
+    /// <summary>
+    /// 원하는 시점에 계속 Init을 시킬수 있다.
+    /// </summary>
     public void Init()
     {
+        isDead = false;
+        HP = 5;
         StartCoroutine(Spawn_Start());
     }
 
@@ -37,6 +48,33 @@ public class Monster : Character
 
         yield return new WaitForSeconds(0.3f);
         isSpawn = true;
+    }
+
+    public void GetDamage(double dmg)
+    {
+        if(isDead)
+        {
+            return;
+        }
+
+        HP -= dmg;
+
+        if(HP <= 0)
+        {
+            isDead = true;
+            Spawner.m_monsters.Remove(this);
+
+            var smokeObj = Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>
+            {
+                value.transform.position = new Vector3(transform.position.x,0.5f,transform.position.z);
+                Base_Manager.instance.Return_Pool(value.GetComponent<ParticleSystem>().duration, value, "Smoke");
+                
+            });
+
+            Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);
+        }
+
+
     }
 
     private void Update()
@@ -68,5 +106,17 @@ public class Monster : Character
         
     }
 
+    /// <summary>
+    /// 여러가지 이펙트들을 코루틴으로 리턴시켜주는 메서드 입니다.
+    /// </summary>
+    /// <param name="timer"></param>
+    /// <param name="obj"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    IEnumerator ReturnCoroutine(float timer, GameObject obj, string path)
+    {
+        yield return new WaitForSeconds(timer);
+        Base_Manager.Pool.m_pool_Dictionary[path].Return(obj);
+    }
    
 }

@@ -18,10 +18,11 @@ public class Player : Character
 
     private void Update()
     {
+        FindClosetTarget(Spawner.m_monsters.ToArray()); // 리스트를 배열로 형변환
+
         if (m_target == null)
         {
-            FindClosetTarget(Spawner.m_monsters.ToArray()); // 리스트를 배열로 형변환
-
+            
             float targetPos = Vector3.Distance(transform.position, startPos);
 
             if(targetPos > 0.1f)
@@ -38,6 +39,11 @@ public class Player : Character
             }
 
             return;
+        }
+
+        if (m_target.GetComponent<Character>().isDead)
+        {
+            FindClosetTarget(Spawner.m_monsters.ToArray());
         }
 
         float targetDistance = Vector3.Distance(transform.position, m_target.position);

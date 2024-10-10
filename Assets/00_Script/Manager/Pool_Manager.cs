@@ -36,7 +36,7 @@ public class Object_Pool : IPool
 
         if(action != null)
         {
-            action?.Invoke(obj);
+            action?.Invoke(obj); // Get 메서드에서 action.Invoke(obj)가 호출되며, obj는 풀에서 꺼낸 오브젝트입니다.
         }
 
         return obj;
@@ -94,9 +94,14 @@ public class Pool_Manager
             Add_Queue(path);
         }
 
-        return m_pool_Dictionary[path];
+        return m_pool_Dictionary[path]; // IPool 인터페이스를 반환
     }
 
+    /// <summary>
+    /// 새로운 Pool을 생성합니다.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     private GameObject Add_Pool(string path)
     {
         GameObject obj = new GameObject(path + "@POOL");
@@ -110,6 +115,10 @@ public class Pool_Manager
         return obj;
     }
 
+    /// <summary>
+    /// 새로운 오브젝트를 생성하고, 리턴하여, Queue에 집어넣습니다.
+    /// </summary>
+    /// <param name="path"></param>
     private void Add_Queue(string path)
     {
         var go = Base_Manager.instance.Instantiate_Path(path);
