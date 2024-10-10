@@ -45,6 +45,11 @@ public class Character : MonoBehaviour
 
     protected virtual void Bullet()
     {
+        if(m_target == null)
+        {
+            return;
+        }
+
         Base_Manager.Pool.Pooling_OBJ("Bullet").Get((value) =>
         {
             value.transform.position = m_BulletTransform.position;
