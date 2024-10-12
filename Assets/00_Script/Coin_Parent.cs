@@ -1,0 +1,115 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class Coin_Parent : MonoBehaviour
+{
+    private Vector3 target;
+    private Camera cam;
+    RectTransform[] childs = new RectTransform[5];
+
+    [Range(0.0f, 500.0f)]
+    [SerializeField]
+    private float Distance_Range, Speed;
+
+
+
+    private void Awake()
+    {
+        cam = Camera.main;
+        for(int i =0; i<childs.Length; i++)
+        {
+            childs[i] = transform.GetChild(i).GetComponent<RectTransform>();
+        }
+    }
+
+    public void Init(Vector3 pos)
+    {
+        target = pos;
+        transform.position = cam.WorldToScreenPoint(pos);
+        for(int i = 0; i<childs.Length;i++)
+        {
+            childs[i].anchoredPosition = Vector2.zero;
+        }
+
+        transform.parent = Base_Canvas.instance.Holder_Layer(0);
+
+        StartCoroutine(Coin_Effect());
+    }
+
+    IEnumerator Coin_Effect()
+    {
+        Vector2[] RandomPos = new Vector2[childs.Length];
+        for(int i = 0; i < childs.Length; i++)
+        {
+            RandomPos[i] = new Vector2(target.x, target.y) + Random.insideUnitCircle * Random.Range(-Distance_Range, Distance_Range);
+        }
+
+        while (true)
+        {
+            for(int i = 0; i<childs.Length;i++)
+            {
+                RectTransform rect = childs[i];
+
+                rect.anchoredPosition = Vector2.MoveTowards(rect.anchoredPosition, RandomPos[i], Time.deltaTime * Speed);
+            }
+
+            if (Distance_Boolean(RandomPos, 0.5f))
+            {
+                break;
+            }
+
+            yield return null;  // 한번의 프레임 대기
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        while (true)
+        {
+            for(int i = 0; i<childs.Length;i++)
+            {
+                RectTransform rect = childs[i];
+                rect.position = Vector2.MoveTowards(rect.position, Base_Canvas.instance.Coin.position, Time.deltaTime * (Speed * 10.0f));
+            }
+
+            if (Distance_Boolean_World(0.5f))
+            {
+                Base_Manager.Pool.m_pool_Dictionary["COIN_PARENT"].Return(this.gameObject);
+                break;
+            }
+            yield return null;
+        }
+    }
+
+    private bool Distance_Boolean(Vector2[] end, float range)
+    {
+        for(int i = 0; i < childs.Length ; i++)
+        {
+            float distance = Vector2.Distance(childs[i].anchoredPosition, end[i]);
+
+            if(distance > range)
+            {
+                return false;
+            }
+            
+        }
+
+        return true;
+    }
+
+    private bool Distance_Boolean_World(float Range)
+    {
+        for(int i = 0;i < childs.Length ; i++)
+        {
+            float distance = Vector2.Distance(childs[i].position, Base_Canvas.instance.Coin.position);
+            if(distance > Range)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+}

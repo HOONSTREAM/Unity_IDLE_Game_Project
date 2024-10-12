@@ -57,6 +57,11 @@ public class Monster : Character
             return;
         }
 
+        Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
+        {
+            value.GetComponent<Hit_Text>().Init(transform.position, dmg, false);
+        });
+
         HP -= dmg;
 
         if(HP <= 0)
@@ -64,12 +69,20 @@ public class Monster : Character
             isDead = true;
             Spawner.m_monsters.Remove(this);
 
-            var smokeObj = Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>
+            Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>
             {
                 value.transform.position = new Vector3(transform.position.x,0.5f,transform.position.z);
                 Base_Manager.instance.Return_Pool(value.GetComponent<ParticleSystem>().duration, value, "Smoke");
                 
             });
+
+
+
+            Base_Manager.Pool.Pooling_OBJ("COIN_PARENT").Get((value) =>
+            {
+                value.GetComponent<Coin_Parent>().Init(transform.position);
+            });
+
 
             Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);
         }

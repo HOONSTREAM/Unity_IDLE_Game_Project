@@ -43,6 +43,9 @@ public class Character : MonoBehaviour
         animator.SetBool(temp, true);
     }
 
+    /// <summary>
+    /// 캐릭터 공격모션 EVENT에서 실행된다.
+    /// </summary>
     protected virtual void Bullet()
     {
         if(m_target == null)
