@@ -34,8 +34,29 @@ public class Item_OBJ : MonoBehaviour
         ItemTextRect.gameObject.SetActive(true);
         ItemTextRect.parent = Base_Canvas.instance.Holder_Layer(2);
 
-        m_Text.text = "TEST ITEM";
+        m_Text.text = Utils.String_Color_Rarity(rarity) + "TEST ITEM" + "</color>";
 
+        StartCoroutine(LootItem());
+
+    }
+
+    IEnumerator LootItem()
+    {
+        yield return new WaitForSeconds(Random.Range(1.0f, 1.5f));
+
+        for(int i = 0; i<Raritys.Length; i++)
+        {
+            Raritys[i].gameObject.SetActive(false);
+        }
+
+        ItemTextRect.transform.parent = this.transform;
+        ItemTextRect.gameObject.SetActive(false);
+
+        m_Loot.Play();
+
+        yield return new WaitForSeconds(0.5f);
+
+        Base_Manager.Pool.m_pool_Dictionary["Item_OBJ"].Return(this.gameObject);
     }
 
     private void Update()
@@ -78,7 +99,7 @@ public class Item_OBJ : MonoBehaviour
 
             yield return null;
         }
-       
+        
         RarityCheck();
     }
    
