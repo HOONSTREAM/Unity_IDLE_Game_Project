@@ -17,8 +17,9 @@ public class Player_Manager
         if(EXP >= float.Parse(CSV_Importer.EXP[Level]["EXP"].ToString()))
         {
             Level++;
+            Main_UI.Instance.Level_Text_Check();
         }
-
+        
     }
 
     public float EXP_Percentage()
