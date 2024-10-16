@@ -8,8 +8,9 @@ public class Base_Manager : MonoBehaviour
 
 
     private static Pool_Manager _pool = new Pool_Manager();
-
+    private static Player_Manager _player = new Player_Manager();
     public static Pool_Manager Pool { get { return _pool; } }
+    public static Player_Manager Player { get { return _player; } }
     private void Awake()
     {
         Init();
