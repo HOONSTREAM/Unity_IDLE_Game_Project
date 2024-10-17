@@ -53,11 +53,30 @@ public class Character : MonoBehaviour
             return;
         }
 
-        Base_Manager.Pool.Pooling_OBJ("Bullet").Get((value) =>
+        Base_Manager.Pool.Pooling_OBJ("Attack_Helper").Get((value) =>
         {
             value.transform.position = m_BulletTransform.position;
             value.GetComponent<Bullet>().init(m_target, 10, "CH_01");
         });
+    }
+
+    protected virtual void Attack()
+    {
+        if(m_target == null)
+        {
+            return;
+        }
+
+        Base_Manager.Pool.Pooling_OBJ("Attack_Helper").Get((value) =>
+        {
+            value.transform.position = m_target.transform.position;
+            value.GetComponent<Bullet>().Attack_Init(m_target, 10);
+        });
+    }
+
+    public virtual void GetDamage(double dmg)
+    {
+
     }
 
     /// <summary>

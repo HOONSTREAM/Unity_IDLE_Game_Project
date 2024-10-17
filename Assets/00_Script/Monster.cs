@@ -22,8 +22,44 @@ public class Monster : Character
     public void Init()
     {
         isDead = false;
-        HP = 5;
+        HP = 5123123;
+        Attack_Range = 0.5f;
         StartCoroutine(Spawn_Start());
+    }
+
+    private void Update()
+    {
+
+        FindClosetTarget(Spawner.m_players.ToArray());
+
+        if (m_target.GetComponent<Character>().isDead)
+        {
+            FindClosetTarget(Spawner.m_players.ToArray());
+        }
+
+        float targetDistance = Vector3.Distance(transform.position, m_target.position);
+
+        if (targetDistance <= target_Range && targetDistance > Attack_Range && isATTACK == false) // 현재 타겟이 추적 범위 안에는 있지만, 공격범위 안에는 없을 때
+        {
+            AnimatorChange("isMOVE");
+            transform.LookAt(m_target.position);
+            transform.position = Vector3.MoveTowards(transform.position, m_target.transform.position, Time.deltaTime);
+        }
+
+        else if (targetDistance <= Attack_Range && isATTACK == false)
+        {
+            isATTACK = true;
+            AnimatorChange("isATTACK");
+            Invoke("InitAttack", 1.0f);
+        }
+
+        //한 지점에서 다른 지점으로 일정 속도로 이동할 때 유용하게 사용됩니다.
+        //MoveToWards 메서드는 목적지에 도달할 때까지 선형적으로 이동하며, 속도를 조절할 수 있습니다.
+
+       
+        //Vector3.Distance는 Unity에서 두 지점 간의 거리를 계산하는 데 사용되는 메서드입니다.
+        //이 메서드는 3D 공간에서 두 개의 Vector3 간의 유클리드 거리(Euclidean Distance)를 반환합니다.
+        
     }
 
     /// <summary>
@@ -50,7 +86,7 @@ public class Monster : Character
         isSpawn = true;
     }
 
-    public void GetDamage(double dmg)
+    public override void GetDamage(double dmg)
     {
         if(isDead)
         {
@@ -96,35 +132,6 @@ public class Monster : Character
         }
 
 
-    }
-
-    private void Update()
-    {
-
-        //한 지점에서 다른 지점으로 일정 속도로 이동할 때 유용하게 사용됩니다.
-        //MoveToWards 메서드는 목적지에 도달할 때까지 선형적으로 이동하며, 속도를 조절할 수 있습니다.
-        
-        transform.LookAt(Vector3.zero);
-
-        if (isSpawn == false) return;
-
-
-        //Vector3.Distance는 Unity에서 두 지점 간의 거리를 계산하는 데 사용되는 메서드입니다.
-        //이 메서드는 3D 공간에서 두 개의 Vector3 간의 유클리드 거리(Euclidean Distance)를 반환합니다.
-        float targetDistance = Vector3.Distance(transform.position, Vector3.zero);
-
-        if(targetDistance <= 0.5f)
-        {
-            AnimatorChange("isIDLE");
-        }
-
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, Time.deltaTime * M_Speed);
-            AnimatorChange("isMOVE");
-        }
-
-        
     }
 
     /// <summary>

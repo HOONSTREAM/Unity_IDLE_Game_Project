@@ -6,14 +6,27 @@ public class Player : Character
 {
     private Vector3 startPos;
     private Quaternion rotation;
+    public Character_Scriptable CH_Data;
+    public string CH_Name;
 
     protected override void Start()
     {
         base.Start();
 
+        Data_Set(Resources.Load<Character_Scriptable>("Scriptable/" + CH_Name));
+
+        Spawner.m_players.Add(this);
+            
         startPos = transform.position;
         rotation = transform.rotation;
 
+    }
+
+    private void Data_Set(Character_Scriptable datas)
+    {
+        CH_Data = datas;
+        Attack_Range = datas.M_Attack_Range;
+        
     }
 
     private void Update()
@@ -63,6 +76,17 @@ public class Player : Character
         }
     }
 
+    public override void GetDamage(double dmg)
+    {
+        base.GetDamage(dmg);
 
+        var goOBJ = Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
+        {
+            value.GetComponent<Hit_Text>().Init(transform.position, dmg);
+
+        });
+
+        HP -= dmg;
+    }
 
 }
