@@ -56,7 +56,7 @@ public class Character : MonoBehaviour
         Base_Manager.Pool.Pooling_OBJ("Attack_Helper").Get((value) =>
         {
             value.transform.position = m_BulletTransform.position;
-            value.GetComponent<Bullet>().init(m_target, 10, "CH_01");
+            value.GetComponent<Bullet>().init(m_target, ATK, "CH_01");
         });
     }
 
@@ -70,7 +70,7 @@ public class Character : MonoBehaviour
         Base_Manager.Pool.Pooling_OBJ("Attack_Helper").Get((value) =>
         {
             value.transform.position = m_target.transform.position;
-            value.GetComponent<Bullet>().Attack_Init(m_target, 10);
+            value.GetComponent<Bullet>().Attack_Init(m_target, ATK);
         });
     }
 

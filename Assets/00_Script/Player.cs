@@ -8,6 +8,7 @@ public class Player : Character
     private Quaternion rotation;
     public Character_Scriptable CH_Data;
     public string CH_Name;
+    public GameObject Trail_Object;
 
     protected override void Start()
     {
@@ -22,23 +23,16 @@ public class Player : Character
 
     }
 
-    private void Data_Set(Character_Scriptable datas)
-    {
-        CH_Data = datas;
-        Attack_Range = datas.M_Attack_Range;
-        
-    }
-
     private void Update()
     {
         FindClosetTarget(Spawner.m_monsters.ToArray()); // 리스트를 배열로 형변환
 
         if (m_target == null)
         {
-            
+
             float targetPos = Vector3.Distance(transform.position, startPos);
 
-            if(targetPos > 0.1f)
+            if (targetPos > 0.1f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, startPos, Time.deltaTime); // time.deltatime에 speed를 곱해주면 속도가 빨라짐
                 transform.LookAt(startPos);
@@ -61,7 +55,7 @@ public class Player : Character
 
         float targetDistance = Vector3.Distance(transform.position, m_target.position);
 
-        if(targetDistance <= target_Range && targetDistance > Attack_Range && isATTACK == false) // 현재 타겟이 추적 범위 안에는 있지만, 공격범위 안에는 없을 때
+        if (targetDistance <= target_Range && targetDistance > Attack_Range && isATTACK == false) // 현재 타겟이 추적 범위 안에는 있지만, 공격범위 안에는 없을 때
         {
             AnimatorChange("isMOVE");
             transform.LookAt(m_target.position);
@@ -76,17 +70,40 @@ public class Player : Character
         }
     }
 
+    private void Data_Set(Character_Scriptable datas)
+    {
+        CH_Data = datas;
+        Attack_Range = datas.M_Attack_Range;
+
+        Set_ATK_HP();
+    }
+
+    public void Set_ATK_HP()
+    {
+        ATK = Base_Manager.Player.Get_ATK(CH_Data.Rarity);
+        HP = Base_Manager.Player.Get_HP(CH_Data.Rarity);
+    }
+
     public override void GetDamage(double dmg)
     {
         base.GetDamage(dmg);
 
         var goOBJ = Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
         {
-            value.GetComponent<Hit_Text>().Init(transform.position, dmg);
+            value.GetComponent<Hit_Text>().Init(transform.position, dmg, true);
 
         });
 
         HP -= dmg;
     }
 
+    protected override void Attack()
+    {
+        base.Attack();
+        Trail_Object.gameObject.SetActive(true);
+
+        Invoke("TrailDisable", 1.0f);
+    }
+
+    private void TrailDisable() => Trail_Object.gameObject.SetActive(false);
 }
