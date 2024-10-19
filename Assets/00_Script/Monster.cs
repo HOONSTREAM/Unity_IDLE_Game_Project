@@ -23,8 +23,9 @@ public class Monster : Character
     {
         isDead = false;
         ATK = 10;
-        HP = 500;
+        HP = 5;
         Attack_Range = 0.5f;
+        target_Range = Mathf.Infinity;
         StartCoroutine(Spawn_Start());
     }
 
