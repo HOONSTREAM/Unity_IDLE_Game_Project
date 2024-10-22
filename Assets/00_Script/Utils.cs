@@ -6,7 +6,22 @@ using UnityEngine.U2D;
 public class Utils 
 {
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");
+    public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
 
+    public static void CloseAllPopupUI()
+    {
+        while(UI_Holder.Count > 0)
+        {
+            ClosePopupUI(); 
+        }
+    }
+    public static void ClosePopupUI()
+    {
+        if(UI_Holder.Count == 0) { return; }
+
+        UI_Base popup = UI_Holder.Peek(); // 스택에 마지막으로 들어온 값을 반환
+        popup.DisableOBJ();
+    }
     public static Sprite Get_Atlas(string temp)
     {
         return atlas.GetSprite(temp);
