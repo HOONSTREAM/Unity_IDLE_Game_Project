@@ -8,3 +8,12 @@ public enum Rarity
     Epic,
     Legendary
 }
+
+public enum Stage_State
+{
+    Ready,
+    Play,
+    Boss,
+    Clear,
+    Dead
+}
