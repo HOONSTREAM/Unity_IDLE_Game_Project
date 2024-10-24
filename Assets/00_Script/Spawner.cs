@@ -12,10 +12,15 @@ public class Spawner : MonoBehaviour
     public static List<Monster> m_monsters = new List<Monster>();
     public static List<Player> m_players = new List<Player>();
 
+    private Coroutine coroutine;
 
     private void Start()
     {
-        StartCoroutine(SpawnCoroutine());
+        Base_Manager.Stage.M_PlayEvent += Init;
+    }
+    public void Init()
+    {
+        coroutine = StartCoroutine(SpawnCoroutine());
     }
     //Random.insideUnitSphere = Vector3(x,y,z)
     //Random.insideUnitCircle = Vector3(x,y)

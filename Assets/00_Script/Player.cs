@@ -16,8 +16,7 @@ public class Player : Character
 
         Data_Set(Resources.Load<Character_Scriptable>("Scriptable/" + CH_Name));
 
-        Spawner.m_players.Add(this);
-            
+        Spawner.m_players.Add(this);       
         startPos = transform.position;
         rotation = transform.rotation;
 
@@ -25,28 +24,30 @@ public class Player : Character
 
     private void Update()
     {
+        float targetPos = Vector3.Distance(transform.position, startPos);
+
+        if (targetPos > 0.1f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, startPos, Time.deltaTime); // time.deltatime에 speed를 곱해주면 속도가 빨라짐
+            transform.LookAt(startPos);
+            AnimatorChange("isMOVE");
+        }
+
+        else
+        {
+            transform.rotation = rotation;
+            AnimatorChange("isIDLE");
+        }
+
+        if(Stage_Manager.M_State != Stage_State.Play) { return; }
+     
         FindClosetTarget(Spawner.m_monsters.ToArray()); // 리스트를 배열로 형변환
 
         if (m_target == null)
         {
 
-            float targetPos = Vector3.Distance(transform.position, startPos);
-
-            if (targetPos > 0.1f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, startPos, Time.deltaTime); // time.deltatime에 speed를 곱해주면 속도가 빨라짐
-                transform.LookAt(startPos);
-                AnimatorChange("isMOVE");
-            }
-
-            else
-            {
-                transform.rotation = rotation;
-                AnimatorChange("isIDLE");
-            }
-
-            return;
         }
+
 
         if (m_target.GetComponent<Character>().isDead)
         {

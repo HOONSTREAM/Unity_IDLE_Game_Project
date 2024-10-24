@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,10 @@ public class Base_Manager : MonoBehaviour
 
     private static Pool_Manager _pool = new Pool_Manager();
     private static Player_Manager _player = new Player_Manager();
+    private static Stage_Manager _stage = new Stage_Manager();
     public static Pool_Manager Pool { get { return _pool; } }
     public static Player_Manager Player { get { return _player; } }
+    public static Stage_Manager Stage { get { return _stage; } }
     private void Awake()
     {
         Init();
@@ -18,10 +21,12 @@ public class Base_Manager : MonoBehaviour
 
     private void Init()
     {
+        
         if(instance == null)
         {
             instance = this;
             Pool.Initialize(transform);
+            Base_Manager.Stage.State_Change(Stage_State.Ready);
             DontDestroyOnLoad(this.gameObject);
         }
 
@@ -45,6 +50,18 @@ public class Base_Manager : MonoBehaviour
     {
         yield return new WaitForSeconds(timer);
         Pool.m_pool_Dictionary[path].Return(obj);
+    }
+
+    IEnumerator Action_Coroutine(Action action, float timer)
+    {
+        yield return new WaitForSeconds(timer);
+
+        action?.Invoke();
+    }
+
+    public void Coroutine_Action(float timer, Action action)
+    {
+        StartCoroutine(Action_Coroutine(action, timer));
     }
 
 }
