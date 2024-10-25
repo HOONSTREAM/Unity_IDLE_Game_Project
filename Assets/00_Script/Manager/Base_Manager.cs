@@ -26,7 +26,7 @@ public class Base_Manager : MonoBehaviour
         {
             instance = this;
             Pool.Initialize(transform);
-            Base_Manager.Stage.State_Change(Stage_State.Ready);
+            StartCoroutine(Action_Coroutine(()=>Base_Manager.Stage.State_Change(Stage_State.Ready), 0.3f));
             DontDestroyOnLoad(this.gameObject);
         }
 

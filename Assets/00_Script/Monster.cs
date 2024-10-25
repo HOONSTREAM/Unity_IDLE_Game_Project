@@ -116,35 +116,37 @@ public class Monster : Character
         if(HP <= 0)
         {
             isDead = true;
-            Spawner.m_monsters.Remove(this);
-
-            Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>
-            {
-                value.transform.position = new Vector3(transform.position.x,0.5f,transform.position.z);
-                Base_Manager.instance.Return_Pool(value.GetComponent<ParticleSystem>().duration, value, "Smoke");
-                
-            });
-
-
-
-            Base_Manager.Pool.Pooling_OBJ("COIN_PARENT").Get((value) =>
-            {
-                value.GetComponent<Coin_Parent>().Init(transform.position);
-            });
-
-            for(int i = 0; i < 3; i++)
-            {
-                Base_Manager.Pool.Pooling_OBJ("Item_OBJ").Get((value) =>
-                {
-                    value.GetComponent<Item_OBJ>().Init(transform.position); // 몬스터 위치 삽입
-                });
-            }
-
-
-            Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);
+            Dead_Event();
         }
 
+    }
 
+    private void Dead_Event()
+    {
+        Stage_Manager.Count++;
+        Spawner.m_monsters.Remove(this);
+
+        Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>
+        {
+            value.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            Base_Manager.instance.Return_Pool(value.GetComponent<ParticleSystem>().duration, value, "Smoke");
+
+        });
+
+        Base_Manager.Pool.Pooling_OBJ("COIN_PARENT").Get((value) =>
+        {
+            value.GetComponent<Coin_Parent>().Init(transform.position);
+        });
+
+        for (int i = 0; i < 3; i++)
+        {
+            Base_Manager.Pool.Pooling_OBJ("Item_OBJ").Get((value) =>
+            {
+                value.GetComponent<Item_OBJ>().Init(transform.position); // 몬스터 위치 삽입
+            });
+        }
+
+        Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);
     }
 
     /// <summary>

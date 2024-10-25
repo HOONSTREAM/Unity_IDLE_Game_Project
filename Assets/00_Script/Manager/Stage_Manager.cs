@@ -10,7 +10,9 @@ public delegate void OnDeadEvent();
 
 public class Stage_Manager
 { 
-    public  static Stage_State M_State;
+    public static Stage_State M_State;
+    public static int MaxCount = 10;
+    public static int Count;
 
     public  OnReadyEvent M_ReadyEvent;
     public  OnPlayEvent M_PlayEvent;

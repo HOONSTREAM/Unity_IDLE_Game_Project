@@ -16,7 +16,11 @@ public class Main_UI : MonoBehaviour
     private Image Fade;
     [SerializeField]
     private float Fade_Duration;
-
+    [SerializeField]
+    private Slider M_Monster_Slider;
+    [SerializeField]
+    private TextMeshProUGUI M_Monster_Value_Text;
+    
     private void Awake()
     {
         if(Instance == null)
@@ -27,9 +31,14 @@ public class Main_UI : MonoBehaviour
     private void Start()
     {
         Level_Text_Check();
+        Base_Manager.Stage.M_ReadyEvent += () => FadeInOut(true);
     }
 
-    public void FadeInOut(bool FadeInout, bool Sibling, Action action = null)
+    public void Monster_Slider_Count()
+    {
+        M_Monster_Slider.value = Stage_Manager.Count / Stage_Manager.MaxCount;
+    }
+    public void FadeInOut(bool FadeInout, bool Sibling = false, Action action = null)
     {
         if (!Sibling)
         {
