@@ -17,7 +17,7 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private float Fade_Duration;
     [SerializeField]
-    private Slider M_Monster_Slider;
+    private Image M_Monster_Slider;
     [SerializeField]
     private TextMeshProUGUI M_Monster_Value_Text;
     
@@ -31,12 +31,24 @@ public class Main_UI : MonoBehaviour
     private void Start()
     {
         Level_Text_Check();
+        Monster_Slider_Count();
         Base_Manager.Stage.M_ReadyEvent += () => FadeInOut(true);
     }
 
     public void Monster_Slider_Count()
     {
-        M_Monster_Slider.value = Stage_Manager.Count / Stage_Manager.MaxCount;
+        float value = (float)Stage_Manager.Count / (float)Stage_Manager.MaxCount;
+        if(value >= 1.0f)
+        {
+            value = 1.0f;
+            if(Stage_Manager.M_State != Stage_State.Boss)
+            {
+                Base_Manager.Stage.State_Change(Stage_State.Boss);
+            }
+
+        }
+        M_Monster_Slider.fillAmount = value;
+        M_Monster_Value_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
     }
     public void FadeInOut(bool FadeInout, bool Sibling = false, Action action = null)
     {

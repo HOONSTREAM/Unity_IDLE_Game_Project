@@ -18,7 +18,7 @@ public class Player : Character
 
         Spawner.m_players.Add(this);
         Base_Manager.Stage.M_ReadyEvent += OnReady;
-        startPos = transform.position;
+        Base_Manager.Stage.M_BossEvent += OnBoss;
         rotation = transform.rotation;
 
     }
@@ -78,8 +78,13 @@ public class Player : Character
 
     private void OnReady()
     {
-        transform.position = startPos;
+       // transform.position = startPos;
     }
+    private void OnBoss()
+    {
+        AnimatorChange("isIDLE");
+    }
+
     private void Data_Set(Character_Scriptable datas)
     {
         CH_Data = datas;

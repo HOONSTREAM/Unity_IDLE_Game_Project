@@ -124,6 +124,7 @@ public class Monster : Character
     private void Dead_Event()
     {
         Stage_Manager.Count++;
+        Main_UI.Instance.Monster_Slider_Count();
         Spawner.m_monsters.Remove(this);
 
         Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>

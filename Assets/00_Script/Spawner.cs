@@ -16,11 +16,24 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        Base_Manager.Stage.M_PlayEvent += Init;
+        Base_Manager.Stage.M_PlayEvent += OnPlay;
+        Base_Manager.Stage.M_BossEvent += OnBoss;
     }
-    public void Init()
+    public void OnPlay()
     {
         coroutine = StartCoroutine(SpawnCoroutine());
+    }
+    public void OnBoss()
+    {
+        if(coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+        for(int i = 0; i<m_monsters.Count; i++)
+        {
+            Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);
+        }
+        m_monsters.Clear();
     }
     //Random.insideUnitSphere = Vector3(x,y,z)
     //Random.insideUnitCircle = Vector3(x,y)
@@ -56,7 +69,7 @@ public class Spawner : MonoBehaviour
 
         yield return new WaitForSeconds(M_SpawnTime);
 
-        StartCoroutine(SpawnCoroutine());
+        coroutine = StartCoroutine(SpawnCoroutine());
     }
    
 }
