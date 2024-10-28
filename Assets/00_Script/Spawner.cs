@@ -36,6 +36,7 @@ public class Spawner : MonoBehaviour
         m_monsters.Clear();
 
         StartCoroutine(BossSetCoroutine());
+      
     }
 
     IEnumerator BossSetCoroutine()
@@ -56,6 +57,12 @@ public class Spawner : MonoBehaviour
             }
          
         }
+
+        yield return new WaitForSeconds(1.5f);
+
+        m_monsters.Add(monster);
+
+        Base_Manager.Stage.State_Change(Stage_State.BossPlay);
     }
     //Random.insideUnitSphere = Vector3(x,y,z)
     //Random.insideUnitCircle = Vector3(x,y)

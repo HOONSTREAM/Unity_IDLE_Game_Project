@@ -77,6 +77,18 @@ public class Main_UI : MonoBehaviour
         M_Monster_Value_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
     }
 
+    public void Boss_Slider_Count(double hp, double MaxHp)
+    {
+        float value = (float)hp / (float)MaxHp;
+        if (value <= 0.0f)
+        {
+            value = 0.0f;
+
+        }
+        Boss_Slider.fillAmount = value;
+        M_Boss_HP_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
+    }
+
     private void OnBoss()
     {
         Boss_Slider_GameObject.gameObject.SetActive(true);

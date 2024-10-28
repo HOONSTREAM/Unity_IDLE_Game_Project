@@ -5,9 +5,10 @@ using UnityEngine;
 public class Monster : Character
 {
     public float M_Speed;
-    
-
-    bool isSpawn = false;
+    public double R_ATK, R_HP;
+    public float  R_ATTACK_RANGE;
+    private bool isSpawn = false;
+    public bool isBoss = false;
 
     protected override void Start()
     {
@@ -22,9 +23,9 @@ public class Monster : Character
     public void Init()
     {
         isDead = false;
-        ATK = 10;
-        HP = 5;
-        Attack_Range = 0.5f;
+        ATK = R_ATK;
+        HP = R_HP;
+        Attack_Range = R_ATTACK_RANGE;
         target_Range = Mathf.Infinity;
         StartCoroutine(Spawn_Start());
     }
@@ -35,38 +36,37 @@ public class Monster : Character
         {
             return;
         }
-        if (Stage_Manager.M_State != Stage_State.Play)
+        if (Stage_Manager.M_State == Stage_State.Play || Stage_Manager.M_State == Stage_State.BossPlay)
         {
-            return;
-        }
-        if (m_target == null)
-        {
-            FindClosetTarget(Spawner.m_players.ToArray());
-        }
-       
-        if(m_target != null)
-        {
-            if (m_target.GetComponent<Character>().isDead)
+            if (m_target == null)
             {
                 FindClosetTarget(Spawner.m_players.ToArray());
             }
 
-            float targetDistance = Vector3.Distance(transform.position, m_target.position);
-
-            if (targetDistance > Attack_Range && isATTACK == false) // 현재 타겟이 추적 범위 안에는 있지만, 공격범위 안에는 없을 때
+            if (m_target != null)
             {
-                AnimatorChange("isMOVE");
-                transform.LookAt(m_target.position);
-                transform.position = Vector3.MoveTowards(transform.position, m_target.transform.position, Time.deltaTime);
-            }
+                if (m_target.GetComponent<Character>().isDead)
+                {
+                    FindClosetTarget(Spawner.m_players.ToArray());
+                }
 
-            else if (targetDistance <= Attack_Range && isATTACK == false)
-            {
-                isATTACK = true;
-                AnimatorChange("isATTACK");
-                Invoke("InitAttack", 1.0f);
-            }
+                float targetDistance = Vector3.Distance(transform.position, m_target.position);
 
+                if (targetDistance > Attack_Range && isATTACK == false) // 현재 타겟이 추적 범위 안에는 있지만, 공격범위 안에는 없을 때
+                {
+                    AnimatorChange("isMOVE");
+                    transform.LookAt(m_target.position);
+                    transform.position = Vector3.MoveTowards(transform.position, m_target.transform.position, Time.deltaTime);
+                }
+
+                else if (targetDistance <= Attack_Range && isATTACK == false)
+                {
+                    isATTACK = true;
+                    AnimatorChange("isATTACK");
+                    Invoke("InitAttack", 1.0f);
+                }
+            }
+               
             //한 지점에서 다른 지점으로 일정 속도로 이동할 때 유용하게 사용됩니다.
             //MoveToWards 메서드는 목적지에 도달할 때까지 선형적으로 이동하며, 속도를 조절할 수 있습니다.
 
@@ -117,6 +117,11 @@ public class Monster : Character
 
         HP -= dmg;
 
+        if (isBoss)
+        {
+            Main_UI.Instance.Boss_Slider_Count(HP, 500); //TODO
+        }
+
         if(HP <= 0)
         {
             isDead = true;
@@ -127,8 +132,16 @@ public class Monster : Character
 
     private void Dead_Event()
     {
-        Stage_Manager.Count++;
-        Main_UI.Instance.Monster_Slider_Count();
+        if (!isBoss)
+        {
+            Stage_Manager.Count++;
+            Main_UI.Instance.Monster_Slider_Count();
+        }
+        else
+        {
+            Base_Manager.Stage.State_Change(Stage_State.Clear);
+        }
+
         Spawner.m_monsters.Remove(this);
 
         Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>

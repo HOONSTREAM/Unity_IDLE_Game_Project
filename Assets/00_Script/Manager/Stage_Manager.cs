@@ -5,6 +5,7 @@ using UnityEngine;
 public delegate void OnReadyEvent();
 public delegate void OnPlayEvent();
 public delegate void OnBossEvent();
+public delegate void OnBossPlayEvent();
 public delegate void OnClearEvent();
 public delegate void OnDeadEvent();
 
@@ -17,6 +18,7 @@ public class Stage_Manager
     public  OnReadyEvent M_ReadyEvent;
     public  OnPlayEvent M_PlayEvent;
     public  OnBossEvent M_BossEvent;
+    public  OnBossPlayEvent M_BossPlayEvent;
     public  OnClearEvent M_ClearEvent;
     public  OnDeadEvent M_DeadEvent;
 
@@ -34,7 +36,12 @@ public class Stage_Manager
                 M_PlayEvent?.Invoke();
                 break;
             case Stage_State.Boss:
+                Count = 0; // 카운트초기화
                 M_BossEvent?.Invoke();  
+                break;
+            case Stage_State.BossPlay:
+                
+                M_BossPlayEvent?.Invoke();
                 break;
             case Stage_State.Clear:
                 M_ClearEvent?.Invoke();
