@@ -9,6 +9,8 @@ public class Player : Character
     public Character_Scriptable CH_Data;
     public string CH_Name;
     public GameObject Trail_Object;
+    [SerializeField]
+    private ParticleSystem Provocation_Effect;
 
     protected override void Start()
     {
@@ -78,11 +80,12 @@ public class Player : Character
 
     private void OnReady()
     {
-       // transform.position = startPos;
+        startPos = transform.position;
     }
     private void OnBoss()
     {
         AnimatorChange("isIDLE");
+        Provocation_Effect.Play();
     }
 
     private void Data_Set(Character_Scriptable datas)
@@ -97,6 +100,26 @@ public class Player : Character
     {
         ATK = Base_Manager.Player.Get_ATK(CH_Data.Rarity);
         HP = Base_Manager.Player.Get_HP(CH_Data.Rarity);
+    }
+
+    public void Knock_Back(Vector3 targetPos)
+    {
+        transform.LookAt(targetPos);
+        StartCoroutine(Knock_Back_Coroutine(5.0f, 0.3f));
+    }
+
+    IEnumerator Knock_Back_Coroutine(float power, float duration)
+    {
+        float t = duration;
+        Vector3 force = this.transform.forward * -power;
+        force.y = 0f;
+
+        while(t> 0f)
+        {
+            t -= Time.deltaTime;
+            transform.position += force * Time.deltaTime;
+            yield return null;
+        }
     }
 
     public override void GetDamage(double dmg)

@@ -35,7 +35,11 @@ public class Monster : Character
         {
             return;
         }
-        if(m_target == null)
+        if (Stage_Manager.M_State != Stage_State.Play)
+        {
+            return;
+        }
+        if (m_target == null)
         {
             FindClosetTarget(Spawner.m_players.ToArray());
         }

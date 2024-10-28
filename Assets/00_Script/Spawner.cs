@@ -34,6 +34,28 @@ public class Spawner : MonoBehaviour
             Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);
         }
         m_monsters.Clear();
+
+        StartCoroutine(BossSetCoroutine());
+    }
+
+    IEnumerator BossSetCoroutine()
+    {
+        yield return new WaitForSeconds(2.0f);
+        var monster = Instantiate(Resources.Load<Monster>("Boss"), Vector3.zero, Quaternion.Euler(0, 180, 0)); // 보스 생성
+        monster.Init();
+
+        Vector3 Pos = monster.transform.position; // 같은 변수를 사용할 때는, 한 변수로 묶어서 사용하면 메모리 절약이 됨. (중복계산방지)
+
+
+        // 일정 소환거리 내부에 플레이어가 존재하면, 보스 소환 시, 넉백을 합니다.
+        for(int i = 0; i<m_players.Count; i++)
+        {
+            if(Vector3.Distance(Pos, m_players[i].transform.position) <= 3.0f)
+            {
+                m_players[i].Knock_Back(Pos);
+            }
+         
+        }
     }
     //Random.insideUnitSphere = Vector3(x,y,z)
     //Random.insideUnitCircle = Vector3(x,y)
