@@ -27,7 +27,22 @@ public class Monster : Character
         HP = R_HP;
         Attack_Range = R_ATTACK_RANGE;
         target_Range = Mathf.Infinity;
+
+        if (isBoss)
+        {
+            StartCoroutine(Skill_Coroutine());
+        }
+        
         StartCoroutine(Spawn_Start());
+
+    }
+
+    IEnumerator Skill_Coroutine()
+    {
+        yield return new WaitForSeconds(3.0f);
+        GetComponent<Skill_Base>().Set_Skill();
+
+        StartCoroutine(Skill_Coroutine());
     }
 
     private void Update()
@@ -92,7 +107,7 @@ public class Monster : Character
         while(percent < 1)
         {
             current += Time.deltaTime;
-            percent = current / 0.3f;
+            percent = current / 0.2f;
             float LerpPos = Mathf.Lerp(start,end, percent); // 선형보간 (시작값,끝값,시간)
             transform.localScale = new Vector3(LerpPos, LerpPos, LerpPos);
             yield return null;

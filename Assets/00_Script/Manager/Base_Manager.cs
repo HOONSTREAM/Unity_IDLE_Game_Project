@@ -11,6 +11,7 @@ public class Base_Manager : MonoBehaviour
     private static Pool_Manager _pool = new Pool_Manager();
     private static Player_Manager _player = new Player_Manager();
     private static Stage_Manager _stage = new Stage_Manager();
+ 
     public static Pool_Manager Pool { get { return _pool; } }
     public static Player_Manager Player { get { return _player; } }
     public static Stage_Manager Stage { get { return _stage; } }
