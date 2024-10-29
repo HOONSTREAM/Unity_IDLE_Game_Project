@@ -21,6 +21,8 @@ public class Player : Character
         Spawner.m_players.Add(this);
         Base_Manager.Stage.M_ReadyEvent += OnReady;
         Base_Manager.Stage.M_BossEvent += OnBoss;
+        Base_Manager.Stage.M_ClearEvent += OnClear;
+        startPos = transform.position;
         rotation = transform.rotation;
 
     }
@@ -80,12 +82,19 @@ public class Player : Character
 
     private void OnReady()
     {
-        startPos = transform.position;
+        AnimatorChange("isIDLE");
+        transform.position = startPos;
+        transform.rotation = rotation;
     }
     private void OnBoss()
     {
         AnimatorChange("isIDLE");
         Provocation_Effect.Play();
+    }
+
+    private void OnClear()
+    {
+        AnimatorChange("isVICTORY");
     }
 
     private void Data_Set(Character_Scriptable datas)
@@ -102,9 +111,8 @@ public class Player : Character
         HP = Base_Manager.Player.Get_HP(CH_Data.Rarity);
     }
 
-    public void Knock_Back(Vector3 targetPos)
-    {
-        transform.LookAt(targetPos);
+    public void Knock_Back()
+    {      
         StartCoroutine(Knock_Back_Coroutine(5.0f, 0.3f));
     }
 

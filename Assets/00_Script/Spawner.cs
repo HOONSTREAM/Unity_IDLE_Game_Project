@@ -53,7 +53,8 @@ public class Spawner : MonoBehaviour
         {
             if(Vector3.Distance(Pos, m_players[i].transform.position) <= 3.0f)
             {
-                m_players[i].Knock_Back(Pos);
+                m_players[i].transform.LookAt(monster.transform.position);
+                m_players[i].Knock_Back();
             }
          
         }

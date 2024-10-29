@@ -59,6 +59,7 @@ public class Main_UI : MonoBehaviour
         Monster_Slider_Count();
         Base_Manager.Stage.M_ReadyEvent += () => FadeInOut(true);
         Base_Manager.Stage.M_BossEvent += OnBoss;
+        Base_Manager.Stage.M_ClearEvent += OnClear;
     }
 
     public void Monster_Slider_Count()
@@ -90,11 +91,40 @@ public class Main_UI : MonoBehaviour
         M_Boss_HP_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
     }
 
+    private void Slider_Object_Check(bool isboss)
+    {
+        Monster_Slider_GameObject.gameObject.SetActive(!isboss);
+        Boss_Slider_GameObject.gameObject.SetActive(isboss);
+
+        Monster_Slider_Count();
+
+        float value = isboss? 1.0f : 0.0f;
+
+        Boss_Slider_Count(value, 1.0f);
+
+    }
+
     private void OnBoss()
     {
-        Boss_Slider_GameObject.gameObject.SetActive(true);
-        Monster_Slider_GameObject.gameObject.SetActive(false);
+        Slider_Object_Check(true);
     }
+    private void OnClear()
+    {
+        Slider_Object_Check(false);
+        StartCoroutine(Clear_Delay());
+    }
+       
+    
+    IEnumerator Clear_Delay()
+    {
+        yield return new WaitForSeconds(2.0f);
+        FadeInOut(false);
+
+        yield return new WaitForSeconds(1.0f);
+
+        Base_Manager.Stage.State_Change(Stage_State.Ready);
+    }
+    
     public void FadeInOut(bool FadeInout, bool Sibling = false, Action action = null)
     {
         if (!Sibling)

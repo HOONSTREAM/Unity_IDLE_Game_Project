@@ -31,14 +31,14 @@ public class Character : MonoBehaviour
     //AnyState는 어떤 상태여도 트리거가 작동되면, 해당 애니메이션으로 갈수 있게끔 한다.
     protected void AnimatorChange(string temp)
     {
-        if(temp == "isATTACK")
-        {
-            animator.SetTrigger("isATTACK");
-            return;
-        }
-
         animator.SetBool("isIDLE", false);
         animator.SetBool("isMOVE", false);
+
+        if (temp == "isATTACK" || temp == "isVICTORY")
+        {
+            animator.SetTrigger(temp);
+            return;
+        }      
 
         animator.SetBool(temp, true);
     }

@@ -164,7 +164,15 @@ public class Monster : Character
             });
         }
 
-        Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);
+        if (!isBoss)
+        {
+            Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject); // 보스몬스터는 풀링하지않고 파괴한다.
+        }
+        
     }
 
     /// <summary>
@@ -179,7 +187,6 @@ public class Monster : Character
         yield return new WaitForSeconds(timer);
         Base_Manager.Pool.m_pool_Dictionary[path].Return(obj);
     }
-
 
     protected virtual bool Critical_Damage(ref double dmg)
     {
