@@ -45,7 +45,17 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI Boss_Stage_Text;
 
-    
+    [Space(20f)]
+    [Header("Dead_Frame")]
+    [SerializeField]
+    private GameObject Dead_Frame;
+
+    public void Set_Boss_State()
+    {
+        Stage_Manager.isDead = false;
+        Base_Manager.Stage.State_Change(Stage_State.Boss);
+    }
+
     private void Awake()
     {
         if(Instance == null)
@@ -60,6 +70,7 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_ReadyEvent += () => FadeInOut(true);
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_ClearEvent += OnClear;
+        Base_Manager.Stage.M_DeadEvent += OnDead;
     }
 
     public void Monster_Slider_Count()
@@ -93,6 +104,17 @@ public class Main_UI : MonoBehaviour
 
     private void Slider_Object_Check(bool isboss)
     {
+        if (Stage_Manager.isDead)
+        {
+            Monster_Slider_GameObject.SetActive(false);
+            Boss_Slider_GameObject.gameObject.SetActive(false);
+
+            Dead_Frame.gameObject.SetActive(true);
+
+            return;
+        }
+
+        Dead_Frame.gameObject.SetActive(false);
         Monster_Slider_GameObject.gameObject.SetActive(!isboss);
         Boss_Slider_GameObject.gameObject.SetActive(isboss);
 
@@ -113,6 +135,33 @@ public class Main_UI : MonoBehaviour
         Slider_Object_Check(false);
         StartCoroutine(Clear_Delay());
     }
+
+    private void OnDead()
+    {      
+        StartCoroutine(Dead_Delay());
+    }
+
+    IEnumerator Dead_Delay()
+    {
+        yield return StartCoroutine(Clear_Delay());
+
+        Slider_Object_Check(false);
+
+        for(int i = 0; i<Spawner.m_monsters.Count; i++)
+        {
+            if (Spawner.m_monsters[i].isBoss == true)
+            {
+                Destroy(Spawner.m_monsters[i].gameObject);
+            }
+            else
+            {
+                Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(Spawner.m_monsters[i].gameObject);
+            }
+        }
+
+        Spawner.m_monsters.Clear();
+       
+    }
        
     
     IEnumerator Clear_Delay()
@@ -122,7 +171,9 @@ public class Main_UI : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
+        
         Base_Manager.Stage.State_Change(Stage_State.Ready);
+
     }
     
     public void FadeInOut(bool FadeInout, bool Sibling = false, Action action = null)

@@ -31,13 +31,18 @@ public class Spawner : MonoBehaviour
         }
         for(int i = 0; i<m_monsters.Count; i++)
         {
-            Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);
+            if (m_monsters[i].isDead != true)
+            {
+                m_monsters[i].isDead = true;
+                Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);
+            }
+            
         }
         m_monsters.Clear();
 
         StartCoroutine(BossSetCoroutine());
       
-    }
+    }    
 
     IEnumerator BossSetCoroutine()
     {

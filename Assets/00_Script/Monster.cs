@@ -9,13 +9,19 @@ public class Monster : Character
     public float  R_ATTACK_RANGE;
     private bool isSpawn = false;
     public bool isBoss = false;
+    private Vector3 Original_Scale;
 
+
+    private void Awake()
+    {
+        Original_Scale = transform.localScale;
+    }
     protected override void Start()
     {
         base.Start();
 
+        Base_Manager.Stage.M_DeadEvent += OnDead;
     }
-
 
     /// <summary>
     /// 원하는 시점에 계속 Init을 시킬수 있다.
@@ -27,6 +33,7 @@ public class Monster : Character
         HP = R_HP;
         Attack_Range = R_ATTACK_RANGE;
         target_Range = Mathf.Infinity;
+        transform.localScale = Original_Scale;
 
         if (isBoss)
         {
@@ -144,13 +151,21 @@ public class Monster : Character
         }
 
     }
-
+    private void OnDead()
+    {
+        StopAllCoroutines();
+        AnimatorChange("isIDLE");
+    }
     private void Dead_Event()
     {
         if (!isBoss)
         {
-            Stage_Manager.Count++;
-            Main_UI.Instance.Monster_Slider_Count();
+            if (!Stage_Manager.isDead)
+            {
+                Stage_Manager.Count++;
+                Main_UI.Instance.Monster_Slider_Count();
+            }
+           
         }
         else
         {

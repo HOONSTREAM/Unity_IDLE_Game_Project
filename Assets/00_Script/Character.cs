@@ -17,6 +17,7 @@ public class Character : MonoBehaviour
     protected float target_Range = 5.0f; // Ãß°ÝÇÏ´Â ¹üÀ§
     protected bool isATTACK = false;
 
+    [SerializeField]
     protected Transform m_target; // Å¸°Ù °´Ã¼
 
     [SerializeField]
@@ -34,7 +35,7 @@ public class Character : MonoBehaviour
         animator.SetBool("isIDLE", false);
         animator.SetBool("isMOVE", false);
 
-        if (temp == "isATTACK" || temp == "isVICTORY")
+        if (temp == "isATTACK" || temp == "isVICTORY" || temp == "isDEAD")
         {
             animator.SetTrigger(temp);
             return;
