@@ -26,8 +26,6 @@ public class Utils
     {
         return atlas.GetSprite(temp);
     }
-
-
     public static string String_Color_Rarity(Rarity rarity)
     {
 
@@ -55,5 +53,18 @@ public class Utils
 
 
         return "<color=#FFFFFF>";
+    }
+
+
+    /// <summary>
+    /// 레벨디자인에 이용할 지수증가공식입니다.
+    /// </summary>
+    /// <param name="baseValue"></param>
+    /// <param name="level"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static float CalculateValue(float baseValue, int level, float value)
+    {
+        return baseValue * Mathf.Pow(level, value);
     }
 }
