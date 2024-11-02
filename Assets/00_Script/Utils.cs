@@ -68,4 +68,16 @@ public class Utils
     {
         return baseValue * Mathf.Pow((level+1), value);
     }
+    
+    /// <summary>
+    /// 레벨업에 필요한 골드를 충족했는지 검사합니다.
+    /// </summary>
+    /// <returns></returns>
+    public static bool Check_Levelup_Gold(double value)
+    {
+        if (Base_Manager.Data.Player_Money >= value) return true;
+
+        else return false;
+
+    }
 }

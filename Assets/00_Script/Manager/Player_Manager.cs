@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Player_Manager
 {
-    public int Level;
-    public double EXP;
+    
+    
     public double ATK = 5;
     public double HP = 50;
 
@@ -16,14 +16,14 @@ public class Player_Manager
    
     public void EXP_UP()
     {
-        EXP += Get_EXP();
-        ATK += Next_ATK();
-        HP += Next_HP();
+        Base_Manager.Data.EXP += Utils.Data.levelData.Get_EXP();
+        ATK += Utils.Data.levelData.Get_ATK();
+        HP += Utils.Data.levelData.Get_HP();
 
-        if(EXP >= Get_MAX_EXP())
+        if(Base_Manager.Data.EXP >= Utils.Data.levelData.Get_MAXEXP())
         {
-            Level++;
-            EXP = 0;
+            Base_Manager.Data.Player_Level++;
+            Base_Manager.Data.EXP = 0;
             Main_UI.Instance.Level_Text_Check();
         }
         
@@ -34,31 +34,16 @@ public class Player_Manager
     }
     public float EXP_Percentage()
     {
-        float exp = (float)Get_MAX_EXP();
-        double myEXP = EXP;
+        float exp = (float)Utils.Data.levelData.Get_MAXEXP();
+        double myEXP = Base_Manager.Data.EXP;
 
         return (float)myEXP / exp;
     }
-    public double Get_MAX_EXP()
-    {
-        return Utils.CalculateValue(Utils.Data.levelData.Base_MAX_EXP, Level, Utils.Data.levelData.MAX_EXP);
-    }
-    public double Get_EXP()
-    {
-        return Utils.CalculateValue(Utils.Data.levelData.Base_EXP, Level,Utils.Data.levelData.EXP);
-    }
-    public double Next_ATK()
-    {
-        return Utils.CalculateValue(Utils.Data.levelData.Base_ATK,Level,Utils.Data.levelData.ATK);
-    }
-    public double Next_HP()
-    {
-        return Utils.CalculateValue(Utils.Data.levelData.Base_HP, Level, Utils.Data.levelData.HP);
-    }
+
     public float Next_EXP()
     {
-        float exp = (float)Get_MAX_EXP();
-        float myexp = (float)Get_EXP();
+        float exp = (float)Utils.Data.levelData.Get_MAXEXP();
+        float myexp = (float)Utils.Data.levelData.Get_EXP();
 
         return (myexp / exp) * 100.0f;
     }

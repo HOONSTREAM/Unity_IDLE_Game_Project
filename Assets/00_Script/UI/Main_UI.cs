@@ -17,6 +17,8 @@ public class Main_UI : MonoBehaviour
     private TextMeshProUGUI _player_ability; // 캐릭터의 최종 전투력을 결정합니다.
     [SerializeField]
     private TextMeshProUGUI _levelup_money_text; // 캐릭터의 레벨업에 필요한 돈을 결정합니다.
+    [SerializeField]
+    private TextMeshProUGUI _gold_text; 
 
     [Space(20f)]
     [Header("Fade")]
@@ -155,11 +157,15 @@ public class Main_UI : MonoBehaviour
 
     public void Level_Text_Check()
     {
-        _level_Text.text = "LV." + (Base_Manager.Player.Level + 1).ToString();
+        double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();
+
+        _level_Text.text = "LV." + (Base_Manager.Data.Player_Level + 1).ToString();
         _player_ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
-        _levelup_money_text.text = StringMethod.ToCurrencyString(
-            Utils.CalculateValue(Utils.Data.levelData.Base_LEVELUP_MONEY, Base_Manager.Player.Level, Utils.Data.levelData.LEVELUP_MONEY)
-            );
+
+        _levelup_money_text.text = StringMethod.ToCurrencyString((Levelup_money_Value));
+        _levelup_money_text.color = Utils.Check_Levelup_Gold(Levelup_money_Value) ? Color.green : Color.red;
+
+        _gold_text.text = StringMethod.ToCurrencyString(Base_Manager.Data.Player_Money);
     }
 
 

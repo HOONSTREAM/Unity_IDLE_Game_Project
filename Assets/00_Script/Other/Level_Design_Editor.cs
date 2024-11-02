@@ -40,8 +40,8 @@ public class Level_Design_Editor : Editor
         EditorGUILayout.Space(20);
         EditorGUILayout.LabelField("스테이지 데이터", EditorStyles.boldLabel);
         EditorGUILayout.Space(20);
-        GetColorGUI("ATK", StringMethod.ToCurrencyString(Utils.CalculateValue(s_data.Base_ATK, s_data.Current_Stage, s_data.MONSTER_ATK)), Color.green);
-        GetColorGUI("HP", StringMethod.ToCurrencyString(Utils.CalculateValue(s_data.Base_HP, s_data.Current_Stage, s_data.MONSTER_HP)), Color.red);
+        GetColorGUI("ATK", StringMethod.ToCurrencyString(Utils.CalculateValue(s_data.Base_MONSTER_ATK, s_data.Current_Stage, s_data.MONSTER_ATK)), Color.green);
+        GetColorGUI("HP", StringMethod.ToCurrencyString(Utils.CalculateValue(s_data.Base_MONSTER_HP, s_data.Current_Stage, s_data.MONSTER_HP)), Color.red);
         GetColorGUI("DROP_MONEY", StringMethod.ToCurrencyString(Utils.CalculateValue(s_data.Base_DROP_MONEY, s_data.Current_Stage, s_data.DROP_MONEY)), Color.blue);
     }
 
