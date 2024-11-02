@@ -29,8 +29,8 @@ public class Monster : Character
     public void Init()
     {
         isDead = false;
-        ATK = R_ATK;
-        HP = R_HP;
+        ATK = Utils.CalculateValue(Utils.Data.stageData.Base_ATK, Stage_Manager.Stage, Utils.Data.stageData.MONSTER_ATK);
+        HP = Utils.CalculateValue(Utils.Data.stageData.Base_HP, Stage_Manager.Stage, Utils.Data.stageData.MONSTER_HP);
         Attack_Range = R_ATTACK_RANGE;
         target_Range = Mathf.Infinity;
         transform.localScale = Original_Scale;

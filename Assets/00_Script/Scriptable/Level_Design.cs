@@ -25,11 +25,11 @@ public class LevelData
     [Space(20f)]
     [Header("BASE_VALUE")]
     [Space(10f)]
-    public float Base_ATK;
-    public float Base_HP;
-    public float Base_EXP;
-    public float Base_MAX_EXP;
-    public float Base_LEVELUP_MONEY;
+    public int Base_ATK;
+    public int Base_HP;
+    public int Base_EXP;
+    public int Base_MAX_EXP;
+    public int Base_LEVELUP_MONEY;
 
 }
 
@@ -43,8 +43,8 @@ public class StageData
     [Space(20f)]
     [Header("BASE_VALUE")]
     [Space(10f)]
-    public float Base_ATK;
-    public float Base_HP;
-    public float Base_DROP_MONEY;
+    public int Base_ATK;
+    public int Base_HP;
+    public int Base_DROP_MONEY;
 
 }

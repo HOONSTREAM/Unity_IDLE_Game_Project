@@ -7,16 +7,16 @@ using UnityEngine.UI;
 
 public class Main_UI : MonoBehaviour
 {
-
-
     public static Main_UI Instance = null;
 
     [Space(20f)]
     [Header("Default")]   
     [SerializeField]
-    private TextMeshProUGUI _level_Text;
+    private TextMeshProUGUI _level_Text; // 캐릭터의 레벨을 결정합니다.
     [SerializeField]
-    private TextMeshProUGUI _player_ability;
+    private TextMeshProUGUI _player_ability; // 캐릭터의 최종 전투력을 결정합니다.
+    [SerializeField]
+    private TextMeshProUGUI _levelup_money_text; // 캐릭터의 레벨업에 필요한 돈을 결정합니다.
 
     [Space(20f)]
     [Header("Fade")]
@@ -50,11 +50,6 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private GameObject Dead_Frame;
 
-    public void Set_Boss_State()
-    {
-        Stage_Manager.isDead = false;
-        Base_Manager.Stage.State_Change(Stage_State.Boss);
-    }
 
     private void Awake()
     {
@@ -73,6 +68,12 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_DeadEvent += OnDead;
     }
 
+
+    public void Set_Boss_State()
+    {
+        Stage_Manager.isDead = false;
+        Base_Manager.Stage.State_Change(Stage_State.Boss);
+    }
     public void Monster_Slider_Count()
     {
         float value = (float)Stage_Manager.Count / (float)Stage_Manager.MaxCount;
@@ -88,7 +89,6 @@ public class Main_UI : MonoBehaviour
         Monster_Slider.fillAmount = value;
         M_Monster_Value_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
     }
-
     public void Boss_Slider_Count(double hp, double MaxHp)
     {
         float value = (float)hp / (float)MaxHp;
@@ -101,7 +101,6 @@ public class Main_UI : MonoBehaviour
         Boss_Slider.fillAmount = value;
         M_Boss_HP_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
     }
-
     private void Slider_Object_Check(bool isboss)
     {
         if (Stage_Manager.isDead)
@@ -125,7 +124,6 @@ public class Main_UI : MonoBehaviour
         Boss_Slider_Count(value, 1.0f);
 
     }
-
     private void OnBoss()
     {
         Slider_Object_Check(true);
@@ -135,12 +133,37 @@ public class Main_UI : MonoBehaviour
         Slider_Object_Check(false);
         StartCoroutine(Clear_Delay());
     }
-
     private void OnDead()
     {      
         StartCoroutine(Dead_Delay());
     }
+    public void FadeInOut(bool FadeInout, bool Sibling = false, Action action = null)
+    {
+        if (!Sibling)
+        {
+            Fade.transform.parent = this.transform;
+            Fade.transform.SetSiblingIndex(0);
+        }
+        else
+        {
+            Fade.transform.parent = Base_Canvas.instance.transform;
+            Fade.transform.SetAsLastSibling();
+        }
 
+        StartCoroutine(FadeInOut_Coroutine(FadeInout, action));
+    }
+
+    public void Level_Text_Check()
+    {
+        _level_Text.text = "LV." + (Base_Manager.Player.Level + 1).ToString();
+        _player_ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
+        _levelup_money_text.text = StringMethod.ToCurrencyString(
+            Utils.CalculateValue(Utils.Data.levelData.Base_LEVELUP_MONEY, Base_Manager.Player.Level, Utils.Data.levelData.LEVELUP_MONEY)
+            );
+    }
+
+
+    #region Coroutine
     IEnumerator Dead_Delay()
     {
         yield return StartCoroutine(Clear_Delay());
@@ -161,9 +184,7 @@ public class Main_UI : MonoBehaviour
 
         Spawner.m_monsters.Clear();
        
-    }
-       
-    
+    }   
     IEnumerator Clear_Delay()
     {
         yield return new WaitForSeconds(2.0f);
@@ -175,23 +196,6 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.State_Change(Stage_State.Ready);
 
     }
-    
-    public void FadeInOut(bool FadeInout, bool Sibling = false, Action action = null)
-    {
-        if (!Sibling)
-        {
-            Fade.transform.parent = this.transform;
-            Fade.transform.SetSiblingIndex(0);
-        }
-        else
-        {
-            Fade.transform.parent = Base_Canvas.instance.transform;
-            Fade.transform.SetAsLastSibling();
-        }
-
-        StartCoroutine(FadeInOut_Coroutine(FadeInout, action));
-    }
-
     /// <summary>
     /// 코루틴이 끝나는 시점에 어떤 액션을 취할 것 인지도 인자로 넣어준다.
     /// </summary>
@@ -229,11 +233,5 @@ public class Main_UI : MonoBehaviour
 
         Fade.raycastTarget = false;
     }
-
-    public void Level_Text_Check()
-    {
-        _level_Text.text = "LV." + (Base_Manager.Player.Level + 1).ToString();
-        _player_ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
-    }
-
+    #endregion
 }

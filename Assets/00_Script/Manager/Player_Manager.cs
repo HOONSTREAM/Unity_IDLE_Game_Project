@@ -16,14 +16,14 @@ public class Player_Manager
    
     public void EXP_UP()
     {
-        EXP += float.Parse(CSV_Importer.EXP[Level]["Get_EXP"].ToString());
-
+        EXP += Get_EXP();
         ATK += Next_ATK();
         HP += Next_HP();
 
-        if(EXP >= float.Parse(CSV_Importer.EXP[Level]["EXP"].ToString()))
+        if(EXP >= Get_MAX_EXP())
         {
             Level++;
+            EXP = 0;
             Main_UI.Instance.Level_Text_Check();
         }
         
@@ -32,55 +32,44 @@ public class Player_Manager
             Spawner.m_players[i].Set_ATK_HP();
         }
     }
-
     public float EXP_Percentage()
     {
-        float exp = float.Parse(CSV_Importer.EXP[Level]["EXP"].ToString());
+        float exp = (float)Get_MAX_EXP();
         double myEXP = EXP;
-
-        if (Level >= 1)
-        {
-            exp -= float.Parse(CSV_Importer.EXP[Level - 1]["EXP"].ToString());
-            myEXP -= float.Parse(CSV_Importer.EXP[Level - 1]["EXP"].ToString());
-        }
 
         return (float)myEXP / exp;
     }
-
+    public double Get_MAX_EXP()
+    {
+        return Utils.CalculateValue(Utils.Data.levelData.Base_MAX_EXP, Level, Utils.Data.levelData.MAX_EXP);
+    }
+    public double Get_EXP()
+    {
+        return Utils.CalculateValue(Utils.Data.levelData.Base_EXP, Level,Utils.Data.levelData.EXP);
+    }
     public double Next_ATK()
     {
-        return float.Parse(CSV_Importer.EXP[Level]["Get_EXP"].ToString()) * (Level + 1) / 5;
+        return Utils.CalculateValue(Utils.Data.levelData.Base_ATK,Level,Utils.Data.levelData.ATK);
     }
-
     public double Next_HP()
     {
-        return float.Parse(CSV_Importer.EXP[Level]["Get_EXP"].ToString()) * (Level + 1) / 3;
+        return Utils.CalculateValue(Utils.Data.levelData.Base_HP, Level, Utils.Data.levelData.HP);
     }
-
     public float Next_EXP()
     {
-        float exp = float.Parse(CSV_Importer.EXP[Level]["EXP"].ToString());
-        float myexp = float.Parse(CSV_Importer.EXP[Level]["Get_EXP"].ToString());
-
-        if (Level >= 1)
-        {
-            exp -= float.Parse(CSV_Importer.EXP[Level - 1]["EXP"].ToString());
-          
-        }
+        float exp = (float)Get_MAX_EXP();
+        float myexp = (float)Get_EXP();
 
         return (myexp / exp) * 100.0f;
     }
-
     public double Get_ATK(Rarity rarity)
     {
         return ATK * ((int)rarity + 1);
     }
-
     public double Get_HP(Rarity rarity)
     {
         return HP * ((int)rarity + 1);
     }
-
     /// <summary>
     /// 플레이어의 최종 전투력을 리턴합니다.
     /// </summary>

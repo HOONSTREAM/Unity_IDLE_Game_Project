@@ -7,6 +7,7 @@ public class Utils
 {
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
+    public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
 
     public static void CloseAllPopupUI()
     {
@@ -63,8 +64,8 @@ public class Utils
     /// <param name="level"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static float CalculateValue(float baseValue, int level, float value)
+    public static double CalculateValue(float baseValue, int level, float value)
     {
-        return baseValue * Mathf.Pow(level, value);
+        return baseValue * Mathf.Pow((level+1), value);
     }
 }
