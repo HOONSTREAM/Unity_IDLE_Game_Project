@@ -187,11 +187,13 @@ public class Monster : Character
             value.GetComponent<Coin_Parent>().Init(transform.position);
         });
 
-        for (int i = 0; i < 3; i++)
+        var Drop_items = Base_Manager.Item.Get_Drop_Set();
+
+        for (int i = 0; i < Drop_items.Count; i++)
         {
             Base_Manager.Pool.Pooling_OBJ("Item_OBJ").Get((value) =>
             {
-                value.GetComponent<Item_OBJ>().Init(transform.position); // 몬스터 위치 삽입
+                value.GetComponent<Item_OBJ>().Init(transform.position, Drop_items[i]); // 몬스터 위치 삽입
             });
         }
 

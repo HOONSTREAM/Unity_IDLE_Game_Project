@@ -32,11 +32,10 @@ public class Utils
 
         switch (rarity)
         {
-            case Rarity.UnCommon:
+            case Rarity.Common:
                 return "<color=#FFFFFF>";
                 
-
-            case Rarity.Common:
+            case Rarity.UnCommon:
                 return "<color=#00FF00>";
 
             case Rarity.Rare:

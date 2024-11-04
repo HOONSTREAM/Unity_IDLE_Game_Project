@@ -20,6 +20,8 @@ public class Item_OBJ : MonoBehaviour
     [SerializeField]
     private GameObject[] Raritys;
 
+    private Item_Scriptable item;
+
     private Rarity rarity;
 
     private bool isCheck = false;
@@ -34,7 +36,7 @@ public class Item_OBJ : MonoBehaviour
         ItemTextRect.gameObject.SetActive(true);
         ItemTextRect.parent = Base_Canvas.instance.Holder_Layer(2);
 
-        m_Text.text = Utils.String_Color_Rarity(rarity) + "TEST ITEM" + "</color>";
+        m_Text.text = Utils.String_Color_Rarity(rarity) + item.Item_Name + "</color>";
 
         StartCoroutine(LootItem());
 
@@ -42,7 +44,7 @@ public class Item_OBJ : MonoBehaviour
 
     IEnumerator LootItem()
     {
-        yield return new WaitForSeconds(Random.Range(1.0f, 1.5f));
+        yield return new WaitForSeconds(Random.Range(2.0f, 3.0f));
 
         for(int i = 0; i<Raritys.Length; i++)
         {
@@ -65,9 +67,11 @@ public class Item_OBJ : MonoBehaviour
 
         ItemTextRect.position = Camera.main.WorldToScreenPoint(transform.position);
     }
-    public void Init(Vector3 pos)
+    public void Init(Vector3 pos, Item_Scriptable data)
     {
-        rarity = (Rarity)Random.Range(0, 5);
+
+        item = data;
+        rarity = item.rarity;
         isCheck = false;
 
         transform.position = pos;

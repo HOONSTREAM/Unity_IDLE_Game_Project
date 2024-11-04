@@ -191,7 +191,10 @@ public class Player : Character
         while (t > 0f)
         {
             t -= Time.deltaTime;
-            transform.position += force * Time.deltaTime;
+            if (Vector3.Distance(Vector3.zero, transform.position) < 3.0f)
+            {
+                transform.position += force * Time.deltaTime;
+            }
             yield return null;
         }
     }
