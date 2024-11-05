@@ -51,7 +51,17 @@ public class Main_UI : MonoBehaviour
     [Header("Dead_Frame")]
     [SerializeField]
     private GameObject Dead_Frame;
+    [Space(20f)]
+    [Header("Legenedary_Popup")]
+    [SerializeField]
+    private Animator Popup_animator;
+    [SerializeField]
+    private Image Popup_Image;
+    [SerializeField]
+    private TextMeshProUGUI Popup_Text;
 
+    private bool isPopup = false;
+    private Coroutine Legendary_Coroutine;
 
     private void Awake()
     {
@@ -168,6 +178,25 @@ public class Main_UI : MonoBehaviour
         _gold_text.text = StringMethod.ToCurrencyString(Base_Manager.Data.Player_Money);
     }
 
+    public void Get_Legendary_Popup(Item_Scriptable item)
+    {
+        if (isPopup)
+        {
+            Popup_animator.gameObject.SetActive(false);
+        }
+        isPopup = true;
+        Popup_animator.gameObject.SetActive(true);
+        Popup_Image.sprite = Utils.Get_Atlas(item.name);
+        Popup_Text.text = Utils.String_Color_Rarity(Rarity.Legendary) + item.Item_Name + "</color>À»(¸¦) È¹µæÇÏ¿´½À´Ï´Ù."; 
+
+        if(Legendary_Coroutine != null)
+        {
+            StopCoroutine(Legendary_Coroutine);
+        }
+
+        Legendary_Coroutine = StartCoroutine(Legendary_Popup_Coroutine());
+    }
+
 
     #region Coroutine
     IEnumerator Dead_Delay()
@@ -238,6 +267,14 @@ public class Main_UI : MonoBehaviour
         }
 
         Fade.raycastTarget = false;
+    }
+    IEnumerator Legendary_Popup_Coroutine()
+    {
+        yield return new WaitForSeconds(2.0f);
+        isPopup = false;
+        Popup_animator.SetTrigger("Close");
+        yield return new WaitForSeconds(2.0f);
+        Popup_animator.gameObject.SetActive(false);
     }
     #endregion
 }
