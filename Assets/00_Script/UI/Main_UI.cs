@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,6 +61,13 @@ public class Main_UI : MonoBehaviour
     private Image Popup_Image;
     [SerializeField]
     private TextMeshProUGUI Popup_Text;
+    [Space(20f)]
+    [Header("Item_Bottom_Popup")]
+    [SerializeField]
+    private Transform ItemContent;
+
+    private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
+    private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
 
     private bool isPopup = false;
     private Coroutine Legendary_Coroutine;
@@ -74,6 +83,13 @@ public class Main_UI : MonoBehaviour
     {
         Level_Text_Check();
         Monster_Slider_Count();
+
+        for(int i = 0 ; i<ItemContent.childCount; i++)
+        {
+            Bottom_Popup_Text.Add(ItemContent.GetChild(i).GetComponent<TextMeshProUGUI>());
+            Bottom_Popup_Coroutine.Add(null);
+        }
+
         Base_Manager.Stage.M_ReadyEvent += () => FadeInOut(true);
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_ClearEvent += OnClear;
@@ -81,6 +97,81 @@ public class Main_UI : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 아이템을 획득하였을때, 팝업을 노출하는 메서드입니다.
+    /// </summary>
+    /// <param name="item"></param>
+    public void Show_Get_Item_Popup(Item_Scriptable item)
+    {
+
+        bool isAllActive = true;
+
+        for(int i = 0; i<Bottom_Popup_Text.Count; i++)
+        {
+            if (Bottom_Popup_Text[i].gameObject.activeSelf == false)
+            {
+                Bottom_Popup_Text[i].gameObject.SetActive(true);
+                Bottom_Popup_Text[i].text = "아이템을 획득하였습니다. " + Utils.String_Color_Rarity(item.rarity) + "[" + item.Item_Name + "]</color>";
+
+                for(int j = 0; j< i; j++)
+                {
+                    RectTransform rect = Bottom_Popup_Text[j].GetComponent<RectTransform>();
+                    rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, rect.anchoredPosition.y + 50.0f);
+                    
+                }
+                if (Bottom_Popup_Coroutine[i] != null)
+                {
+                    StopCoroutine(Bottom_Popup_Coroutine[i]);
+                }
+                Bottom_Popup_Coroutine[i] = StartCoroutine(Item_Bottom_Popup_FadeOut_Coroutine(Bottom_Popup_Text[i].GetComponent<RectTransform>()));
+                isAllActive = false;
+                break;
+            }
+        }
+
+        if (isAllActive)
+        {
+            GameObject Base_Rect = null;
+            float Ycount = 0.0f;
+
+
+            for(int i = 0; i<Bottom_Popup_Text.Count; i++)
+            {
+                RectTransform rect = Bottom_Popup_Text[i].GetComponent<RectTransform>();
+                if(rect.anchoredPosition.y > Ycount)
+                {
+                    Base_Rect = rect.gameObject;
+                    Ycount = rect.anchoredPosition.y;
+                }
+            }
+
+            for (int i = 0; i < Bottom_Popup_Text.Count; i++)
+            {             
+                if(Base_Rect == Bottom_Popup_Text[i].gameObject)
+                {
+                    Bottom_Popup_Text[i].gameObject.SetActive(false);
+                    Bottom_Popup_Text[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 792.0f);
+
+                    Bottom_Popup_Text[i].gameObject.SetActive(true);
+                    Bottom_Popup_Text[i].text = "아이템을 획득하였습니다. " + Utils.String_Color_Rarity(item.rarity) + "[" + item.Item_Name + "]</color>";
+                    StartCoroutine(Item_Bottom_Popup_FadeOut_Coroutine(Bottom_Popup_Text[0].GetComponent<RectTransform>()));
+                }
+                else
+                {
+                    RectTransform rect = Bottom_Popup_Text[i].GetComponent<RectTransform>();
+                    rect.anchoredPosition = new Vector2(0.0f, rect.anchoredPosition.y + 50.0f);
+                }
+            }
+              
+          
+        }
+
+        if (item.rarity == Rarity.Legendary) // 아이템의 등급이 레전더리면, 상단에 노출합니다.
+        {
+            Get_Legendary_Popup(item);
+        }
+
+    }
     public void Set_Boss_State()
     {
         Stage_Manager.isDead = false;
@@ -164,7 +255,6 @@ public class Main_UI : MonoBehaviour
 
         StartCoroutine(FadeInOut_Coroutine(FadeInout, action));
     }
-
     public void Level_Text_Check()
     {
         double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();
@@ -177,7 +267,6 @@ public class Main_UI : MonoBehaviour
 
         _gold_text.text = StringMethod.ToCurrencyString(Base_Manager.Data.Player_Money);
     }
-
     public void Get_Legendary_Popup(Item_Scriptable item)
     {
         if (isPopup)
@@ -275,6 +364,12 @@ public class Main_UI : MonoBehaviour
         Popup_animator.SetTrigger("Close");
         yield return new WaitForSeconds(2.0f);
         Popup_animator.gameObject.SetActive(false);
+    }
+    IEnumerator Item_Bottom_Popup_FadeOut_Coroutine(RectTransform rect)
+    {
+        yield return new WaitForSeconds(2.0f);
+        rect.gameObject.SetActive(false);
+        rect.anchoredPosition = new Vector2(0.0f, 792.0f);
     }
     #endregion
 }

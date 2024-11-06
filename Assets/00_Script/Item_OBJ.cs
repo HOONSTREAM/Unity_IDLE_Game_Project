@@ -55,10 +55,10 @@ public class Item_OBJ : MonoBehaviour
         ItemTextRect.gameObject.SetActive(false);
 
         m_Loot.Play();
-        if(rarity == Rarity.Legendary)
-        {
-            Main_UI.Instance.Get_Legendary_Popup(item);
-        }
+
+        Main_UI.Instance.Show_Get_Item_Popup(item);
+
+       
         yield return new WaitForSeconds(0.5f);
 
         Base_Manager.Pool.m_pool_Dictionary["Item_OBJ"].Return(this.gameObject);
