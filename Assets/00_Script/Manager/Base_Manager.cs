@@ -13,6 +13,7 @@ public class Base_Manager : MonoBehaviour
     private static Stage_Manager _stage = new Stage_Manager();
     private static Data_Manager _data = new Data_Manager();
     private static Item_Manager _item = new Item_Manager();
+    
  
     public static Pool_Manager Pool { get { return _pool; } }
     public static Player_Manager Player { get { return _player; } }
@@ -33,6 +34,7 @@ public class Base_Manager : MonoBehaviour
             instance = this;
             Pool.Initialize(transform);
             Item.Init();
+            Data.Init();
             StartCoroutine(Action_Coroutine(()=>Base_Manager.Stage.State_Change(Stage_State.Ready), 0.3f));
             DontDestroyOnLoad(this.gameObject);
         }

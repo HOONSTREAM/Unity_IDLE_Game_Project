@@ -15,13 +15,13 @@ public class UI_Heros : UI_Base
         Main_UI.Instance.FadeInOut(true, true, null);
 
 
-        var Data = Resources.LoadAll<Character_Scriptable>("Scriptable");
+        var Data = Base_Manager.Data.Data_Character_Dictionary;
 
-        for (int i = 0; i < Data.Length; i++)
+        foreach (var data in Data)
         {
-            _dict.Add(Data[i].M_Character_Name, Data[i]);
-
+            _dict.Add(data.Value.Data.M_Character_Name, data.Value.Data);
         }
+      
 
         var sort_dict = _dict.OrderByDescending(x => x.Value.Rarity);
 
