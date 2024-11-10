@@ -5,11 +5,11 @@ using UnityEngine;
 public class Monster : Character
 {
     public float M_Speed;
-    public double R_ATK, R_HP;
     public float  R_ATTACK_RANGE;
     private bool isSpawn = false;
     public bool isBoss = false;
     private Vector3 Original_Scale;
+    private double MaxHP;
 
 
     private void Awake()
@@ -29,8 +29,10 @@ public class Monster : Character
     public void Init()
     {
         isDead = false;
-        ATK = Utils.Data.stageData.Get_ATK();
-        HP = Utils.Data.stageData.Get_HP();
+        ATK = isBoss ? Utils.Data.stageData.Get_ATK()  * 10.0f : Utils.Data.stageData.Get_ATK();
+        HP = isBoss ? Utils.Data.stageData.Get_HP() * 10.0f : Utils.Data.stageData.Get_HP();
+
+        MaxHP = HP;
 
         Attack_Range = R_ATTACK_RANGE;
         target_Range = Mathf.Infinity;
@@ -142,7 +144,7 @@ public class Monster : Character
 
         if (isBoss)
         {
-            Main_UI.Instance.Boss_Slider_Count(HP, 500); //TODO
+            Main_UI.Instance.Boss_Slider_Count(HP, MaxHP); //TODO
         }
 
         if(HP <= 0)

@@ -20,7 +20,15 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _levelup_money_text; // 캐릭터의 레벨업에 필요한 돈을 결정합니다.
     [SerializeField]
-    private TextMeshProUGUI _gold_text; 
+    private TextMeshProUGUI _gold_text;
+    [SerializeField]
+    private TextMeshProUGUI _stage_Text;
+    [SerializeField]
+    private TextMeshProUGUI _stage_repeat_text;
+    private Color StageColor = new Color(0.1824517f, 1.0f, 0.0f, 1.0f);
+    [SerializeField]
+    private TextMeshProUGUI _boss_stage_text;
+
 
     [Space(20f)]
     [Header("Fade")]
@@ -177,9 +185,13 @@ public class Main_UI : MonoBehaviour
         Stage_Manager.isDead = false;
         Base_Manager.Stage.State_Change(Stage_State.Boss);
     }
+
     public void Monster_Slider_Count()
     {
         float value = (float)Stage_Manager.Count / (float)Stage_Manager.MaxCount;
+
+
+
         if(value >= 1.0f)
         {
             value = 1.0f;
@@ -189,6 +201,7 @@ public class Main_UI : MonoBehaviour
             }
 
         }
+
         Monster_Slider.fillAmount = value;
         M_Monster_Value_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
     }
@@ -229,6 +242,7 @@ public class Main_UI : MonoBehaviour
     }
     private void OnBoss()
     {
+        Level_Text_Check();
         Slider_Object_Check(true);
     }
     private void OnClear()
@@ -237,7 +251,8 @@ public class Main_UI : MonoBehaviour
         StartCoroutine(Clear_Delay());
     }
     private void OnDead()
-    {      
+    {
+        Main_UI.Instance.Level_Text_Check();
         StartCoroutine(Dead_Delay());
     }
     public void FadeInOut(bool FadeInout, bool Sibling = false, Action action = null)
@@ -266,6 +281,16 @@ public class Main_UI : MonoBehaviour
         _levelup_money_text.color = Utils.Check_Levelup_Gold(Levelup_money_Value) ? Color.green : Color.red;
 
         _gold_text.text = StringMethod.ToCurrencyString(Base_Manager.Data.Player_Money);
+
+        _stage_repeat_text.text = Stage_Manager.isDead ? "반복중 ..." : "진행중 ...";
+        _stage_repeat_text.color = Stage_Manager.isDead ? Color.yellow : StageColor;
+
+        int stage_Value = Base_Manager.Data.Player_Stage + 1;
+
+        
+        _stage_Text.text = stage_Value.ToString() + "층";
+        _boss_stage_text.text = stage_Value.ToString() + "층";
+
     }
     public void Get_Legendary_Popup(Item_Scriptable item)
     {

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public int M_Count; // 몬스터의 수
-    public float M_SpawnTime; // 몇 초마다 스폰이 될 것인지 결정.
+    private int M_Count; // 몬스터의 수
+    private float M_SpawnTime; // 몇 초마다 스폰이 될 것인지 결정.
     // 1. 몬스터는 여러마리가 몇 초 마다 수시로 여러번 스폰 되어야 한다.
 
     //Spawner 에 손쉽게 접근하기 위해, static으로 설계
@@ -16,8 +16,15 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
+        Base_Manager.Stage.M_ReadyEvent += OnReady;
         Base_Manager.Stage.M_PlayEvent += OnPlay;
         Base_Manager.Stage.M_BossEvent += OnBoss;
+    }
+
+    public void OnReady()
+    {
+        M_Count = int.Parse(CSV_Importer.Spawn_Design[Base_Manager.Data.Player_Stage]["Spawn_Count"].ToString());
+        M_SpawnTime = float.Parse(CSV_Importer.Spawn_Design[Base_Manager.Data.Player_Stage]["Spawn_Timer"].ToString());
     }
     public void OnPlay()
     {
@@ -76,7 +83,9 @@ public class Spawner : MonoBehaviour
     {
         Vector3 pos;
 
-        for(int i = 0; i < M_Count; i++)
+        int Monster_Spawn_Value = M_Count - m_monsters.Count;
+
+        for(int i = 0; i < Monster_Spawn_Value; i++)
         {
             pos = Vector3.zero + Random.insideUnitSphere * 5.0f;
             pos.y = 0.0f;

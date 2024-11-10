@@ -54,7 +54,7 @@ public class StageData
     public int Base_MONSTER_HP;
     public int Base_DROP_MONEY;
 
-    public double Get_ATK() => Utils.CalculateValue(Base_MONSTER_ATK, Base_Manager.Data.Player_Level, MONSTER_ATK);
-    public double Get_HP() => Utils.CalculateValue(Base_MONSTER_HP, Base_Manager.Data.Player_Level, MONSTER_HP);
-    public double Get_DROP_MONEY() => Utils.CalculateValue(Base_DROP_MONEY, Base_Manager.Data.Player_Level, DROP_MONEY);
+    public double Get_ATK() => Utils.CalculateValue(Base_MONSTER_ATK, Base_Manager.Data.Player_Stage, MONSTER_ATK);
+    public double Get_HP() => Utils.CalculateValue(Base_MONSTER_HP, Base_Manager.Data.Player_Stage, MONSTER_HP);
+    public double Get_DROP_MONEY() => Utils.CalculateValue(Base_DROP_MONEY, Base_Manager.Data.Player_Stage, DROP_MONEY);
 }

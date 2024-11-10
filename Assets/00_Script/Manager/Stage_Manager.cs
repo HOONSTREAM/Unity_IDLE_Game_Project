@@ -13,7 +13,7 @@ public delegate void OnDeadEvent();
 public class Stage_Manager
 { 
     public static Stage_State M_State;
-    public static int MaxCount = 50;
+    public static int MaxCount = 3;
     public static int Count;
     
 
@@ -33,6 +33,7 @@ public class Stage_Manager
         switch(state)
         {
             case Stage_State.Ready:
+                MaxCount = int.Parse(CSV_Importer.Spawn_Design[Base_Manager.Data.Player_Stage]["MaxCount"].ToString());
                 Debug.Log("Ready");
                 M_ReadyEvent?.Invoke();
                 Base_Manager.instance.Coroutine_Action(2.0f, () => State_Change(Stage_State.Play));
@@ -57,7 +58,7 @@ public class Stage_Manager
                 break;
             case Stage_State.Dead:
                 Debug.Log("Dead");
-                isDead = true;
+                isDead = true;               
                 M_DeadEvent?.Invoke();
                 break;
         }

@@ -130,6 +130,8 @@ public class Player : Character
             return;
         }
 
+        Debug.Log($"{this.gameObject.name} : HP : {this.gameObject.GetComponent<Player>().HP}");
+
         var goOBJ = Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
         {
             value.GetComponent<Hit_Text>().Init(transform.position, dmg, true);
