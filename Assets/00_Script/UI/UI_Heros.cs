@@ -121,6 +121,11 @@ public class UI_Heros : UI_Base
         Render_Manager.instance.HERO.Get_Particle(false);
         Set_Click(null);
         Render_Manager.instance.HERO.Init_Hero();
+
+        for(int i = 0; i<hero_parts.Count; i++)
+        {
+            hero_parts[i].Get_Character_Check();
+        }
     }
 
 }

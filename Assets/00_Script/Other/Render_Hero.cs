@@ -29,10 +29,10 @@ public class Render_Hero : MonoBehaviour
                 var go = Instantiate(Resources.Load<GameObject>("Character/" + temp));
                 go.transform.rotation = Quaternion.identity;
                 
-                for(int j = 0; j < go.transform.childCount; j++)
-                {
-                    go.transform.GetChild(j).gameObject.layer = LayerMask.NameToLayer("Render_Layer");
-                }
+                //for(int j = 0; j < go.transform.childCount; j++)
+                //{
+                //    go.transform.GetChild(j).gameObject.layer = LayerMask.NameToLayer("Render_Layer");
+                //}
 
                 go.transform.parent = transform;
                 go.transform.position = Circles[i].transform.position;
