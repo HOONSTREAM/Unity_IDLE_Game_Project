@@ -73,12 +73,18 @@ public class Main_UI : MonoBehaviour
     [Header("Item_Bottom_Popup")]
     [SerializeField]
     private Transform ItemContent;
+    [Space(20f)]
+    [Header("Hero_Main_Frame")]
+    [SerializeField]
+    private UI_Main_Hero_Parts[] main_hero_parts;
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
     private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
 
     private bool isPopup = false;
     private Coroutine Legendary_Coroutine;
+
+    
 
     private void Awake()
     {
@@ -98,7 +104,7 @@ public class Main_UI : MonoBehaviour
             Bottom_Popup_Coroutine.Add(null);
         }
 
-        Base_Manager.Stage.M_ReadyEvent += () => FadeInOut(true);
+        Base_Manager.Stage.M_ReadyEvent += OnReady;
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
@@ -239,6 +245,20 @@ public class Main_UI : MonoBehaviour
 
         Boss_Slider_Count(value, 1.0f);
 
+    }
+    private void OnReady()
+    {
+        FadeInOut(true);
+
+        for(int i = 0; i< Base_Manager.Character.Set_Character.Length ; i++)
+        {
+            var Data = Base_Manager.Character.Set_Character[i];
+
+            if(Data != null)
+            {
+                main_hero_parts[i].Init_Data(Data.Data);
+            }
+        }
     }
     private void OnBoss()
     {
