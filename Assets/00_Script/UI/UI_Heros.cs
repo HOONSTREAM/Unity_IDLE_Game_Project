@@ -14,11 +14,13 @@ public class UI_Heros : UI_Base
     public GameObject Parts;
     public List<UI_Heros_Parts> hero_parts = new List<UI_Heros_Parts>();
     private Dictionary<string, Character_Scriptable> _dict = new Dictionary<string, Character_Scriptable>();
-
+    private Character_Scriptable Character;
     public override bool Init()
     {
 
         InitButtons();
+        Render_Manager.instance.HERO.Init_Hero();
+
         Main_UI.Instance.FadeInOut(true, true, null);
 
 
@@ -58,14 +60,30 @@ public class UI_Heros : UI_Base
     /// </summary>
     public void Set_Click(UI_Heros_Parts parts)
     {
-        for(int i = 0; i < hero_parts.Count; i++)
+
+        if (parts == null)
         {
-            hero_parts[i].Lock_OBJ.SetActive(true);
-            hero_parts[i].GetComponent<Outline>().enabled = false;
+            for (int i = 0; i < hero_parts.Count; i++)
+            {
+                hero_parts[i].Lock_OBJ.SetActive(false);
+                hero_parts[i].GetComponent<Outline>().enabled = false;
+            }
         }
 
-        parts.Lock_OBJ.SetActive(false);
-        parts.GetComponent<Outline>().enabled = true;
+        else
+        {
+            Character = parts.Character;
+
+            for (int i = 0; i < hero_parts.Count; i++)
+            {
+                hero_parts[i].Lock_OBJ.SetActive(true);
+                hero_parts[i].GetComponent<Outline>().enabled = false;
+            }
+
+            parts.Lock_OBJ.SetActive(false);
+            parts.GetComponent<Outline>().enabled = true;
+
+        }
 
     }
 
@@ -76,7 +94,9 @@ public class UI_Heros : UI_Base
     {
         for(int i = 0; i<Render_Manager.instance.HERO.Circles.Length; i++)
         {
+            int index = i;
             var go = new GameObject("Button").AddComponent<Button>();
+            go.onClick.AddListener(() => Set_Character_Button(index));
 
             go.transform.SetParent(this.transform); // 해당 오브젝트를 UI_Heros 팝업 하단에 자식오브젝트로 설정
             go.gameObject.AddComponent<Image>();
@@ -87,9 +107,20 @@ public class UI_Heros : UI_Base
             rect.offsetMin = Vector2.zero;
             rect.offsetMax = Vector2.zero;
 
+            rect.sizeDelta = new Vector2(150.0f, 150.0f);
+            go.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0.01f);
+
             go.transform.position = Render_Manager.instance.ReturnScreenPoint(Render_Manager.instance.HERO.Circles[i]);        
         }
         
+    }
+
+    private void Set_Character_Button(int value)
+    {
+        Base_Manager.Character.Get_Character(value, Character.M_Character_Name);
+        Render_Manager.instance.HERO.Get_Particle(false);
+        Set_Click(null);
+        Render_Manager.instance.HERO.Init_Hero();
     }
 
 }

@@ -12,7 +12,7 @@ public class UI_Heros_Parts : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI M_Level, M_Count;
   
-    private Character_Scriptable Character;
+    public Character_Scriptable Character;
     private UI_Heros parent;
     public GameObject Lock_OBJ;
 
