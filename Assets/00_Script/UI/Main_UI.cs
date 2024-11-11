@@ -83,7 +83,7 @@ public class Main_UI : MonoBehaviour
 
     private bool isPopup = false;
     private Coroutine Legendary_Coroutine;
-
+    private Dictionary<Player, UI_Main_Hero_Parts> Main_Hero_Parts_Dict = new Dictionary<Player, UI_Main_Hero_Parts>();
     
 
     private void Awake()
@@ -191,7 +191,6 @@ public class Main_UI : MonoBehaviour
         Stage_Manager.isDead = false;
         Base_Manager.Stage.State_Change(Stage_State.Boss);
     }
-
     public void Monster_Slider_Count()
     {
         float value = (float)Stage_Manager.Count / (float)Stage_Manager.MaxCount;
@@ -249,6 +248,7 @@ public class Main_UI : MonoBehaviour
     private void OnReady()
     {
         FadeInOut(true);
+        Main_Hero_Parts_Dict.Clear();
 
         for(int i = 0; i< Base_Manager.Character.Set_Character.Length ; i++)
         {
@@ -257,6 +257,7 @@ public class Main_UI : MonoBehaviour
             if(Data != null)
             {
                 main_hero_parts[i].Init_Data(Data.Data);
+                Main_Hero_Parts_Dict.Add(Character_Spawner.players[i], main_hero_parts[i]);
             }
         }
     }
@@ -311,6 +312,10 @@ public class Main_UI : MonoBehaviour
         _stage_Text.text = stage_Value.ToString() + "Ãþ";
         _boss_stage_text.text = stage_Value.ToString() + "Ãþ";
 
+    }
+    public void Player_State_Check(Player player)
+    {
+        Main_Hero_Parts_Dict[player].State_Check(player);
     }
     public void Get_Legendary_Popup(Item_Scriptable item)
     {
