@@ -3889,7 +3889,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1440, y: 2560}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -4549,7 +4549,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 146.27075, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &543505923
@@ -5430,6 +5430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76eb6f4f1e0d0394c8eaaeed41bef47c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 889575906}
   HERO: {fileID: 1939739689}
 --- !u!1 &627036631
 GameObject:
@@ -20441,12 +20442,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Plus_Particles:
-  - {fileID: 3136141999238209060}
-  - {fileID: 3136141999164977703}
-  - {fileID: 3136141999762016910}
-  - {fileID: 3136141998956016398}
-  - {fileID: 3136141998231820951}
-  - {fileID: 3136142000190935751}
+  - {fileID: 6515025314939004216}
+  - {fileID: 6515025314864843067}
+  - {fileID: 6515025314385801618}
+  - {fileID: 6515025313044350994}
+  - {fileID: 6515025313663132043}
+  - {fileID: 6515025313952131547}
+  Circles:
+  - {fileID: 1074233202}
+  - {fileID: 1641854083}
+  - {fileID: 1112756172}
+  - {fileID: 1293030893}
+  - {fileID: 162757747}
+  - {fileID: 852639709}
 --- !u!1 &1950826183
 GameObject:
   m_ObjectHideFlags: 0
@@ -27910,7 +27918,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -32721,7 +32729,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -37532,7 +37540,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -42343,7 +42351,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -47154,7 +47162,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -51965,7 +51973,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -57930,7 +57938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &6515025313663132043
 GameObject:
   m_ObjectHideFlags: 0
@@ -57948,7 +57956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &6515025313952131547
 GameObject:
   m_ObjectHideFlags: 0
@@ -57966,7 +57974,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &6515025314385801618
 GameObject:
   m_ObjectHideFlags: 0
@@ -57984,7 +57992,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &6515025314864843067
 GameObject:
   m_ObjectHideFlags: 0
@@ -58002,7 +58010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &6515025314939004216
 GameObject:
   m_ObjectHideFlags: 0
@@ -58020,7 +58028,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &6634725924228465828
 MeshRenderer:
   m_ObjectHideFlags: 0

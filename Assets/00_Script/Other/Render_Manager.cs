@@ -6,6 +6,11 @@ public class Render_Manager : MonoBehaviour
 {
     public static Render_Manager instance;
 
+
+
+    public Camera cam; // ·»´õ¸µ Ä«¸Þ¶óÀÇ Ä·
+    public Render_Hero HERO;
+
     private void Start()
     {
         if(instance == null)
@@ -15,5 +20,9 @@ public class Render_Manager : MonoBehaviour
         
     }
 
-    public Render_Hero HERO;
+    public Vector2 ReturnScreenPoint(Transform pos)
+    {
+        return cam.WorldToScreenPoint(pos.position);
+    }
+
 }
