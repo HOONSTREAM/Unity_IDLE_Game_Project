@@ -8,5 +8,4 @@ public class Character_Scriptable : ScriptableObject
     public string M_Character_Name;
     public float M_Attack_Range;
     public Rarity Rarity;
-    public int MAX_MP;
 }
