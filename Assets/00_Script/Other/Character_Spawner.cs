@@ -5,6 +5,7 @@ using UnityEngine;
 public class Character_Spawner : MonoBehaviour
 {
     public Transform[] SpawnTransform = new Transform[6];
+    public static Player[] players = new Player[6];
 
 
     private void Start()
@@ -29,6 +30,7 @@ public class Character_Spawner : MonoBehaviour
             {
                 string temp = Data.Data.M_Character_Name;
                 var go = Instantiate(Resources.Load<GameObject>("Character/" + temp));
+                players[i] = go.GetComponent<Player>();
                 go.transform.position = SpawnTransform[i].transform.position;
                 go.transform.LookAt(Vector3.zero);
             }

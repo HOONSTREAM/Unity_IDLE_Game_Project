@@ -77,6 +77,8 @@ public class Main_UI : MonoBehaviour
     [Header("Hero_Main_Frame")]
     [SerializeField]
     private UI_Main_Hero_Parts[] main_hero_parts;
+    private Dictionary<Player, UI_Main_Hero_Parts> Main_Parts_Dict = new Dictionary<Player, UI_Main_Hero_Parts>();
+
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
     private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
@@ -109,7 +111,6 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
     }
-
 
     /// <summary>
     /// 아이템을 획득하였을때, 팝업을 노출하는 메서드입니다.
@@ -191,7 +192,6 @@ public class Main_UI : MonoBehaviour
         Stage_Manager.isDead = false;
         Base_Manager.Stage.State_Change(Stage_State.Boss);
     }
-
     public void Monster_Slider_Count()
     {
         float value = (float)Stage_Manager.Count / (float)Stage_Manager.MaxCount;
@@ -249,6 +249,7 @@ public class Main_UI : MonoBehaviour
     private void OnReady()
     {
         FadeInOut(true);
+        Main_Parts_Dict.Clear();
 
         for(int i = 0; i< Base_Manager.Character.Set_Character.Length ; i++)
         {
@@ -257,9 +258,19 @@ public class Main_UI : MonoBehaviour
             if(Data != null)
             {
                 main_hero_parts[i].Init_Data(Data.Data);
+                Main_Parts_Dict.Add(Character_Spawner.players[i], main_hero_parts[i]);
+                
             }
         }
     }
+    /// <summary>
+    /// 각 영웅 별 HP와 MP를 검사합니다.
+    /// </summary>
+    public void Character_State_Check(Player player)
+    {
+        Main_Parts_Dict[player].State_Check(player);
+    }
+
     private void OnBoss()
     {
         Level_Text_Check();

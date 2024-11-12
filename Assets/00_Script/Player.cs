@@ -9,10 +9,11 @@ public class Player : Character
     private Quaternion rotation;
     public Character_Scriptable CH_Data;
     public string CH_Name;
+    public int MP;
     public GameObject Trail_Object;
     [SerializeField]
     private ParticleSystem Provocation_Effect; // 보스가 출현할 때, 머리 상단에 느낌표를 나타냅니다.
-    
+    public bool isMainCharacter = false;
 
     protected override void Start()
     {
@@ -81,6 +82,7 @@ public class Player : Character
                 {
                     isATTACK = true;
                     AnimatorChange("isATTACK");
+                    Get_MP(5);
                     Invoke("InitAttack", 1.0f);
                 }
             }
@@ -121,6 +123,16 @@ public class Player : Character
         ATK = Base_Manager.Player.Get_ATK(CH_Data.Rarity);
         HP = Base_Manager.Player.Get_HP(CH_Data.Rarity);
     }
+    public void Get_MP(int mp)
+    {
+        if (isMainCharacter)
+        {
+            return;
+        }
+
+        Main_UI.Instance.Character_State_Check(this);
+        MP += mp;
+    }
     public override void GetDamage(double dmg)
     {
         base.GetDamage(dmg);
@@ -129,6 +141,8 @@ public class Player : Character
         {
             return;
         }
+
+        Get_MP(10);
 
         Debug.Log($"{this.gameObject.name} : HP : {this.gameObject.GetComponent<Player>().HP}");
 

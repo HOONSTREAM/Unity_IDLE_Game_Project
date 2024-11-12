@@ -4,7 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// 영웅 창에서 확인 할 수 있는 각각의 영웅 카드를 제어합니다.
+/// </summary>
 public class UI_Heros_Parts : MonoBehaviour
 {
     [SerializeField]
