@@ -126,6 +126,8 @@ public class UI_Heros : UI_Base
         {
             hero_parts[i].Get_Character_Check();
         }
+
+        Main_UI.Instance.Set_Character_Data();
     }
 
 }

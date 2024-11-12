@@ -251,18 +251,42 @@ public class Main_UI : MonoBehaviour
         FadeInOut(true);
         Main_Parts_Dict.Clear();
 
-        for(int i = 0; i< Base_Manager.Character.Set_Character.Length ; i++)
+        for(int i =0; i< 6; i++)
+        {
+            main_hero_parts[i].Initialize();
+        }
+
+        for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
         {
             var Data = Base_Manager.Character.Set_Character[i];
 
-            if(Data != null)
+            if (Data != null)
             {
-                main_hero_parts[i].Init_Data(Data.Data);
+                main_hero_parts[i].Init_Data(Data.Data, false);
                 Main_Parts_Dict.Add(Character_Spawner.players[i], main_hero_parts[i]);
-                
+
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// 메인 UI에 있는, 하단 영웅배치칸의 캐릭터 데이터를 관리합니다.
+    /// </summary>
+    public void Set_Character_Data()
+    {
+        for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
+        {
+            var Data = Base_Manager.Character.Set_Character[i];
+
+            if (Data != null)
+            {
+                main_hero_parts[i].Init_Data(Data.Data, true);
+              
             }
         }
     }
+
     /// <summary>
     /// 각 영웅 별 HP와 MP를 검사합니다.
     /// </summary>

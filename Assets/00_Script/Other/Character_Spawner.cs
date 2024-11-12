@@ -26,14 +26,34 @@ public class Character_Spawner : MonoBehaviour
         for(int i = 0; i< Base_Manager.Character.Set_Character.Length; i++)
         {
             var Data = Base_Manager.Character.Set_Character[i];
+
             if(Data != null)
             {
-                string temp = Data.Data.M_Character_Name;
-                var go = Instantiate(Resources.Load<GameObject>("Character/" + temp));
-                players[i] = go.GetComponent<Player>();
-                go.transform.position = SpawnTransform[i].transform.position;
-                go.transform.LookAt(Vector3.zero);
+                if (players[i] != null)
+                {
+                    if (players[i].CH_Data != Data.Data)
+                    {
+                        Destroy(players[i].gameObject);
+                        Instatiate_Player(Data, i);
+                    }
+                }
+
+                else
+                {
+                    Instatiate_Player(Data, i);
+                }
+              
             }
+                   
         }
+    }
+
+    private void Instatiate_Player(Character_Holder Data, int value)
+    {
+        string temp = Data.Data.M_Character_Name;
+        var go = Instantiate(Resources.Load<GameObject>("Character/" + temp));
+        players[value] = go.GetComponent<Player>();
+        go.transform.position = SpawnTransform[value].transform.position;
+        go.transform.LookAt(Vector3.zero);
     }
 }
