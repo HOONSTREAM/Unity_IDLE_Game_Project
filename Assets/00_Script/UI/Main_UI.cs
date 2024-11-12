@@ -256,13 +256,17 @@ public class Main_UI : MonoBehaviour
             main_hero_parts[i].Initialize();
         }
 
+        int Value = 0; // 메인 UI 하단 영웅배치창에 영웅이 배치되면, 순서대로 배치될 수 있도록 인덱스 정의
+
         for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
         {
             var Data = Base_Manager.Character.Set_Character[i];
 
             if (Data != null)
             {
+                Value++;
                 main_hero_parts[i].Init_Data(Data.Data, false);
+                main_hero_parts[i].transform.SetSiblingIndex(Value);
                 Main_Parts_Dict.Add(Character_Spawner.players[i], main_hero_parts[i]);
 
             }
@@ -275,14 +279,17 @@ public class Main_UI : MonoBehaviour
     /// </summary>
     public void Set_Character_Data()
     {
+        int indexValue = 0;
+
         for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
         {
             var Data = Base_Manager.Character.Set_Character[i];
 
             if (Data != null)
             {
+                indexValue++;
                 main_hero_parts[i].Init_Data(Data.Data, true);
-              
+                main_hero_parts[i].transform.SetSiblingIndex(indexValue);              
             }
         }
     }
