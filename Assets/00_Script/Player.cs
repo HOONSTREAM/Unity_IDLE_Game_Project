@@ -114,6 +114,7 @@ public class Player : Character
     private void Data_Set(Character_Scriptable datas)
     {
         CH_Data = datas;
+        Bullet_Name = datas.M_Character_Name;
         Attack_Range = datas.M_Attack_Range;
 
         Set_ATK_HP();

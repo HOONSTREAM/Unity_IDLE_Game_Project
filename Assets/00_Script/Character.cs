@@ -23,6 +23,8 @@ public class Character : MonoBehaviour
     [SerializeField]
     private Transform m_BulletTransform;
 
+    public string Bullet_Name;
+
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -57,7 +59,7 @@ public class Character : MonoBehaviour
         Base_Manager.Pool.Pooling_OBJ("Attack_Helper").Get((value) =>
         {
             value.transform.position = m_BulletTransform.position;
-            value.GetComponent<Bullet>().init(m_target, ATK, "CH_01");
+            value.GetComponent<Bullet>().init(m_target, ATK, Bullet_Name);
         });
     }
 
