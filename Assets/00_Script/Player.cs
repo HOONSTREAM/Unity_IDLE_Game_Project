@@ -14,7 +14,7 @@ public class Player : Character
     [SerializeField]
     private ParticleSystem Provocation_Effect; // 보스가 출현할 때, 머리 상단에 느낌표를 나타냅니다.
     public bool isMainCharacter = false;
-
+    
     protected override void Start()
     {
         base.Start();
@@ -114,7 +114,7 @@ public class Player : Character
     private void Data_Set(Character_Scriptable datas)
     {
         CH_Data = datas;
-        Bullet_Name = datas.M_Character_Name;
+        Bullet_Name = CH_Data.M_Character_Name;
         Attack_Range = datas.M_Attack_Range;
 
         Set_ATK_HP();
@@ -126,6 +126,11 @@ public class Player : Character
     }
     public void Get_MP(int mp)
     {
+        if (Use_Skill)
+        {
+            return;
+        }
+
         if (isMainCharacter)
         {
             return;
@@ -133,7 +138,17 @@ public class Player : Character
 
         Main_UI.Instance.Character_State_Check(this);
         MP += mp;
+
+        if(MP >= CH_Data.MAX_MP)
+        {
+            if(GetComponent<Skill_Base>() != null)
+            {
+                GetComponent<Skill_Base>().Set_Skill();
+            }
+        }
+
     }
+
     public override void GetDamage(double dmg)
     {
         base.GetDamage(dmg);

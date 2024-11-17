@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     public double ATK;
     public float ATK_Speed;
     public bool isDead = false;
-
+    public bool Use_Skill = false;
 
 
     protected float Attack_Range = 3.0f; // 공격하는 공격 범위
@@ -32,12 +32,12 @@ public class Character : MonoBehaviour
 
     protected void InitAttack() => isATTACK = false;
     //AnyState는 어떤 상태여도 트리거가 작동되면, 해당 애니메이션으로 갈수 있게끔 한다.
-    protected void AnimatorChange(string temp)
+    public void AnimatorChange(string temp)
     {
         animator.SetBool("isIDLE", false);
         animator.SetBool("isMOVE", false);
 
-        if (temp == "isATTACK" || temp == "isVICTORY" || temp == "isDEAD")
+        if (temp == "isATTACK" || temp == "isVICTORY" || temp == "isDEAD" || temp == "isSKILL")
         {
             animator.SetTrigger(temp);
             return;
