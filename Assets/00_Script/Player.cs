@@ -83,7 +83,7 @@ public class Player : Character
                     isATTACK = true;
                     AnimatorChange("isATTACK");
                     Get_MP(5);
-                    Invoke("InitAttack", 1.0f);
+                    Invoke("InitAttack", (1.0f / ATK_Speed));
                 }
             }
         }
@@ -111,11 +111,17 @@ public class Player : Character
     {
         Spawner.m_players.Add(this);
     }
+
+    /// <summary>
+    /// Scriptable Object Data를 바탕으로 데이터를 세팅합니다.
+    /// </summary>
+    /// <param name="datas"></param>
     private void Data_Set(Character_Scriptable datas)
     {
         CH_Data = datas;
         Bullet_Name = CH_Data.M_Character_Name;
         Attack_Range = datas.M_Attack_Range;
+        ATK_Speed = datas.M_Attack_Speed;
 
         Set_ATK_HP();
     }
@@ -136,7 +142,7 @@ public class Player : Character
             return;
         }
 
-        Main_UI.Instance.Character_State_Check(this);
+        
         MP += mp;
 
         if(MP >= CH_Data.MAX_MP)
@@ -153,6 +159,8 @@ public class Player : Character
             Use_Skill = true;
           
         }
+
+        Main_UI.Instance.Character_State_Check(this);
 
     }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Dual_Blader_Skill : Skill_Base
 {
 
-    public GameObject Skill_Effect;
+    
 
     public override void Set_Skill()
     {

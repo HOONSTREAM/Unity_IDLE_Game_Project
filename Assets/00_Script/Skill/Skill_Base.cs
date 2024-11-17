@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Skill_Base : MonoBehaviour
 {
+    public GameObject Skill_Effect;
+
     protected Monster[] monsters { get { return Spawner.m_monsters.ToArray(); } }   
     protected Player[] players { get { return Spawner.m_players.ToArray(); } }
 

@@ -31,7 +31,7 @@ public class Monster : Character
         isDead = false;
         ATK = isBoss ? Utils.Data.stageData.Get_ATK()  * 10.0f : Utils.Data.stageData.Get_ATK();
         HP = isBoss ? Utils.Data.stageData.Get_HP() * 10.0f : Utils.Data.stageData.Get_HP();
-
+        ATK_Speed = 1.0f;
         MaxHP = HP;
 
         Attack_Range = R_ATTACK_RANGE;
