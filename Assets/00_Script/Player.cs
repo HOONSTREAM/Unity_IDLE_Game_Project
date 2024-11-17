@@ -141,10 +141,17 @@ public class Player : Character
 
         if(MP >= CH_Data.MAX_MP)
         {
-            if(GetComponent<Skill_Base>() != null)
+
+            MP = 0; // MP 초기화
+
+            if (GetComponent<Skill_Base>() != null)
             {
+                Debug.Log("휠 윈드 스킬 발동");
                 GetComponent<Skill_Base>().Set_Skill();
             }
+
+            Use_Skill = true;
+          
         }
 
     }
@@ -159,8 +166,6 @@ public class Player : Character
         }
 
         Get_MP(10);
-
-        Debug.Log($"{this.gameObject.name} : HP : {this.gameObject.GetComponent<Player>().HP}");
 
         var goOBJ = Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
         {

@@ -34,6 +34,11 @@ public class Character : MonoBehaviour
     //AnyState는 어떤 상태여도 트리거가 작동되면, 해당 애니메이션으로 갈수 있게끔 한다.
     public void AnimatorChange(string temp)
     {
+        if (Use_Skill)
+        {
+            return;
+        }
+
         animator.SetBool("isIDLE", false);
         animator.SetBool("isMOVE", false);
 
@@ -55,6 +60,8 @@ public class Character : MonoBehaviour
         {
             return;
         }
+
+        
 
         Base_Manager.Pool.Pooling_OBJ("Attack_Helper").Get((value) =>
         {
