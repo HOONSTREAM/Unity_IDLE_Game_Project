@@ -77,6 +77,7 @@ public class Main_UI : MonoBehaviour
     [Header("Hero_Main_Frame")]
     [SerializeField]
     private UI_Main_Hero_Parts[] main_hero_parts;
+    public Image Main_Character_Skill_CoolTime;
     private Dictionary<Player, UI_Main_Hero_Parts> Main_Parts_Dict = new Dictionary<Player, UI_Main_Hero_Parts>();
 
 

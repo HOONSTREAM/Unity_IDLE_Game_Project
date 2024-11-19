@@ -22,7 +22,7 @@ public class Hit_Text : MonoBehaviour
 
     }
 
-    public void Init(Vector3 pos, double dmg, bool isMonster = false, bool Critical = false)
+    public void Init(Vector3 pos, double dmg, Color color, bool isMonster = false, bool Critical = false)
     {
         pos.x += Random.Range(-0.1f, 0.1f);
         pos.z += Random.Range(-0.1f ,0.1f);
@@ -31,14 +31,7 @@ public class Hit_Text : MonoBehaviour
         m_Text.text = StringMethod.ToCurrencyString(dmg);
         transform.parent = Base_Canvas.instance.Holder_Layer(1);
 
-        if (isMonster)
-        {
-            m_Text.color = Color.red;
-        }
-        else
-        {
-            m_Text.color = Color.white;
-        }
+        m_Text.color = color;
 
         m_critical.gameObject.SetActive(Critical);
 

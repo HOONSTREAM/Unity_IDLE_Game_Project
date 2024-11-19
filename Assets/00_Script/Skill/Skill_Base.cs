@@ -41,4 +41,26 @@ public class Skill_Base : MonoBehaviour
         m_Player.GetComponent<Player>().Use_Skill = false;
         m_Player.AnimatorChange("isIDLE");
     }
+
+    public Character HP_Check()
+    {
+
+        Character Player = null;
+        double hp_count = Mathf.Infinity;
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            double hp = players[i].HP;
+
+            if (hp < hp_count)
+            {
+                hp_count = hp;
+                Player = players[i];
+            }
+
+        }
+
+        return Player;
+    }
+
 }

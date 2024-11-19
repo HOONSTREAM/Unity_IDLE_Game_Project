@@ -99,6 +99,18 @@ public class Character : MonoBehaviour
 
     }
 
+    public virtual void Heal(double heal)
+    {
+        HP += heal;
+
+        var goOBJ = Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
+        {
+            value.GetComponent<Hit_Text>().Init(transform.position, heal, Color.green, true);
+
+        });
+
+    }
+
     /// <summary>
     /// 가장 가까운 객체를 추적한다. (몬스터,플레이어)
     /// </summary>
@@ -126,5 +138,7 @@ public class Character : MonoBehaviour
             transform.LookAt(m_target.position);
         }
     }
+
+
 
 }
