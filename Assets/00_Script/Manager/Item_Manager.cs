@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class Item
+{
+    public Item_Scriptable data;
+    public int Count;
+}
+
+/// <summary>
+/// 아이템을 관리하는 매니저 입니다.
+/// </summary>
 public class Item_Manager 
 {
     private Dictionary<string, Item_Scriptable> Item_Datas = new Dictionary<string, Item_Scriptable>();
@@ -12,8 +22,7 @@ public class Item_Manager
 
         for(int i = 0; Datas.Length > i; i++)
         {
-            Item_Datas.Add(Datas[i].name, Datas[i]);
-            Debug.Log($"{Datas[i].name} : {Datas[i].Item_Name}");
+            Item_Datas.Add(Datas[i].name, Datas[i]);          
         }
     }
 

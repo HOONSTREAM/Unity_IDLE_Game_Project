@@ -11,6 +11,8 @@ public class Base_Canvas : MonoBehaviour
     private Transform LAYER;
     [SerializeField]
     private Button Hero_Button;
+    [SerializeField]
+    private Button Inventory_Button;
 
 
     private void Awake()
@@ -30,6 +32,7 @@ public class Base_Canvas : MonoBehaviour
     private void Start()
     {
         Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true));
+        Inventory_Button.onClick.AddListener(() => Get_UI("UI_INVENTORY"));
     }
 
 

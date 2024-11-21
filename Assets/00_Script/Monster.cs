@@ -137,7 +137,7 @@ public class Monster : Character
 
         Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
         {
-            value.GetComponent<Hit_Text>().Init(transform.position, dmg, Color.red, false, critical);
+            value.GetComponent<Hit_Text>().Init(transform.position, dmg, Color.white, false, critical);
         });
 
         HP -= dmg;

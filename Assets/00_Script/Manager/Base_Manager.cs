@@ -14,6 +14,7 @@ public class Base_Manager : MonoBehaviour
     private static Data_Manager _data = new Data_Manager();
     private static Item_Manager _item = new Item_Manager();
     private static Character_Manager _character = new Character_Manager();
+    private static Inventory_Manager _inventory = new Inventory_Manager();
     
  
     public static Pool_Manager Pool { get { return _pool; } }
@@ -22,6 +23,7 @@ public class Base_Manager : MonoBehaviour
     public static Data_Manager Data { get { return _data; } }
     public static Item_Manager Item { get { return _item; } }
     public static Character_Manager Character { get { return _character; } }
+    public static Inventory_Manager Inventory { get { return _inventory; } }
 
     private void Awake()
     {
