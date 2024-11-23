@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Base_Canvas : MonoBehaviour
@@ -14,6 +15,7 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Inventory_Button;
 
+    public Item_ToolTip item_tooltip = null;
 
     private void Awake()
     {
@@ -77,5 +79,17 @@ public class Base_Canvas : MonoBehaviour
 
         Utils.UI_Holder.Push(gameObject);
 
+    }
+
+    public Item_ToolTip Get_Item_Tooltip()
+    {
+        if(item_tooltip != null)
+        {
+            Destroy(item_tooltip.gameObject);
+        }
+
+        item_tooltip = Instantiate(Resources.Load<Item_ToolTip>("UI/Item_ToolTip"), transform);
+       
+        return item_tooltip;
     }
 }
