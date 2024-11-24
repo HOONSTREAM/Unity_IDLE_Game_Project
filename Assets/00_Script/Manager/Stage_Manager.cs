@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ public class Stage_Manager
     public  OnDeadEvent M_DeadEvent;
 
   
+  
     public void State_Change(Stage_State state)
     {
         M_State = state;
@@ -35,7 +37,7 @@ public class Stage_Manager
             case Stage_State.Ready:
                 MaxCount = int.Parse(CSV_Importer.Spawn_Design[Base_Manager.Data.Player_Stage]["MaxCount"].ToString());
                 Debug.Log("Ready");
-                M_ReadyEvent?.Invoke();
+                M_ReadyEvent?.Invoke();               
                 Base_Manager.instance.Coroutine_Action(2.0f, () => State_Change(Stage_State.Play));
                 break;
             case Stage_State.Play:
@@ -53,7 +55,9 @@ public class Stage_Manager
                 break;
             case Stage_State.Clear:
                 Debug.Log("Clear");
+                Base_Manager.instance.Destroy_AttackHelper();
                 Base_Manager.Data.Player_Stage++;
+
                 M_ClearEvent?.Invoke();
                 break;
             case Stage_State.Dead:

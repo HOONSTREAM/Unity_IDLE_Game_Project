@@ -36,8 +36,11 @@ public class Dual_Blader_Skill : Skill_Base
             }
 
             yield return new WaitForSeconds(0.5f);
+            
         }
 
+       
         ReturnSkill();
+        
     }
 }

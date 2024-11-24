@@ -165,7 +165,7 @@ public class Monster : Character
         {
             if (!Stage_Manager.isDead)
             {
-                Stage_Manager.Count++;
+                Stage_Manager.Count++;               
                 Main_UI.Instance.Monster_Slider_Count();
             }
            

@@ -151,8 +151,7 @@ public class Player : Character
             MP = 0; // MP 초기화
 
             if (GetComponent<Skill_Base>() != null)
-            {
-                Debug.Log("휠 윈드 스킬 발동");
+            {              
                 GetComponent<Skill_Base>().Set_Skill();
             }
 

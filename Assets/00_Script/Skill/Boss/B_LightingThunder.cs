@@ -10,7 +10,7 @@ public class B_LightingThunder : Skill_Base
         {
             Player player = players[Random.Range(0, players.Length)];
             Instantiate(Resources.Load<GameObject>("Boss_Electric"), player.transform.position, Quaternion.identity);
-            Camera_Manager.instance.Camera_Shake();
+           // Camera_Manager.instance.Camera_Shake();
             player.GetDamage(10);
             yield return new WaitForSeconds(0.2f);
         }

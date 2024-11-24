@@ -77,4 +77,9 @@ public class Base_Manager : MonoBehaviour
         StartCoroutine(Action_Coroutine(action, timer));
     }
 
+    public void Destroy_AttackHelper()
+    {
+        
+    }
+
 }
