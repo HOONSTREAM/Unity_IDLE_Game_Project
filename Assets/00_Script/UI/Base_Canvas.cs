@@ -14,8 +14,12 @@ public class Base_Canvas : MonoBehaviour
     private Button Hero_Button;
     [SerializeField]
     private Button Inventory_Button;
+    [SerializeField]
+    private Button Saving_Mode_Button;
 
     public Item_ToolTip item_tooltip = null;
+
+    public static bool isSavingMode = false;
 
     private void Awake()
     {
@@ -35,6 +39,10 @@ public class Base_Canvas : MonoBehaviour
     {
         Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true));
         Inventory_Button.onClick.AddListener(() => Get_UI("UI_INVENTORY"));
+        Saving_Mode_Button.onClick.AddListener(() => {
+            Get_UI("Saving_Mode");
+            isSavingMode = true;
+        });
     }
 
 
