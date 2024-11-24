@@ -37,7 +37,8 @@ public class Stage_Manager
             case Stage_State.Ready:
                 MaxCount = int.Parse(CSV_Importer.Spawn_Design[Base_Manager.Data.Player_Stage]["MaxCount"].ToString());
                 Debug.Log("Ready");
-                M_ReadyEvent?.Invoke();               
+                M_ReadyEvent?.Invoke();
+                //Base_Manager.Pool.Clear_Pool(); // 풀링된 오브젝트의 과다생성을 방지하기 위해 한번 초기화
                 Base_Manager.instance.Coroutine_Action(2.0f, () => State_Change(Stage_State.Play));
                 break;
             case Stage_State.Play:
@@ -54,8 +55,7 @@ public class Stage_Manager
                 M_BossPlayEvent?.Invoke();
                 break;
             case Stage_State.Clear:
-                Debug.Log("Clear");
-                Base_Manager.instance.Destroy_AttackHelper();
+                Debug.Log("Clear");                
                 Base_Manager.Data.Player_Stage++;
 
                 M_ClearEvent?.Invoke();

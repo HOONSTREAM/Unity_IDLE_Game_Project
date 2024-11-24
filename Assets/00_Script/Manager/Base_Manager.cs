@@ -62,6 +62,10 @@ public class Base_Manager : MonoBehaviour
     IEnumerator Return_Pool_Coroutine(float timer, GameObject obj, string path)
     {
         yield return new WaitForSeconds(timer);
+        if(Pool.m_pool_Dictionary.Count == 0)
+        {
+            yield break;
+        }
         Pool.m_pool_Dictionary[path].Return(obj);
     }
 
@@ -77,9 +81,5 @@ public class Base_Manager : MonoBehaviour
         StartCoroutine(Action_Coroutine(action, timer));
     }
 
-    public void Destroy_AttackHelper()
-    {
-        
-    }
 
 }

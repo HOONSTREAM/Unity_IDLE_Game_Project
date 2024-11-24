@@ -126,5 +126,28 @@ public class Pool_Manager
 
         m_pool_Dictionary[path].Return(go);
     }
-    
+
+    public void Clear_Pool()
+    {
+        foreach (var poolEntry in m_pool_Dictionary)
+        {
+            
+            var pool = poolEntry.Value;
+
+            while (pool.pool.Count > 0)
+            {
+                var obj = pool.pool.Dequeue();
+                UnityEngine.Object.Destroy(obj);
+            }
+
+            if (pool.parentTransform != null)
+            {
+                UnityEngine.Object.Destroy(pool.parentTransform.gameObject);
+            }
+        }
+
+        m_pool_Dictionary.Clear();
+        Debug.Log("All pools cleared and reset.");
+    }
+
 }
