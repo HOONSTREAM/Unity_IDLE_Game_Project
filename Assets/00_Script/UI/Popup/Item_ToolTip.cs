@@ -24,7 +24,7 @@ public class Item_ToolTip : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonUp(0))
         {
             Base_Canvas.instance.item_tooltip = null;
             Destroy(this.gameObject);
@@ -40,7 +40,7 @@ public class Item_ToolTip : MonoBehaviour
         Rect.anchoredPosition = pos;
         Item_Image.sprite = Utils.Get_Atlas(item.name);
         Item_Name_Text.text = item.Item_Name;
-        Rarity_Text.text = Utils.String_Color_Rarity(item.rarity) + item.rarity.ToString() + "µî±Þ</color>";
+        Rarity_Text.text = Utils.String_Color_Rarity(item.rarity) + item.rarity.ToString();
         Description_Text.text = item.Item_Description;
     }
 
