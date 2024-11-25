@@ -24,6 +24,9 @@ public class Hit_Text : MonoBehaviour
 
     public void Init(Vector3 pos, double dmg, Color color, bool isMonster = false, bool Critical = false)
     {
+
+        Saving_Mode.onSaving += OnSave;
+
         pos.x += Random.Range(-0.1f, 0.1f);
         pos.z += Random.Range(-0.1f ,0.1f);
 
@@ -48,8 +51,20 @@ public class Hit_Text : MonoBehaviour
         Base_Manager.instance.Return_Pool(2.0f, this.gameObject, "HIT_TEXT");
     }
 
+    private void OnDisable()
+    {
+        Saving_Mode.onSaving -= OnSave;
+    }
+    public void OnSave()
+    {
+        ReturnText();
+    }
+
     private void Update()
     {
+
+        if (Base_Canvas.isSavingMode) { return;}
+
         Vector3 targetpos = new Vector3(Target.x, Target.y + UpRange, Target.z);
         transform.position = cam.WorldToScreenPoint(targetpos);
 

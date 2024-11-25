@@ -22,21 +22,46 @@ public class Coin_Parent : MonoBehaviour
         {
             childs[i] = transform.GetChild(i).GetComponent<RectTransform>();
         }
+
+       
+    }
+
+    private void OnSave()
+    {
+        Base_Manager.Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
+
+        if (Distance_Boolean_World(0.5f))
+        {
+            Base_Manager.Pool.m_pool_Dictionary["COIN_PARENT"].Return(this.gameObject);
+        }
+
+    }
+
+    private void OnDisable()
+    {
+        Saving_Mode.onSaving -= OnSave;
     }
 
     public void Init(Vector3 pos)
     {
+        Saving_Mode.onSaving += OnSave;
+
+        if (Base_Canvas.isSavingMode)
+        {
+            return;
+        }
+
+
         target = pos;
         transform.position = cam.WorldToScreenPoint(pos);
         for(int i = 0; i<childs.Length;i++)
         {
             childs[i].anchoredPosition = Vector2.zero;
         }
-
+        Base_Manager.Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
         transform.parent = Base_Canvas.instance.Holder_Layer(0);
 
-        Base_Manager.Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
-
+        
         StartCoroutine(Coin_Effect());
     }
 

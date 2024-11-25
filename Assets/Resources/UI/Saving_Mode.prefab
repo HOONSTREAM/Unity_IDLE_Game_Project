@@ -874,6 +874,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3962085101850511003}
+  - component: {fileID: 6307264240941605059}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -898,9 +899,33 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 300}
+  m_AnchoredPosition: {x: -0.00035178894, y: 0.00047278404}
+  m_SizeDelta: {x: 0, y: 576.43}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &6307264240941605059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4539989847242888947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 70
+    m_Right: 50
+    m_Top: 50
+    m_Bottom: 50
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 180, y: 180}
+  m_Spacing: {x: 15, y: 15}
+  m_Constraint: 1
+  m_ConstraintCount: 6
 --- !u!1 &4952882848508517537
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,3 +1557,4 @@ MonoBehaviour:
   Battery_Fill_Image: {fileID: 984161988202738729}
   Content: {fileID: 3962085101850511003}
   item_parts: {fileID: 6610513991675261178, guid: b7b646e6ce0e1a64da08d8f11194fa85, type: 3}
+  Off_Saving_Image: {fileID: 6613023839420529328}

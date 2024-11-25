@@ -18,7 +18,7 @@ public class Base_Canvas : MonoBehaviour
     private Button Saving_Mode_Button;
 
     public Item_ToolTip item_tooltip = null;
-
+    public UI_Base UI;
     public static bool isSavingMode = false;
 
     private void Awake()
@@ -83,9 +83,14 @@ public class Base_Canvas : MonoBehaviour
 
     private void GetPopupUI(string temp)
     {
-        var gameObject = Instantiate(Resources.Load<UI_Base>("UI/" + temp), transform);
+        if(UI != null)
+        {
+            UI = null;
+        }
 
-        Utils.UI_Holder.Push(gameObject);
+        var go = Instantiate(Resources.Load<UI_Base>("UI/" + temp), transform);
+        UI = go;
+        Utils.UI_Holder.Push(go);
 
     }
 

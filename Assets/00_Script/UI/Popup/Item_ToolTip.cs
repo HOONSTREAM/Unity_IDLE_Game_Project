@@ -24,7 +24,7 @@ public class Item_ToolTip : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButton(0))
         {
             Base_Canvas.instance.item_tooltip = null;
             Destroy(this.gameObject);

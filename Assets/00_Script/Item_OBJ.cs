@@ -59,6 +59,11 @@ public class Item_OBJ : MonoBehaviour
         Main_UI.Instance.Show_Get_Item_Popup(item);
         Base_Manager.Inventory.Get_Item(item);
 
+        if (Base_Canvas.isSavingMode)
+        {
+            Base_Canvas.instance.UI.GetComponent<Saving_Mode>().Get_Item_Saving_Mode(item);
+        }
+
        
         yield return new WaitForSeconds(0.5f);
 
@@ -67,21 +72,45 @@ public class Item_OBJ : MonoBehaviour
 
     private void Update()
     {
-        if(isCheck == false) { return; }
+        if (Base_Canvas.isSavingMode) { return; }
+        if (isCheck == false) { return; }
 
         ItemTextRect.position = Camera.main.WorldToScreenPoint(transform.position);
     }
+
+    private void OnSave()
+    {
+        Main_UI.Instance.Show_Get_Item_Popup(item);
+        Base_Manager.Inventory.Get_Item(item);
+        ItemTextRect.gameObject.SetActive(false);
+
+        if (Base_Canvas.isSavingMode)
+        {
+            Base_Canvas.instance.UI.GetComponent<Saving_Mode>().Get_Item_Saving_Mode(item);
+        }
+        Base_Manager.Pool.m_pool_Dictionary["Item_OBJ"].Return(this.gameObject);
+    }
+
     public void Init(Vector3 pos, Item_Scriptable data)
     {
 
         item = data;
         rarity = item.rarity;
+
+        Saving_Mode.onSaving += OnSave;
+
+
         isCheck = false;
 
         transform.position = pos;
 
         Vector3 Target_Pos = new Vector3(pos.x + (Random.insideUnitSphere.x * 2.0f), 0.5f , pos.z + (Random.insideUnitSphere.z * 2.0f));
         StartCoroutine(SimulateProjectile(Target_Pos));
+    }
+
+    public void OnDisable()
+    {
+        Saving_Mode.onSaving -= OnSave;
     }
 
     IEnumerator SimulateProjectile(Vector3 pos)
