@@ -80,6 +80,10 @@ public class Main_UI : MonoBehaviour
     public Image Main_Character_Skill_CoolTime;
     private Dictionary<Player, UI_Main_Hero_Parts> Main_Parts_Dict = new Dictionary<Player, UI_Main_Hero_Parts>();
 
+    [Space(20f)]
+    [Header("Fast_Mode")]
+    public Image Fast_Mode_Lock_Image;
+
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
     private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
@@ -88,7 +92,6 @@ public class Main_UI : MonoBehaviour
     private Coroutine Legendary_Coroutine;
 
     
-
     private void Awake()
     {
         if(Instance == null)
@@ -101,6 +104,12 @@ public class Main_UI : MonoBehaviour
         Level_Text_Check();
         Monster_Slider_Count();
 
+        Base_Manager.is_Fast_Mode = PlayerPrefs.GetInt("FAST") == 1 ? true : false;
+        Time.timeScale = Base_Manager.is_Fast_Mode ? 1.6f : 1.0f;
+
+        Fast_Mode_Lock_Image.gameObject.SetActive(Base_Manager.is_Fast_Mode);
+
+
         for(int i = 0 ; i<ItemContent.childCount; i++)
         {
             Bottom_Popup_Text.Add(ItemContent.GetChild(i).GetComponent<TextMeshProUGUI>());
@@ -111,6 +120,19 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
+    }
+
+
+    public void Get_Fast_Mode()
+    {
+        bool fast = !(Base_Manager.is_Fast_Mode);
+        Base_Manager.is_Fast_Mode = fast;
+
+        PlayerPrefs.SetInt("FAST", fast == true ? 1 : 0);
+
+        Fast_Mode_Lock_Image.gameObject.SetActive(!fast);
+
+        Time.timeScale = fast ? 1.6f : 1.0f; 
     }
 
     /// <summary>
@@ -447,15 +469,15 @@ public class Main_UI : MonoBehaviour
     }
     IEnumerator Legendary_Popup_Coroutine()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSecondsRealtime(2.0f);
         isPopup = false;
         Popup_animator.SetTrigger("Close");
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSecondsRealtime(2.0f);
         Popup_animator.gameObject.SetActive(false);
     }
     IEnumerator Item_Bottom_Popup_FadeOut_Coroutine(RectTransform rect)
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSecondsRealtime(2.0f);
         rect.gameObject.SetActive(false);
         rect.anchoredPosition = new Vector2(0.0f, 792.0f);
     }

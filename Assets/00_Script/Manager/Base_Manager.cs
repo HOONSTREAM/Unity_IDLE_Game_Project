@@ -25,6 +25,8 @@ public class Base_Manager : MonoBehaviour
     public static Character_Manager Character { get { return _character; } }
     public static Inventory_Manager Inventory { get { return _inventory; } }
 
+    public static bool is_Fast_Mode = false;
+
     private void Awake()
     {
         Init();
