@@ -33,8 +33,7 @@ public class Spawner : MonoBehaviour
     public void OnBoss()
     {
         if(coroutine != null)
-        {
-            //StopCoroutine(coroutine);
+        {            
             StopAllCoroutines();
         }
 

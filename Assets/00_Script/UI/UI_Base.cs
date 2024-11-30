@@ -5,6 +5,7 @@ using UnityEngine;
 public class UI_Base : MonoBehaviour
 {
     protected bool _init = false;
+
     public virtual bool Init()
     {
         if (_init)

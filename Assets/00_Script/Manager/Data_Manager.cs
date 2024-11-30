@@ -19,6 +19,8 @@ public class Data_Manager
     public int Player_Level;
     public double EXP;
     public int Player_Stage = default;
+    public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
+    public int Buff_Level, Buff_Level_Count;
 
     /// <summary>
     /// 플레이어가 현재 소유중인 영웅들을 관리합니다.

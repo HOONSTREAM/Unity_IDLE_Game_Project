@@ -16,8 +16,12 @@ public class Base_Canvas : MonoBehaviour
     private Button Inventory_Button;
     [SerializeField]
     private Button Saving_Mode_Button;
+    [SerializeField]
+    private Button ADS_Buff_Button;
 
+    [HideInInspector]
     public Item_ToolTip item_tooltip = null;
+    [HideInInspector]
     public UI_Base UI;
     public static bool isSavingMode = false;
 
@@ -43,6 +47,7 @@ public class Base_Canvas : MonoBehaviour
             Get_UI("Saving_Mode");
             isSavingMode = true;
         });
+        ADS_Buff_Button.onClick.AddListener(() => { Get_UI("ADS_Buff"); });
     }
 
 

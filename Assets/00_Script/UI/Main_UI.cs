@@ -81,9 +81,13 @@ public class Main_UI : MonoBehaviour
     private Dictionary<Player, UI_Main_Hero_Parts> Main_Parts_Dict = new Dictionary<Player, UI_Main_Hero_Parts>();
 
     [Space(20f)]
-    [Header("Fast_Mode")]
-    public Image Fast_Mode_Lock_Image;
-    public Animator Fast_Mode_Anim;
+    [Header("ADS_BUFF")]
+    [SerializeField]
+    private Image Fast_Mode_Lock_Image;
+    [SerializeField]
+    private Animator Fast_Mode_Anim;
+    [SerializeField]
+    private GameObject[] Buff_Lock;
 
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
@@ -104,7 +108,7 @@ public class Main_UI : MonoBehaviour
     {
         Level_Text_Check();
         Monster_Slider_Count();
-
+        ADS_Buff_Check();
         Base_Manager.is_Fast_Mode = PlayerPrefs.GetInt("FAST") == 1 ? true : false;
         Time.timeScale = Base_Manager.is_Fast_Mode ? 1.6f : 1.0f;
 
@@ -123,6 +127,22 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_DeadEvent += OnDead;
     }
 
+
+    public void ADS_Buff_Check()
+    {
+        for(int i = 0; i<Base_Manager.Data.Buff_Timers.Length; i++)
+        {
+            if (Base_Manager.Data.Buff_Timers[i] > 0.0f)
+            {
+                Buff_Lock[i].gameObject.SetActive(false);
+            }
+
+            else
+            {
+                Buff_Lock[i].gameObject.SetActive(true);
+            }
+        }
+    }
 
     public void Get_Fast_Mode()
     {
