@@ -64,10 +64,12 @@ public class Base_Manager : MonoBehaviour
     IEnumerator Return_Pool_Coroutine(float timer, GameObject obj, string path)
     {
         yield return new WaitForSeconds(timer);
-        if(Pool.m_pool_Dictionary.Count == 0)
+
+        if (Pool.m_pool_Dictionary.Count == 0 || !Pool.m_pool_Dictionary.ContainsKey(path))
         {
             yield break;
         }
+
         Pool.m_pool_Dictionary[path].Return(obj);
     }
 
@@ -81,6 +83,11 @@ public class Base_Manager : MonoBehaviour
     public void Coroutine_Action(float timer, Action action)
     {
         StartCoroutine(Action_Coroutine(action, timer));
+    }
+
+    public void StopAllPoolCoroutines()
+    {
+        StopAllCoroutines(); // 현재 실행 중인 모든 코루틴 중지
     }
 
 

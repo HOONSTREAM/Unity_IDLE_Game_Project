@@ -88,6 +88,12 @@ public class Bullet : MonoBehaviour
     IEnumerator ReturnObject(float timer)
     {
         yield return new WaitForSeconds(timer);
+
+        if (!Base_Manager.Pool.m_pool_Dictionary.ContainsKey("Attack_Helper"))
+        {           
+            yield break;
+        }
+
         Base_Manager.Pool.m_pool_Dictionary["Attack_Helper"].Return(this.gameObject);
     }
 }

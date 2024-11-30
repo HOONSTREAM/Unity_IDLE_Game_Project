@@ -55,7 +55,9 @@ public class Stage_Manager
                 M_BossPlayEvent?.Invoke();
                 break;
             case Stage_State.Clear:
-                Debug.Log("Clear");                
+                Debug.Log("Clear");
+                Base_Manager.instance.StopAllPoolCoroutines();
+                Base_Manager.Pool.Clear_Pool();
                 Base_Manager.Data.Player_Stage++;
 
                 M_ClearEvent?.Invoke();
