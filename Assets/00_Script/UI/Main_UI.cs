@@ -83,6 +83,7 @@ public class Main_UI : MonoBehaviour
     [Space(20f)]
     [Header("Fast_Mode")]
     public Image Fast_Mode_Lock_Image;
+    public Animator Fast_Mode_Anim;
 
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
@@ -107,7 +108,7 @@ public class Main_UI : MonoBehaviour
         Base_Manager.is_Fast_Mode = PlayerPrefs.GetInt("FAST") == 1 ? true : false;
         Time.timeScale = Base_Manager.is_Fast_Mode ? 1.6f : 1.0f;
 
-        Fast_Mode_Lock_Image.gameObject.SetActive(Base_Manager.is_Fast_Mode);
+        Fast_Mode_Lock_Image.gameObject.SetActive(!Base_Manager.is_Fast_Mode);
 
 
         for(int i = 0 ; i<ItemContent.childCount; i++)
@@ -131,6 +132,7 @@ public class Main_UI : MonoBehaviour
         PlayerPrefs.SetInt("FAST", fast == true ? 1 : 0);
 
         Fast_Mode_Lock_Image.gameObject.SetActive(!fast);
+        
 
         Time.timeScale = fast ? 1.6f : 1.0f; 
     }

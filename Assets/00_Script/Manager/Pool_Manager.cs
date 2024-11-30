@@ -146,8 +146,8 @@ public class Pool_Manager
             }
         }
 
+        Base_Canvas.instance.All_Layer_Destroy();
         m_pool_Dictionary.Clear();
-        Debug.Log("All pools cleared and reset.");
     }
 
 }

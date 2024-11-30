@@ -26268,6 +26268,7 @@ MonoBehaviour:
   - {fileID: 911090393}
   Main_Character_Skill_CoolTime: {fileID: 1108975265}
   Fast_Mode_Lock_Image: {fileID: 1193976334}
+  Fast_Mode_Anim: {fileID: 1764950911}
 --- !u!1 &1307941792
 GameObject:
   m_ObjectHideFlags: 0
@@ -32064,6 +32065,7 @@ GameObject:
   - component: {fileID: 1764950909}
   - component: {fileID: 1764950908}
   - component: {fileID: 1764950910}
+  - component: {fileID: 1764950911}
   m_Layer: 5
   m_Name: X2_SPEED
   m_TagString: Untagged
@@ -32189,6 +32191,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &1764950911
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764950906}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dbe97d758d444ea439af798e19ecd989, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1767166919
 GameObject:
   m_ObjectHideFlags: 0

@@ -68,6 +68,26 @@ public class Base_Canvas : MonoBehaviour
         return LAYER.GetChild(value);
     }
 
+    public void All_Layer_Destroy()
+    {
+        for (int i = 0; i < GameObject.Find("Layer1").gameObject.transform.childCount; i++)
+        {
+            Destroy(GameObject.Find("Layer1").gameObject.transform.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < GameObject.Find("Layer2").gameObject.transform.childCount; i++)
+        {
+            Destroy(GameObject.Find("Layer2").gameObject.transform.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < GameObject.Find("Layer3").gameObject.transform.childCount; i++)
+        {
+            Destroy(GameObject.Find("Layer3").gameObject.transform.GetChild(i).gameObject);
+        }
+
+        return;
+    }
+
     public void Get_UI(string temp, bool Fade = false)
     {
         if (Fade)

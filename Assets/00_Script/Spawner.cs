@@ -34,8 +34,10 @@ public class Spawner : MonoBehaviour
     {
         if(coroutine != null)
         {
-            StopCoroutine(coroutine);
+            //StopCoroutine(coroutine);
+            StopAllCoroutines();
         }
+
         for(int i = 0; i<m_monsters.Count; i++)
         {
             if (m_monsters[i].isDead != true)
@@ -46,6 +48,7 @@ public class Spawner : MonoBehaviour
             
         }
         m_monsters.Clear();
+        
 
         StartCoroutine(BossSetCoroutine());
       
@@ -81,6 +84,7 @@ public class Spawner : MonoBehaviour
     //Random.insideUnitCircle = Vector3(x,y)
     IEnumerator SpawnCoroutine()
     {
+        
         Vector3 pos;
 
         int Monster_Spawn_Value = M_Count - m_monsters.Count;
