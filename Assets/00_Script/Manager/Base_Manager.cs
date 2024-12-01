@@ -15,6 +15,7 @@ public class Base_Manager : MonoBehaviour
     private static Item_Manager _item = new Item_Manager();
     private static Character_Manager _character = new Character_Manager();
     private static Inventory_Manager _inventory = new Inventory_Manager();
+    private static ADS_Manager _ads = new ADS_Manager();
     
  
     public static Pool_Manager Pool { get { return _pool; } }
@@ -24,6 +25,7 @@ public class Base_Manager : MonoBehaviour
     public static Item_Manager Item { get { return _item; } }
     public static Character_Manager Character { get { return _character; } }
     public static Inventory_Manager Inventory { get { return _inventory; } }
+    public static ADS_Manager ADS { get { return _ads; } }
 
     public static bool is_Fast_Mode = false;
 
@@ -50,6 +52,8 @@ public class Base_Manager : MonoBehaviour
         {
             instance = this;
             Pool.Initialize(transform);
+            ADS.Init();
+            StartCoroutine(ADCoroutine());
             Item.Init();
             Data.Init();
             StartCoroutine(Action_Coroutine(()=>Base_Manager.Stage.State_Change(Stage_State.Ready), 0.3f));
@@ -90,6 +94,14 @@ public class Base_Manager : MonoBehaviour
 
         action?.Invoke();
     }
+    
+    IEnumerator ADCoroutine()
+    {
+        yield return new WaitForSeconds(3.0f);
+        ADS.ShowRewardedAds(GetReward);
+    }
+
+    private void GetReward() => Debug.Log("보상형 광고 시청 완료 후  아이템 획득 완료.");
 
     public void Coroutine_Action(float timer, Action action)
     {
@@ -100,6 +112,8 @@ public class Base_Manager : MonoBehaviour
     {
         StopAllCoroutines(); // 현재 실행 중인 모든 코루틴 중지
     }
+
+    
 
 
 }
