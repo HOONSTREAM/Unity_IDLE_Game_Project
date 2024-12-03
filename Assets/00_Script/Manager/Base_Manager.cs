@@ -44,6 +44,11 @@ public class Base_Manager : MonoBehaviour
                 Data.Buff_Timers[i] -= Time.unscaledDeltaTime;
             }           
         }
+
+        if(Data.buff_x2_speed > 0.0f)
+        {
+            Data.buff_x2_speed -= Time.unscaledDeltaTime;
+        }
     }
     private void Init()
     {
@@ -52,8 +57,7 @@ public class Base_Manager : MonoBehaviour
         {
             instance = this;
             Pool.Initialize(transform);
-            ADS.Init();
-            StartCoroutine(ADCoroutine());
+            ADS.Init();           
             Item.Init();
             Data.Init();
             StartCoroutine(Action_Coroutine(()=>Base_Manager.Stage.State_Change(Stage_State.Ready), 0.3f));
@@ -95,14 +99,6 @@ public class Base_Manager : MonoBehaviour
         action?.Invoke();
     }
     
-    IEnumerator ADCoroutine()
-    {
-        yield return new WaitForSeconds(3.0f);
-        ADS.ShowRewardedAds(GetReward);
-    }
-
-    private void GetReward() => Debug.Log("보상형 광고 시청 완료 후  아이템 획득 완료.");
-
     public void Coroutine_Action(float timer, Action action)
     {
         StartCoroutine(Action_Coroutine(action, timer));

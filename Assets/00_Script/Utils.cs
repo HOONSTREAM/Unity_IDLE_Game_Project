@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,14 @@ public class Utils
     public static Sprite Get_Atlas(string temp)
     {
         return atlas.GetSprite(temp);
+    }
+
+    public static string GetTimer(float Time)
+    {
+        TimeSpan timespan = TimeSpan.FromSeconds(Time);
+        string timer = string.Format("{0:00}:{1:00}", timespan.Minutes, timespan.Seconds);
+
+        return timer;
     }
     public static string String_Color_Rarity(Rarity rarity)
     {

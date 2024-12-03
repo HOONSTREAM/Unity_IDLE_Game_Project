@@ -95,11 +95,11 @@ public class ADS_Manager
                 Debug.Log(String.Format(reward.Type + " : ", reward.Amount));
 
                 //// TODO : 해당코드는 악용유저 발생 시 제거, 광고를 전부 보지않아도 보상이 지급됨.
-                //if(_rewardedCallback != null)
-                //{
-                //    _rewardedCallback?.Invoke();
-                //    _rewardedCallback = null;
-                //}
+                if (_rewardedCallback != null)
+                {
+                    _rewardedCallback?.Invoke();
+                    _rewardedCallback = null;
+                }
             });
         }
 

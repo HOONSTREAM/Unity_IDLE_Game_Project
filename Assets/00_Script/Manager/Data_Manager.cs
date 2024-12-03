@@ -20,6 +20,7 @@ public class Data_Manager
     public double EXP;
     public int Player_Stage = default;
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
+    public float buff_x2_speed = 0.0f;
     public int Buff_Level, Buff_Level_Count;
 
     /// <summary>

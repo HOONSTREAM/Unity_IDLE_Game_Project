@@ -34,9 +34,8 @@ public class UI_ADS_Buff : UI_Base
             if (Base_Manager.Data.Buff_Timers[i] >= 0.0f)
             {               
                 Buttons_Fill[i].fillAmount = 1 - (Base_Manager.Data.Buff_Timers[i] / 1800.0f);
-                TimeSpan timespan = TimeSpan.FromSeconds(Base_Manager.Data.Buff_Timers[i]);
-                string timer = string.Format("{0:00}:{1:00}", timespan.Minutes, timespan.Seconds);
-                Timer_Text[i].text = timer;
+
+                Timer_Text[i].text = Utils.GetTimer(Base_Manager.Data.Buff_Timers[i]);
             }
 
         }
@@ -68,15 +67,19 @@ public class UI_ADS_Buff : UI_Base
 
     public void Get_ADS_Buff(ADS_Buff_State state)
     {
-        bool Get_Buff = true;
-        int state_Value = (int)state;
+        Base_Manager.ADS.ShowRewardedAds(() =>
+        {
+            bool Get_Buff = true;
+            int state_Value = (int)state;
 
-        Base_Manager.Data.Buff_Level_Count++;
+            Base_Manager.Data.Buff_Level_Count++;
 
-        Base_Manager.Data.Buff_Timers[state_Value] = 1800.0f;
-        Set_Buff(state_Value, Get_Buff);
+            Base_Manager.Data.Buff_Timers[state_Value] = 1800.0f;
+            Set_Buff(state_Value, Get_Buff);
 
-        Main_UI.Instance.ADS_Buff_Check();
+            Main_UI.Instance.ADS_Buff_Check();
+        });
+        
     }
 
     private void Set_Buff(int Value, bool Get_bool)

@@ -11,6 +11,7 @@ public class Main_UI : MonoBehaviour
 {
     public static Main_UI Instance = null;
 
+    #region Parameter
     [Space(20f)]
     [Header("Default")]   
     [SerializeField]
@@ -88,7 +89,10 @@ public class Main_UI : MonoBehaviour
     private Animator Fast_Mode_Anim;
     [SerializeField]
     private GameObject[] Buff_Lock;
-
+    [SerializeField]
+    private Image X2_Speed_Fill;
+    [SerializeField]
+    private TextMeshProUGUI X2_Time_Text;
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
     private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
@@ -96,7 +100,8 @@ public class Main_UI : MonoBehaviour
     private bool isPopup = false;
     private Coroutine Legendary_Coroutine;
 
-    
+    #endregion
+
     private void Awake()
     {
         if(Instance == null)
@@ -127,6 +132,15 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_DeadEvent += OnDead;
     }
 
+    private void Update()
+    {
+        if(Base_Manager.Data.buff_x2_speed > 0.0f)
+        {
+            X2_Speed_Fill.fillAmount = Base_Manager.Data.buff_x2_speed / 1800.0f;
+            X2_Time_Text.text = Utils.GetTimer(Base_Manager.Data.buff_x2_speed);
+        }
+    }
+
 
     public void ADS_Buff_Check()
     {
@@ -142,19 +156,43 @@ public class Main_UI : MonoBehaviour
                 Buff_Lock[i].gameObject.SetActive(true);
             }
         }
+
+        if(Base_Manager.Data.buff_x2_speed > 0.0f)
+        {
+            X2_Speed_Fill.transform.parent.gameObject.SetActive(true);
+        }
+        else
+        {
+            X2_Speed_Fill.transform.parent.gameObject.SetActive(false);
+        }
     }
-
     public void Get_Fast_Mode()
-    {
+    {        
         bool fast = !(Base_Manager.is_Fast_Mode);
-        Base_Manager.is_Fast_Mode = fast;
 
+        if(fast == true)
+        {
+            if (Base_Manager.Data.buff_x2_speed <= 0.0f)
+            {
+                Base_Manager.ADS.ShowRewardedAds(() =>
+                {
+                    Base_Manager.Data.buff_x2_speed = 1800.0f;
+                    ADS_Buff_Check();
+                    Fast_Mode_Lock_Image.gameObject.SetActive(!fast);
+                    Time.timeScale = fast ? 1.6f : 1.0f;
+                });
+            }
+        }
+
+
+        Base_Manager.is_Fast_Mode = fast;
         PlayerPrefs.SetInt("FAST", fast == true ? 1 : 0);
 
+        ADS_Buff_Check();
         Fast_Mode_Lock_Image.gameObject.SetActive(!fast);
-        
-
-        Time.timeScale = fast ? 1.6f : 1.0f; 
+        Time.timeScale = fast ? 1.6f : 1.0f;
+       
+  
     }
 
     /// <summary>
@@ -346,7 +384,6 @@ public class Main_UI : MonoBehaviour
     {
         Main_Parts_Dict[player].State_Check(player);
     }
-
     private void OnBoss()
     {
         Level_Text_Check();
