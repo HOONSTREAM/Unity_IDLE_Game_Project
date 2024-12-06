@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class FireBase_Manager : MonoBehaviour
+public partial class FireBase_Manager
 {
     public void GuestLogin()
     {
@@ -11,6 +11,7 @@ public partial class FireBase_Manager : MonoBehaviour
         if(auth.CurrentUser != null)
         {
             Debug.Log("기기에 로그인 된 상태입니다. 유저 ID : " + auth.CurrentUser.UserId);
+            ReadData();
             return;
         }
 
@@ -26,6 +27,7 @@ public partial class FireBase_Manager : MonoBehaviour
 
             FirebaseUser user = task.Result.User;
             Debug.Log("게스트 로그인에 성공하였습니다. 사용자 ID : " + user.UserId);
+            ReadData();
 
 
         });

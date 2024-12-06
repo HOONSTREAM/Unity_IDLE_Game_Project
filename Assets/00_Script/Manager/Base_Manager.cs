@@ -31,6 +31,7 @@ public class Base_Manager : MonoBehaviour
 
     public static bool is_Fast_Mode = false;
 
+    private float Save_Timer = 0.0f;
     private void Awake()
     {
         Init();
@@ -39,6 +40,14 @@ public class Base_Manager : MonoBehaviour
 
     private void Update()
     {
+        Save_Timer += Time.unscaledDeltaTime;
+
+        if (Save_Timer >= 10.0f)
+        {
+            Save_Timer = 0.0f;
+            FireBase.WriteData();
+        }
+
         for (int i = 0; i < Data.Buff_Timers.Length; i++)
         {
             if (Data.Buff_Timers[i] >= 0.0f)
@@ -51,6 +60,9 @@ public class Base_Manager : MonoBehaviour
         {
             Data.buff_x2_speed -= Time.unscaledDeltaTime;
         }
+
+       
+
     }
     private void Init()
     {
@@ -63,6 +75,7 @@ public class Base_Manager : MonoBehaviour
             Item.Init();
             Data.Init();
             FireBase.Init();
+            
             StartCoroutine(Action_Coroutine(()=>Base_Manager.Stage.State_Change(Stage_State.Ready), 0.3f));
             DontDestroyOnLoad(this.gameObject);
         }
@@ -112,7 +125,14 @@ public class Base_Manager : MonoBehaviour
         StopAllCoroutines(); // 현재 실행 중인 모든 코루틴 중지
     }
 
-    
+    /// <summary>
+    /// 유니티가 종료(게임종료) 혹은 해당 스크립트가 파괴되었을 때 호출됩니다.
+    /// </summary>
+    private void OnDestroy()
+    {
+        FireBase.WriteData();
+    }
+
 
 
 }

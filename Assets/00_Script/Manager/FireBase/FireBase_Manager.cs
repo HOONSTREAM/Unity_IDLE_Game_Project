@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using UnityEngine;
 
 public partial class FireBase_Manager
 {
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
+    private DatabaseReference DB_reference;
     public void Init()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -16,6 +18,8 @@ public partial class FireBase_Manager
             {
                 auth = FirebaseAuth.DefaultInstance;
                 currentUser = auth.CurrentUser;
+                DB_reference = FirebaseDatabase.DefaultInstance.RootReference;
+
                 GuestLogin();
                 Debug.Log("Firebase 초기화에 성공하였습니다.");
             }
@@ -25,6 +29,9 @@ public partial class FireBase_Manager
             }
 
         });
+
+
+        
 
     }
   
