@@ -16,6 +16,7 @@ public class Base_Manager : MonoBehaviour
     private static Character_Manager _character = new Character_Manager();
     private static Inventory_Manager _inventory = new Inventory_Manager();
     private static ADS_Manager _ads = new ADS_Manager();
+    private static FireBase_Manager _firebase = new FireBase_Manager();
     
  
     public static Pool_Manager Pool { get { return _pool; } }
@@ -26,6 +27,7 @@ public class Base_Manager : MonoBehaviour
     public static Character_Manager Character { get { return _character; } }
     public static Inventory_Manager Inventory { get { return _inventory; } }
     public static ADS_Manager ADS { get { return _ads; } }
+    public static FireBase_Manager FireBase { get { return _firebase; } }
 
     public static bool is_Fast_Mode = false;
 
@@ -60,6 +62,7 @@ public class Base_Manager : MonoBehaviour
             ADS.Init();           
             Item.Init();
             Data.Init();
+            FireBase.Init();
             StartCoroutine(Action_Coroutine(()=>Base_Manager.Stage.State_Change(Stage_State.Ready), 0.3f));
             DontDestroyOnLoad(this.gameObject);
         }
