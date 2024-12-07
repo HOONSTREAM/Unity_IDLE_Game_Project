@@ -48,17 +48,17 @@ public class Base_Manager : MonoBehaviour
             FireBase.WriteData();
         }
 
-        for (int i = 0; i < Data.Buff_Timers.Length; i++)
+        for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
         {
-            if (Data.Buff_Timers[i] >= 0.0f)
+            if (Data_Manager.Main_Players_Data.Buff_Timers[i] >= 0.0f)
             {
-                Data.Buff_Timers[i] -= Time.unscaledDeltaTime;
+                Data_Manager.Main_Players_Data.Buff_Timers[i] -= Time.unscaledDeltaTime;
             }           
         }
 
-        if(Data.buff_x2_speed > 0.0f)
+        if(Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
-            Data.buff_x2_speed -= Time.unscaledDeltaTime;
+            Data_Manager.Main_Players_Data.buff_x2_speed -= Time.unscaledDeltaTime;
         }
 
        
@@ -75,8 +75,7 @@ public class Base_Manager : MonoBehaviour
             Item.Init();
             Data.Init();
             FireBase.Init();
-            
-            StartCoroutine(Action_Coroutine(()=>Base_Manager.Stage.State_Change(Stage_State.Ready), 0.3f));
+     
             DontDestroyOnLoad(this.gameObject);
         }
 

@@ -31,11 +31,11 @@ public class LevelData
     public int Base_MAX_EXP;
     public int Base_LEVELUP_MONEY;
 
-    public double Get_ATK() => Utils.CalculateValue(Base_ATK, Base_Manager.Data.Player_Level, ATK);
-    public double Get_HP() => Utils.CalculateValue(Base_HP, Base_Manager.Data.Player_Level, HP);
-    public double Get_EXP() => Utils.CalculateValue(Base_EXP, Base_Manager.Data.Player_Level, EXP);
-    public double Get_MAXEXP() => Utils.CalculateValue(Base_MAX_EXP, Base_Manager.Data.Player_Level, MAX_EXP);
-    public double Get_LEVELUP_MONEY() => Utils.CalculateValue(Base_LEVELUP_MONEY, Base_Manager.Data.Player_Level, LEVELUP_MONEY);
+    public double Get_ATK() => Utils.CalculateValue(Base_ATK, Data_Manager.Main_Players_Data.Player_Level, ATK);
+    public double Get_HP() => Utils.CalculateValue(Base_HP, Data_Manager.Main_Players_Data.Player_Level, HP);
+    public double Get_EXP() => Utils.CalculateValue(Base_EXP, Data_Manager.Main_Players_Data.Player_Level, EXP);
+    public double Get_MAXEXP() => Utils.CalculateValue(Base_MAX_EXP, Data_Manager.Main_Players_Data.Player_Level, MAX_EXP);
+    public double Get_LEVELUP_MONEY() => Utils.CalculateValue(Base_LEVELUP_MONEY, Data_Manager.Main_Players_Data.Player_Level, LEVELUP_MONEY);
 
 
 }
@@ -54,7 +54,7 @@ public class StageData
     public int Base_MONSTER_HP;
     public int Base_DROP_MONEY;
 
-    public double Get_ATK() => Utils.CalculateValue(Base_MONSTER_ATK, Base_Manager.Data.Player_Stage, MONSTER_ATK);
-    public double Get_HP() => Utils.CalculateValue(Base_MONSTER_HP, Base_Manager.Data.Player_Stage, MONSTER_HP);
-    public double Get_DROP_MONEY() => Utils.CalculateValue(Base_DROP_MONEY, Base_Manager.Data.Player_Stage, DROP_MONEY);
+    public double Get_ATK() => Utils.CalculateValue(Base_MONSTER_ATK, Data_Manager.Main_Players_Data.Player_Stage, MONSTER_ATK);
+    public double Get_HP() => Utils.CalculateValue(Base_MONSTER_HP, Data_Manager.Main_Players_Data.Player_Stage, MONSTER_HP);
+    public double Get_DROP_MONEY() => Utils.CalculateValue(Base_DROP_MONEY, Data_Manager.Main_Players_Data.Player_Stage, DROP_MONEY);
 }

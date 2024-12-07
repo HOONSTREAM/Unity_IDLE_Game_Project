@@ -13,7 +13,7 @@ public class Character_Holder
     public int Hero_Card_Amount;
 }
 
-public class Data_Manager
+public class Data
 {
     public double Player_Money;
     public int Player_Level;
@@ -22,7 +22,12 @@ public class Data_Manager
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
     public float buff_x2_speed = 0.0f;
     public int Buff_Level, Buff_Level_Count;
+}
 
+public class Data_Manager
+{
+
+    public static Data Main_Players_Data;
     /// <summary>
     /// 플레이어가 현재 소유중인 영웅들을 관리합니다.
     /// </summary>

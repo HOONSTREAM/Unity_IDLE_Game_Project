@@ -15,24 +15,20 @@ public partial class FireBase_Manager
     public void WriteData()
     {
 
-        User user = new User();
-        user.userName = currentUser.UserId;
-        user.Stage = Base_Manager.Data.Player_Stage;
+        
 
-        string json = JsonUtility.ToJson(user);
+        //DB_reference.Child("USER").Child(user.userName).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+        //{
+        //    if (task.IsCompleted)
+        //    {
+        //        Debug.Log("데이터 쓰기 성공하였습니다.");
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
+        //    }
 
-        DB_reference.Child("USER").Child(user.userName).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
-            {
-                Debug.Log("데이터 쓰기 성공하였습니다.");
-            }
-            else
-            {
-                Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
-            }
-
-        });
+        //});
     }
 
     public void ReadData()
@@ -45,6 +41,7 @@ public partial class FireBase_Manager
 
                 User user = JsonUtility.FromJson<User>(snapshot.GetRawJsonValue());
                 Debug.Log("사용자 이름 :" + user.userName + ", 현재 스테이지 : " + user.Stage);
+                Loading_Scene.instance.LoadingMain();
             }
 
             else

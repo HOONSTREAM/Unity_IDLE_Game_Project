@@ -83,7 +83,7 @@ public class Utils
     /// <returns></returns>
     public static bool Check_Levelup_Gold(double value)
     {
-        if (Base_Manager.Data.Player_Money >= value) return true;
+        if (Data_Manager.Main_Players_Data.Player_Money >= value) return true;
 
         else return false;
 

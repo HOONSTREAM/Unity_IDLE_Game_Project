@@ -28,7 +28,7 @@ public class Coin_Parent : MonoBehaviour
 
     private void OnSave()
     {
-        Base_Manager.Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
+        Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
 
         if (Distance_Boolean_World(0.5f))
         {
@@ -58,7 +58,7 @@ public class Coin_Parent : MonoBehaviour
         {
             childs[i].anchoredPosition = Vector2.zero;
         }
-        Base_Manager.Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
+        Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
         transform.parent = Base_Canvas.instance.Holder_Layer(0);
 
         

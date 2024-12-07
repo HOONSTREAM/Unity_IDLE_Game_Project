@@ -113,6 +113,7 @@ public class Main_UI : MonoBehaviour
     {
         Level_Text_Check();
         Monster_Slider_Count();
+        
         ADS_Buff_Check();
         Base_Manager.is_Fast_Mode = PlayerPrefs.GetInt("FAST") == 1 ? true : false;
         Time.timeScale = Base_Manager.is_Fast_Mode ? 1.6f : 1.0f;
@@ -130,23 +131,25 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
+
+        Base_Manager.Stage.State_Change(Stage_State.Ready);
     }
 
     private void Update()
     {
-        if(Base_Manager.Data.buff_x2_speed > 0.0f)
+        if(Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
-            X2_Speed_Fill.fillAmount = Base_Manager.Data.buff_x2_speed / 1800.0f;
-            X2_Time_Text.text = Utils.GetTimer(Base_Manager.Data.buff_x2_speed);
+            X2_Speed_Fill.fillAmount = Data_Manager.Main_Players_Data.buff_x2_speed / 1800.0f;
+            X2_Time_Text.text = Utils.GetTimer(Data_Manager.Main_Players_Data.buff_x2_speed);
         }
     }
 
 
     public void ADS_Buff_Check()
     {
-        for(int i = 0; i<Base_Manager.Data.Buff_Timers.Length; i++)
+        for(int i = 0; i<Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
         {
-            if (Base_Manager.Data.Buff_Timers[i] > 0.0f)
+            if (Data_Manager.Main_Players_Data.Buff_Timers[i] > 0.0f)
             {
                 Buff_Lock[i].gameObject.SetActive(false);
             }
@@ -157,7 +160,7 @@ public class Main_UI : MonoBehaviour
             }
         }
 
-        if(Base_Manager.Data.buff_x2_speed > 0.0f)
+        if(Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
             X2_Speed_Fill.transform.parent.gameObject.SetActive(true);
         }
@@ -172,11 +175,11 @@ public class Main_UI : MonoBehaviour
 
         if(fast == true)
         {
-            if (Base_Manager.Data.buff_x2_speed <= 0.0f)
+            if (Data_Manager.Main_Players_Data.buff_x2_speed <= 0.0f)
             {
                 Base_Manager.ADS.ShowRewardedAds(() =>
                 {
-                    Base_Manager.Data.buff_x2_speed = 1800.0f;
+                    Data_Manager.Main_Players_Data.buff_x2_speed = 1800.0f;
                     ADS_Buff_Check();
                     Fast_Mode_Lock_Image.gameObject.SetActive(!fast);
                     Time.timeScale = fast ? 1.6f : 1.0f;
@@ -418,18 +421,18 @@ public class Main_UI : MonoBehaviour
     {
         double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();
 
-        _level_Text.text = "LV." + (Base_Manager.Data.Player_Level + 1).ToString();
+        _level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
         _player_ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
 
         _levelup_money_text.text = StringMethod.ToCurrencyString((Levelup_money_Value));
         _levelup_money_text.color = Utils.Check_Levelup_Gold(Levelup_money_Value) ? Color.green : Color.red;
 
-        _gold_text.text = StringMethod.ToCurrencyString(Base_Manager.Data.Player_Money);
+        _gold_text.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money);
 
         _stage_repeat_text.text = Stage_Manager.isDead ? "반복중 ..." : "진행중 ...";
         _stage_repeat_text.color = Stage_Manager.isDead ? Color.yellow : StageColor;
 
-        int stage_Value = Base_Manager.Data.Player_Stage + 1;
+        int stage_Value = Data_Manager.Main_Players_Data.Player_Stage + 1;
 
         
         _stage_Text.text = stage_Value.ToString() + "층";

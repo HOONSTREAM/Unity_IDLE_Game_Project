@@ -23,8 +23,8 @@ public class Spawner : MonoBehaviour
 
     public void OnReady()
     {
-        M_Count = int.Parse(CSV_Importer.Spawn_Design[Base_Manager.Data.Player_Stage]["Spawn_Count"].ToString());
-        M_SpawnTime = float.Parse(CSV_Importer.Spawn_Design[Base_Manager.Data.Player_Stage]["Spawn_Timer"].ToString());
+        M_Count = int.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Count"].ToString());
+        M_SpawnTime = float.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Timer"].ToString());
     }
     public void OnPlay()
     {
