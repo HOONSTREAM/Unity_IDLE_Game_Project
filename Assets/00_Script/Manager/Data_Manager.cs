@@ -27,7 +27,7 @@ public class Data
 public class Data_Manager
 {
 
-    public static Data Main_Players_Data;
+    public static Data Main_Players_Data = new Data();
     /// <summary>
     /// 플레이어가 현재 소유중인 영웅들을 관리합니다.
     /// </summary>
