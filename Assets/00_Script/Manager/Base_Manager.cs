@@ -30,6 +30,7 @@ public class Base_Manager : MonoBehaviour
     public static FireBase_Manager FireBase { get { return _firebase; } }
 
     public static bool is_Fast_Mode = false;
+    public static bool Get_MainGame_Start = false;
 
     private float Save_Timer = 0.0f;
     private void Awake()
@@ -40,6 +41,11 @@ public class Base_Manager : MonoBehaviour
 
     private void Update()
     {
+        if(Get_MainGame_Start == false)
+        {
+            return;
+        }
+
         Save_Timer += Time.unscaledDeltaTime;
 
         if (Save_Timer >= 10.0f)
@@ -129,7 +135,11 @@ public class Base_Manager : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        FireBase.WriteData();
+        if (Get_MainGame_Start)
+        {
+            FireBase.WriteData();
+        }
+       
     }
 
 

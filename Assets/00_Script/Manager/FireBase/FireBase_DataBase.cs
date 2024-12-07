@@ -3,7 +3,7 @@ using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Newtonsoft.Json;
 
 public class User
 {
@@ -14,33 +14,46 @@ public partial class FireBase_Manager
 {
     public void WriteData()
     {
+        Data data = new Data();
+        if(Data_Manager.Main_Players_Data != null)
+        {
+            data = Data_Manager.Main_Players_Data;
+        }
 
-        
+        string DefalutJson = JsonUtility.ToJson(data);
 
-        //DB_reference.Child("USER").Child(user.userName).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        Debug.Log("데이터 쓰기 성공하였습니다.");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
-        //    }
 
-        //});
+         
+        DB_reference.Child("USER").Child(currentUser.UserId).Child("DATA").SetRawJsonValueAsync(DefalutJson).ContinueWithOnMainThread(task => 
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log("데이터 쓰기 성공하였습니다.");
+            }
+            else
+            {
+                Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
+            }
+
+        });
     }
 
     public void ReadData()
     {
-        DB_reference.Child("USER").Child(currentUser.UserId).GetValueAsync().ContinueWithOnMainThread(task =>
+        DB_reference.Child("USER").Child(currentUser.UserId).Child("DATA").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if(task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
 
-                User user = JsonUtility.FromJson<User>(snapshot.GetRawJsonValue());
-                Debug.Log("사용자 이름 :" + user.userName + ", 현재 스테이지 : " + user.Stage);
+                var Default_Data = JsonUtility.FromJson<Data>(snapshot.GetRawJsonValue());
+                Data data = new Data();
+                if(Default_Data != null)
+                {
+                    data = Default_Data;
+                }
+                Data_Manager.Main_Players_Data = data;
+
                 Loading_Scene.instance.LoadingMain();
             }
 

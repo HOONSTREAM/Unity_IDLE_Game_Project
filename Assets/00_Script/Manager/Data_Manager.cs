@@ -9,6 +9,11 @@ using UnityEngine;
 public class Character_Holder
 {
     public Character_Scriptable Data;
+    public Holder holder;
+}
+
+public class Holder
+{
     public int Hero_Level;
     public int Hero_Card_Amount;
 }
@@ -31,8 +36,8 @@ public class Data_Manager
     /// <summary>
     /// 플레이어가 현재 소유중인 영웅들을 관리합니다.
     /// </summary>
-    public Dictionary<string, Character_Holder> Data_Character_Dictionary = new Dictionary<string, Character_Holder>(); 
-
+    public Dictionary<string, Character_Holder> Data_Character_Dictionary = new Dictionary<string, Character_Holder>();
+    public Dictionary<string, Holder> character_Holder = new Dictionary<string, Holder>();
 
     public void Init()
     {
@@ -47,8 +52,8 @@ public class Data_Manager
             var character = new Character_Holder();
 
             character.Data = data;
-            character.Hero_Level = 0;
-            character.Hero_Card_Amount = 0;
+            Holder s_holder = new Holder();
+            character.holder = s_holder;
 
             Data_Character_Dictionary.Add(data.M_Character_Name, character);
         }
