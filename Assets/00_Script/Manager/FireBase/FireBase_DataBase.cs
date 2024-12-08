@@ -21,6 +21,7 @@ public partial class FireBase_Manager
         }
 
         string DefalutJson = JsonUtility.ToJson(data);
+        string Character_Json = JsonConvert.SerializeObject(Base_Manager.Data.character_Holder);
 
 
          
@@ -28,7 +29,20 @@ public partial class FireBase_Manager
         {
             if (task.IsCompleted)
             {
-                Debug.Log("데이터 쓰기 성공하였습니다.");
+                Debug.Log("Child.DATA 데이터 쓰기 성공하였습니다.");
+            }
+            else
+            {
+                Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
+            }
+
+        });
+
+        DB_reference.Child("USER").Child(currentUser.UserId).Child("CHARACTER").SetRawJsonValueAsync(Character_Json).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log(" Child.character 데이터 쓰기 성공하였습니다.");
             }
             else
             {
@@ -53,7 +67,7 @@ public partial class FireBase_Manager
                     data = Default_Data;
                 }
                 Data_Manager.Main_Players_Data = data;
-
+                Base_Manager.Data.Init();
                 Loading_Scene.instance.LoadingMain();
             }
 

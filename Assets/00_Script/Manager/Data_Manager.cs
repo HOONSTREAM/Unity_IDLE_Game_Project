@@ -53,6 +53,15 @@ public class Data_Manager
 
             character.Data = data;
             Holder s_holder = new Holder();
+            if (character_Holder.ContainsKey(data.M_Character_Name))
+            {
+                s_holder = character_Holder[data.M_Character_Name];
+            }
+            else
+            {
+                character_Holder.Add(data.M_Character_Name, s_holder);
+            }
+            
             character.holder = s_holder;
 
             Data_Character_Dictionary.Add(data.M_Character_Name, character);
