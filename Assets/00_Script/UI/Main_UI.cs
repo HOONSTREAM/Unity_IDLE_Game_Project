@@ -93,6 +93,11 @@ public class Main_UI : MonoBehaviour
     private Image X2_Speed_Fill;
     [SerializeField]
     private TextMeshProUGUI X2_Time_Text;
+    [Space(20f)]
+    [Header("BUTTONS")]
+    [SerializeField]
+    private Transform[] Button_Images;
+
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
     private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
@@ -141,6 +146,44 @@ public class Main_UI : MonoBehaviour
         {
             X2_Speed_Fill.fillAmount = Data_Manager.Main_Players_Data.buff_x2_speed / 1800.0f;
             X2_Time_Text.text = Utils.GetTimer(Data_Manager.Main_Players_Data.buff_x2_speed);
+        }
+    }
+
+    public void Layer_Check(int value)
+    {
+        if(value != -1)
+        {
+            StartCoroutine(Button_Image_Move_Coroutine(value));
+        }
+       
+
+        for (int i = 0; i < Button_Images.Length; i++)
+        {
+            if(value != i && Button_Images[i].localScale.x >= 1.3f)
+            {
+                StartCoroutine(Button_Image_Move_Coroutine(i, true));
+            }
+        }
+    }
+
+    IEnumerator Button_Image_Move_Coroutine(int value, bool ScaleDown = false)
+    {
+        float current = 0.0f;
+        float percent = 0.0f;
+        float start = ScaleDown ? 50.0f : 30.8f;
+        float end = ScaleDown ? 30.8f : 50.0f;
+        float start_scale = ScaleDown ? 1.5f : 1.0f;
+        float end_scale = ScaleDown ? 1.0f : 1.5f;
+
+        while(percent < 1.0f)
+        {
+            current += Time.unscaledDeltaTime;
+            percent = current / 0.2f;
+            float yPos = Mathf.Lerp(start, end, percent);
+            float scalePos = Mathf.Lerp(start_scale, end_scale, percent);
+            Button_Images[value].transform.localPosition = new Vector2(0.0f, yPos);
+            Button_Images[value].transform.localScale = new Vector3(scalePos, scalePos, 1.0f);
+            yield return null;
         }
     }
 

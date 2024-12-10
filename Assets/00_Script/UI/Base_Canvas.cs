@@ -18,6 +18,8 @@ public class Base_Canvas : MonoBehaviour
     private Button Saving_Mode_Button;
     [SerializeField]
     private Button ADS_Buff_Button;
+    [SerializeField]
+    private Button Shop_Button;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -48,6 +50,9 @@ public class Base_Canvas : MonoBehaviour
             isSavingMode = true;
         });
         ADS_Buff_Button.onClick.AddListener(() => { Get_UI("ADS_Buff"); });
+        Shop_Button.onClick.AddListener(() => Get_UI("Shop"));
+        Shop_Button.onClick.AddListener(() => Main_UI.Instance.Layer_Check(5));
+
     }
 
 
@@ -95,6 +100,8 @@ public class Base_Canvas : MonoBehaviour
 
     public void Get_UI(string temp, bool Fade = false)
     {
+        Utils.CloseAllPopupUI(); // 다른 UI가 생성이되면, 기존 UI는 꺼준다.
+
         if (Fade)
         {
             Main_UI.Instance.FadeInOut(false, true, () => GetPopupUI(temp));
