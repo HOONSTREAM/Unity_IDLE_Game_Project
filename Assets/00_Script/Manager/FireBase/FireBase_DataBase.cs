@@ -54,6 +54,7 @@ public partial class FireBase_Manager
 
     public void ReadData()
     {
+        #region Default_Data
         DB_reference.Child("USER").Child(currentUser.UserId).Child("DATA").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if(task.IsCompleted)
@@ -66,8 +67,7 @@ public partial class FireBase_Manager
                 {
                     data = Default_Data;
                 }
-                Data_Manager.Main_Players_Data = data;
-                Base_Manager.Data.Init();
+                Data_Manager.Main_Players_Data = data;              
                 Loading_Scene.instance.LoadingMain();
             }
 
@@ -76,8 +76,30 @@ public partial class FireBase_Manager
                 Debug.LogError("데이터 읽기 실패 : " + task.Exception.ToString());
             }
         });
+        #endregion
+        #region Character_Data
 
-    } 
+        DB_reference.Child("USER").Child(currentUser.UserId).Child("CHARACTER").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
 
-    
+                var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
+                Base_Manager.Data.character_Holder = data;
+                Base_Manager.Data.Init();
+                           
+            }
+
+            else
+            {
+                Debug.LogError("데이터 읽기 실패 : " + task.Exception.ToString());
+            }
+        });
+
+        #endregion
+
+    }
+
+
 }

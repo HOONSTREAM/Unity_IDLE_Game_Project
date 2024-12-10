@@ -56,6 +56,7 @@ public class Data_Manager
             if (character_Holder.ContainsKey(data.M_Character_Name))
             {
                 s_holder = character_Holder[data.M_Character_Name];
+                Debug.Log(data.M_Character_Name + ":" + s_holder.Hero_Level + " : " + s_holder.Hero_Card_Amount);
             }
             else
             {
