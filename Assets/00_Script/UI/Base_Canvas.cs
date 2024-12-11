@@ -10,6 +10,8 @@ public class Base_Canvas : MonoBehaviour
     public Transform Coin;
     [SerializeField]
     private Transform LAYER;
+    [SerializeField] 
+    private Transform BACK_LAYER;
     [SerializeField]
     private Button Hero_Button;
     [SerializeField]
@@ -43,15 +45,15 @@ public class Base_Canvas : MonoBehaviour
 
     private void Start()
     {
-        Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true));
+        Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, true, true, 1));
         Inventory_Button.onClick.AddListener(() => Get_UI("UI_INVENTORY"));
         Saving_Mode_Button.onClick.AddListener(() => {
             Get_UI("Saving_Mode");
             isSavingMode = true;
         });
         ADS_Buff_Button.onClick.AddListener(() => { Get_UI("ADS_Buff"); });
-        Shop_Button.onClick.AddListener(() => Get_UI("Shop"));
-        Shop_Button.onClick.AddListener(() => Main_UI.Instance.Layer_Check(5));
+        Shop_Button.onClick.AddListener(() => Get_UI("Shop", false, true, true, 5));
+        
 
     }
 
@@ -98,33 +100,45 @@ public class Base_Canvas : MonoBehaviour
         return;
     }
 
-    public void Get_UI(string temp, bool Fade = false)
+    public void Get_UI(string temp, bool Fade = false, bool Back = false, bool Close = false, int value = -1)
     {
-        Utils.CloseAllPopupUI(); // 다른 UI가 생성이되면, 기존 UI는 꺼준다.
+        if (Utils.UI_Holder.Count > 0)
+        {
+            var peekData = Utils.UI_Holder.Peek();
+            if (peekData.name == temp)
+            {
+                Utils.CloseAllPopupUI();
+                Main_UI.Instance.Layer_Check(-1);
+                return;
+            }
+        }
 
+        if (Close)
+        {
+            Utils.CloseAllPopupUI();
+        }
         if (Fade)
         {
-            Main_UI.Instance.FadeInOut(false, true, () => GetPopupUI(temp));
-
+            Main_UI.Instance.FadeInOut(false, true, () => GetPopupUI(temp, Back));
+            Main_UI.Instance.Layer_Check(value);
             return;
         }
-
-        GetPopupUI(temp);
-
+        Main_UI.Instance.Layer_Check(value);
+        Debug.Log(temp);
+        GetPopupUI(temp, Back);
     }
 
-    private void GetPopupUI(string temp)
+    private void GetPopupUI(string temp, bool Back = false)
     {
-        if(UI != null)
-        {
-            UI = null;
-        }
+        if (UI != null) UI = null;
 
-        var go = Instantiate(Resources.Load<UI_Base>("UI/" + temp), transform);
+        var go = Instantiate(Resources.Load<UI_Base>("UI/" + temp), Back == true ? BACK_LAYER : transform);
         UI = go;
-        Utils.UI_Holder.Push(go);
+        UI.name = temp;
 
+        Utils.UI_Holder.Push(go);
     }
+
 
     public Item_ToolTip Get_Item_Tooltip()
     {
