@@ -9,6 +9,7 @@ public class Utils
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
     public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
+    public static float[] Gacha_Percentage = { 60.0f, 20.0f, 10.0f, 6.0f, 4.0f };
 
     public static void CloseAllPopupUI()
     {
@@ -28,7 +29,6 @@ public class Utils
     {
         return atlas.GetSprite(temp);
     }
-
     public static string GetTimer(float Time)
     {
         TimeSpan timespan = TimeSpan.FromSeconds(Time);
