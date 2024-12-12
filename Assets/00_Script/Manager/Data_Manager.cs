@@ -43,6 +43,22 @@ public class Data_Manager
     {
         Set_Character();
     }
+
+    public Character_Scriptable Get_Rarity_Character(Rarity rarity)
+    {
+        List<Character_Scriptable> Ch_Scriptable_Data = new List<Character_Scriptable> ();
+
+        foreach(var data in Data_Character_Dictionary)
+        {
+            if(data.Value.Data.Rarity == rarity)
+            {
+                Ch_Scriptable_Data.Add(data.Value.Data);
+            }
+        }
+
+        return Ch_Scriptable_Data[Random.Range(0, Ch_Scriptable_Data.Count)];
+
+    }
     private void Set_Character()
     {
         var datas = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");

@@ -43,10 +43,17 @@ public class UI_Gacha : UI_Base
             }
 
             Debug.Log(rarity);
+            Character_Scriptable Ch_Scriptable_Data = Base_Manager.Data.Get_Rarity_Character(rarity);
+            go.sprite = Utils.Get_Atlas(rarity.ToString());
+            go.transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Ch_Scriptable_Data.name);
 
-            if(rarity >= Rarity.Epic)
+            if((int)rarity >= (int)Rarity.Epic)
             {
                 Rare_Particle.gameObject.SetActive(true);
+            }
+            else
+            {
+                Rare_Particle.gameObject.SetActive(false);
             }
         }
     }
