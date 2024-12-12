@@ -100,7 +100,7 @@ public class UI_Heros : UI_Base
 
             go.transform.SetParent(this.transform); // 해당 오브젝트를 UI_Heros 팝업 하단에 자식오브젝트로 설정
             go.gameObject.AddComponent<Image>();
-            go.gameObject.AddComponent<RectTransform>();
+            //go.gameObject.AddComponent<RectTransform>(); 버튼에는 이미 RectTransform이 붙어있음.
             
             RectTransform rect = go.GetComponent<RectTransform>();
 

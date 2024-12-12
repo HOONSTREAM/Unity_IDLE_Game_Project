@@ -144,7 +144,7 @@ public class Monster : Character
 
         if (isBoss)
         {
-            Main_UI.Instance.Boss_Slider_Count(HP, MaxHP); //TODO
+            Main_UI.Instance.Boss_Slider_Count(HP, MaxHP); 
         }
 
         if(HP <= 0)

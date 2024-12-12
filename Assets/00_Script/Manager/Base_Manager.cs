@@ -80,7 +80,7 @@ public class Base_Manager : MonoBehaviour
             ADS.Init();           
             Item.Init();           
             FireBase.Init();
-     
+            Base_Manager.Data.Init(); //TODO : 임시, 제거예정 (캐릭터 카드 테스트생성)
             DontDestroyOnLoad(this.gameObject);
         }
 

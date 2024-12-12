@@ -87,7 +87,7 @@ public partial class FireBase_Manager
 
                 var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
                 Base_Manager.Data.character_Holder = data;
-                Base_Manager.Data.Init();
+                Base_Manager.Data.Init(); // TODO
                            
             }
 

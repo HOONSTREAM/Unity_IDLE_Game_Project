@@ -45,7 +45,7 @@ public class Base_Canvas : MonoBehaviour
 
     private void Start()
     {
-        Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, true, true, 1));
+        Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, false, true, 1));
         Inventory_Button.onClick.AddListener(() => Get_UI("UI_INVENTORY"));
         Saving_Mode_Button.onClick.AddListener(() => {
             Get_UI("Saving_Mode");
