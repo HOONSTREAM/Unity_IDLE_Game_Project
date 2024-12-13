@@ -50,7 +50,7 @@ public class Data_Manager
 
         foreach(var data in Data_Character_Dictionary)
         {
-            if(data.Value.Data.Rarity == rarity)
+            if(data.Value.Data.Rarity == rarity && data.Value.Data.Main_Character == false)
             {
                 Ch_Scriptable_Data.Add(data.Value.Data);
             }

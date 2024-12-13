@@ -10,4 +10,5 @@ public class Character_Scriptable : ScriptableObject
     public float M_Attack_Speed;
     public int MAX_MP;
     public Rarity Rarity;
+    public bool Main_Character;
 }

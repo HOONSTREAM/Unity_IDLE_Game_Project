@@ -30,7 +30,8 @@ public class UI_Gacha : UI_Base
             float R_Percentage = 0.0f;
             float Percentage = Random.Range(0.0f, 100.0f);
             var go = Instantiate(Gacha_Hero_Parts, Content);
-            yield return new WaitForSeconds(0.1f);
+            go.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.15f);
 
             for(int j = 0; j < 5; j++)
             {
@@ -47,14 +48,15 @@ public class UI_Gacha : UI_Base
             go.sprite = Utils.Get_Atlas(rarity.ToString());
             go.transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Ch_Scriptable_Data.name);
 
-            if((int)rarity >= (int)Rarity.Epic)
+            if ((int)rarity >= (int)Rarity.Epic)
             {
-                Rare_Particle.gameObject.SetActive(true);
+                go.transform.GetChild(0).gameObject.SetActive(true);
             }
             else
             {
-                Rare_Particle.gameObject.SetActive(false);
+                go.transform.GetChild(0).gameObject.SetActive(false);
             }
+
         }
     }
 
