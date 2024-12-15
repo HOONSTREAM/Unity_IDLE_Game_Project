@@ -7,9 +7,9 @@ using UnityEngine.U2D;
 public class Utils 
 {
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");
+    public static int[] summon_level = { 10, 45, 110, 250, 300, 500, 750, 1000, 1240 };
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
     public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
-    public static float[] Gacha_Percentage = { 60.0f, 20.0f, 10.0f, 6.0f, 4.0f };
 
     public static void CloseAllPopupUI()
     {
@@ -88,4 +88,36 @@ public class Utils
         else return false;
 
     }
+
+    public static int Calculate_Summon_Level(int count)
+    {
+        if (count >= summon_level[8])
+        {
+            return 9;
+        }
+
+        for (int i = 0; i < summon_level.Length; i++)
+        {
+            if (count < summon_level[i])
+            {
+                return i;
+            }
+        }
+        return -1;
+        
+    }
+
+    public static float[] Gacha_Percentage()
+    {
+        float[] Summon_Percentage = new float[5];
+
+        for(int i = 0; i<Summon_Percentage.Length; i++)
+        {
+            Summon_Percentage[i] =
+                float.Parse(CSV_Importer.Summon_Design[Calculate_Summon_Level(Data_Manager.Main_Players_Data.Hero_Summon_Count)][((Rarity)i).ToString()].ToString());
+        }
+
+        return Summon_Percentage;
+    }
+
 }

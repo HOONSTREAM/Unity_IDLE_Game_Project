@@ -12,6 +12,8 @@ public class Level_Design : ScriptableObject
     public LevelData levelData; // 타입객체패턴
     [Space(20f)]
     public StageData stageData;
+    [Space(20f)]
+    public HeroCardData heroCardData;
 
 }
 
@@ -57,4 +59,20 @@ public class StageData
     public double Get_ATK() => Utils.CalculateValue(Base_MONSTER_ATK, Data_Manager.Main_Players_Data.Player_Stage, MONSTER_ATK);
     public double Get_HP() => Utils.CalculateValue(Base_MONSTER_HP, Data_Manager.Main_Players_Data.Player_Stage, MONSTER_HP);
     public double Get_DROP_MONEY() => Utils.CalculateValue(Base_DROP_MONEY, Data_Manager.Main_Players_Data.Player_Stage, DROP_MONEY);
+}
+
+[System.Serializable]
+
+public class HeroCardData
+{
+    public int Current_Card_Amount;
+    [Range(0.0f, 10.0f)]
+    public float Levelup_Card_Amount;
+
+    [Space(20f)]
+    [Header("BASE_VALUE")]
+    [Space(10f)]
+    public int Base_Levelup_Card_Amount;
+
+    public int Get_LEVELUP_Card_Amount(string name) => (int)Utils.CalculateValue(Base_Levelup_Card_Amount, Base_Manager.Data.Data_Character_Dictionary[name].holder.Hero_Level, Levelup_Card_Amount);
 }

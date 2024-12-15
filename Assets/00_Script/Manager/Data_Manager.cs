@@ -27,6 +27,16 @@ public class Data
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
     public float buff_x2_speed = 0.0f;
     public int Buff_Level, Buff_Level_Count;
+
+       
+    /// <summary>
+    /// 플레이어 유저의 소환 레벨 변수
+    /// </summary>
+    public int Hero_Summon_Count;
+    /// <summary>
+    /// 플레이어 유저의 확정 소환 카운트
+    /// </summary>
+    public int Hero_Pickup_Count;
 }
 
 public class Data_Manager

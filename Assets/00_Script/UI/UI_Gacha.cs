@@ -19,6 +19,11 @@ public class UI_Gacha : UI_Base
     private TextMeshProUGUI GaCha_ReSummon_Price; //소환 양에따른 소환결과창 재소환버튼 다이아 양을 수정합니다.
     [SerializeField]
     private Button ReGacha_Button;
+    [SerializeField]
+    private GameObject Blocking_Close_Button;
+    [SerializeField]
+    private GameObject Blocking_ReGaCha_Button;
+
 
     private int Hero_Amount_Value_Count;
     private List<GameObject> Reset_Gacha_Hero_Card_List = new List<GameObject>();
@@ -30,9 +35,13 @@ public class UI_Gacha : UI_Base
         return base.Init();
     }
 
-    public void Initialize()
+    /// <summary>
+    /// 재소환을 실시할 때, 캐릭터 카드 오브젝트를 전부 삭제하고, 재배치합니다.
+    /// </summary>
+    public void ReGaCha_Initialize()
     {
-        for(int i = 0; i<Reset_Gacha_Hero_Card_List.Count; i++)
+   
+        for (int i = 0; i<Reset_Gacha_Hero_Card_List.Count; i++)
         {
             Destroy(Reset_Gacha_Hero_Card_List[i]);
         }
@@ -64,34 +73,53 @@ public class UI_Gacha : UI_Base
 
     public void OnClick_ReGaCha(int value)
     {
-        Initialize();
+        ReGaCha_Initialize();
         Get_Gacha_Hero(value);
+       
     }
 
     IEnumerator GaCha_Coroutine(int Hero_Amount_Value)
     {
+        Blocking_Close_Button.gameObject.SetActive(true);
+        Blocking_ReGaCha_Button.gameObject.SetActive(true);
+
         for (int i = 0; i < Hero_Amount_Value; i++)
         {
+            Data_Manager.Main_Players_Data.Hero_Summon_Count++;
+            Data_Manager.Main_Players_Data.Hero_Pickup_Count++;
             Rarity rarity = Rarity.Common;
+
+            if (Data_Manager.Main_Players_Data.Hero_Pickup_Count >= 110)
+            {
+                Data_Manager.Main_Players_Data.Hero_Pickup_Count = 0;
+                rarity = Rarity.Legendary;
+            }
+
+            
             float R_Percentage = 0.0f;
             float Percentage = Random.Range(0.0f, 100.0f);
-            var go = Instantiate(Gacha_Hero_Parts, Content);
+            var go = Instantiate(Gacha_Hero_Parts, Content); // 캐릭터 카드를 생성합니다.
             Reset_Gacha_Hero_Card_List.Add(go.gameObject);
             go.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.15f);
 
-            for(int j = 0; j < 5; j++)
+            if(rarity != Rarity.Legendary)
             {
-                R_Percentage += Utils.Gacha_Percentage[j];
-                if (Percentage <= R_Percentage)
+                for (int j = 0; j < 5; j++)
                 {
-                    rarity = (Rarity)j;                  
-                    break;
+                    R_Percentage += Utils.Gacha_Percentage()[j];
+                    if (Percentage <= R_Percentage)
+                    {
+                        rarity = (Rarity)j;
+                        break;
+                    }
                 }
             }
+            
 
-            Debug.Log(rarity);
-            Character_Scriptable Ch_Scriptable_Data = Base_Manager.Data.Get_Rarity_Character(rarity);
+            Character_Scriptable Ch_Scriptable_Data = Base_Manager.Data.Get_Rarity_Character(rarity); // 소환 완료된 캐릭터의 데이터 결정 완료         
+            Base_Manager.Data.character_Holder[Ch_Scriptable_Data.name].Hero_Card_Amount++; // 카드 갯수 증가
+
             go.sprite = Utils.Get_Atlas(rarity.ToString());
             go.transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Ch_Scriptable_Data.name);
 
@@ -104,7 +132,21 @@ public class UI_Gacha : UI_Base
                 go.transform.GetChild(0).gameObject.SetActive(false);
             }
 
+            
+            
+
+            Base_Manager.FireBase.WriteData(); // 데이터 저장
+
         }
+
+        StartCoroutine(Block_Button_Coroutine());
+    }
+
+    IEnumerator Block_Button_Coroutine()
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+        Blocking_Close_Button.gameObject.SetActive(false);
+        Blocking_ReGaCha_Button.gameObject.SetActive(false);
     }
 
 }

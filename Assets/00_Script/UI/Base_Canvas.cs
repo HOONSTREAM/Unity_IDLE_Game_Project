@@ -123,8 +123,7 @@ public class Base_Canvas : MonoBehaviour
             Main_UI.Instance.Layer_Check(value);
             return;
         }
-        Main_UI.Instance.Layer_Check(value);
-        Debug.Log(temp);
+        Main_UI.Instance.Layer_Check(value);       
         GetPopupUI(temp, Back);
     }
 

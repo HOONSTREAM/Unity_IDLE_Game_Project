@@ -26,6 +26,14 @@ public class UI_Heros_Parts : MonoBehaviour
     {
         parent = parentsBASE; 
         Character = data;
+
+        //int LevelCount = (Base_Manager.Data.character_Holder[data.name].Hero_Level) * 5;
+
+        int Card_Level_Count = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
+
+        M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount /(float)Card_Level_Count;
+        M_Count.text = Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount.ToString() + "/" + Card_Level_Count.ToString();
+        M_Level.text = "LV." + (Base_Manager.Data.character_Holder[data.name].Hero_Level + 1).ToString();
         M_Rarity_Image.sprite = Utils.Get_Atlas(data.Rarity.ToString());
         M_character_Image.sprite = Utils.Get_Atlas(data.M_Character_Name);
         M_character_Image.SetNativeSize();
