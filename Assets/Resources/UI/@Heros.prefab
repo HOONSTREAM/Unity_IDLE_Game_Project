@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5557980157994777605}
   - component: {fileID: 1312310491822660035}
   m_Layer: 5
-  m_Name: Ability_TEXT
+  m_Name: ATK_TEXT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2160,6 +2160,26 @@ MonoBehaviour:
   Content: {fileID: 3538188258787107601}
   Parts: {fileID: 7456505646684589896, guid: ea9a26d3b92b4b946a131a8d936fa5e6, type: 3}
   hero_parts: []
+  Hero_Information: {fileID: 8040263891222667356}
+  Hero_Name_Text: {fileID: 2059759251388640360}
+  Rarity_Text: {fileID: 1840563033668669559}
+  Description_Text: {fileID: 4761545318635313241}
+  Ability: {fileID: 7107030502662025633}
+  ATK: {fileID: 1312310491822660035}
+  HP: {fileID: 7635122553957785238}
+  Level_Text: {fileID: 6396314921284843983}
+  Slider_Count_Text: {fileID: 4645511232796196135}
+  Holding_Effect_First: {fileID: 6480823808598696298}
+  Holding_Effect_Second: {fileID: 4063200270858522472}
+  Holding_Effect_Amount_First: {fileID: 8534388550465142741}
+  Holding_Effect_Amount_Second: {fileID: 898852390299795901}
+  Skill_Name_Text: {fileID: 7335556085367180468}
+  Skill_Description: {fileID: 7085405095485205483}
+  Slider_Count_Fill: {fileID: 2816847900708036696}
+  Rarity_Image: {fileID: 2917158340337406264}
+  Hero_Image: {fileID: 4127739730756610684}
+  Skill_Image: {fileID: 2085782919084192133}
+  Legendary_Image: {fileID: 428100899543211626}
 --- !u!1 &3836906910298667298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,6 +2614,7 @@ GameObject:
   - component: {fileID: 6383936872801244997}
   - component: {fileID: 6054896896619543012}
   - component: {fileID: 2953170725038756677}
+  - component: {fileID: 5074865287621412403}
   m_Layer: 5
   m_Name: Close_Button
   m_TagString: Untagged
@@ -2659,6 +2680,62 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5074865287621412403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4308148240648678668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2953170725038756677}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3271220614825203901}
+        m_TargetAssemblyTypeName: UI_Heros, Assembly-CSharp
+        m_MethodName: Disable_Hero_Information
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4346076122856597637
 GameObject:
   m_ObjectHideFlags: 0
@@ -4426,7 +4503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5023683063386354122
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7311,7 +7388,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3271220614825203901}
-        m_TargetAssemblyTypeName: UI_Base, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI_Heros, Assembly-CSharp
         m_MethodName: DisableOBJ
         m_Mode: 1
         m_Arguments:

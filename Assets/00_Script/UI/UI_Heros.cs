@@ -1,6 +1,8 @@
+using AssetKits.ParticleImage;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +17,37 @@ public class UI_Heros : UI_Base
     public List<UI_Heros_Parts> hero_parts = new List<UI_Heros_Parts>();
     private Dictionary<string, Character_Scriptable> _dict = new Dictionary<string, Character_Scriptable>();
     private Character_Scriptable Character;
+
+    #region Hero_Infomation
+    [Space(20f)]
+    [Header("Hero_Information")]
+    [Space(20f)]
+    [SerializeField]
+    private GameObject Hero_Information;
+    [SerializeField]
+    private TextMeshProUGUI Hero_Name_Text, Rarity_Text, Description_Text;
+    [SerializeField]
+    private TextMeshProUGUI Ability, ATK, HP;
+    [SerializeField]
+    private TextMeshProUGUI Level_Text, Slider_Count_Text;
+    [SerializeField]
+    private TextMeshProUGUI Holding_Effect_First, Holding_Effect_Second;
+    [SerializeField]
+    private TextMeshProUGUI Holding_Effect_Amount_First, Holding_Effect_Amount_Second;
+    [SerializeField]
+    private TextMeshProUGUI Skill_Name_Text, Skill_Description; //CSV 이용
+    [SerializeField]
+    private Image Slider_Count_Fill;
+    [SerializeField]
+    private Image Rarity_Image;
+    [SerializeField]
+    private Image Hero_Image;
+    [SerializeField]
+    private Image Skill_Image;
+    [SerializeField]
+    private ParticleImage Legendary_Image;
+    #endregion
+
     public override bool Init()
     {
 
@@ -35,16 +68,20 @@ public class UI_Heros : UI_Base
         var sort_dict = _dict.OrderByDescending(x => x.Value.Rarity);
 
 
+        int value = 0;
+
+
         foreach (var data in sort_dict)
         {
             var Object = Instantiate(Parts, Content).GetComponent<UI_Heros_Parts>(); // Content를 부모오브젝트로 해서 Parts를 생성
+            value++;
             hero_parts.Add(Object);
+            int index = value;
             Object.Init(data.Value, this);
         }
 
         return base.Init();
     }
-
     public override void DisableOBJ()
     {
         Main_UI.Instance.FadeInOut(false, true, () =>
@@ -54,7 +91,6 @@ public class UI_Heros : UI_Base
         });
 
     }
-
     /// <summary>
     /// 플레이어가, 영웅 창에서 특정 영웅을 터치했을때의 동작을 정의합니다.
     /// </summary>
@@ -86,7 +122,6 @@ public class UI_Heros : UI_Base
         }
 
     }
-
     /// <summary>
     /// 영웅을 클릭 후, 플러스 버튼이 생성되면, 영웅을 등록하기 위해, 플러스 버튼 위에 보이지 않는 가상의 버튼을 설정합니다.
     /// </summary>
@@ -96,7 +131,7 @@ public class UI_Heros : UI_Base
         {
             int index = i;
             var go = new GameObject("Button").AddComponent<Button>();
-            go.onClick.AddListener(() => Set_Character_Button(index));
+            go.onClick.AddListener(()=> Set_Character_Button(index));
 
             go.transform.SetParent(this.transform); // 해당 오브젝트를 UI_Heros 팝업 하단에 자식오브젝트로 설정
             go.gameObject.AddComponent<Image>();
@@ -114,8 +149,7 @@ public class UI_Heros : UI_Base
         }
         
     }
-
-    private void Set_Character_Button(int value)
+    public void Set_Character_Button(int value)
     {
         Base_Manager.Character.Get_Character(value, Character.M_Character_Name);
         Render_Manager.instance.HERO.Get_Particle(false);
@@ -128,6 +162,40 @@ public class UI_Heros : UI_Base
         }
 
         Main_UI.Instance.Set_Character_Data();
+    }
+
+    public void Get_Hero_Information(Character_Scriptable Data)
+    {
+
+        int Card_Level_Count = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
+
+        Hero_Information.gameObject.SetActive(true);
+
+        if(Data.Rarity == Rarity.Legendary)
+        {
+            Legendary_Image.gameObject.SetActive(true);
+        }
+        else
+        {
+            Legendary_Image.gameObject.SetActive(false);
+        }
+
+        Hero_Name_Text.text = Data.M_Character_Name;
+        Rarity_Text.text = Utils.String_Color_Rarity(Data.Rarity) + Data.Rarity.ToString();
+        Description_Text.text = "캐릭터 설명";
+        Ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
+        ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_ATK(Data.Rarity));
+        HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_HP(Data.Rarity));
+        Level_Text.text = "LV." + (Base_Manager.Data.character_Holder[Data.name].Hero_Level + 1).ToString();
+        Slider_Count_Text.text = "(" + Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount + "/" + Card_Level_Count + ")";
+        Slider_Count_Fill.fillAmount = Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount / Card_Level_Count;
+        Hero_Image.sprite = Utils.Get_Atlas(Data.name);
+        Rarity_Image.sprite = Utils.Get_Atlas(Data.Rarity.ToString());
+
+    }
+    public void Disable_Hero_Information()
+    {
+        Hero_Information.gameObject.SetActive(false);
     }
 
 }

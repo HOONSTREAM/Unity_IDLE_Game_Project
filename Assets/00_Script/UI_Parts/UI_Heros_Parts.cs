@@ -15,6 +15,8 @@ public class UI_Heros_Parts : MonoBehaviour
     private TextMeshProUGUI M_Level, M_Count;
     [SerializeField]
     private GameObject Eqiup_Hero_Image;
+    [SerializeField]
+    private Button OnClickButton;
 
   
     public Character_Scriptable Character;
@@ -27,8 +29,7 @@ public class UI_Heros_Parts : MonoBehaviour
         parent = parentsBASE; 
         Character = data;
 
-        //int LevelCount = (Base_Manager.Data.character_Holder[data.name].Hero_Level) * 5;
-
+       
         int Card_Level_Count = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
 
         M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount /(float)Card_Level_Count;
@@ -44,12 +45,22 @@ public class UI_Heros_Parts : MonoBehaviour
         Get_Character_Check();
     }
 
+
+    /// <summary>
+    /// 영웅 카드 우측상단의 탭을 누르면 활성화 되는 로직을 처리합니다.
+    /// </summary>
+    public void Click_My_Button()
+    {
+        parent.Set_Click(this);
+        Render_Manager.instance.HERO.Get_Particle(true);
+    }
+
     /// <summary>
     /// 보유중인 영웅을 터치했을 때의 기능을 구현합니다.
     /// </summary>
     public void Click_My_Hero()
     {
-        parent.Set_Click(this);
+        parent.Get_Hero_Information(Character);
         Render_Manager.instance.HERO.Get_Particle(true);
     }
 
