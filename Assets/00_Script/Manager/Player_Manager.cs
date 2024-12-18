@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class Player_Manager
 {
@@ -47,13 +48,21 @@ public class Player_Manager
 
         return (myexp / exp) * 100.0f;
     }
-    public double Get_ATK(Rarity rarity)
+    public double Get_ATK(Rarity rarity, Character_Holder holder)
     {
-        return ATK * ((int)rarity + 1);
+        var Damage = ATK * ((int)rarity + 1);
+        float Level_Damage = ((holder.holder.Hero_Level + 1) * 10) / 100.0f;
+        var Final_Damage = Damage + (Damage * Level_Damage);
+
+        return Final_Damage;
     }
-    public double Get_HP(Rarity rarity)
+    public double Get_HP(Rarity rarity, Character_Holder holder)
     {
-        return HP * ((int)rarity + 1);
+        var Now_HP = HP * ((int)rarity + 1);
+        float Level_HP = ((holder.holder.Hero_Level + 1) * 10) / 100.0f;
+        var Final_HP = HP + (Now_HP * Level_HP);
+
+        return Final_HP;
     }
     /// <summary>
     /// 플레이어의 최종 전투력을 리턴합니다.

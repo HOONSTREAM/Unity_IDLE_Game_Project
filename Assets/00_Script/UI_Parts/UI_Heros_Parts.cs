@@ -17,13 +17,31 @@ public class UI_Heros_Parts : MonoBehaviour
     private GameObject Eqiup_Hero_Image;
     [SerializeField]
     private Button OnClickButton;
+    [SerializeField]
+    private GameObject Plus_Button, Minus_Button;   
 
-  
+
+    public GameObject Lock_OBJ;
     public Character_Scriptable Character;
     private UI_Heros parent;
-    public GameObject Lock_OBJ;
     
+    public void LockCheck(bool Lock)
+    {
+        switch (Lock)
+        {
+            case true:
+                Lock_OBJ.SetActive(true);
+                Plus_Button.SetActive(false);
+                Minus_Button.SetActive(true);
+                break;
+            case false:
+                Lock_OBJ.SetActive(false);
+                Plus_Button.SetActive(true);
+                Minus_Button.SetActive(false);
+                break;
 
+        }
+    }
     public void Init(Character_Scriptable data, UI_Heros parentsBASE)
     {
         parent = parentsBASE; 
@@ -45,16 +63,26 @@ public class UI_Heros_Parts : MonoBehaviour
         Get_Character_Check();
     }
 
+    /// <summary>
+    /// 캐릭터 강화가 이루어 진 뒤에, 바로 영웅창에서 적용 할 수있도록 합니다.
+    /// </summary>
+    public void Initialize()
+    {
+        int Card_Level_Count = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Character.name);
 
+        M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[Character.name].Hero_Card_Amount / (float)Card_Level_Count;
+        M_Count.text = Base_Manager.Data.character_Holder[Character.name].Hero_Card_Amount.ToString() + "/" + Card_Level_Count.ToString();
+        M_Level.text = "LV." + (Base_Manager.Data.character_Holder[Character.name].Hero_Level + 1).ToString();
+    }
+    
     /// <summary>
     /// 영웅 카드 우측상단의 탭을 누르면 활성화 되는 로직을 처리합니다.
     /// </summary>
     public void Click_My_Button()
-    {
-        parent.Set_Click(this);
+    {    
         Render_Manager.instance.HERO.Get_Particle(true);
+        parent.Set_Click(this);
     }
-
     /// <summary>
     /// 보유중인 영웅을 터치했을 때의 기능을 구현합니다.
     /// </summary>
@@ -63,7 +91,6 @@ public class UI_Heros_Parts : MonoBehaviour
         parent.Get_Hero_Information(Character);
         Render_Manager.instance.HERO.Get_Particle(true);
     }
-
     public void Get_Character_Check()
     {
         bool Equip = false;
@@ -81,5 +108,9 @@ public class UI_Heros_Parts : MonoBehaviour
         }
 
         Eqiup_Hero_Image.gameObject.SetActive(Equip);
+        Minus_Button.gameObject.SetActive(Equip);
+        Plus_Button.gameObject.SetActive(!Equip);
+
     }
+
 }

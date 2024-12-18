@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,6 +47,8 @@ public class UI_Heros : UI_Base
     private Image Skill_Image;
     [SerializeField]
     private ParticleImage Legendary_Image;
+    [SerializeField]
+    private Button Upgrade;
     #endregion
 
     public override bool Init()
@@ -96,7 +99,7 @@ public class UI_Heros : UI_Base
     /// </summary>
     public void Set_Click(UI_Heros_Parts parts)
     {
-
+       
         if (parts == null)
         {
             for (int i = 0; i < hero_parts.Count; i++)
@@ -108,6 +111,20 @@ public class UI_Heros : UI_Base
 
         else
         {
+            for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
+            {
+                var Data = Base_Manager.Character.Set_Character[i];
+                if (Data != null)
+                {
+                    if (Data.Data == parts.Character)
+                    {
+                        Base_Manager.Character.Disable_Character(i);
+                        Initialize();
+                        return; 
+                    }
+                }
+            }
+
             Character = parts.Character;
 
             for (int i = 0; i < hero_parts.Count; i++)
@@ -152,18 +169,21 @@ public class UI_Heros : UI_Base
     public void Set_Character_Button(int value)
     {
         Base_Manager.Character.Get_Character(value, Character.M_Character_Name);
+        Initialize();
+    }
+    public void Initialize()
+    {
         Render_Manager.instance.HERO.Get_Particle(false);
         Set_Click(null);
         Render_Manager.instance.HERO.Init_Hero();
 
-        for(int i = 0; i<hero_parts.Count; i++)
+        for (int i = 0; i < hero_parts.Count; i++)
         {
             hero_parts[i].Get_Character_Check();
         }
 
         Main_UI.Instance.Set_Character_Data();
     }
-
     public void Get_Hero_Information(Character_Scriptable Data)
     {
 
@@ -184,18 +204,48 @@ public class UI_Heros : UI_Base
         Rarity_Text.text = Utils.String_Color_Rarity(Data.Rarity) + Data.Rarity.ToString();
         Description_Text.text = "캐릭터 설명";
         Ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
-        ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_ATK(Data.Rarity));
-        HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_HP(Data.Rarity));
+        ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.Data_Character_Dictionary[Data.name]));
+        HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.Data_Character_Dictionary[Data.name]));
         Level_Text.text = "LV." + (Base_Manager.Data.character_Holder[Data.name].Hero_Level + 1).ToString();
         Slider_Count_Text.text = "(" + Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount + "/" + Card_Level_Count + ")";
         Slider_Count_Fill.fillAmount = Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount / Card_Level_Count;
         Hero_Image.sprite = Utils.Get_Atlas(Data.name);
         Rarity_Image.sprite = Utils.Get_Atlas(Data.Rarity.ToString());
 
+        Upgrade.onClick.RemoveAllListeners();
+        Upgrade.onClick.AddListener(() => UpGrade_Button(Base_Manager.Data.Data_Character_Dictionary[Data.name]));
     }
     public void Disable_Hero_Information()
     {
         Hero_Information.gameObject.SetActive(false);
+    }
+    /// <summary>
+    /// 캐릭터 카드 갯수를 초과하여, 강화하는 로직을 구현합니다.
+    /// </summary>
+    public void UpGrade_Button(Character_Holder holder)
+    {
+        int value = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
+
+        if (holder.holder.Hero_Card_Amount >= value)
+        {
+            holder.holder.Hero_Card_Amount -= value;
+            holder.holder.Hero_Level++;
+        }
+        Get_Hero_Information(holder.Data);
+
+        for(int i = 0; i< hero_parts.Count; i++)
+        {
+            hero_parts[i].Initialize();
+        }
+    
+    }
+    
+    /// <summary>
+    /// 영웅 배치화면에서, 일괄강화의 로직을 구현합니다.
+    /// </summary>
+    public void All_UpGrade_Button()
+    {
+
     }
 
 }

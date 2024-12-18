@@ -14,4 +14,9 @@ public class Character_Manager
         Set_Character[value] = Base_Manager.Data.Data_Character_Dictionary[character_name];
     }
 
+    public void Disable_Character(int value)
+    {
+        Set_Character[value] = null;
+    }
+
 }
