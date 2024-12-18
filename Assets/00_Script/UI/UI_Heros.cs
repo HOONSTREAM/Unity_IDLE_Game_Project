@@ -245,7 +245,8 @@ public class UI_Heros : UI_Base
     /// </summary>
     public void All_UpGrade_Button()
     {
-
+        Base_Canvas.instance.Get_UI("UpGrade_Panel");
+        Utils.UI_Holder.Peek().GetComponent<UI_Upgrade>().Initialize();
     }
 
 }
