@@ -15,6 +15,7 @@ public partial class FireBase_Manager
     public void WriteData()
     {
         Data data = new Data();
+
         if(Data_Manager.Main_Players_Data != null)
         {
             data = Data_Manager.Main_Players_Data;
@@ -42,7 +43,7 @@ public partial class FireBase_Manager
         {
             if (task.IsCompleted)
             {
-                Debug.Log(" Child.character 데이터 쓰기 성공하였습니다.");
+                Debug.Log(" Child.character 데이터 쓰기 성공하였습니다.");              
             }
             else
             {
@@ -59,6 +60,7 @@ public partial class FireBase_Manager
         {
             if(task.IsCompleted)
             {
+                Debug.Log("USER의 DATA if문 task.iscompleted true 진입");
                 DataSnapshot snapshot = task.Result;
 
                 var Default_Data = JsonUtility.FromJson<Data>(snapshot.GetRawJsonValue());
@@ -83,11 +85,18 @@ public partial class FireBase_Manager
         {
             if (task.IsCompleted)
             {
+                Debug.Log("USER의 CHARACTER if문 task.iscompleted true 진입");
                 DataSnapshot snapshot = task.Result;
 
                 var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
+               
                 Base_Manager.Data.character_Holder = data;
+
+                Debug.Log("로드된 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.character_Holder));
+
+
                 Base_Manager.Data.Init(); // TODO
+                
                            
             }
 

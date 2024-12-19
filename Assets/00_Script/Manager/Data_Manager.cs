@@ -73,22 +73,21 @@ public class Data_Manager
     {
         var datas = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");
 
-        foreach(var data in datas)
+        foreach (var data in datas)
         {
             var character = new Character_Holder();
 
             character.Data = data;
             Holder s_holder = new Holder();
+
             if (character_Holder.ContainsKey(data.M_Character_Name))
             {
                 s_holder = character_Holder[data.M_Character_Name];
-                Debug.Log(data.M_Character_Name + ":" + s_holder.Hero_Level + " : " + s_holder.Hero_Card_Amount);
             }
             else
             {
                 character_Holder.Add(data.M_Character_Name, s_holder);
             }
-            
             character.holder = s_holder;
 
             Data_Character_Dictionary.Add(data.M_Character_Name, character);

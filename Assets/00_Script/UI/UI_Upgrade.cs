@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class UI_Upgrade : UI_Base
 {
@@ -19,8 +20,9 @@ public class UI_Upgrade : UI_Base
 
     IEnumerator All_Upgrade_Coroutine()
     {
-        var Data = Base_Manager.Data.Data_Character_Dictionary;
 
+        var Data = Base_Manager.Data.Data_Character_Dictionary;
+        
         foreach (var Character_Data in Data)
         {
             if (Can_Level_Up(Character_Data.Value))

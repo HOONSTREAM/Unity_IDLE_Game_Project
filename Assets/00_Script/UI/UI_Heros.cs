@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.WSA;
 
 /// <summary>
 /// 영웅 배치 창을 다루는 스크립트 입니다.
@@ -225,7 +226,9 @@ public class UI_Heros : UI_Base
     /// 캐릭터 카드 갯수를 초과하여, 강화하는 로직을 구현합니다.
     /// </summary>
     public void UpGrade_Button(Character_Holder holder)
-    {
+    {     
+        Debug.Log("강화버튼 클릭완료. 히어로 레벨 : " + holder.holder.Hero_Level + "카드 양 : " + holder.holder.Hero_Card_Amount);
+
         if (holder.holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name))
         {
             holder.holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
@@ -245,8 +248,33 @@ public class UI_Heros : UI_Base
     /// </summary>
     public void All_UpGrade_Button()
     {
+        if(Get_All_Upgrade() == false)
+        {
+            return;
+        }
+
         Base_Canvas.instance.Get_UI("UpGrade_Panel");
         Utils.UI_Holder.Peek().GetComponent<UI_Upgrade>().Initialize(this);
+    }
+
+    /// <summary>
+    /// 소유중인 모든 영웅을 순회하여 레벨업이 가능한 영웅들이 있는지 검사하고, 하나라도 있으면 true를 반환합니다.
+    /// </summary>
+    /// <returns></returns>
+    private bool Get_All_Upgrade()
+    {
+        bool Can_Upgrade = false;
+
+        foreach(var Data in Base_Manager.Data.Data_Character_Dictionary)
+        {
+            if (Data.Value.holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.Value.Data.name))
+            {
+                Can_Upgrade = true;
+
+            }
+        }
+
+        return Can_Upgrade;
     }
 
 }

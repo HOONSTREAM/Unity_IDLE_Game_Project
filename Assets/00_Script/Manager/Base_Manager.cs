@@ -78,9 +78,9 @@ public class Base_Manager : MonoBehaviour
             instance = this;
             Pool.Initialize(transform);
             ADS.Init();           
-            Item.Init();           
-            FireBase.Init();
-            Base_Manager.Data.Init(); //TODO : 임시, 제거예정 (캐릭터 카드 테스트생성)
+            Item.Init();
+            Data.Init(); // 삭제예정
+            FireBase.Init();          
             DontDestroyOnLoad(this.gameObject);
         }
 
