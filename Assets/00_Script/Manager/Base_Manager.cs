@@ -79,7 +79,7 @@ public class Base_Manager : MonoBehaviour
             Pool.Initialize(transform);
             ADS.Init();           
             Item.Init();
-            Data.Init(); // 삭제예정
+            Data.Init(); 
             FireBase.Init();          
             DontDestroyOnLoad(this.gameObject);
         }

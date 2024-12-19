@@ -250,6 +250,8 @@ public class UI_Heros : UI_Base
     {
         if(Get_All_Upgrade() == false)
         {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("레벨업이 가능한 영웅이 없습니다.");
+            
             return;
         }
 

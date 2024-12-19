@@ -42,7 +42,6 @@ public class Base_Canvas : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
     private void Start()
     {
         Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, false, true, 1));
@@ -56,8 +55,6 @@ public class Base_Canvas : MonoBehaviour
         
 
     }
-
-
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -69,17 +66,15 @@ public class Base_Canvas : MonoBehaviour
 
             else
             {
-                Debug.Log("게임종료 팝업");
+                Get_UI("Back_Button_Popup");
             }
             
         }
     }
-
     public Transform Holder_Layer(int value)
     {
         return LAYER.GetChild(value);
     }
-
     public void All_Layer_Destroy()
     {
         for (int i = 0; i < GameObject.Find("Layer1").gameObject.transform.childCount; i++)
@@ -99,7 +94,6 @@ public class Base_Canvas : MonoBehaviour
 
         return;
     }
-
     public void Get_UI(string temp, bool Fade = false, bool Back = false, bool Close = false, int value = -1)
     {
         if (Utils.UI_Holder.Count > 0)
@@ -126,7 +120,6 @@ public class Base_Canvas : MonoBehaviour
         Main_UI.Instance.Layer_Check(value);       
         GetPopupUI(temp, Back);
     }
-
     private void GetPopupUI(string temp, bool Back = false)
     {
         if (UI != null) UI = null;
@@ -137,8 +130,6 @@ public class Base_Canvas : MonoBehaviour
 
         Utils.UI_Holder.Push(go);
     }
-
-
     public Item_ToolTip Get_Item_Tooltip()
     {
         if(item_tooltip != null)
@@ -149,5 +140,10 @@ public class Base_Canvas : MonoBehaviour
         item_tooltip = Instantiate(Resources.Load<Item_ToolTip>("UI/Item_ToolTip"), transform);
        
         return item_tooltip;
+    }
+
+    public UI_Toast_Popup Get_Toast_Popup()
+    {
+        return Instantiate(Resources.Load<UI_Toast_Popup>("UI/Popup"), transform); //transform은 해당위치에 생성하라는 인자
     }
 }
