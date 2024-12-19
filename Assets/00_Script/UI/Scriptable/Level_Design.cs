@@ -74,5 +74,5 @@ public class HeroCardData
     [Space(10f)]
     public int Base_Levelup_Card_Amount;
 
-    public int Get_LEVELUP_Card_Amount(string name) => (int)Utils.CalculateValue(Base_Levelup_Card_Amount, Base_Manager.Data.Data_Character_Dictionary[name].holder.Hero_Level, Levelup_Card_Amount);
+    public int Get_LEVELUP_Card_Amount(string name) => (int)Utils.CalculateValue(Base_Levelup_Card_Amount, (Base_Manager.Data.Data_Character_Dictionary[name].holder.Hero_Level), Levelup_Card_Amount);
 }

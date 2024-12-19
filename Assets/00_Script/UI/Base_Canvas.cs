@@ -102,16 +102,16 @@ public class Base_Canvas : MonoBehaviour
 
     public void Get_UI(string temp, bool Fade = false, bool Back = false, bool Close = false, int value = -1)
     {
-        //if (Utils.UI_Holder.Count > 0)
-        //{
-        //    var peekData = Utils.UI_Holder.Peek();
-        //    if (peekData.name == temp)
-        //    {
-        //        Utils.CloseAllPopupUI();
-        //        Main_UI.Instance.Layer_Check(-1);
-        //        return;
-        //    }
-        //}
+        if (Utils.UI_Holder.Count > 0)
+        {
+            var topUI = Utils.UI_Holder.Peek();
+            if (topUI != null && topUI.name == temp)
+            {
+                Utils.CloseAllPopupUI();
+                Main_UI.Instance.Layer_Check(-1);
+                return;
+            }
+        }
 
         if (Close)
         {
@@ -120,10 +120,10 @@ public class Base_Canvas : MonoBehaviour
         if (Fade)
         {
             Main_UI.Instance.FadeInOut(false, true, () => GetPopupUI(temp, Back));
-            //Main_UI.Instance.Layer_Check(value);
+            Main_UI.Instance.Layer_Check(value);
             return;
         }
-        //Main_UI.Instance.Layer_Check(value);       
+        Main_UI.Instance.Layer_Check(value);       
         GetPopupUI(temp, Back);
     }
 

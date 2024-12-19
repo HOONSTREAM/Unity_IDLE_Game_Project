@@ -101,7 +101,7 @@ public class UI_Gacha : UI_Base
             var go = Instantiate(Gacha_Hero_Parts, Content); // 캐릭터 카드를 생성합니다.
             Reset_Gacha_Hero_Card_List.Add(go.gameObject);
             go.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSecondsRealtime(0.15f);
 
             if(rarity != Rarity.Legendary)
             {

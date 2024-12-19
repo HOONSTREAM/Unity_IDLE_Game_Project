@@ -94,6 +94,11 @@ public class UI_Heros : UI_Base
         });
 
     }
+
+    public void Disable_Default()
+    {
+
+    }
     /// <summary>
     /// 플레이어가, 영웅 창에서 특정 영웅을 터치했을때의 동작을 정의합니다.
     /// </summary>
@@ -186,9 +191,6 @@ public class UI_Heros : UI_Base
     }
     public void Get_Hero_Information(Character_Scriptable Data)
     {
-
-        int Card_Level_Count = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
-
         Hero_Information.gameObject.SetActive(true);
 
         if(Data.Rarity == Rarity.Legendary)
@@ -207,8 +209,8 @@ public class UI_Heros : UI_Base
         ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.Data_Character_Dictionary[Data.name]));
         HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.Data_Character_Dictionary[Data.name]));
         Level_Text.text = "LV." + (Base_Manager.Data.character_Holder[Data.name].Hero_Level + 1).ToString();
-        Slider_Count_Text.text = "(" + Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount + "/" + Card_Level_Count + ")";
-        Slider_Count_Fill.fillAmount = Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount / Card_Level_Count;
+        Slider_Count_Text.text = "(" + Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name) + ")";
+        Slider_Count_Fill.fillAmount = Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
         Hero_Image.sprite = Utils.Get_Atlas(Data.name);
         Rarity_Image.sprite = Utils.Get_Atlas(Data.Rarity.ToString());
 
@@ -224,11 +226,9 @@ public class UI_Heros : UI_Base
     /// </summary>
     public void UpGrade_Button(Character_Holder holder)
     {
-        int value = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
-
-        if (holder.holder.Hero_Card_Amount >= value)
+        if (holder.holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name))
         {
-            holder.holder.Hero_Card_Amount -= value;
+            holder.holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
             holder.holder.Hero_Level++;
         }
         Get_Hero_Information(holder.Data);
@@ -246,7 +246,7 @@ public class UI_Heros : UI_Base
     public void All_UpGrade_Button()
     {
         Base_Canvas.instance.Get_UI("UpGrade_Panel");
-        Utils.UI_Holder.Peek().GetComponent<UI_Upgrade>().Initialize();
+        Utils.UI_Holder.Peek().GetComponent<UI_Upgrade>().Initialize(this);
     }
 
 }

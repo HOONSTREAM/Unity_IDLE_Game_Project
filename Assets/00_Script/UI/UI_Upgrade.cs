@@ -9,8 +9,11 @@ public class UI_Upgrade : UI_Base
     [SerializeField]
     private Transform Content;
 
-    public void Initialize()
+    private UI_Base parentBase;
+
+    public void Initialize(UI_Base parent)
     {
+        parentBase = parent;
         StartCoroutine(All_Upgrade_Coroutine());      
     }
 
@@ -31,18 +34,25 @@ public class UI_Upgrade : UI_Base
                 go.Init(Character_Data.Value, now_level, value + 1);
             }
 
+            yield return new WaitForSecondsRealtime(0.1f);
         }
 
-        yield return new WaitForSecondsRealtime(0.2f);
+        var heroes = parentBase.GetComponent<UI_Heros>();
+
+        for (int i = 0; i < heroes.hero_parts.Count; i++)
+        {
+            heroes.hero_parts[i].Initialize();
+        }
+
+        Base_Manager.FireBase.WriteData();
+
     }
 
     private void Calculate_Upgrade_Level(Character_Holder holder, ref int value)
     {
-        int Card_Value = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
-
-        while (holder.holder.Hero_Card_Amount >= Card_Value)
+        while (holder.holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name))
         {
-            holder.holder.Hero_Card_Amount -= Card_Value;
+            holder.holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
             holder.holder.Hero_Level++;
         }
 
