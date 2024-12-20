@@ -120,4 +120,20 @@ public class Utils
         return Summon_Percentage;
     }
 
+    public static double Offline_Timer_Check()
+    {
+        if(Data_Manager.Main_Players_Data.StartDate == "" || Data_Manager.Main_Players_Data.EndDate == "")
+        {
+            return 0.0d;
+        }
+
+        DateTime startDate = DateTime.Parse(Data_Manager.Main_Players_Data.StartDate);
+        DateTime endDate = DateTime.Parse(Data_Manager.Main_Players_Data.EndDate);
+
+        TimeSpan timer = startDate - endDate;
+        double Time_Count = timer.TotalSeconds;
+
+        return Time_Count;
+    }
+
 }

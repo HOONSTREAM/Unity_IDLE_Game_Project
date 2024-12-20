@@ -37,6 +37,12 @@ public class Data
     /// 플레이어 유저의 확정 소환 카운트
     /// </summary>
     public int Hero_Pickup_Count;
+
+    /// <summary>
+    /// 플레이어 유저의 게임 시작시간, 종료시간 기록
+    /// </summary>
+    public string StartDate;
+    public string EndDate;
 }
 
 public class Data_Manager

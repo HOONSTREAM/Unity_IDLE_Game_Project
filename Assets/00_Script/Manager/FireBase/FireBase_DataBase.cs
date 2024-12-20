@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using System;
 
 public class User
 {
@@ -19,6 +20,7 @@ public partial class FireBase_Manager
         if(Data_Manager.Main_Players_Data != null)
         {
             data = Data_Manager.Main_Players_Data;
+            data.EndDate = DateTime.Now.ToString();
         }
 
         string DefalutJson = JsonUtility.ToJson(data);
@@ -69,6 +71,7 @@ public partial class FireBase_Manager
                 {
                     data = Default_Data;
                 }
+                data.StartDate = DateTime.Now.ToString();
                 Data_Manager.Main_Players_Data = data;              
                 Loading_Scene.instance.LoadingMain();
             }
