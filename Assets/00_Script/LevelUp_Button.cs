@@ -22,9 +22,9 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         InitEXP();
     }
     private void Update()
-    {
+    {     
         if (isPush)
-        {
+        {          
             Touch_Timer += Time.deltaTime;
 
             if(Touch_Timer >= 0.01f)

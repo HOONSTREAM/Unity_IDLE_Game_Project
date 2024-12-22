@@ -360,6 +360,7 @@ public class Main_UI : MonoBehaviour
             Boss_Slider_GameObject.gameObject.SetActive(false);
 
             Dead_Frame.gameObject.SetActive(true);
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("충분히 강해진 뒤에, BOSS버튼을 누르세요!");
 
             return;
         }
@@ -442,6 +443,7 @@ public class Main_UI : MonoBehaviour
     }
     private void OnDead()
     {
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("전투에서 패배하였습니다.");
         Main_UI.Instance.Level_Text_Check();
         StartCoroutine(Dead_Delay());
     }
@@ -460,6 +462,10 @@ public class Main_UI : MonoBehaviour
 
         StartCoroutine(FadeInOut_Coroutine(FadeInout, action));
     }
+
+    /// <summary>
+    /// 플레이어 레벨, 전투력, 골드, 스테이지 상태 의 텍스트를 업데이트 합니다.
+    /// </summary>
     public void Level_Text_Check()
     {
         double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();

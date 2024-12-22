@@ -47,12 +47,12 @@ public class UI_Heros_Parts : MonoBehaviour
         parent = parentsBASE; 
         Character = data;
 
-       
-        int Card_Level_Count = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
-
-        M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount /(float)Card_Level_Count;
-        M_Count.text = Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount.ToString() + "/" + Card_Level_Count.ToString();
+        
+        
         M_Level.text = "LV." + (Base_Manager.Data.character_Holder[data.name].Hero_Level + 1).ToString();
+        M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
+        M_Count.text = Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
+        Debug.Log($"계산된 {data.name} 레벨업 필요량 카드 : " + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name));
         M_Rarity_Image.sprite = Utils.Get_Atlas(data.Rarity.ToString());
         M_character_Image.sprite = Utils.Get_Atlas(data.M_Character_Name);
         M_character_Image.SetNativeSize();
@@ -68,10 +68,9 @@ public class UI_Heros_Parts : MonoBehaviour
     /// </summary>
     public void Initialize()
     {
-        int Card_Level_Count = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Character.name);
-
-        M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[Character.name].Hero_Card_Amount / (float)Card_Level_Count;
-        M_Count.text = Base_Manager.Data.character_Holder[Character.name].Hero_Card_Amount.ToString() + "/" + Card_Level_Count.ToString();
+ 
+        M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[Character.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Character.name);
+        M_Count.text = Base_Manager.Data.character_Holder[Character.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Character.name);
         M_Level.text = "LV." + (Base_Manager.Data.character_Holder[Character.name].Hero_Level + 1).ToString();
     }
     

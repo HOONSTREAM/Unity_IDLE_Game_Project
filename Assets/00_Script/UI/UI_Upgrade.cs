@@ -63,8 +63,7 @@ public class UI_Upgrade : UI_Base
 
     private bool Can_Level_Up(Character_Holder holder)
     {
-        int value = Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
-        if(holder.holder.Hero_Card_Amount >= value)
+        if(holder.holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name))
         {
             return true;
         }

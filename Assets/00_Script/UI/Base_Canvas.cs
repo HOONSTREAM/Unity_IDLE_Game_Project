@@ -29,6 +29,11 @@ public class Base_Canvas : MonoBehaviour
     public UI_Base UI;
     public static bool isSavingMode = false;
 
+    /// <summary>
+    /// 오프라인 보상 시작 시간을 지정합니다. (Second 단위)
+    /// </summary>
+    private const double START_OFFLINE_TIME = 10.0d; 
+
     private void Awake()
     {
         if(instance == null)
@@ -44,6 +49,13 @@ public class Base_Canvas : MonoBehaviour
     }
     private void Start()
     {
+
+        if (Utils.Offline_Timer_Check() >= START_OFFLINE_TIME)
+        {
+            Get_UI("OFFLINE_REWARD");
+        }
+
+
         Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, false, true, 1));
         Inventory_Button.onClick.AddListener(() => Get_UI("UI_INVENTORY"));
         Saving_Mode_Button.onClick.AddListener(() => {
@@ -57,6 +69,8 @@ public class Base_Canvas : MonoBehaviour
     }
     private void Update()
     {
+        
+
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             if(Utils.UI_Holder.Count > 0)
@@ -145,5 +159,10 @@ public class Base_Canvas : MonoBehaviour
     public UI_Toast_Popup Get_Toast_Popup()
     {
         return Instantiate(Resources.Load<UI_Toast_Popup>("UI/Popup"), transform); //transform은 해당위치에 생성하라는 인자
+    }
+
+    public UI_TOP_POPUP Get_TOP_Popup()
+    {
+        return Instantiate(Resources.Load<UI_TOP_POPUP>("UI/TOP_POPUP"), transform); //transform은 해당위치에 생성하라는 인자
     }
 }

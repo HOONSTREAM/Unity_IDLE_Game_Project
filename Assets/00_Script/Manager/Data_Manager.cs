@@ -12,6 +12,12 @@ public class Character_Holder
     public Holder holder;
 }
 
+public class Item_Holder
+{
+    public Item_Scriptable Data;
+    public Holder holder;
+}
+
 public class Holder
 {
     public int Hero_Level;
@@ -53,11 +59,13 @@ public class Data_Manager
     /// 플레이어가 현재 소유중인 영웅들을 관리합니다.
     /// </summary>
     public Dictionary<string, Character_Holder> Data_Character_Dictionary = new Dictionary<string, Character_Holder>();
+    public Dictionary<string, Holder> Item_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Holder> character_Holder = new Dictionary<string, Holder>();
-
+    public Dictionary<string, Item_Scriptable> Data_Item_Dictionary = new Dictionary<string, Item_Scriptable>();
     public void Init()
     {
         Set_Character();
+        Set_Item();
     }
 
     public Character_Scriptable Get_Rarity_Character(Rarity rarity)
@@ -97,6 +105,19 @@ public class Data_Manager
             character.holder = s_holder;
 
             Data_Character_Dictionary.Add(data.M_Character_Name, character);
+        }
+    }
+
+    private void Set_Item()
+    {
+        var datas = Resources.LoadAll<Item_Scriptable>("Scriptable/Item");
+
+        foreach (var data in datas)
+        {
+            var item = new Item_Scriptable();
+
+            item = data;
+            Data_Item_Dictionary.Add(data.name, item);
         }
     }
 }

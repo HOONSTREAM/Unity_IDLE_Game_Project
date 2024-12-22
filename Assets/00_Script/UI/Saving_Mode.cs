@@ -21,7 +21,7 @@ public class Saving_Mode : UI_Base
     [SerializeField]
     private Image Off_Saving_Image;
 
-    public Dictionary<string, Item> saving_item_Dict = new Dictionary<string, Item>();
+    public Dictionary<string, Item_Holder> saving_item_Dict = new Dictionary<string, Item_Holder>();
     public Dictionary<string, UI_Inventory_Parts> item_parts_saving_mode = new Dictionary<string, UI_Inventory_Parts>();
 
 
@@ -94,17 +94,18 @@ public class Saving_Mode : UI_Base
     {
         if (saving_item_Dict.ContainsKey(item.name))
         {
-            saving_item_Dict[item.name].Count++;
-            item_parts_saving_mode[item.name].Init(saving_item_Dict[item.name]);
+            saving_item_Dict[item.name].holder.Hero_Card_Amount++;
+            item_parts_saving_mode[item.name].Init(item.name);
             return;
         }
 
-        Item items = new Item { data = item, Count = 1 };
+        Item_Holder items = new Item_Holder {Data = item, holder = new Holder()};
+        items.holder.Hero_Card_Amount = 1;
         saving_item_Dict.Add(item.name, items);
 
 
         var go = Instantiate(item_parts, Content);
         item_parts_saving_mode.Add(item.name, go);
-        go.Init(items);
+        go.Init(items.Data.name);
     }
 }

@@ -9,6 +9,12 @@ public enum Rarity
     Legendary
 }
 
+public enum ItemType
+{
+    Consumable,
+    Equipment
+}
+
 public enum Stage_State
 {
     Ready,

@@ -120,12 +120,15 @@ public class Utils
         return Summon_Percentage;
     }
 
+    ///
     public static double Offline_Timer_Check()
     {
         if(Data_Manager.Main_Players_Data.StartDate == "" || Data_Manager.Main_Players_Data.EndDate == "")
         {
             return 0.0d;
         }
+
+        //TODO: 로컬시간작업 X , 외부통신하여 시간작업필요. 유저 조작 가능성 높음
 
         DateTime startDate = DateTime.Parse(Data_Manager.Main_Players_Data.StartDate);
         DateTime endDate = DateTime.Parse(Data_Manager.Main_Players_Data.EndDate);

@@ -7,18 +7,15 @@ using UnityEngine;
 /// </summary>
 public class Inventory_Manager 
 {
-    public Dictionary<string, Item> Items_Dict = new Dictionary<string, Item>(); 
-   
-    public void Get_Item(Item_Scriptable item)
+  
+    public void Get_Item(Item_Scriptable item, int Drop_count = 1)
     {
-        if (Items_Dict.ContainsKey(item.name))
+        if (Base_Manager.Data.Item_Holder.ContainsKey(item.name))
         {
-            Items_Dict[item.name].Count++;
+            Base_Manager.Data.Item_Holder[item.name].Hero_Card_Amount += Drop_count;
 
             return;
         }
 
-        Items_Dict.Add(item.name, new Item { data = item, Count = 1 });
-       
     }
 }

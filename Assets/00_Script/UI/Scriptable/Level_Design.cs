@@ -74,5 +74,9 @@ public class HeroCardData
     [Space(10f)]
     public int Base_Levelup_Card_Amount;
 
-    public int Get_LEVELUP_Card_Amount(string name) => (int)Utils.CalculateValue(Base_Levelup_Card_Amount, (Base_Manager.Data.Data_Character_Dictionary[name].holder.Hero_Level), Levelup_Card_Amount);
+    public int Get_LEVELUP_Card_Amount(string name)
+    {
+        Debug.Log($"Get_LEVELUP_CARD_AMOUNT 실행 : " + (Base_Manager.Data.character_Holder[name].Hero_Level) + "레벨" + Levelup_Card_Amount.ToString() +  ": 레벨업 갱신 필요량");
+        return (int)Utils.CalculateValue(Base_Levelup_Card_Amount, (Base_Manager.Data.character_Holder[name].Hero_Level), Levelup_Card_Amount);
+    }
 }

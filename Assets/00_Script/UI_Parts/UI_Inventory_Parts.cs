@@ -11,14 +11,16 @@ public class UI_Inventory_Parts : MonoBehaviour
     private TextMeshProUGUI Count_Text;
 
 
-    public void Init(Item item)
+    public void Init(string name)
     {
-        Rarity_Image.sprite = Utils.Get_Atlas(item.data.rarity.ToString());
-        IconImage.sprite = Utils.Get_Atlas(item.data.name);
-        Count_Text.text = item.Count.ToString();
+        Holder holder = Base_Manager.Data.Item_Holder[name];
+        Item_Scriptable scriptable = Base_Manager.Data.Data_Item_Dictionary[name];
+        Rarity_Image.sprite = Utils.Get_Atlas(scriptable.rarity.ToString());
+        IconImage.sprite = Utils.Get_Atlas(scriptable.name);
+        Count_Text.text = holder.Hero_Card_Amount.ToString();
 
 
-        GetComponent<ToolTip_Controller>().Init(item.data);
+        GetComponent<ToolTip_Controller>().Init(scriptable);
     }
 
 }
