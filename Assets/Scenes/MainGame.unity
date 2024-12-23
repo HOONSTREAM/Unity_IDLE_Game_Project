@@ -12384,6 +12384,7 @@ MonoBehaviour:
   Saving_Mode_Button: {fileID: 1662703825}
   ADS_Buff_Button: {fileID: 1767166923}
   Shop_Button: {fileID: 739013396}
+  Relic_Button: {fileID: 984666471}
   item_tooltip: {fileID: 0}
   UI: {fileID: 0}
 --- !u!1001 &467480557
@@ -13748,7 +13749,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 151.20801, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &543505923
@@ -21613,7 +21614,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 984666472}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 452607728}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &984666472
 MonoBehaviour:
   m_ObjectHideFlags: 0

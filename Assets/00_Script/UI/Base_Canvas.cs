@@ -22,6 +22,8 @@ public class Base_Canvas : MonoBehaviour
     private Button ADS_Buff_Button;
     [SerializeField]
     private Button Shop_Button;
+    [SerializeField]
+    private Button Relic_Button;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -57,6 +59,7 @@ public class Base_Canvas : MonoBehaviour
 
 
         Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, false, true, 1));
+        Relic_Button.onClick.AddListener(() => Get_UI("UI_RELIC", false, false, true, 2));
         Inventory_Button.onClick.AddListener(() => Get_UI("UI_INVENTORY"));
         Saving_Mode_Button.onClick.AddListener(() => {
             Get_UI("Saving_Mode");

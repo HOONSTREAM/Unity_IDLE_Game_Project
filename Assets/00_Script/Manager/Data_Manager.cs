@@ -62,6 +62,7 @@ public class Data_Manager
     public Dictionary<string, Holder> Item_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Holder> character_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Item_Scriptable> Data_Item_Dictionary = new Dictionary<string, Item_Scriptable>();
+    public Item_Holder[] Main_Set_Item = new Item_Holder[9];
     public void Init()
     {
         Set_Character();
@@ -86,6 +87,7 @@ public class Data_Manager
     private void Set_Character()
     {
         var datas = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");
+       
 
         foreach (var data in datas)
         {

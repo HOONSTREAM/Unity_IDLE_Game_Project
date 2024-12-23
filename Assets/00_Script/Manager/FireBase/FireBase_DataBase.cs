@@ -116,6 +116,7 @@ public partial class FireBase_Manager
                 var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
                
                 Base_Manager.Data.character_Holder = data;
+                
 
                 Debug.Log("로드된 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.character_Holder));
 
