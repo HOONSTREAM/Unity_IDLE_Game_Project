@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,12 +15,13 @@ public class UI_Relic : UI_Base
     private Item_Scriptable Item;
     private const int RELIC_SLOT_NUMBER = 9;
     public GameObject[] Relic_Panel_Objects;
-    public Color[] colors;
-
+   
     public override bool Init()
     { 
         var Data = Base_Manager.Data.Data_Item_Dictionary; //모든 아이템 딕셔너리
+
         GetItemcheck();
+
         foreach (var data in Data)
         {
             if(data.Value.ItemType == ItemType.Equipment)
@@ -37,11 +39,27 @@ public class UI_Relic : UI_Base
 
         foreach (var data in sort_dict)
         {
-            var Object = Instantiate(Parts, Content).GetComponent<UI_Relic_Parts>(); // Content를 부모오브젝트로 해서 Parts를 생성
+            var go = Instantiate(Parts, Content).GetComponent<UI_Relic_Parts>();
             value++;
-            relic_parts.Add(Object);
+            relic_parts.Add(go);
             int index = value;
-            Object.Init(data.Value, this);
+            go.Init(data.Value, this);
+        }
+
+        for (int i = 0; i< Relic_Panel_Objects.Length; i++)
+        {
+            if(i == 0)
+            {
+                Relic_Panel_Objects[i].transform.GetChild(0).gameObject.SetActive(false);
+                Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(false);
+                Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(false);
+
+                break;
+            }
+
+            Relic_Panel_Objects[i].transform.GetChild(0).gameObject.SetActive(true);
+            Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(false);
+            Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(false);
         }
 
         return base.Init();
@@ -62,6 +80,7 @@ public class UI_Relic : UI_Base
 
     public void Set_Item_Button(int value)
     {
+        Debug.Log("Set_Item_Button 실행");
         Base_Manager.Item.Get_Item(value, Item.name);
         Initialize();
     }
@@ -75,14 +94,19 @@ public class UI_Relic : UI_Base
         {
             if (Base_Manager.Data.Main_Set_Item[i] != null)
             {
-                Relic_Panel_Objects[i].GetComponent<Image>().color = colors[(int)Base_Manager.Data.Main_Set_Item[i].rarity];
+                Debug.Log("getitemcheck if 구문 진입");
+               
+                Relic_Panel_Objects[i].transform.GetChild(0).gameObject.SetActive(false);
+                Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(true);
                 Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(true);
                 Relic_Panel_Objects[i].transform.GetChild(2).GetComponent<Image>().sprite = Utils.Get_Atlas(Base_Manager.Data.Main_Set_Item[i].name);
+                Relic_Panel_Objects[i].transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Base_Manager.Data.Main_Set_Item[i].rarity.ToString());
             }
 
             else
             {
-                Relic_Panel_Objects[i].GetComponent<Image>().color = Color.white;
+                Debug.Log("getitemcheck else 구문 진입");
+                Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(false);
                 Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(false);
             }
         }

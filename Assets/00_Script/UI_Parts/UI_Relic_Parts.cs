@@ -98,6 +98,7 @@ public class UI_Relic_Parts : MonoBehaviour
     {
         parent.Set_Click(this);
     }
+
     /// <summary>
     /// 보유중인 영웅을 터치했을 때의 기능을 구현합니다.
     /// </summary>
