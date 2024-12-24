@@ -119,11 +119,11 @@ public partial class FireBase_Manager
                 
 
                 Debug.Log("로드된 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.character_Holder));
-
+                
 
                 Base_Manager.Data.Init(); // TODO
-                
-                           
+
+                Debug.Log("로드된 데이터 캐릭터 딕셔너리 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.Data_Character_Dictionary));
             }
 
             else

@@ -11,9 +11,8 @@ public class UI_Inventory_Parts : MonoBehaviour
     private TextMeshProUGUI Count_Text;
 
 
-    public void Init(string name)
-    {
-        Holder holder = Base_Manager.Data.Item_Holder[name];
+    public void Init(string name, Holder holder)
+    {        
         Item_Scriptable scriptable = Base_Manager.Data.Data_Item_Dictionary[name];
         Rarity_Image.sprite = Utils.Get_Atlas(scriptable.rarity.ToString());
         IconImage.sprite = Utils.Get_Atlas(scriptable.name);

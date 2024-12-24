@@ -77,7 +77,7 @@ public class UI_Relic_Parts : MonoBehaviour
         {
             if (Base_Manager.Data.Main_Set_Item[i] != null)
             {
-                if (Base_Manager.Data.Main_Set_Item[i].Data == item)
+                if (Base_Manager.Data.Main_Set_Item[i] == item)
                 {
                     Equip = true;
                 }
@@ -94,16 +94,16 @@ public class UI_Relic_Parts : MonoBehaviour
     /// <summary>
     /// 영웅 카드 우측상단의 탭을 누르면 활성화 되는 로직을 처리합니다.
     /// </summary>
-    //public void Click_My_Button()
-    //{       
-    //    parent.Set_Click(this);
-    //}
+    public void Click_My_Button()
+    {
+        parent.Set_Click(this);
+    }
     /// <summary>
     /// 보유중인 영웅을 터치했을 때의 기능을 구현합니다.
     /// </summary>
     //public void Click_My_Hero()
     //{
-    //    parent.Get_Hero_Information(Character);       
+    //    parent.Get_Hero_Information(Character);
     //}
 
 

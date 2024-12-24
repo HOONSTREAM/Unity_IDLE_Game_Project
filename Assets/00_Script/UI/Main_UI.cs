@@ -159,7 +159,7 @@ public class Main_UI : MonoBehaviour
 
         for (int i = 0; i < Button_Images.Length; i++)
         {
-            if(value != i && Button_Images[i].localScale.x >= 1.3f)
+            if(value != i && Button_Images[i].localScale.x >= 1.2f)
             {
                 StartCoroutine(Button_Image_Move_Coroutine(i, true));
             }

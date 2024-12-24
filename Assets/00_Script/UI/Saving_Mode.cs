@@ -95,7 +95,7 @@ public class Saving_Mode : UI_Base
         if (saving_item_Dict.ContainsKey(item.name))
         {
             saving_item_Dict[item.name].holder.Hero_Card_Amount++;
-            item_parts_saving_mode[item.name].Init(item.name);
+            item_parts_saving_mode[item.name].Init(item.name, Base_Manager.Data.Item_Holder[item.name]);
             return;
         }
 
@@ -106,6 +106,6 @@ public class Saving_Mode : UI_Base
 
         var go = Instantiate(item_parts, Content);
         item_parts_saving_mode.Add(item.name, go);
-        go.Init(items.Data.name);
+        go.Init(items.Data.name, Base_Manager.Data.Item_Holder[item.name]);
     }
 }

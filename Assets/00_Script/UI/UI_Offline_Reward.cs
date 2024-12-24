@@ -33,7 +33,7 @@ public class UI_Offline_Reward : UI_Base
         foreach(var item in items)
         {
             var go = Instantiate(UI_INVENTORY_PARTS_Item, Content);
-            go.Init(item.Key);
+            go.Init(item.Key, item.Value.holder);
         }
 
         return base.Init();
@@ -44,6 +44,7 @@ public class UI_Offline_Reward : UI_Base
     /// </summary>
     private void Instantiate_Offline_Items()
     {
+
         int TimeValue = (int)Utils.Offline_Timer_Check() / 3;
 
         for (int i = 0; i < TimeValue; i++)
@@ -65,7 +66,6 @@ public class UI_Offline_Reward : UI_Base
                     new_item.holder.Hero_Card_Amount = 1;
                     items.Add(Drop_items[j].name, new_item);
                 }
-
             }
         }
     }
@@ -79,7 +79,7 @@ public class UI_Offline_Reward : UI_Base
 
         foreach(var Item in items)
         {
-            Base_Manager.Inventory.Get_Item(Item.Value.Data, Item.Value.holder.Hero_Card_Amount);
+            Base_Manager.Inventory.Get_Item(Item.Value.Data,Item.Value.holder.Hero_Card_Amount);
         }
 
         DisableOBJ();

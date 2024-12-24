@@ -29,7 +29,7 @@ public class UI_Inventory : UI_Base
         {
             if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0)
             {
-                Instantiate(Item_Parts, Content).Init(item.Key);
+                Instantiate(Item_Parts, Content).Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
             }         
         }
 
