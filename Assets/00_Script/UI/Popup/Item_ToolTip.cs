@@ -1,3 +1,4 @@
+using AssetKits.ParticleImage;
 using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ public class Item_ToolTip : MonoBehaviour
     private Image Item_Image;
     [SerializeField]
     private TextMeshProUGUI Item_Name_Text, Rarity_Text, Description_Text;
+    [SerializeField]
+    private ParticleImage Legendary_Particle;
 
     private void Awake()
     {
@@ -42,6 +45,15 @@ public class Item_ToolTip : MonoBehaviour
         Item_Name_Text.text = item.Item_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(item.rarity) + item.rarity.ToString();
         Description_Text.text = item.Item_Description;
+
+        if(item.rarity == Rarity.Legendary)
+        {
+            Legendary_Particle.gameObject.SetActive(true);
+        }
+        else
+        {
+            Legendary_Particle.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>

@@ -64,8 +64,8 @@ public class UI_Relic_Parts : MonoBehaviour
     public void Initialize()
     {
 
-        M_Silder.fillAmount = (float)Base_Manager.Data.Item_Holder[item.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(item.name);
-        M_Count.text = Base_Manager.Data.Item_Holder[item.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(item.name);
+        M_Silder.fillAmount = (float)Base_Manager.Data.Item_Holder[item.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(item.name);
+        M_Count.text = Base_Manager.Data.Item_Holder[item.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(item.name);
         M_Level.text = "LV." + (Base_Manager.Data.Item_Holder[item.name].Hero_Level + 1).ToString();
     }
 
@@ -92,7 +92,7 @@ public class UI_Relic_Parts : MonoBehaviour
     }
 
     /// <summary>
-    /// 영웅 카드 우측상단의 탭을 누르면 활성화 되는 로직을 처리합니다.
+    /// 유물 카드 우측상단의 탭을 누르면 활성화 되는 로직을 처리합니다.
     /// </summary>
     public void Click_My_Button()
     {
@@ -102,10 +102,10 @@ public class UI_Relic_Parts : MonoBehaviour
     /// <summary>
     /// 보유중인 영웅을 터치했을 때의 기능을 구현합니다.
     /// </summary>
-    //public void Click_My_Hero()
-    //{
-    //    parent.Get_Hero_Information(Character);
-    //}
+    public void Click_My_Relic()
+    {
+        parent.Get_Relic_Information(item);
+    }
 
 
 }

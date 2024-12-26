@@ -1,8 +1,11 @@
+using AssetKits.ParticleImage;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,12 +18,40 @@ public class UI_Relic : UI_Base
     private Item_Scriptable Item;
     private const int RELIC_SLOT_NUMBER = 9;
     public GameObject[] Relic_Panel_Objects;
-   
+
+    #region Relic_Info
+    [Space(20f)]
+    [Header("Relic_Information")]
+    [Space(20f)]
+    [SerializeField]
+    private GameObject Relic_Information;
+    [SerializeField]
+    private TextMeshProUGUI Relic_Name_Text, Rarity_Text, Description_Text;   
+    [SerializeField]
+    private TextMeshProUGUI Level_Text, Slider_Count_Text;
+    [SerializeField]
+    private TextMeshProUGUI Holding_Effect_First, Holding_Effect_Second;
+    [SerializeField]
+    private TextMeshProUGUI Holding_Effect_Amount_First, Holding_Effect_Amount_Second;
+    [SerializeField]
+    private TextMeshProUGUI Skill_Name_Text, Skill_Description; //CSV 이용
+    [SerializeField]
+    private Image Slider_Count_Fill;
+    [SerializeField]
+    private Image Rarity_Image;
+    [SerializeField]
+    private Image Relic_Image;
+    [SerializeField]
+    private Image Skill_Image;
+    [SerializeField]
+    private ParticleImage Legendary_Image;
+    [SerializeField]
+    private Button Upgrade;
+
+    #endregion
     public override bool Init()
     { 
         var Data = Base_Manager.Data.Data_Item_Dictionary; //모든 아이템 딕셔너리
-
-        GetItemcheck();
 
         foreach (var data in Data)
         {
@@ -70,11 +101,13 @@ public class UI_Relic : UI_Base
             Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(false);
         }
 
+        Get_Equip_Relic_Check();
+
         return base.Init();
     }
-
     public void Initialize()
     {
+
         Set_Click(null);   
 
         for (int i = 0; i < relic_parts.Count; i++)
@@ -84,13 +117,22 @@ public class UI_Relic : UI_Base
 
         Delegate_Holder.Clear_Event();
         Relic_Manager.instance.Initalize();
-
-        GetItemcheck();
-        //Main_UI.Instance.Set_Character_Data();
+        Get_Equip_Relic_Check();
+        
     }
-
+    
+    /// <summary>
+    /// 장착 유물 데이터를 전체 아이템 딕셔너리에서, 유물 장착 딕셔너리에 데이터를 옮깁니다.
+    /// </summary>
+    /// <param name="value"></param>
     public void Set_Item_Button(int value)
     {
+        if (Relic_Panel_Objects[value].transform.GetChild(0).gameObject.activeSelf)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨 달성 시, 유물 칸 잠금이 해제 됩니다.");
+            return;
+        }
+
         Debug.Log("Set_Item_Button 실행");
         Base_Manager.Item.Get_Item(value, Item.name);
         Initialize();
@@ -99,7 +141,7 @@ public class UI_Relic : UI_Base
     /// <summary>
     /// 장착 유물을 검사하여, 스프라이트 및 컬러를 수정합니다.
     /// </summary>
-    public void GetItemcheck()
+    public void Get_Equip_Relic_Check()
     {
         for(int i = 0; i<Relic_Panel_Objects.Length; i++)
         {
@@ -110,7 +152,7 @@ public class UI_Relic : UI_Base
                 Relic_Panel_Objects[i].transform.GetChild(0).gameObject.SetActive(false);
                 Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(true);
                 Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(true);
-                Relic_Panel_Objects[i].transform.GetChild(2).GetComponent<Image>().sprite = Utils.Get_Atlas(Base_Manager.Data.Main_Set_Item[i].name);
+                Relic_Panel_Objects[i].transform.GetChild(2).GetComponent<Image>().sprite = Utils.Get_Atlas(Base_Manager.Data.Main_Set_Item[i].name);            
                 Relic_Panel_Objects[i].transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Base_Manager.Data.Main_Set_Item[i].rarity.ToString());
             }
 
@@ -125,6 +167,7 @@ public class UI_Relic : UI_Base
 
     public void Set_Click(UI_Relic_Parts parts)
     {
+
 
         if (parts == null)
         {
@@ -166,6 +209,54 @@ public class UI_Relic : UI_Base
 
     }
 
+    public void Get_Relic_Information(Item_Scriptable Data)
+    {
+        Relic_Information.gameObject.SetActive(true);
+
+        if (Data.rarity == Rarity.Legendary)
+        {
+            Legendary_Image.gameObject.SetActive(true);
+        }
+        else
+        {
+            Legendary_Image.gameObject.SetActive(false);
+        }
+
+        Relic_Name_Text.text = Data.Item_Name;
+        Rarity_Text.text = Utils.String_Color_Rarity(Data.rarity) + Data.rarity.ToString();
+        Description_Text.text = Data.Item_Description;
+        Level_Text.text = "LV." + (Base_Manager.Data.Item_Holder[Data.name].Hero_Level + 1).ToString();
+        Slider_Count_Text.text = "(" + Base_Manager.Data.Item_Holder[Data.name].Hero_Card_Amount + "/" + Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name) + ")";
+        Slider_Count_Fill.fillAmount = Base_Manager.Data.Item_Holder[Data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name);
+        Relic_Image.sprite = Utils.Get_Atlas(Data.name);
+        Rarity_Image.sprite = Utils.Get_Atlas(Data.rarity.ToString());
+
+        Upgrade.onClick.RemoveAllListeners();
+        Upgrade.onClick.AddListener(() => UpGrade_Button(Base_Manager.Data.Item_Holder[Data.name], Data));
+    }
+
+    public void UpGrade_Button(Holder holder, Item_Scriptable Data)
+    {
+        Debug.Log("강화버튼 클릭완료. 히어로 레벨 : " + holder.Hero_Level + "카드 양 : " + holder.Hero_Card_Amount);
+
+        if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name))
+        {
+            holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name);
+            holder.Hero_Level++;
+        }
+        Get_Relic_Information(Data);
+
+        for (int i = 0; i < relic_parts.Count; i++)
+        {
+            relic_parts[i].Initialize();
+        }
+
+    }
+
+    public void Disable_Relic_Information()
+    {
+        Relic_Information.gameObject.SetActive(false);
+    }
 
     public override void DisableOBJ()
     {
