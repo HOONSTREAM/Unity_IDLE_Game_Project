@@ -25,12 +25,15 @@ public class UI_Inventory : UI_Base
     public override bool Init()
     {
         var sort_Dictionary = Base_Manager.Data.Data_Item_Dictionary.OrderByDescending(x => x.Value.rarity);
+
         foreach(var item in sort_Dictionary)
         {
+            
             if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0)
             {
                 Instantiate(Item_Parts, Content).Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
-            }         
+            }
+                        
         }
 
         for(int i = 0; i< Inven_Top_Buttons.Length; i++)

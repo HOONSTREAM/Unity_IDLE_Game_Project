@@ -172,6 +172,7 @@ public class Player : Character
             return;
         }
 
+        Delegate_Holder.Player_hit(this);
         Get_MP(10);
 
         var goOBJ = Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
@@ -209,7 +210,7 @@ public class Player : Character
     {
         base.Attack();
         Trail_Object.gameObject.SetActive(true);
-
+        Delegate_Holder.Player_Attack(this,m_target.GetComponent<Monster>());
         Invoke("TrailDisable", 1.0f);
     }
 

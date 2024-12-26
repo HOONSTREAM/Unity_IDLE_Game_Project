@@ -7,6 +7,21 @@ using UnityEngine;
 /// </summary>
 public class Item_Manager 
 {
+
+    public bool Set_Item_Check(string name)
+    {
+        for (int i = 0; i < Base_Manager.Data.Main_Set_Item.Length; i++)
+        {
+            if (Base_Manager.Data.Main_Set_Item[i] != null)
+            {
+                if (Base_Manager.Data.Main_Set_Item[i].name == name)
+                {
+                    return true;
+                }                                                  
+            }
+        }
+        return false;
+    }
     /// <summary>
     /// 모든 아이템 데이터가 들어있는 딕셔너리를 순회하면서 일정 확률로 임시 리스트에 드랍 아이템을 반환합니다.
     /// </summary>

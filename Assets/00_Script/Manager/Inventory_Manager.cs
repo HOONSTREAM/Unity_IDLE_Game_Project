@@ -17,5 +17,13 @@ public class Inventory_Manager
             return;
         }
 
+        else // 새로 아이템 생성
+        {
+            Holder holder = new Holder();
+            holder.Hero_Card_Amount = Drop_count;
+            holder.Hero_Level = 0;
+            Base_Manager.Data.Item_Holder.Add(item.name, holder);
+        }
+
     }
 }

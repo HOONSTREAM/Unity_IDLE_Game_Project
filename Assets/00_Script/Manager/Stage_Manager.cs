@@ -4,13 +4,6 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public delegate void OnReadyEvent();
-public delegate void OnPlayEvent();
-public delegate void OnBossEvent();
-public delegate void OnBossPlayEvent();
-public delegate void OnClearEvent();
-public delegate void OnDeadEvent();
-
 public class Stage_Manager
 { 
     public static Stage_State M_State;

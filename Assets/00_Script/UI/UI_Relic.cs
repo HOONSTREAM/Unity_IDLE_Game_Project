@@ -27,6 +27,14 @@ public class UI_Relic : UI_Base
             if(data.Value.ItemType == ItemType.Equipment)
             {
                 _dict.Add(data.Value.name, data.Value);
+
+                // TODO : 제거필요
+                //Holder holder = new Holder();
+                //holder.Hero_Level = 1;
+                //holder.Hero_Card_Amount = 1;
+                //Base_Manager.Data.Item_Holder.Add(data.Value.name, holder);
+                ////
+
             }          
         }
 
@@ -73,6 +81,9 @@ public class UI_Relic : UI_Base
         {
             relic_parts[i].Get_Item_Check();
         }
+
+        Delegate_Holder.Clear_Event();
+        Relic_Manager.instance.Initalize();
 
         GetItemcheck();
         //Main_UI.Instance.Set_Character_Data();

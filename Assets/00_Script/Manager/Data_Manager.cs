@@ -63,6 +63,7 @@ public class Data_Manager
     public Dictionary<string, Holder> character_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Item_Scriptable> Data_Item_Dictionary = new Dictionary<string, Item_Scriptable>();
     public Item_Scriptable[] Main_Set_Item = new Item_Scriptable[9]; // À¯¹° ÀåÂøÄ­
+
     public void Init()
     {
         Set_Character();

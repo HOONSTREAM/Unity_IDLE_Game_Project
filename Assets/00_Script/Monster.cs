@@ -150,6 +150,7 @@ public class Monster : Character
         if(HP <= 0)
         {
             isDead = true;
+            Delegate_Holder.Monster_Dead(this);
             Dead_Event();
         }
 
