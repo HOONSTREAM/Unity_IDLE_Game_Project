@@ -7,9 +7,8 @@ using UnityEngine.UI;
 public class UI_Inventory : UI_Base
 {
 
-    public enum Inventory_State { ALL, EQUIPMENT, CONSUMABLE, ETC }
     [SerializeField]
-    private Inventory_State NOW_Inventory_State;
+    private ItemType NOW_Inventory_State;
     [SerializeField]
     private RectTransform Bar; // 인벤토리의 메뉴 (전체아이템, 장비, 소비, 기타)
     [SerializeField]
@@ -21,34 +20,63 @@ public class UI_Inventory : UI_Base
     private UI_Inventory_Parts Item_Parts;
     [SerializeField]
     private RectTransform Top_Content;
+    private List<GameObject> Garbage_Inven_Change = new List<GameObject>();
 
     public override bool Init()
     {
+        if(Garbage_Inven_Change.Count > 0)
+        {
+            for (int i = 0; i < Garbage_Inven_Change.Count; i++)
+            {
+                Destroy(Garbage_Inven_Change[i]);
+            }
+
+            Garbage_Inven_Change.Clear();
+        }
+
         var sort_Dictionary = Base_Manager.Data.Data_Item_Dictionary.OrderByDescending(x => x.Value.rarity);
 
         foreach(var item in sort_Dictionary)
         {
-            
-            if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0)
+            if(NOW_Inventory_State == ItemType.ALL)
             {
-                Instantiate(Item_Parts, Content).Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
+                if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0)
+                {
+                    var go = Instantiate(Item_Parts, Content);
+                    go.Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
+                    Garbage_Inven_Change.Add(go.gameObject);
+                }
             }
+
+            else
+            {
+                if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0 && NOW_Inventory_State == Base_Manager.Data.Data_Item_Dictionary[item.Key].ItemType)
+                {
+                    var go = Instantiate(Item_Parts, Content);
+                    go.Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
+                    Garbage_Inven_Change.Add(go.gameObject);
+                }
+             
+            }
+            
                         
         }
 
         for(int i = 0; i< Inven_Top_Buttons.Length; i++)
         {
             int index = i;
-            Inven_Top_Buttons[index].onClick.AddListener(() => Item_Inventory_Menu_Check((Inventory_State)index));
+            Inven_Top_Buttons[index].onClick.RemoveAllListeners();
+            Inven_Top_Buttons[index].onClick.AddListener(() => Item_Inventory_Menu_Check((ItemType)index));
         }
 
         return base.Init();
     }
 
-    public void Item_Inventory_Menu_Check(Inventory_State state)
+    public void Item_Inventory_Menu_Check(ItemType state)
     {
         NOW_Inventory_State = state;
         StartCoroutine(Bar_Movement_Coroutine(Inven_Top_Buttons[(int)state].GetComponent<RectTransform>().anchoredPosition));
+        Init();
     }
 
     /// <summary>

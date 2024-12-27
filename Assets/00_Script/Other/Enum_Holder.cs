@@ -11,8 +11,10 @@ public enum Rarity
 
 public enum ItemType
 {
-    Consumable,
-    Equipment
+    ALL,
+    Equipment,
+    Consumable,   
+    ETC,
 }
 
 public enum Stage_State

@@ -32,7 +32,7 @@ public class Item_Manager
 
         foreach(var data in Base_Manager.Data.Data_Item_Dictionary)
         {
-            if(data.Value.ItemType == ItemType.Consumable) // 유물은 드랍하지 않도록 처리
+            if(data.Value.Minimum_Drop_Stage <= Data_Manager.Main_Players_Data.Player_Stage)
             {
                 float ValueCount = Random.Range(0.0f, 100.0f);
                 if (ValueCount <= data.Value.Item_Chance)
@@ -40,7 +40,7 @@ public class Item_Manager
                     objs.Add(data.Value);
                 }
             }
-          
+           
         }
 
         return objs;
