@@ -17,7 +17,14 @@ public partial class FireBase_Manager
         if (Data_Manager.Main_Players_Data != null)
         {
             data = Data_Manager.Main_Players_Data;
+            DateTime LastDate = DateTime.Parse(data.EndDate);
             data.EndDate = DateTime.Now.ToString();
+
+            if (Get_Date_Dungeon_Item(LastDate, DateTime.Now))
+            {
+                data.Daily_Enter_Key[0] = 2;
+                data.Daily_Enter_Key[1] = 2;
+            }
             Debug.Log("종료시간 : " + data.EndDate);
         }
 
@@ -92,6 +99,17 @@ public partial class FireBase_Manager
                     data = Default_Data;                     
                 }
                 data.StartDate = DateTime.Now.ToString();
+
+
+                DateTime startDate = DateTime.Parse(data.StartDate);
+                DateTime endDate = DateTime.Parse(data.EndDate);
+
+                if(Get_Date_Dungeon_Item(startDate,endDate))
+                {
+                    data.Daily_Enter_Key[0] = 2;
+                    data.Daily_Enter_Key[1] = 2;
+                }
+                
                 Data_Manager.Main_Players_Data = data;
                 Debug.Log("시작시간 : " + data.StartDate);
                 Loading_Scene.instance.LoadingMain();
@@ -165,5 +183,17 @@ public partial class FireBase_Manager
 
     }
 
+    private bool Get_Date_Dungeon_Item(DateTime startdate, DateTime enddate)
+    {
+        if(startdate.Day !=  enddate.Day)
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;   
+        }
+    }
 
 }

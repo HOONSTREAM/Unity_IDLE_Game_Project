@@ -23,7 +23,7 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         InitEXP();
     }
     private void Update()
-    {     
+    {      
         if (isPush)
         {          
             Touch_Timer += Time.deltaTime;
@@ -37,6 +37,12 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     }
     public void Exp_Up()
     {
+        if (Stage_Manager.M_State == Stage_State.Dead)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("사망 상태에서는, 레벨업이 불가합니다.");
+            return;
+        }
+
         Base_Manager.Player.EXP_UP();
         InitEXP();
         transform.DORewind();
