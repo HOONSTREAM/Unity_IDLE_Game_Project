@@ -53,6 +53,7 @@ public class Elemental_W_Skill : Skill_Base
             
         }
 
+        yield return new WaitForSecondsRealtime(5.0f);
         ReturnSkill();
       
     }

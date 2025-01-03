@@ -20,6 +20,7 @@ public class UI_Upgrade : UI_Base
 
     IEnumerator All_Upgrade_Coroutine()
     {
+        //TODO : Character_Holder 
 
         var Data = Base_Manager.Data.Data_Character_Dictionary;
         

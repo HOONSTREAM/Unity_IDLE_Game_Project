@@ -40,26 +40,43 @@ public class UI_Inventory : UI_Base
         {
             if(NOW_Inventory_State == ItemType.ALL)
             {
-                if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0)
+
+                if (Base_Manager.Data.Item_Holder.ContainsKey(item.Value.name))
                 {
-                    var go = Instantiate(Item_Parts, Content);
-                    go.Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
-                    Garbage_Inven_Change.Add(go.gameObject);
+                    if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0)
+                    {
+                        var go = Instantiate(Item_Parts, Content);
+                        go.Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
+                        Garbage_Inven_Change.Add(go.gameObject);
+                    }
                 }
+
+                else
+                {
+                    continue;
+                }
+              
             }
 
             else
             {
-                if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0 && NOW_Inventory_State == Base_Manager.Data.Data_Item_Dictionary[item.Key].ItemType)
+                if (Base_Manager.Data.Item_Holder.ContainsKey(item.Value.name))
                 {
-                    var go = Instantiate(Item_Parts, Content);
-                    go.Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
-                    Garbage_Inven_Change.Add(go.gameObject);
+                    if (Base_Manager.Data.Item_Holder[item.Key].Hero_Card_Amount > 0 && NOW_Inventory_State == Base_Manager.Data.Data_Item_Dictionary[item.Key].ItemType)
+                    {
+                        var go = Instantiate(Item_Parts, Content);
+                        go.Init(item.Key, Base_Manager.Data.Item_Holder[item.Key]);
+                        Garbage_Inven_Change.Add(go.gameObject);
+                    }
                 }
-             
+
+                else
+                {
+                    continue;
+                }
+
             }
-            
-                        
+                                  
         }
 
         for(int i = 0; i< Inven_Top_Buttons.Length; i++)

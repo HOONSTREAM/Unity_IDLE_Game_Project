@@ -14,6 +14,10 @@ public class Level_Design : ScriptableObject
     public StageData stageData;
     [Space(20f)]
     public HeroCardData heroCardData;
+    [Space(20f)]
+    public Dual_Blader_Effect_Data Dual_Effect_Data;
+    [Space(20f)]
+    public PalaDin_Effect_Data PalaDin_Effect_Data;
 
 }
 
@@ -85,4 +89,40 @@ public class HeroCardData
         return (int)Utils.CalculateValue(Base_Levelup_Card_Amount, (Base_Manager.Data.Item_Holder[name].Hero_Level),
             Levelup_Card_Amount);
     }
+}
+
+[System.Serializable]
+public class Dual_Blader_Effect_Data
+{
+    public int Current_Level;
+    [Range(0.0f, 10.0f)]
+    public float ALL_ATK, ALL_DROP;
+
+    [Space(20f)]
+    [Header("BASE_VALUE")]
+    [Space(10f)]
+    public float Base_ATK;
+    public int Base_DROP;
+   
+
+    public double Get_ALL_ATK(Character_Scriptable Data) => Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
+
+}
+
+[System.Serializable]
+public class PalaDin_Effect_Data
+{
+    public int Current_Level;
+    [Range(0.0f, 10.0f)]
+    public float ALL_ATK;
+
+    [Space(20f)]
+    [Header("BASE_VALUE")]
+    [Space(10f)]
+    public float Base_ATK;
+    
+
+
+    public double Get_ALL_ATK(Character_Scriptable Data) => Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
+
 }

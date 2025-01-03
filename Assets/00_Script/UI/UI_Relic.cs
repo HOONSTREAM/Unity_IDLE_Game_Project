@@ -48,6 +48,9 @@ public class UI_Relic : UI_Base
     [SerializeField]
     private Button Upgrade;
 
+    private string start_percent;
+    private string effect_percent = default;
+
     #endregion
     public override bool Init()
     { 
@@ -61,12 +64,12 @@ public class UI_Relic : UI_Base
 
                 // TODO : 제거필요
                 //Holder holder = new Holder();
-                //holder.Hero_Level = 1;
+                //holder.Hero_Level = 0;
                 //holder.Hero_Card_Amount = 1;
                 //Base_Manager.Data.Item_Holder.Add(data.Value.name, holder);
-                ////
+                //
 
-            }          
+            }
         }
 
 
@@ -211,6 +214,20 @@ public class UI_Relic : UI_Base
 
     public void Get_Relic_Information(Item_Scriptable Data)
     {
+        
+        switch (Data.name)
+        {
+            case "SWORD":
+
+                start_percent = CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["start_percent"].ToString();
+                effect_percent = CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["effect_percent"].ToString();
+
+                break;
+            case "DICE":
+                start_percent = CSV_Importer.DICE_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["start_percent"].ToString();
+                break;
+        }
+
         Relic_Information.gameObject.SetActive(true);
 
         if (Data.rarity == Rarity.Legendary)
@@ -224,7 +241,7 @@ public class UI_Relic : UI_Base
 
         Relic_Name_Text.text = Data.Item_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(Data.rarity) + Data.rarity.ToString();
-        Description_Text.text = Data.Item_Description;
+        Description_Text.text = string.Format(Data.Item_Description, start_percent, effect_percent);
         Level_Text.text = "LV." + (Base_Manager.Data.Item_Holder[Data.name].Hero_Level + 1).ToString();
         Slider_Count_Text.text = "(" + Base_Manager.Data.Item_Holder[Data.name].Hero_Card_Amount + "/" + Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name) + ")";
         Slider_Count_Fill.fillAmount = Base_Manager.Data.Item_Holder[Data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name);

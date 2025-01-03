@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -67,7 +68,7 @@ public class Data_Manager
     public void Init()
     {
         Set_Character();
-        Set_Item();
+        Set_Item();      
     }
 
     public Character_Scriptable Get_Rarity_Character(Rarity rarity)
@@ -123,4 +124,27 @@ public class Data_Manager
             Data_Item_Dictionary.Add(data.name, item);
         }
     }
+
+    public void Set_Player_ATK_HP()
+    {        
+        Base_Manager.Player.ATK = Utils.Data.levelData.Get_ATK();
+        Base_Manager.Player.HP = Utils.Data.levelData.Get_HP();
+
+        for (int i = 0; i < Spawner.m_players.Count; i++)
+        {
+            Spawner.m_players[i].Set_ATK_HP();
+        }
+    }
+
+    public void Set_Hero_Holding_Effect(Character_Scriptable Data)
+    {
+        for(int i = 0; i<character_Holder.Count; i++)
+        {
+            if (character_Holder[Data.name].Hero_Card_Amount > 1)
+            {
+                Debug.Log($"{Data.name}의 보유효과를 증가시킵니다.");
+            }
+        }
+    }
+
 }

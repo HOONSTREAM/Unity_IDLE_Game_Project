@@ -127,8 +127,8 @@ public class Player : Character
     }
     public void Set_ATK_HP()
     {
-        ATK = Base_Manager.Player.Get_ATK(CH_Data.Rarity, Base_Manager.Data.Data_Character_Dictionary[CH_Data.name]);
-        HP = Base_Manager.Player.Get_HP(CH_Data.Rarity, Base_Manager.Data.Data_Character_Dictionary[CH_Data.name]);
+        ATK = Base_Manager.Player.Get_ATK(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name]);
+        HP = Base_Manager.Player.Get_HP(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name]);
     }
     public void Get_MP(int mp)
     {

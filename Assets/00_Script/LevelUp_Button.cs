@@ -17,8 +17,9 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     private float Touch_Timer = default;
     private Coroutine coroutine;
 
+  
     private void Start()
-    {
+    {      
         InitEXP();
     }
     private void Update()

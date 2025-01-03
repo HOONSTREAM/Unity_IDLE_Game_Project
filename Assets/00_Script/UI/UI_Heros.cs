@@ -194,6 +194,34 @@ public class UI_Heros : UI_Base
     }
     public void Get_Hero_Information(Character_Scriptable Data)
     {
+        Hero_Name name = Hero_Name.Dual_Blader;
+
+        switch (Data.name)
+        {
+            case "Dual_Blader":
+                name = Hero_Name.Dual_Blader;
+                Holding_Effect_Amount_First.text = Utils.Data.Dual_Effect_Data.Get_ALL_ATK(Data).ToString("0.00");
+                Holding_Effect_Amount_Second.text = "0";
+                Holding_Effect_First.text = "아군 전체 물리공격력";
+                Holding_Effect_Second.text = "아이템 드랍확률";
+                break;
+            case "Hunter":
+                name = Hero_Name.Hunter;
+                break;
+            case "Elemental_Master_White":
+                name = Hero_Name.Elemental_Master_White;
+                break;
+            case "PalaDin":
+                name = Hero_Name.PalaDin;
+                Holding_Effect_Amount_First.text = Utils.Data.PalaDin_Effect_Data.Get_ALL_ATK(Data).ToString("0.00");
+                Holding_Effect_Amount_Second.text = "0";
+                Holding_Effect_First.text = "아군 전체 물리공격력";
+                Holding_Effect_Second.text = "아이템 드랍확률";              
+                break;
+
+
+        }
+
         Hero_Information.gameObject.SetActive(true);
 
         if(Data.Rarity == Rarity.Legendary)
@@ -207,18 +235,25 @@ public class UI_Heros : UI_Base
 
         Hero_Name_Text.text = Data.M_Character_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(Data.Rarity) + Data.Rarity.ToString();
-        Description_Text.text = "캐릭터 설명";
+        Description_Text.text = CSV_Importer.Hero_DES_Design[(int)name]["Hero_DES"].ToString();
         Ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
-        ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.Data_Character_Dictionary[Data.name]));
-        HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.Data_Character_Dictionary[Data.name]));
+        ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]));
+        HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]));
         Level_Text.text = "LV." + (Base_Manager.Data.character_Holder[Data.name].Hero_Level + 1).ToString();
         Slider_Count_Text.text = "(" + Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name) + ")";
         Slider_Count_Fill.fillAmount = Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
         Hero_Image.sprite = Utils.Get_Atlas(Data.name);
         Rarity_Image.sprite = Utils.Get_Atlas(Data.Rarity.ToString());
 
+        //스킬
+        
+        Skill_Description.text = CSV_Importer.Hero_Skill_Design[(int)name]["Skill_DES"].ToString();
+        Skill_Image.sprite = Resources.Load<Sprite>(CSV_Importer.Hero_Skill_Design[(int)name]["Skill_Image"].ToString());
+        Skill_Name_Text.text = CSV_Importer.Hero_Skill_Design[(int)name]["Skill_Name"].ToString();
+        
+
         Upgrade.onClick.RemoveAllListeners();
-        Upgrade.onClick.AddListener(() => UpGrade_Button(Base_Manager.Data.Data_Character_Dictionary[Data.name]));
+        Upgrade.onClick.AddListener(() => UpGrade_Button((Base_Manager.Data.character_Holder[Data.name]),Data));
     }
     public void Disable_Hero_Information()
     {
@@ -227,16 +262,16 @@ public class UI_Heros : UI_Base
     /// <summary>
     /// 캐릭터 카드 갯수를 초과하여, 강화하는 로직을 구현합니다.
     /// </summary>
-    public void UpGrade_Button(Character_Holder holder)
+    public void UpGrade_Button(Holder holder, Character_Scriptable Data)
     {     
-        Debug.Log("강화버튼 클릭완료. 히어로 레벨 : " + holder.holder.Hero_Level + "카드 양 : " + holder.holder.Hero_Card_Amount);
+        Debug.Log("강화버튼 클릭완료. 히어로 레벨 : " + holder.Hero_Level + "카드 양 : " + holder.Hero_Card_Amount);
 
-        if (holder.holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name))
+        if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name))
         {
-            holder.holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
-            holder.holder.Hero_Level++;
+            holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
+            holder.Hero_Level++;
         }
-        Get_Hero_Information(holder.Data);
+        Get_Hero_Information(Data);
 
         for(int i = 0; i< hero_parts.Count; i++)
         {

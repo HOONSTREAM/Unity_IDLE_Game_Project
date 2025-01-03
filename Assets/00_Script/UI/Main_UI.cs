@@ -186,8 +186,6 @@ public class Main_UI : MonoBehaviour
             yield return null;
         }
     }
-
-
     public void ADS_Buff_Check()
     {
         for(int i = 0; i<Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)

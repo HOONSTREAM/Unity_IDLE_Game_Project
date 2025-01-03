@@ -28,10 +28,12 @@ public class Stage_Manager
         switch(state)
         {
             case Stage_State.Ready:
+
                 MaxCount = int.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["MaxCount"].ToString());
-                
-                M_ReadyEvent?.Invoke();
-                //Base_Manager.Pool.Clear_Pool(); // 풀링된 오브젝트의 과다생성을 방지하기 위해 한번 초기화
+
+                Base_Manager.Data.Set_Player_ATK_HP();
+
+                M_ReadyEvent?.Invoke();               
                 Base_Manager.instance.Coroutine_Action(2.0f, () => State_Change(Stage_State.Play));
                 break;
             case Stage_State.Play:
