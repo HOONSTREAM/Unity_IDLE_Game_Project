@@ -98,10 +98,6 @@ public class UI_Heros : UI_Base
 
     }
 
-    public void Disable_Default()
-    {
-
-    }
     /// <summary>
     /// 플레이어가, 영웅 창에서 특정 영웅을 터치했을때의 동작을 정의합니다.
     /// </summary>

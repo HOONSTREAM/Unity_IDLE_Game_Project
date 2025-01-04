@@ -26,6 +26,7 @@ public class Player : Character
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
+        Base_Manager.Stage.M_DungeonEvent += OnDungeon;
         startPos = transform.position;
         rotation = transform.rotation;
 
@@ -110,6 +111,16 @@ public class Player : Character
     private void OnDead()
     {
         Spawner.m_players.Add(this);
+    }
+
+    private void OnDungeon(int Value)
+    {
+        isDead = false;
+        AnimatorChange("isIDLE");
+        Spawner.m_players.Add(this);
+        Set_ATK_HP();
+        transform.position = startPos;
+        transform.rotation = rotation;
     }
 
     /// <summary>

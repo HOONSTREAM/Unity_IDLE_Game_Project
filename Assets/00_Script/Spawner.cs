@@ -14,13 +14,36 @@ public class Spawner : MonoBehaviour
 
     private Coroutine coroutine;
 
+    [SerializeField]
+    private GameObject[] Maps;
+
     private void Start()
     {
         Base_Manager.Stage.M_ReadyEvent += OnReady;
         Base_Manager.Stage.M_PlayEvent += OnPlay;
         Base_Manager.Stage.M_BossEvent += OnBoss;
+        Base_Manager.Stage.M_DungeonEvent += OnDungeon;
     }
 
+    private void Stop_Coroutine_And_Delete_Monster()
+    {
+        if (coroutine != null)
+        {
+            StopAllCoroutines();
+        }
+
+        for (int i = 0; i < m_monsters.Count; i++)
+        {
+            if (m_monsters[i].isDead != true)
+            {
+                m_monsters[i].isDead = true;
+                Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);
+            }
+
+        }
+
+        m_monsters.Clear();
+    }
     public void OnReady()
     {
         M_Count = int.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Count"].ToString());
@@ -28,29 +51,32 @@ public class Spawner : MonoBehaviour
     }
     public void OnPlay()
     {
-        coroutine = StartCoroutine(SpawnCoroutine());
+        coroutine = StartCoroutine(SpawnCoroutine(M_Count, M_SpawnTime));
     }
+    public void OnDungeon(int Value)
+    {
+        Maps[1].gameObject.SetActive(false);
+        Maps[2].gameObject.SetActive(false);    
+        Maps[Value].gameObject.SetActive(true);
+
+        Stop_Coroutine_And_Delete_Monster();
+
+        if(Value == 0) // 골드던전
+        {
+            coroutine = StartCoroutine(SpawnCoroutine(30, -1));
+        }
+
+        if(Value == 2) // 다이아몬드 던전
+        {
+
+        }
+       
+    }
+
     public void OnBoss()
     {
-        if(coroutine != null)
-        {            
-            StopAllCoroutines();
-        }
-
-        for(int i = 0; i<m_monsters.Count; i++)
-        {
-            if (m_monsters[i].isDead != true)
-            {
-                m_monsters[i].isDead = true;
-                Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);
-            }
-            
-        }
-        m_monsters.Clear();
-        
-
-        StartCoroutine(BossSetCoroutine());
-      
+        Stop_Coroutine_And_Delete_Monster();
+        StartCoroutine(BossSetCoroutine());     
     }    
 
     IEnumerator BossSetCoroutine()
@@ -81,7 +107,7 @@ public class Spawner : MonoBehaviour
     }
     //Random.insideUnitSphere = Vector3(x,y,z)
     //Random.insideUnitCircle = Vector3(x,y)
-    IEnumerator SpawnCoroutine()
+    IEnumerator SpawnCoroutine(int Count, float SpawnTime)
     {
         
         Vector3 pos;
@@ -114,9 +140,13 @@ public class Spawner : MonoBehaviour
 
         }
 
-        yield return new WaitForSeconds(M_SpawnTime);
+        yield return new WaitForSeconds(SpawnTime);
 
-        coroutine = StartCoroutine(SpawnCoroutine());
+        if(SpawnTime > 0.0f)
+        {
+            coroutine = StartCoroutine(SpawnCoroutine(Count, SpawnTime));
+        }
+       
     }
    
 }

@@ -9,6 +9,13 @@ public enum Rarity
     Legendary
 }
 
+public enum Slider_Type
+{
+    Default,
+    Boss,
+    Dungeon,
+}
+
 public enum ItemType
 {
     ALL,
@@ -32,5 +39,7 @@ public enum Stage_State
     Boss,
     BossPlay,
     Clear,
-    Dead
+    Dead,
+    Dungeon,
+
 }

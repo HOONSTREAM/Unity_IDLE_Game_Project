@@ -59,6 +59,25 @@ public class Main_UI : MonoBehaviour
     private TextMeshProUGUI Boss_Stage_Text;
 
     [Space(20f)]
+    [Header("Dungeon_Slider")]
+    [SerializeField]
+    private GameObject Dungeon_Slider_GameObject;
+    [SerializeField]
+    private TextMeshProUGUI M_Dungeon_HP_Text;
+    [SerializeField]
+    private Image Dungeon_Slider;
+    [SerializeField]
+    private TextMeshProUGUI Dungeon_Stage_Text;
+    [SerializeField]
+    private GameObject[] Dungeon_Addtional_Sliders;
+    [SerializeField]
+    private TextMeshProUGUI MonsterCountText;
+    [SerializeField]
+    private Image Gold_Dungeon_Slider_Fill;
+    [SerializeField]
+    private TextMeshProUGUI Gold_Dungeon_Hp_Text;
+
+    [Space(20f)]
     [Header("Dead_Frame")]
     [SerializeField]
     private GameObject Dead_Frame;
@@ -136,6 +155,7 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
+        Base_Manager.Stage.M_DungeonEvent += OnDungeon;
 
         Base_Manager.Stage.State_Change(Stage_State.Ready);
     }
@@ -349,37 +369,53 @@ public class Main_UI : MonoBehaviour
 
         Boss_Slider.fillAmount = value;
         M_Boss_HP_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
-    }
-    private void Slider_Object_Check(bool isboss)
+    } 
+    private void Slider_Object_Check(Slider_Type type)
     {
+        Monster_Slider_GameObject.gameObject.SetActive(false);
+        Boss_Slider_GameObject.gameObject.SetActive(false);
+        Dungeon_Slider_GameObject.gameObject.SetActive(false);
+
         if (Stage_Manager.isDead)
         {
-            Monster_Slider_GameObject.SetActive(false);
-            Boss_Slider_GameObject.gameObject.SetActive(false);
-
             Dead_Frame.gameObject.SetActive(true);
             Base_Canvas.instance.Get_TOP_Popup().Initialize("충분히 강해진 뒤에, BOSS버튼을 누르세요!");
 
             return;
         }
 
+        switch (type)
+        {
+            case Slider_Type.Default:
+                Monster_Slider_GameObject.gameObject.SetActive(true);
+                Monster_Slider_Count();
+                break;
+            case Slider_Type.Boss:
+                Boss_Slider_GameObject.gameObject.SetActive(true);
+                break;
+            case Slider_Type.Dungeon:
+                Dungeon_Slider_GameObject.gameObject.SetActive(true);
+                StartCoroutine(Dungeon_Slider_Coroutine());
+                break;
+        }
+
         Dead_Frame.gameObject.SetActive(false);
-        Monster_Slider_GameObject.gameObject.SetActive(!isboss);
-        Boss_Slider_GameObject.gameObject.SetActive(isboss);
 
-        Monster_Slider_Count();
-
-        float value = isboss? 1.0f : 0.0f;
-
+        float value = type == Slider_Type.Boss ? 1.0f : 0.0f;
         Boss_Slider_Count(value, 1.0f);
 
     }
     private void OnReady()
     {
         FadeInOut(true);
+        Parts_Initialize();
+    }
+
+    private void Parts_Initialize()
+    {
         Main_Parts_Dict.Clear();
 
-        for(int i =0; i< 6; i++)
+        for (int i = 0; i < 6; i++)
         {
             main_hero_parts[i].Initialize();
         }
@@ -399,7 +435,6 @@ public class Main_UI : MonoBehaviour
 
             }
         }
-
     }
 
     /// <summary>
@@ -432,12 +467,19 @@ public class Main_UI : MonoBehaviour
     private void OnBoss()
     {
         Level_Text_Check();
-        Slider_Object_Check(true);
+        Slider_Object_Check(Slider_Type.Boss);
     }
     private void OnClear()
     {
-        Slider_Object_Check(false);
+        Slider_Object_Check(Slider_Type.Default);
         StartCoroutine(Clear_Delay());
+    }
+    private void OnDungeon(int Value)
+    {
+        FadeInOut(true, true);
+        Parts_Initialize();
+        Dungeon_Addtional_Sliders[Value].gameObject.SetActive(true);
+        Slider_Object_Check(Slider_Type.Dungeon);     
     }
     private void OnDead()
     {
@@ -511,7 +553,7 @@ public class Main_UI : MonoBehaviour
     {
         yield return StartCoroutine(Clear_Delay());
 
-        Slider_Object_Check(false);
+        Slider_Object_Check(Slider_Type.Default);
 
         for(int i = 0; i<Spawner.m_monsters.Count; i++)
         {
@@ -589,6 +631,18 @@ public class Main_UI : MonoBehaviour
         yield return new WaitForSecondsRealtime(2.0f);
         rect.gameObject.SetActive(false);
         rect.anchoredPosition = new Vector2(0.0f, 792.0f);
+    }
+    IEnumerator Dungeon_Slider_Coroutine()
+    {
+        float time = 30.0f;
+
+        while(time >= 0.0f)
+        {
+            time -= Time.deltaTime;
+            Dungeon_Slider.fillAmount = time / 30.0f;
+            M_Dungeon_HP_Text.text = string.Format("{0:0.00}초",time);
+            yield return null;
+        }
     }
     #endregion
 }

@@ -54,6 +54,7 @@ public class Elemental_W_Skill : Skill_Base
         }
 
         yield return new WaitForSecondsRealtime(5.0f);
+        this.gameObject.GetComponent<Player>().Use_Skill = false;
         ReturnSkill();
       
     }

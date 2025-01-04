@@ -19,10 +19,11 @@ public class Stage_Manager
     public  OnBossPlayEvent M_BossPlayEvent;
     public  OnClearEvent M_ClearEvent;
     public  OnDeadEvent M_DeadEvent;
+    public  OnDungeonEvent M_DungeonEvent;
 
   
   
-    public void State_Change(Stage_State state)
+    public void State_Change(Stage_State state, int Value = 0)
     {
         M_State = state;
         switch(state)
@@ -51,8 +52,8 @@ public class Stage_Manager
                 break;
             case Stage_State.Clear:
                 
-                Base_Manager.instance.StopAllPoolCoroutines();
-                Base_Manager.Pool.Clear_Pool();
+                Base_Manager.instance.StopAllPoolCoroutines(); 
+                Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
                 Data_Manager.Main_Players_Data.Player_Stage++;
 
                 M_ClearEvent?.Invoke();
@@ -61,6 +62,10 @@ public class Stage_Manager
                
                 isDead = true;               
                 M_DeadEvent?.Invoke();
+                break;
+            case Stage_State.Dungeon:
+                M_DungeonEvent?.Invoke(Value);
+                Base_Manager.instance.Coroutine_Action(2.0f, () => State_Change(Stage_State.Play));
                 break;
         }
     }

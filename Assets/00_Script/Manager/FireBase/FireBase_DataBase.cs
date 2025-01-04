@@ -88,8 +88,7 @@ public partial class FireBase_Manager
         DB_reference.Child("USER").Child(currentUser.UserId).Child("DATA").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if(task.IsCompleted)
-            {
-                Debug.Log("USER의 DATA if문 task.iscompleted true 진입");
+            {            
                 DataSnapshot snapshot = task.Result;
 
                 var Default_Data = JsonUtility.FromJson<Data>(snapshot.GetRawJsonValue());
@@ -127,8 +126,7 @@ public partial class FireBase_Manager
         DB_reference.Child("USER").Child(currentUser.UserId).Child("CHARACTER").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
-            {
-                Debug.Log("USER의 CHARACTER if문 task.iscompleted true 진입");
+            {             
                 DataSnapshot snapshot = task.Result;
 
                 var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
@@ -137,11 +135,7 @@ public partial class FireBase_Manager
                 
 
                 Debug.Log("로드된 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.character_Holder));
-                
-
-                Base_Manager.Data.Init(); // TODO
-
-                Debug.Log("로드된 데이터 캐릭터 딕셔너리 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.Data_Character_Dictionary));
+ 
             }
 
             else
@@ -157,8 +151,7 @@ public partial class FireBase_Manager
         DB_reference.Child("USER").Child(currentUser.UserId).Child("ITEM").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
-            {
-                Debug.Log("USER의 ITEM if문 task.iscompleted true 진입");
+            {             
                 DataSnapshot snapshot = task.Result;
 
                 var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());

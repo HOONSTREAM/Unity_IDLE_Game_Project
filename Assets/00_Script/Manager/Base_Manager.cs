@@ -78,8 +78,7 @@ public class Base_Manager : MonoBehaviour
             instance = this;
             Pool.Initialize(transform);
             ADS.Init();                               
-            FireBase.Init();
-            Data.Init();
+            FireBase.Init();            
             DontDestroyOnLoad(this.gameObject);
         }
 

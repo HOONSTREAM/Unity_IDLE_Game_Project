@@ -42,5 +42,11 @@ public class UI_Dungeon : UI_Base
         base.DisableOBJ();
     }
 
+    public void Get_Dungeon(int value)
+    {        
+        Base_Manager.Stage.State_Change(Stage_State.Dungeon, value);
+        Utils.CloseAllPopupUI();
+    }
+
 
 }
