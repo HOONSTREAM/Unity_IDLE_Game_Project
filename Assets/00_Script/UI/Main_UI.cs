@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
@@ -383,9 +384,18 @@ public class Main_UI : MonoBehaviour
             value = 0.0f;
         }
 
-        Boss_Slider.fillAmount = value;
-        M_Boss_HP_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
-    } 
+        if(Stage_Manager.isDungeon == false)
+        {
+            Boss_Slider.fillAmount = value;
+            M_Boss_HP_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
+        }
+        else
+        {
+            Gold_Dungeon_Slider_Fill.fillAmount = value;
+            Gold_Dungeon_Hp_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
+        }
+    }
+       
     private void Slider_Object_Check(Slider_Type type)
     {
         Monster_Slider_GameObject.gameObject.SetActive(false);
@@ -418,7 +428,7 @@ public class Main_UI : MonoBehaviour
 
         Dead_Frame.gameObject.SetActive(false);
 
-        float value = type == Slider_Type.Boss ? 1.0f : 0.0f;
+        float value = type == Slider_Type.Default ? 0.0f : 1.0f;
         Boss_Slider_Count(value, 1.0f);
 
     }

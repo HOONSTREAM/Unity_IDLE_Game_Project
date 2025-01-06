@@ -27,7 +27,7 @@ public class UI_Dungeon : UI_Base
             Dungeon_Levels[i].text = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] + 1).ToString();
         }
 
-        int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) * 5; // TODO : 파이어베이스 데이터2번 배열 로드 안되서 수정필요 2: 골드던전
+        int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[2] + 1) * 5; 
         var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY);
 
         // 레벨디자인 필요

@@ -8,7 +8,7 @@ public class Monster : Character
     public float  R_ATTACK_RANGE;
     private bool isSpawn = false;
     public bool isBoss = false;
-    private bool isDungeon = false;
+    public bool isDungeon = false;
     private Vector3 Original_Scale;
     private double MaxHP;
 
@@ -39,7 +39,7 @@ public class Monster : Character
         target_Range = Mathf.Infinity;
         transform.localScale = Original_Scale;
 
-        if (isBoss)
+        if (isBoss && isDungeon == false)
         {
             StartCoroutine(Skill_Coroutine());
         }
@@ -179,6 +179,10 @@ public class Monster : Character
         {
             Stage_Manager.DungeonCount--;
             Main_UI.Instance.Dungeon_Monster_Slider_Count();
+            if (isBoss)
+            {
+                Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear);
+            }
         }
 
         else

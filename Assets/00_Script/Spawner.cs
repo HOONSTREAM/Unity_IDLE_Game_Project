@@ -73,12 +73,12 @@ public class Spawner : MonoBehaviour
 
         Stop_Coroutine_And_Delete_Monster();
 
-        if(Value == 0) // 골드던전
+        if(Value == 0) // 다이아몬드 던전
         {
             coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 5));
         }
 
-        if(Value == 2) // 다이아몬드 던전
+        if(Value == 2) // 골드 던전
         {
             StartCoroutine(BossSetCoroutine());
         }
@@ -106,7 +106,8 @@ public class Spawner : MonoBehaviour
         else
         {
             monster = Instantiate(Resources.Load<Monster>("Gold_Dungeon"), Vector3.zero, Quaternion.Euler(0, 180, 0)); // 보스 생성
-            monster.Init((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) *5); // TODO: 파이어베이스 데이터 배열2번 로드안되서 수정필요
+            
+            monster.Init((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[2] + 1) *5); 
         }
        
 

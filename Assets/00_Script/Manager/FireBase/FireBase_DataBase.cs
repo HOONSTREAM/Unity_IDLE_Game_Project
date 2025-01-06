@@ -99,6 +99,15 @@ public partial class FireBase_Manager
                 }
                 data.StartDate = DateTime.Now.ToString();
 
+                if (string.IsNullOrEmpty(data.EndDate))
+                {
+                    /*data.EndDate가 null 또는 빈 문자열일때,
+                    DateTime.Parse가 호출되면 FormatException이 발생.
+                    메서드가 예외를 처리하지 않을 경우 메서드가 중도종료됨..*/
+
+                    data.EndDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    Debug.Log("EndDate가 없어서 기본값으로 설정: " + data.EndDate);
+                }
 
                 DateTime startDate = DateTime.Parse(data.StartDate);
                 DateTime endDate = DateTime.Parse(data.EndDate);
