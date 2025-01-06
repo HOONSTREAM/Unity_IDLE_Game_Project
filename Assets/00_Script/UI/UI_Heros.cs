@@ -8,6 +8,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.WSA;
+using static UnityEditor.Progress;
 
 /// <summary>
 /// 영웅 배치 창을 다루는 스크립트 입니다.
@@ -77,11 +78,14 @@ public class UI_Heros : UI_Base
 
         foreach (var data in sort_dict)
         {
-            var Object = Instantiate(Parts, Content).GetComponent<UI_Heros_Parts>(); // Content를 부모오브젝트로 해서 Parts를 생성
-            value++;
-            hero_parts.Add(Object);
-            int index = value;
-            Object.Init(data.Value, this);
+            if (Base_Manager.Data.character_Holder[data.Key].Hero_Card_Amount > 0)
+            {
+                var Object = Instantiate(Parts, Content).GetComponent<UI_Heros_Parts>(); // Content를 부모오브젝트로 해서 Parts를 생성
+                value++;
+                hero_parts.Add(Object);
+                int index = value;
+                Object.Init(data.Value, this);
+            }
         }
 
         return base.Init();

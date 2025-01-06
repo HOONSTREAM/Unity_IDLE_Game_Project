@@ -44,13 +44,25 @@ public class Spawner : MonoBehaviour
 
         m_monsters.Clear();
     }
+    private void Back_To_MainGame_Map()
+    {
+        Maps[0].gameObject.SetActive(true);
+        Maps[1].gameObject.SetActive(true);
+        Maps[2].gameObject.SetActive(false);
+    }
     public void OnReady()
     {
         M_Count = int.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Count"].ToString());
         M_SpawnTime = float.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Timer"].ToString());
+        Back_To_MainGame_Map();
     }
     public void OnPlay()
     {
+        if (Stage_Manager.isDungeon)
+        {
+            return;
+        }
+
         coroutine = StartCoroutine(SpawnCoroutine(M_Count, M_SpawnTime));
     }
     public void OnDungeon(int Value)
@@ -63,12 +75,12 @@ public class Spawner : MonoBehaviour
 
         if(Value == 0) // 골드던전
         {
-            coroutine = StartCoroutine(SpawnCoroutine(30, -1));
+            coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 5));
         }
 
         if(Value == 2) // 다이아몬드 던전
         {
-
+            StartCoroutine(BossSetCoroutine());
         }
        
     }
@@ -79,11 +91,24 @@ public class Spawner : MonoBehaviour
         StartCoroutine(BossSetCoroutine());     
     }    
 
-    IEnumerator BossSetCoroutine()
+    IEnumerator BossSetCoroutine(int Player_Stage = 0)
     {
         yield return new WaitForSeconds(2.0f);
-        var monster = Instantiate(Resources.Load<Monster>("Boss"), Vector3.zero, Quaternion.Euler(0, 180, 0)); // 보스 생성
-        monster.Init();
+        Monster monster = null;
+
+        if(Stage_Manager.isDungeon == false)
+        {
+            //TODO : 스테이지 별 보스몬스터 재 조정 필요
+            monster = Instantiate(Resources.Load<Monster>("Boss"), Vector3.zero, Quaternion.Euler(0, 180, 0)); // 보스 생성
+            monster.Init();
+        }
+
+        else
+        {
+            monster = Instantiate(Resources.Load<Monster>("Gold_Dungeon"), Vector3.zero, Quaternion.Euler(0, 180, 0)); // 보스 생성
+            monster.Init((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) *5); // TODO: 파이어베이스 데이터 배열2번 로드안되서 수정필요
+        }
+       
 
         Vector3 Pos = monster.transform.position; // 같은 변수를 사용할 때는, 한 변수로 묶어서 사용하면 메모리 절약이 됨. (중복계산방지)
 
@@ -107,12 +132,12 @@ public class Spawner : MonoBehaviour
     }
     //Random.insideUnitSphere = Vector3(x,y,z)
     //Random.insideUnitCircle = Vector3(x,y)
-    IEnumerator SpawnCoroutine(int Count, float SpawnTime)
+    IEnumerator SpawnCoroutine(int Count, float SpawnTime, int Dungeon_Difficulty_Value = 0)
     {
         
         Vector3 pos;
 
-        int Monster_Spawn_Value = M_Count - m_monsters.Count;
+        int Monster_Spawn_Value = Count - m_monsters.Count;
 
         for(int i = 0; i < Monster_Spawn_Value; i++)
         {
@@ -131,7 +156,7 @@ public class Spawner : MonoBehaviour
             {
                 // 풀링이 생성될때의 기능을 구현한다.
 
-                value.GetComponent<Monster>().Init();
+                value.GetComponent<Monster>().Init(Dungeon_Difficulty_Value);
                 value.transform.position = pos;
                 value.transform.LookAt(Vector3.zero);
                 m_monsters.Add(value.GetComponent<Monster>());

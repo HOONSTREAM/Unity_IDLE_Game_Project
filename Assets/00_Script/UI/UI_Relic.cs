@@ -8,6 +8,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class UI_Relic : UI_Base
 {
@@ -62,13 +63,12 @@ public class UI_Relic : UI_Base
             {
                 _dict.Add(data.Value.name, data.Value);
 
-                // TODO : 제거필요
+                 //TODO : 제거필요
                 //Holder holder = new Holder();
                 //holder.Hero_Level = 0;
                 //holder.Hero_Card_Amount = 1;
                 //Base_Manager.Data.Item_Holder.Add(data.Value.name, holder);
-                //
-
+                
             }
         }
 
@@ -81,11 +81,14 @@ public class UI_Relic : UI_Base
 
         foreach (var data in sort_dict)
         {
-            var go = Instantiate(Parts, Content).GetComponent<UI_Relic_Parts>();
-            value++;
-            relic_parts.Add(go);
-            int index = value;
-            go.Init(data.Value, this);
+            if (Base_Manager.Data.Item_Holder[data.Key].Hero_Card_Amount > 0)
+            {
+                var go = Instantiate(Parts, Content).GetComponent<UI_Relic_Parts>();
+                value++;
+                relic_parts.Add(go);
+                int index = value;
+                go.Init(data.Value, this);
+            }
         }
 
         for (int i = 0; i< Relic_Panel_Objects.Length; i++)

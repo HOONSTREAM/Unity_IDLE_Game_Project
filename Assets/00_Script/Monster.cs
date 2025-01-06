@@ -8,6 +8,7 @@ public class Monster : Character
     public float  R_ATTACK_RANGE;
     private bool isSpawn = false;
     public bool isBoss = false;
+    private bool isDungeon = false;
     private Vector3 Original_Scale;
     private double MaxHP;
 
@@ -26,11 +27,11 @@ public class Monster : Character
     /// <summary>
     /// 원하는 시점에 계속 Init을 시킬수 있다.
     /// </summary>
-    public void Init()
+    public void Init(int Value = 0)
     {
         isDead = false;
-        ATK = isBoss ? Utils.Data.stageData.Get_ATK()  * 10.0f : Utils.Data.stageData.Get_ATK();
-        HP = isBoss ? Utils.Data.stageData.Get_HP() * 10.0f : Utils.Data.stageData.Get_HP();
+        ATK = isBoss ? Utils.Data.stageData.Get_ATK(Value)  * 10.0f : Utils.Data.stageData.Get_ATK(Value);
+        HP = isBoss ? Utils.Data.stageData.Get_HP(Value) * 10.0f : Utils.Data.stageData.Get_HP(Value);
         ATK_Speed = 1.0f;
         MaxHP = HP;
 
@@ -61,6 +62,12 @@ public class Monster : Character
         {
             return;
         }
+
+        if (isDungeon) // 골드던전에 진입했다면, 공격하지않고, 데미지만 받게끔 처리함.
+        {
+            return;
+        }
+
         if (Stage_Manager.M_State == Stage_State.Play || Stage_Manager.M_State == Stage_State.BossPlay)
         {
             if (m_target == null)
@@ -158,24 +165,40 @@ public class Monster : Character
     private void OnDead()
     {
         StopAllCoroutines();
+
+        if (isDungeon)
+        {
+            return;
+        }
+
         AnimatorChange("isIDLE");
     }
     private void Dead_Event()
     {
-        if (!isBoss)
+        if (Stage_Manager.isDungeon)
         {
-            if (!Stage_Manager.isDead)
-            {
-                Stage_Manager.Count++;               
-                Main_UI.Instance.Monster_Slider_Count();
-            }
-           
-        }
-        else
-        {
-            Base_Manager.Stage.State_Change(Stage_State.Clear);
+            Stage_Manager.DungeonCount--;
+            Main_UI.Instance.Dungeon_Monster_Slider_Count();
         }
 
+        else
+        {
+            if (!isBoss)
+            {
+                if (!Stage_Manager.isDead)
+                {
+                    Stage_Manager.Count++;
+                    Main_UI.Instance.Monster_Slider_Count();
+                }
+
+                else
+                {
+                    Base_Manager.Stage.State_Change(Stage_State.Clear);
+                }
+            }
+                  
+        }
+        
         Spawner.m_monsters.Remove(this);
 
         Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>

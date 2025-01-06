@@ -54,7 +54,10 @@ public class Data
     //Dungeon
     public int[] Daily_Enter_Key = { 3, 3 }; // 일일마다 초기화 되는 키
     public int[] User_Key_Assets = { 0, 0 }; // 유저가 보상으로 얻은 키 
-    public int[] Dungeon_Clear_Level = { 0, 0 }; //유저가 최종적으로 클리어한 난이도
+    public int[] Dungeon_Clear_Level = { 0, 999, 0 }; //유저가 최종적으로 클리어한 난이도
+
+    //광고구매 여부
+    public bool isBuyADPackage = false;
 }
 
 public class Data_Manager

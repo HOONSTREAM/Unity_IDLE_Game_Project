@@ -27,6 +27,8 @@ public class Player : Character
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
         Base_Manager.Stage.M_DungeonEvent += OnDungeon;
+        Base_Manager.Stage.M_DungeonClearEvent += OnDungeonClear;
+     
         startPos = transform.position;
         rotation = transform.rotation;
 
@@ -121,6 +123,11 @@ public class Player : Character
         Set_ATK_HP();
         transform.position = startPos;
         transform.rotation = rotation;
+    }
+
+    private void OnDungeonClear(int Value)
+    {
+        OnClear();
     }
 
     /// <summary>

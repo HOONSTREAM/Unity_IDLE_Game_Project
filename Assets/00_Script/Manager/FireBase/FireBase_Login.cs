@@ -10,6 +10,7 @@ public partial class FireBase_Manager
 
         if(auth.CurrentUser != null)
         {
+            
             Debug.Log("기기에 로그인 된 상태입니다. 유저 ID : " + auth.CurrentUser.UserId);
             ReadData();
             return;

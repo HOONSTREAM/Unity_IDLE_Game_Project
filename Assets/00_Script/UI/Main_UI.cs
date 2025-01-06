@@ -76,6 +76,7 @@ public class Main_UI : MonoBehaviour
     private Image Gold_Dungeon_Slider_Fill;
     [SerializeField]
     private TextMeshProUGUI Gold_Dungeon_Hp_Text;
+    private Coroutine Dungeon_Coroutine = null;
 
     [Space(20f)]
     [Header("Dead_Frame")]
@@ -156,6 +157,9 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
         Base_Manager.Stage.M_DungeonEvent += OnDungeon;
+        Base_Manager.Stage.M_DungeonClearEvent += OnDungeonClear;
+        Base_Manager.Stage.M_DungeonDeadEvent += OnDead;
+        Base_Manager.Stage.M_DungeonDeadEvent += OnDungeonDead;
 
         Base_Manager.Stage.State_Change(Stage_State.Ready);
     }
@@ -358,6 +362,18 @@ public class Main_UI : MonoBehaviour
         Monster_Slider.fillAmount = value;
         M_Monster_Value_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
     }
+
+    public void Dungeon_Monster_Slider_Count()
+    {
+        MonsterCountText.text = "(" + Stage_Manager.DungeonCount.ToString() + "/30)";
+
+        if(Stage_Manager.DungeonCount <= 0)
+        {
+            Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear);
+        }
+    }
+
+
     public void Boss_Slider_Count(double hp, double MaxHp)
     {
         float value = (float)hp / (float)MaxHp;
@@ -394,8 +410,9 @@ public class Main_UI : MonoBehaviour
                 Boss_Slider_GameObject.gameObject.SetActive(true);
                 break;
             case Slider_Type.Dungeon:
-                Dungeon_Slider_GameObject.gameObject.SetActive(true);
-                StartCoroutine(Dungeon_Slider_Coroutine());
+                Dungeon_Slider_GameObject.gameObject.SetActive(true);             
+                Dungeon_Coroutine = StartCoroutine(Dungeon_Slider_Coroutine());
+
                 break;
         }
 
@@ -476,10 +493,29 @@ public class Main_UI : MonoBehaviour
     }
     private void OnDungeon(int Value)
     {
+        for(int i = 0; i< Dungeon_Addtional_Sliders.Length; i++)
+        {
+            Dungeon_Addtional_Sliders[i].gameObject.SetActive(false);
+        }
+
+        Dungeon_Addtional_Sliders[Value].gameObject.SetActive(true);
+
         FadeInOut(true, true);
         Parts_Initialize();
         Dungeon_Addtional_Sliders[Value].gameObject.SetActive(true);
         Slider_Object_Check(Slider_Type.Dungeon);     
+    }
+    private void OnDungeonClear(int Value)
+    {
+        if (Dungeon_Coroutine != null)
+        {
+            StopCoroutine(Dungeon_Coroutine);
+            Dungeon_Coroutine = null;
+        }
+
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("던전 클리어에 성공하였습니다!");
+        Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]++;
+        OnClear();
     }
     private void OnDead()
     {
@@ -487,6 +523,18 @@ public class Main_UI : MonoBehaviour
         Main_UI.Instance.Level_Text_Check();
         StartCoroutine(Dead_Delay());
     }
+
+    private void OnDungeonDead()
+    {
+        if (Dungeon_Coroutine != null)
+        {
+            StopCoroutine(Dungeon_Coroutine);
+            Dungeon_Coroutine = null;
+        }
+
+        OnDead();      
+    }
+
     public void FadeInOut(bool FadeInout, bool Sibling = false, Action action = null)
     {
         if (!Sibling)

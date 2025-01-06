@@ -640,7 +640,7 @@ MonoBehaviour:
   _emitterThickness: 0
   _loop: 1
   _prewarm: 0
-  _duration: 2
+  _duration: 1
   _playMode: 2
   _startSize:
     separable: 1
@@ -661,7 +661,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       m_ConstantMin: 0
-      m_ConstantMax: 200
+      m_ConstantMax: 620
     xCurve:
       m_Mode: 0
       m_CurveMultiplier: 0
@@ -776,7 +776,7 @@ MonoBehaviour:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     m_ColorMin: {r: 0, g: 0, b: 0, a: 1}
-    m_ColorMax: {r: 1, g: 1, b: 1, a: 1}
+    m_ColorMax: {r: 1, g: 1, b: 1, a: 0.74509805}
   _lifetime:
     m_Mode: 0
     m_CurveMultiplier: 0
@@ -793,7 +793,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_ConstantMin: 0
-    m_ConstantMax: 2
+    m_ConstantMax: 1.1
   _startSpeed:
     m_Mode: 0
     m_CurveMultiplier: 0
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   _frameSpeedRange:
     from: 0
     to: 1
-  _textureSheetFPS: 25
+  _textureSheetFPS: 15
   _textureSheetCycles: 1
   _rate: 1.1
   _rateOverLifetime: 0
@@ -1935,7 +1935,7 @@ MonoBehaviour:
   moduleMovementFoldout: 0
   moduleEventsFoldout: 0
   moduleAdvancedFoldout: 0
-  m_Sprite: {fileID: 21300000, guid: 296d6e62da1919945947e2ddbb86c560, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dc8250b584a78d74e8e7643a3f6a4ba6, type: 3}
   m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &576819127130886572
 GameObject:
@@ -8457,6 +8457,7 @@ GameObject:
   - component: {fileID: 8948366817375291555}
   - component: {fileID: 8264601743320515547}
   - component: {fileID: 8932070364601765985}
+  - component: {fileID: 3885646198611380604}
   m_Layer: 5
   m_Name: Back_Ground
   m_TagString: Untagged
@@ -8527,6 +8528,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3885646198611380604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638566395930721470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &5811261734993880007
 GameObject:
   m_ObjectHideFlags: 0
@@ -8674,7 +8690,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b869d2706e86120499df907a7e0c9039, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9ff30c7786d11b342a5c6345ba01219e, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

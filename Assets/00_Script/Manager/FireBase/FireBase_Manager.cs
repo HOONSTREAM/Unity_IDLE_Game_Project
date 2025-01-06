@@ -10,6 +10,7 @@ public partial class FireBase_Manager
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private DatabaseReference DB_reference;
+
     public void Init()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -27,11 +28,8 @@ public partial class FireBase_Manager
             {
                 Debug.Log("Firebase 초기화에 실패하였습니다.");
             }
-
         });
 
-
-        
 
     }
   

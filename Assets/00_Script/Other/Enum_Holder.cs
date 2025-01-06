@@ -41,5 +41,7 @@ public enum Stage_State
     Clear,
     Dead,
     Dungeon,
+    Dungeon_Clear,
+    Dungeon_Dead,
 
 }

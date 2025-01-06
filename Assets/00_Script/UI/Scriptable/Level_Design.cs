@@ -60,9 +60,9 @@ public class StageData
     public int Base_MONSTER_HP;
     public int Base_DROP_MONEY;
 
-    public double Get_ATK() => Utils.CalculateValue(Base_MONSTER_ATK, Data_Manager.Main_Players_Data.Player_Stage, MONSTER_ATK);
-    public double Get_HP() => Utils.CalculateValue(Base_MONSTER_HP, Data_Manager.Main_Players_Data.Player_Stage, MONSTER_HP);
-    public double Get_DROP_MONEY() => Utils.CalculateValue(Base_DROP_MONEY, Data_Manager.Main_Players_Data.Player_Stage, DROP_MONEY);
+    public double Get_ATK(int Dungeon_Value = 0) => Utils.CalculateValue(Base_MONSTER_ATK, Dungeon_Value == 0 ? Data_Manager.Main_Players_Data.Player_Stage : Dungeon_Value, MONSTER_ATK);
+    public double Get_HP(int Dungeon_Value = 0) => Utils.CalculateValue(Base_MONSTER_HP, Dungeon_Value == 0 ? Data_Manager.Main_Players_Data.Player_Stage : Dungeon_Value, MONSTER_HP);
+    public double Get_DROP_MONEY(int Dungeon_Value = 0) => Utils.CalculateValue(Base_DROP_MONEY, Dungeon_Value == 0 ? Data_Manager.Main_Players_Data.Player_Stage : Dungeon_Value, DROP_MONEY);
 }
 
 [System.Serializable]

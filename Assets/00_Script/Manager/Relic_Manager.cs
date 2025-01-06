@@ -39,8 +39,7 @@ public class Relic_Manager : MonoBehaviour
     public void SWORD(Player player, Monster monster)
     {
         string value = "SWORD";
-
-        Debug.Log($"SWORD ½ÇÇàµÊ,{CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["start_percent"].ToString()}ÆÛ¼¾Æ®");
+     
         if (!RandomCount(float.Parse(CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["start_percent"].ToString())));
         {
             return;
@@ -78,8 +77,7 @@ public class Relic_Manager : MonoBehaviour
     /// <param name="monster"></param>
     public void DICE(Monster monster)
     {
-        Debug.Log("DICE ½ÇÇàµÊ");
-
+       
         if (!RandomCount(50))
         {
             return;
