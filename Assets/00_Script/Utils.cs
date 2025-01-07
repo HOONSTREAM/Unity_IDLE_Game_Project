@@ -120,6 +120,19 @@ public class Utils
         return Summon_Percentage;
     }
 
+    public static float[] Gacha_Percentage_Relic()
+    {
+        float[] Summon_Percentage = new float[5];
+
+        for (int i = 0; i < Summon_Percentage.Length; i++)
+        {
+            Summon_Percentage[i] =
+                float.Parse(CSV_Importer.Summon_Design[Calculate_Summon_Level(Data_Manager.Main_Players_Data.Relic_Summon_Count)][((Rarity)i).ToString()].ToString());
+        }
+
+        return Summon_Percentage;
+    }
+
     ///
     public static double Offline_Timer_Check()
     {

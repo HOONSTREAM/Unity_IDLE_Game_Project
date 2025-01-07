@@ -24,6 +24,8 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _gold_text;
     [SerializeField]
+    private TextMeshProUGUI _dia_text;
+    [SerializeField]
     private TextMeshProUGUI _stage_Text;
     [SerializeField]
     private TextMeshProUGUI _stage_repeat_text;
@@ -613,6 +615,7 @@ public class Main_UI : MonoBehaviour
         _levelup_money_text.color = Utils.Check_Levelup_Gold(Levelup_money_Value) ? Color.green : Color.red;
 
         _gold_text.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money);
+        _dia_text.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
 
         _stage_repeat_text.text = Stage_Manager.isDead ? "반복중 ..." : "진행중 ...";
         _stage_repeat_text.color = Stage_Manager.isDead ? Color.yellow : StageColor;

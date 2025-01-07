@@ -47,6 +47,15 @@ public class Data
     public int Hero_Pickup_Count;
 
     /// <summary>
+    /// 플레이어 유저의 유물 소환 레벨 변수
+    /// </summary>
+    public int Relic_Summon_Count;
+    /// <summary>
+    /// 플레이어 유저의 유물 확정 소환 카운트
+    /// </summary>
+    public int Relic_Pickup_Count;
+
+    /// <summary>
     /// 플레이어 유저의 게임 시작시간, 종료시간 기록
     /// </summary>
     public string StartDate;
@@ -95,6 +104,24 @@ public class Data_Manager
         return Ch_Scriptable_Data[Random.Range(0, Ch_Scriptable_Data.Count)];
 
     }
+
+    public Item_Scriptable Get_Rarity_Relic(Rarity rarity)
+    {
+        List<Item_Scriptable> item_Scriptable_Data = new List<Item_Scriptable>();
+
+        foreach (var data in Data_Item_Dictionary)
+        {
+            if (data.Value.rarity == rarity && data.Value.ItemType == ItemType.Equipment)
+            {
+                item_Scriptable_Data.Add(data.Value);
+            }
+        }
+
+        return item_Scriptable_Data[Random.Range(0, item_Scriptable_Data.Count)];
+
+    }
+
+
     private void Set_Character()
     {
         var datas = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");

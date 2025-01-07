@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Gacha : UI_Base
+public class UI_Relic_Gacha : UI_Base
 {
-
     [SerializeField]
-    private Image Gacha_Hero_Parts;
+    private Image Gacha_Relic_Parts;
     public Transform Content;
     [SerializeField]
     private GameObject Rare_Particle;
@@ -25,8 +23,8 @@ public class UI_Gacha : UI_Base
     private GameObject Blocking_ReGaCha_Button;
 
 
-    private int Hero_Amount_Value_Count;
-    private List<GameObject> Reset_Gacha_Hero_Card_List = new List<GameObject>();
+    private int Relic_Amount_Value_Count;
+    private List<GameObject> Reset_Gacha_Relic_Card_List = new List<GameObject>();
 
 
     private const int GACHA_RESUMMON_PRICE_11 = 500;
@@ -40,74 +38,74 @@ public class UI_Gacha : UI_Base
     /// </summary>
     public void ReGaCha_Initialize()
     {
-   
-        for (int i = 0; i<Reset_Gacha_Hero_Card_List.Count; i++)
+
+        for (int i = 0; i < Reset_Gacha_Relic_Card_List.Count; i++)
         {
-            Destroy(Reset_Gacha_Hero_Card_List[i]);
+            Destroy(Reset_Gacha_Relic_Card_List[i]);
         }
 
-        Reset_Gacha_Hero_Card_List.Clear();
+        Reset_Gacha_Relic_Card_List.Clear();
     }
 
-    public void Get_Gacha_Hero(int Hero_Amount_Value)
+    public void Get_Gacha_Relic(int Relic_Amount_Value)
     {
-        Hero_Amount_Value_Count = Hero_Amount_Value;
+        Relic_Amount_Value_Count = Relic_Amount_Value;
 
         ReGacha_Button.onClick.RemoveAllListeners();
 
-        switch (Hero_Amount_Value)
+        switch (Relic_Amount_Value)
         {
             case 11:
                 GaCha_ReSummon_Text.text = "11회 소환";
                 GaCha_ReSummon_Price.text = GACHA_RESUMMON_PRICE_11.ToString();
-                ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Hero_Amount_Value));
+                ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Relic_Amount_Value));
                 break;
             case 1:
                 GaCha_ReSummon_Text.text = "1회 소환";
                 GaCha_ReSummon_Price.text = (GACHA_RESUMMON_PRICE_11 / 10).ToString();
-                ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Hero_Amount_Value));
+                ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Relic_Amount_Value));
                 break;
         }
-        StartCoroutine(GaCha_Coroutine(Hero_Amount_Value));
+        StartCoroutine(GaCha_Coroutine(Relic_Amount_Value));
     }
 
     public void OnClick_ReGaCha(int value)
     {
         ReGaCha_Initialize();
-        Get_Gacha_Hero(value);
-       
+        Get_Gacha_Relic(value);
+
     }
 
-    IEnumerator GaCha_Coroutine(int Hero_Amount_Value)
+    IEnumerator GaCha_Coroutine(int Relic_Amount_Value)
     {
         Blocking_Close_Button.gameObject.SetActive(true);
         Blocking_ReGaCha_Button.gameObject.SetActive(true);
 
-        for (int i = 0; i < Hero_Amount_Value; i++)
+        for (int i = 0; i < Relic_Amount_Value; i++)
         {
-            Data_Manager.Main_Players_Data.Hero_Summon_Count++;
-            Data_Manager.Main_Players_Data.Hero_Pickup_Count++;
+            Data_Manager.Main_Players_Data.Relic_Summon_Count++;
+            Data_Manager.Main_Players_Data.Relic_Pickup_Count++;
             Rarity rarity = Rarity.Common;
 
-            if (Data_Manager.Main_Players_Data.Hero_Pickup_Count >= 110)
+            if (Data_Manager.Main_Players_Data.Relic_Pickup_Count >= 110)
             {
-                Data_Manager.Main_Players_Data.Hero_Pickup_Count = 0;
+                Data_Manager.Main_Players_Data.Relic_Pickup_Count = 0;
                 rarity = Rarity.Legendary;
             }
 
-            
+
             float R_Percentage = 0.0f;
             float Percentage = Random.Range(0.0f, 100.0f);
-            var go = Instantiate(Gacha_Hero_Parts, Content); // 캐릭터 카드를 생성합니다.
-            Reset_Gacha_Hero_Card_List.Add(go.gameObject);
+            var go = Instantiate(Gacha_Relic_Parts, Content); // 캐릭터 카드를 생성합니다.
+            Reset_Gacha_Relic_Card_List.Add(go.gameObject);
             go.gameObject.SetActive(true);
             yield return new WaitForSecondsRealtime(0.15f);
 
-            if(rarity != Rarity.Legendary)
+            if (rarity != Rarity.Legendary)
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    R_Percentage += Utils.Gacha_Percentage()[j];
+                    R_Percentage += Utils.Gacha_Percentage_Relic()[j];
                     if (Percentage <= R_Percentage)
                     {
                         rarity = (Rarity)j;
@@ -115,13 +113,13 @@ public class UI_Gacha : UI_Base
                     }
                 }
             }
-            
 
-            Character_Scriptable Ch_Scriptable_Data = Base_Manager.Data.Get_Rarity_Character(rarity); // 소환 완료된 캐릭터의 데이터 결정 완료         
-            Base_Manager.Data.character_Holder[Ch_Scriptable_Data.name].Hero_Card_Amount++; // 카드 갯수 증가
+
+            Item_Scriptable item_scriptable_Data = Base_Manager.Data.Get_Rarity_Relic(rarity); // 소환 완료된 캐릭터의 데이터 결정 완료         
+            Base_Manager.Data.Item_Holder[item_scriptable_Data.name].Hero_Card_Amount++; // 카드 갯수 증가
 
             go.sprite = Utils.Get_Atlas(rarity.ToString());
-            go.transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Ch_Scriptable_Data.name);
+            go.transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(item_scriptable_Data.name);
 
             if ((int)rarity >= (int)Rarity.Epic)
             {
@@ -132,8 +130,8 @@ public class UI_Gacha : UI_Base
                 go.transform.GetChild(0).gameObject.SetActive(false);
             }
 
-            
-            
+
+
 
             Base_Manager.FireBase.WriteData(); // 데이터 저장
 
@@ -148,5 +146,4 @@ public class UI_Gacha : UI_Base
         Blocking_Close_Button.gameObject.SetActive(false);
         Blocking_ReGaCha_Button.gameObject.SetActive(false);
     }
-
 }
