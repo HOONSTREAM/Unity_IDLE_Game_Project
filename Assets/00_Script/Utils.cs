@@ -139,4 +139,26 @@ public class Utils
         return Time_Count;
     }
 
+    public static string NextDayTimer()
+    {
+        DateTime nowDate = DateTime.Now;
+        DateTime NextDate = nowDate.AddDays(1); // AddDays = 지정된 날짜로부터 일수를 1일 올려주는
+        NextDate = new DateTime(NextDate.Year, NextDate.Month, NextDate.Day, 0, 0, 0);
+        TimeSpan timer = NextDate - nowDate;
+        return timer.Hours + " : " + timer.Minutes + " : " + timer.Seconds;
+    }
+
+    public static bool Item_Count(string itemName, int value)
+    {
+        if (Base_Manager.Data.Item_Holder[itemName].Hero_Card_Amount >= value)
+        {
+            return true;
+        }
+            
+        else
+        {
+            return false;
+        }
+    }
+
 }

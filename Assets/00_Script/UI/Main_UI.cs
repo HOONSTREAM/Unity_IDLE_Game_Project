@@ -370,7 +370,7 @@ public class Main_UI : MonoBehaviour
 
         if(Stage_Manager.DungeonCount <= 0)
         {
-            Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear);
+            Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear,Stage_Manager.Dungeon_Enter_Type);
         }
     }
 
@@ -523,8 +523,46 @@ public class Main_UI : MonoBehaviour
             Dungeon_Coroutine = null;
         }
 
+        int clear_Level = Stage_Manager.Dungeon_Level;
+
+        if(Stage_Manager.Dungeon_Level == Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]) // 클리어레벨이 최종클리어레벨과 동일할 때에만 레벨증가
+        {
+            Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]++;
+        }
+       
+
+        if (Data_Manager.Main_Players_Data.Daily_Enter_Key[Value] > 0)
+        {
+            Data_Manager.Main_Players_Data.Daily_Enter_Key[Value]--;
+        }
+        else
+        {
+            Data_Manager.Main_Players_Data.User_Key_Assets[Value]--;
+        }
+
+        switch (Value)
+        {
+            case 0:
+
+                Data_Manager.Main_Players_Data.DiaMond += ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 50);
+
+                break;
+
+            case 1:
+
+                int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) * 5;
+                var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY);
+
+                Data_Manager.Main_Players_Data.Player_Money += value;
+
+                break;
+        }
+
+        Level_Text_Check();
+
+
         Base_Canvas.instance.Get_TOP_Popup().Initialize("던전 클리어에 성공하였습니다!");
-        Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]++;
+        
         OnClear();
     }
     private void OnDead()
@@ -579,7 +617,7 @@ public class Main_UI : MonoBehaviour
         _stage_repeat_text.text = Stage_Manager.isDead ? "반복중 ..." : "진행중 ...";
         _stage_repeat_text.color = Stage_Manager.isDead ? Color.yellow : StageColor;
 
-        int stage_Value = Data_Manager.Main_Players_Data.Player_Stage + 1;
+        int stage_Value = Data_Manager.Main_Players_Data.Player_Stage;
 
         
         _stage_Text.text = stage_Value.ToString() + "층";
@@ -701,6 +739,8 @@ public class Main_UI : MonoBehaviour
             M_Dungeon_HP_Text.text = string.Format("{0:0.00}초",time);
             yield return null;
         }
+
+        Base_Manager.Stage.State_Change(Stage_State.Dungeon_Dead);
     }
     #endregion
 }

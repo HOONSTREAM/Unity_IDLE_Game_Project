@@ -63,16 +63,8 @@ public class UI_Relic : UI_Base
             {
                 _dict.Add(data.Value.name, data.Value);
 
-            ////TODO: 제거필요
-            //    Holder holder = new Holder();
-            //    holder.Hero_Level = 0;
-            //    holder.Hero_Card_Amount = 1;
-            //    Base_Manager.Data.Item_Holder.Add(data.Value.name, holder);
-
             }
         }
-
-
         var sort_dict = _dict.OrderByDescending(x => x.Value.rarity);
 
 

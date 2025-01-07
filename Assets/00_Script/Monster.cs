@@ -179,9 +179,10 @@ public class Monster : Character
         {
             Stage_Manager.DungeonCount--;
             Main_UI.Instance.Dungeon_Monster_Slider_Count();
+
             if (isBoss)
             {
-                Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear);
+                Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
             }
         }
 

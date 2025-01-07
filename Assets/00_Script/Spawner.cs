@@ -16,6 +16,8 @@ public class Spawner : MonoBehaviour
 
     [SerializeField]
     private GameObject[] Maps;
+    [SerializeField]
+    private GameObject Main_Game_Map;
 
     private void Start()
     {
@@ -44,18 +46,22 @@ public class Spawner : MonoBehaviour
 
         m_monsters.Clear();
     }
+
     private void Back_To_MainGame_Map()
     {
-        Maps[0].gameObject.SetActive(true);
-        Maps[1].gameObject.SetActive(true);
-        Maps[2].gameObject.SetActive(false);
+        Maps[0].gameObject.SetActive(false);
+        Maps[1].gameObject.SetActive(false);
+
+        Main_Game_Map.gameObject.SetActive(true);
+
+
     }
+
     public void OnReady()
-    {
-        M_Count = int.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Count"].ToString());
-        M_SpawnTime = float.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Timer"].ToString());
+    {       
         Back_To_MainGame_Map();
     }
+
     public void OnPlay()
     {
         if (Stage_Manager.isDungeon)
@@ -63,22 +69,28 @@ public class Spawner : MonoBehaviour
             return;
         }
 
+        M_Count = int.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Count"].ToString());
+        M_SpawnTime = float.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["Spawn_Timer"].ToString());
+
         coroutine = StartCoroutine(SpawnCoroutine(M_Count, M_SpawnTime));
     }
     public void OnDungeon(int Value)
     {
-        Maps[1].gameObject.SetActive(false);
-        Maps[2].gameObject.SetActive(false);    
+        for(int i = 0; i <Maps.Length; i++)
+        {
+            Maps[i].gameObject.SetActive(false);
+        }
+        Main_Game_Map.gameObject.SetActive(false);
         Maps[Value].gameObject.SetActive(true);
 
         Stop_Coroutine_And_Delete_Monster();
 
         if(Value == 0) // 다이아몬드 던전
         {
-            coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 5));
+            coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Stage_Manager.Dungeon_Level + 1) * 5));
         }
 
-        if(Value == 2) // 골드 던전
+        if(Value == 1) // 골드 던전
         {
             StartCoroutine(BossSetCoroutine());
         }
@@ -107,7 +119,7 @@ public class Spawner : MonoBehaviour
         {
             monster = Instantiate(Resources.Load<Monster>("Gold_Dungeon"), Vector3.zero, Quaternion.Euler(0, 180, 0)); // 보스 생성
             
-            monster.Init((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[2] + 1) *5); 
+            monster.Init((Stage_Manager.Dungeon_Level + 1) *5); 
         }
        
 

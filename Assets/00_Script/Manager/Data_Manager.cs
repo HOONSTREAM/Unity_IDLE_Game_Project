@@ -28,9 +28,10 @@ public class Holder
 public class Data
 {
     public double Player_Money;
+    public int DiaMond;
     public int Player_Level;
     public double EXP;
-    public int Player_Stage = default;
+    public int Player_Stage = 1;
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
     public float buff_x2_speed = 0.0f;
     public int Buff_Level, Buff_Level_Count;
@@ -54,7 +55,7 @@ public class Data
     //Dungeon
     public int[] Daily_Enter_Key = { 3, 3 }; // 일일마다 초기화 되는 키
     public int[] User_Key_Assets = { 0, 0 }; // 유저가 보상으로 얻은 키 
-    public int[] Dungeon_Clear_Level = { 0, 999, 0 }; //유저가 최종적으로 클리어한 난이도
+    public int[] Dungeon_Clear_Level = { 0, 0 }; //유저가 최종적으로 클리어한 난이도
 
     //광고구매 여부
     public bool isBuyADPackage = false;
@@ -126,10 +127,22 @@ public class Data_Manager
 
         foreach (var data in datas)
         {
-            var item = new Item_Scriptable();
+            var item = new Item_Holder();
 
-            item = data;
-            Data_Item_Dictionary.Add(data.name, item);
+            item.Data = data;
+            Holder s_holder = new Holder();
+
+            if (Item_Holder.ContainsKey(data.name))
+            {
+                s_holder = Item_Holder[data.name];
+            }
+            else
+            {
+                Item_Holder.Add(data.name, s_holder);
+            }
+            item.holder = s_holder;
+
+            Data_Item_Dictionary.Add(data.name, item.Data);
         }
     }
 
