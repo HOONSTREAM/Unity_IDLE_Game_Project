@@ -9,7 +9,9 @@ public class Render_Manager : MonoBehaviour
 
 
     public Camera cam; // ·»´õ¸µ Ä«¸Þ¶óÀÇ Ä·
+    public Camera status_cam;
     public Render_Hero HERO;
+    public Render_Status STATUS;
 
     private void Start()
     {
