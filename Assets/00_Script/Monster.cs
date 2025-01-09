@@ -10,7 +10,7 @@ public class Monster : Character
     public bool isBoss = false;
     public bool isDungeon = false;
     private Vector3 Original_Scale;
-    private double MaxHP;
+    private double MaxHP;  
 
 
     private void Awake()
@@ -182,6 +182,7 @@ public class Monster : Character
 
             if (isBoss)
             {
+                Base_Manager.Pool.m_pool_Dictionary["Gold_Dungeon"].Return(this.gameObject);
                 Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
             }
         }
@@ -196,10 +197,11 @@ public class Monster : Character
                     Main_UI.Instance.Monster_Slider_Count();
                 }
 
-                else
-                {
-                    Base_Manager.Stage.State_Change(Stage_State.Clear);
-                }
+            }
+
+            else
+            {
+                Base_Manager.Stage.State_Change(Stage_State.Clear);
             }
                   
         }
@@ -230,12 +232,14 @@ public class Monster : Character
 
         if (!isBoss)
         {
-            Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);
+            Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);           
         }
+
         else
         {
-            Destroy(this.gameObject); // 보스몬스터는 풀링하지않고 파괴한다.
+            Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(this.gameObject);
         }
+       
         
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -38,8 +39,17 @@ public class Spawner : MonoBehaviour
         {
             if (m_monsters[i].isDead != true)
             {
-                m_monsters[i].isDead = true;
-                Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);
+                if (m_monsters[i].isBoss == false)
+                {
+                    m_monsters[i].isDead = true;
+                    Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);                
+                }
+
+                else
+                {
+                    Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(m_monsters[i].gameObject);
+                }
+                
             }
 
         }
@@ -83,15 +93,19 @@ public class Spawner : MonoBehaviour
         Main_Game_Map.gameObject.SetActive(false);
         Maps[Value].gameObject.SetActive(true);
 
-        Stop_Coroutine_And_Delete_Monster();
 
         if(Value == 0) // 다이아몬드 던전
         {
+            Stop_Coroutine_And_Delete_Monster();
+            Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
             coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Stage_Manager.Dungeon_Level + 1) * 5));
+
         }
 
         if(Value == 1) // 골드 던전
         {
+            Stop_Coroutine_And_Delete_Monster();
+            Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
             StartCoroutine(BossSetCoroutine());
         }
        
@@ -110,18 +124,26 @@ public class Spawner : MonoBehaviour
 
         if(Stage_Manager.isDungeon == false)
         {
-            //TODO : 스테이지 별 보스몬스터 재 조정 필요
-            monster = Instantiate(Resources.Load<Monster>("Boss"), Vector3.zero, Quaternion.Euler(0, 180, 0)); // 보스 생성
-            monster.Init();
+            var go = Base_Manager.Pool.Pooling_OBJ("Boss").Get((value) =>
+            {
+                // 풀링이 생성될때의 기능을 구현한다.
+                value.GetComponent<Monster>().Init(Player_Stage);
+            });
+
+            monster = go.GetComponent<Monster>();
         }
 
         else
         {
-            monster = Instantiate(Resources.Load<Monster>("Gold_Dungeon"), Vector3.zero, Quaternion.Euler(0, 180, 0)); // 보스 생성
-            
-            monster.Init((Stage_Manager.Dungeon_Level + 1) *5); 
+
+            var go = Base_Manager.Pool.Pooling_OBJ("Gold_Dungeon").Get((value) =>
+            {
+                // 풀링이 생성될때의 기능을 구현한다.
+                value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * 5); // TODO : 레벨디자인 필요
+            });
+
+            monster = go.GetComponent<Monster>();
         }
-       
 
         Vector3 Pos = monster.transform.position; // 같은 변수를 사용할 때는, 한 변수로 묶어서 사용하면 메모리 절약이 됨. (중복계산방지)
 
@@ -169,7 +191,7 @@ public class Spawner : MonoBehaviour
             {
                 // 풀링이 생성될때의 기능을 구현한다.
 
-                value.GetComponent<Monster>().Init(Dungeon_Difficulty_Value);
+                value.GetComponent<Monster>().Init(Dungeon_Difficulty_Value);                
                 value.transform.position = pos;
                 value.transform.LookAt(Vector3.zero);
                 m_monsters.Add(value.GetComponent<Monster>());

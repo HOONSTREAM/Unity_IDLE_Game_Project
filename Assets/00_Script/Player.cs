@@ -184,6 +184,11 @@ public class Player : Character
 
     public override void GetDamage(double dmg)
     {
+        if(HP <= 0 && Stage_Manager.isDungeon)
+        {
+            return;
+        }
+
         base.GetDamage(dmg);
 
         if (Stage_Manager.isDead)
@@ -204,17 +209,21 @@ public class Player : Character
 
         if(HP <= 0)
         {
-            //if(Stage_Manager.isDungeon)
-            //{
-            //    Spawner.m_players.Remove(this); // 자신을 더이상 추적하지 못하도록 리스트에서 삭제
-            //    AnimatorChange("isDEAD");
-            //    m_target = null;
-            //    Base_Manager.Stage.State_Change(Stage_State.Dungeon_Dead);
-            //    return;
-            //}
+            if (Stage_Manager.isDungeon)
+            {
+                Spawner.m_players.Remove(this); // 자신을 더이상 추적하지 못하도록 리스트에서 삭제
+                AnimatorChange("isDEAD");
+                m_target = null;
+                Base_Manager.Stage.State_Change(Stage_State.Dungeon_Dead);
+                return;
+            }
 
-            isDead = true;
-            DeadEvent();
+            else
+            {
+                isDead = true;
+                DeadEvent();
+            }
+
         }
     }
     private void DeadEvent()
@@ -238,7 +247,12 @@ public class Player : Character
     {
         base.Attack();
         Trail_Object.gameObject.SetActive(true);
-        Delegate_Holder.Player_Attack(this,m_target.GetComponent<Monster>());
+
+        if(m_target != null)
+        {
+            Delegate_Holder.Player_Attack(this, m_target.GetComponent<Monster>());
+        }
+        
         Invoke("TrailDisable", 1.0f);
     }
 

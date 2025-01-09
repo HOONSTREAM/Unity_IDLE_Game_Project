@@ -406,9 +406,8 @@ public class Main_UI : MonoBehaviour
 
         if (Stage_Manager.isDead)
         {
-            Dead_Frame.gameObject.SetActive(true);
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("충분히 강해진 뒤에, BOSS버튼을 누르세요!");
-
+            Dead_Frame.gameObject.SetActive(true); // 던전에서 실패해도, 데드프레임이 켜지면 안됨.
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("충분히 강해진 뒤에, BOSS버튼을 누르세요!");          
             return;
         }
 
@@ -658,7 +657,7 @@ public class Main_UI : MonoBehaviour
         {
             if (Spawner.m_monsters[i].isBoss == true)
             {
-                Destroy(Spawner.m_monsters[i].gameObject);
+                Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(Spawner.m_monsters[i].gameObject);
             }
             else
             {
@@ -731,6 +730,7 @@ public class Main_UI : MonoBehaviour
         rect.gameObject.SetActive(false);
         rect.anchoredPosition = new Vector2(0.0f, 792.0f);
     }
+
     IEnumerator Dungeon_Slider_Coroutine()
     {
         float time = 30.0f;
