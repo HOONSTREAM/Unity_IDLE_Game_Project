@@ -36,6 +36,7 @@ public class Base_Manager : MonoBehaviour
     private void Awake()
     {
         Init();
+        
     }
 
 

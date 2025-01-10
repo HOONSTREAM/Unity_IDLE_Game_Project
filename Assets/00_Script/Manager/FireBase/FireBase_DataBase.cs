@@ -219,6 +219,7 @@ public partial class FireBase_Manager
 
             Debug.Log("로드된 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.character_Holder));
             Debug.Log("로드된 딕셔너리 : " + JsonConvert.SerializeObject(Base_Manager.Data.Data_Character_Dictionary));
+            
         }
     }
 

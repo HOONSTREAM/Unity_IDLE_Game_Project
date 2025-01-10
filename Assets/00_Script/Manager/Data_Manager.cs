@@ -85,6 +85,7 @@ public class Data_Manager
 
     public void Init()
     {
+        
         Set_Character();
         Set_Item();      
     }
