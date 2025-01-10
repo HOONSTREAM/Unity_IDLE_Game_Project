@@ -81,7 +81,6 @@ public partial class FireBase_Manager
         #endregion
 
     }
-
     public void ReadData()
     {
         #region Default_Data
@@ -141,10 +140,8 @@ public partial class FireBase_Manager
                 var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
                
                 Base_Manager.Data.character_Holder = data;
-                
 
-                Debug.Log("로드된 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.character_Holder));
- 
+                Set_Character_Data_Dictionary();
             }
 
             else
@@ -180,7 +177,6 @@ public partial class FireBase_Manager
         #endregion
 
     }
-
     private bool Get_Date_Dungeon_Item(DateTime startdate, DateTime enddate)
     {
         if(startdate.Day !=  enddate.Day)
@@ -191,6 +187,38 @@ public partial class FireBase_Manager
         else
         {
             return false;   
+        }
+    }
+    /// <summary>
+    /// 로드된 Character_Holder를 이용하여, Data_Character_Dictionary에 매핑합니다.
+    /// </summary>
+    private void Set_Character_Data_Dictionary()
+    {
+        // Scriptable 파일과 매칭하여 Data_Character_Dictionary에 저장
+        Base_Manager.Data.Data_Character_Dictionary.Clear(); // 기존 데이터를 초기화
+
+        var scriptableCharacters = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");
+
+        foreach (var characterScriptable in scriptableCharacters)
+        {
+            if (Base_Manager.Data.character_Holder.ContainsKey(characterScriptable.M_Character_Name))
+            {
+                // 캐릭터 데이터를 Scriptable과 매칭
+                var holderData = Base_Manager.Data.character_Holder[characterScriptable.M_Character_Name];
+
+                var characterHolder = new Character_Holder
+                {
+                    Data = characterScriptable,
+                    holder = holderData
+                };
+
+                Base_Manager.Data.Data_Character_Dictionary[characterScriptable.M_Character_Name] = characterHolder;
+
+                Debug.Log($"캐릭터 추가됨: {characterScriptable.M_Character_Name}");
+            }
+
+            Debug.Log("로드된 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.character_Holder));
+            Debug.Log("로드된 딕셔너리 : " + JsonConvert.SerializeObject(Base_Manager.Data.Data_Character_Dictionary));
         }
     }
 

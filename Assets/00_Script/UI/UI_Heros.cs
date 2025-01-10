@@ -20,6 +20,8 @@ public class UI_Heros : UI_Base
     public List<UI_Heros_Parts> hero_parts = new List<UI_Heros_Parts>();
     private Dictionary<string, Character_Scriptable> _dict = new Dictionary<string, Character_Scriptable>();
     private Character_Scriptable Character;
+    [SerializeField]
+    private TextMeshProUGUI User_Hero_Amount;
 
     #region Hero_Infomation
     [Space(20f)]
@@ -88,6 +90,7 @@ public class UI_Heros : UI_Base
             }
         }
 
+        User_Hero_Amount.text = value.ToString();
         return base.Init();
     }
     public override void DisableOBJ()
@@ -236,9 +239,13 @@ public class UI_Heros : UI_Base
         Hero_Name_Text.text = Data.M_Character_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(Data.Rarity) + Data.Rarity.ToString();
         Description_Text.text = CSV_Importer.Hero_DES_Design[(int)name]["Hero_DES"].ToString();
-        Ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
-        ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]));
-        HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]));
+        double atk = Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]);
+        double hp = Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]);
+
+        ATK.text = StringMethod.ToCurrencyString(atk);
+        HP.text = StringMethod.ToCurrencyString(hp);
+        Ability.text = string.Format("{0:0}", ((int)atk + hp));
+
         Level_Text.text = "LV." + (Base_Manager.Data.character_Holder[Data.name].Hero_Level + 1).ToString();
         Slider_Count_Text.text = "(" + Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name) + ")";
         Slider_Count_Fill.fillAmount = Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);

@@ -608,7 +608,7 @@ public class Main_UI : MonoBehaviour
         double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();
 
         _level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
-        _player_ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
+        _player_ability.text = ((int)Base_Manager.Player.Player_ALL_Ability_ATK_HP()).ToString();
 
         _levelup_money_text.text = StringMethod.ToCurrencyString((Levelup_money_Value));
         _levelup_money_text.color = Utils.Check_Levelup_Gold(Levelup_money_Value) ? Color.green : Color.red;

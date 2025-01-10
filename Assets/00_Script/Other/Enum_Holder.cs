@@ -9,6 +9,13 @@ public enum Rarity
     Legendary
 }
 
+public enum Status_Type
+{
+    Status,
+    Mastery,
+    Costume
+}
+
 public enum Slider_Type
 {
     Default,
