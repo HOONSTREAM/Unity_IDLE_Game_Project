@@ -179,9 +179,9 @@ public class Data_Manager
         Base_Manager.Player.ATK = Utils.Data.levelData.Get_ATK();
         Base_Manager.Player.HP = Utils.Data.levelData.Get_HP();
 
-        for (int i = 0; i < Spawner.m_players.Count; i++)
+        for (int i = 0; i < Spawner.m_players.Count; i++) // 영웅들 각각 ATK와 HP 세팅
         {
-            Spawner.m_players[i].Set_ATK_HP();
+            Spawner.m_players[i].Set_ATK_HP_Sub_Hero();
         }
     }
 

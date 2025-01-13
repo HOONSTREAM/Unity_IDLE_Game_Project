@@ -98,7 +98,7 @@ public class Player : Character
         isDead = false;
         AnimatorChange("isIDLE");
         Spawner.m_players.Add(this);
-        Set_ATK_HP();
+        Set_ATK_HP_Sub_Hero();
         transform.position = startPos;
         transform.rotation = rotation;
     }
@@ -121,7 +121,7 @@ public class Player : Character
         isDead = false;
         AnimatorChange("isIDLE");
         Spawner.m_players.Add(this);
-        Set_ATK_HP();
+        Set_ATK_HP_Sub_Hero();
         transform.position = startPos;
         transform.rotation = rotation;
     }
@@ -142,9 +142,9 @@ public class Player : Character
         Attack_Range = datas.M_Attack_Range;
         ATK_Speed = datas.M_Attack_Speed;
 
-        Set_ATK_HP();
+        Set_ATK_HP_Sub_Hero();
     }
-    public void Set_ATK_HP()
+    public void Set_ATK_HP_Sub_Hero()
     {
         ATK = Base_Manager.Player.Get_ATK(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name]);
         HP = Base_Manager.Player.Get_HP(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name]);

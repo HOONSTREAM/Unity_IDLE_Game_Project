@@ -21,19 +21,23 @@ public class Player_Manager
     public void EXP_UP()
     {
         Data_Manager.Main_Players_Data.EXP += Utils.Data.levelData.Get_EXP();
-        ATK += Utils.Data.levelData.Get_ATK();
-        HP += Utils.Data.levelData.Get_HP();
-
-        if(Data_Manager.Main_Players_Data.EXP >= Utils.Data.levelData.Get_MAXEXP())
+       
+        if(Data_Manager.Main_Players_Data.EXP >= Utils.Data.levelData.Get_MAXEXP()) // 레벨업 조건 달성 시
         {
             Data_Manager.Main_Players_Data.Player_Level++;
             Data_Manager.Main_Players_Data.EXP = 0;
+
+            // 메인캐릭터 ATK,HP 세팅
+            ATK = Utils.Data.levelData.Get_ATK();
+            HP = Utils.Data.levelData.Get_HP();
+
             Main_UI.Instance.Level_Text_Check();
+
         }
         
-        for(int i = 0; i<Spawner.m_players.Count; i++)
+        for(int i = 0; i<Spawner.m_players.Count; i++) // 각 서브 히어로 공격력 및 체력 세팅
         {
-            Spawner.m_players[i].Set_ATK_HP();
+            Spawner.m_players[i].Set_ATK_HP_Sub_Hero();
         }
     }
     public float EXP_Percentage()
