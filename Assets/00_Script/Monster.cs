@@ -260,9 +260,9 @@ public class Monster : Character
     {
         float critical_percentage = Random.Range(0.0f, 100.0f);
 
-        if (critical_percentage <= Base_Manager.Player.Critical_Percentage)
+        if (critical_percentage <= Base_Manager.Player.Calculate_Critical_Percentage())
         {
-            dmg *= (Base_Manager.Player.Critical_Damage / 100);
+            dmg *= (Base_Manager.Player.Calculate_Cri_Damage_Percentage() / 100);
             return true;
         }
 

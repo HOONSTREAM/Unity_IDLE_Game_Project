@@ -8,11 +8,9 @@ public class Player_Manager
 {
     
     
-    public double ATK = 5;
-    public double HP = 50;
+    public double ATK = default;
+    public double HP = default;
 
-    public float Critical_Percentage = 20.0f; // 크리티컬 확률
-    public double Critical_Damage = 140.0d; // 크리티컬 추가 데미지
 
     public double Total_ATK; // 플레이어가 소유중인 영웅의 합계 ATK
     public double Total_HP; // 플레이어가 소유중인 영웅의 합계 HP
@@ -71,6 +69,59 @@ public class Player_Manager
 
         return Final_HP;
     }
+
+    /// <summary>
+    /// 플레이어의 총 합계 공격력을 리턴합니다.
+    /// </summary>
+    /// <returns></returns>
+    public double Calculate_Player_ATK()
+    {
+        double Total_ATK = 0;
+
+
+        double Total;
+
+        var scriptableCharacters = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");
+
+        foreach (var characterScriptable in scriptableCharacters)
+        {
+            if (Base_Manager.Data.character_Holder.ContainsKey(characterScriptable.M_Character_Name))
+            {
+                Total_ATK += Base_Manager.Player.Get_ATK(characterScriptable.Rarity, Base_Manager.Data.character_Holder[characterScriptable.name]);
+            }
+        }
+
+        Total = Total_ATK;
+
+        return Total;
+
+    }
+    /// <summary>
+    /// 플레이어의 총 합계 체력을 리턴합니다.
+    /// </summary>
+    /// <returns></returns>
+    public double Calculate_Player_HP()
+    {
+        double Total_HP = 0;
+
+
+        double Total;
+
+        var scriptableCharacters = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");
+
+        foreach (var characterScriptable in scriptableCharacters)
+        {
+            if (Base_Manager.Data.character_Holder.ContainsKey(characterScriptable.M_Character_Name))
+            {
+                Total_HP += Base_Manager.Player.Get_HP(characterScriptable.Rarity, Base_Manager.Data.character_Holder[characterScriptable.name]);
+            }
+        }
+
+        Total = Total_HP;
+
+        return Total;
+
+    }
     /// <summary>
     /// 플레이어의 최종 전투력을 리턴합니다.
     /// </summary>
@@ -98,4 +149,24 @@ public class Player_Manager
         return (int)Total;
     }
     
+    public float Calculate_Item_Drop_Percentage()
+    {
+        return 0.0f;
+    }
+    public float Calculate_Atk_Speed_Percentage()
+    {
+        return 1.0f;
+    }
+    public float Calculate_Gold_Drop_Percentage()
+    {
+        return 0.0f;
+    }
+    public float Calculate_Critical_Percentage()
+    {
+        return 20.0f;
+    }
+    public float Calculate_Cri_Damage_Percentage()
+    {
+        return 140.0f;
+    }
 }
