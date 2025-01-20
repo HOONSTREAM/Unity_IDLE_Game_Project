@@ -3464,7 +3464,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3629081092134346191}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3271220614825203901}
+        m_TargetAssemblyTypeName: UI_Heros, Assembly-CSharp
+        m_MethodName: Summon_Hero_Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3531733489274061006
 GameObject:
   m_ObjectHideFlags: 0
@@ -3820,6 +3832,8 @@ MonoBehaviour:
   Skill_Image: {fileID: 2085782919084192133}
   Legendary_Image: {fileID: 7321245921154310955}
   Upgrade: {fileID: 4759038485385541313}
+  Summon_Button: {fileID: 0}
+  Summon_Button_Text: {fileID: 8023642584347537417}
 --- !u!1 &3836906910298667298
 GameObject:
   m_ObjectHideFlags: 0
@@ -5802,7 +5816,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC18C\uD658"
+  m_text: "\uBC30\uCE58"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
   m_sharedMaterial: {fileID: -5982863480605260323, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}

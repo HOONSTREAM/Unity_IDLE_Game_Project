@@ -23,28 +23,23 @@ public class Character_Spawner : MonoBehaviour
     /// </summary>
     public void Set_Hero_Main_Game()
     {
-        for(int i = 0; i< Base_Manager.Character.Set_Character.Length; i++)
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i] != null)
+            {
+                Destroy(players[i].gameObject); // 기존 오브젝트 삭제
+                players[i] = null;             // 참조 초기화
+            }
+        }
+
+        // 2. Base_Manager.Character.Set_Character를 기반으로 새 영웅 배치
+        for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
         {
             var Data = Base_Manager.Character.Set_Character[i];
-
-            if(Data != null)
+            if (Data != null) // 유효한 데이터만 처리
             {
-                if (players[i] != null)
-                {
-                    if (players[i].CH_Data != Data.Data)
-                    {
-                        Destroy(players[i].gameObject);
-                        Instatiate_Player(Data, i);
-                    }
-                }
-
-                else
-                {
-                    Instatiate_Player(Data, i);
-                }
-              
+                Instatiate_Player(Data, i); // 새 영웅 생성 및 배치
             }
-                   
         }
     }
 

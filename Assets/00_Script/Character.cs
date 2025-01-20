@@ -122,6 +122,13 @@ public class Character : MonoBehaviour
 
         foreach(var monster in monsters)
         {
+
+            if (monster == null || !monster.gameObject.activeInHierarchy) // 유효성 검사
+            {
+                continue;
+            }
+
+
             float targetDistance = Vector3.Distance(transform.position, monster.transform.position);
 
             if(targetDistance < maxDistance)
