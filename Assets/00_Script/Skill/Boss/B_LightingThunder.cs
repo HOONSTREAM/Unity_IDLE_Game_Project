@@ -19,6 +19,17 @@ public class B_LightingThunder : Skill_Base
     public override void Set_Skill()
     {
         base.Set_Skill();
+
+        for (int i = 0; i < Spawner.m_players.Count; i++)
+        {
+            if (Spawner.m_players[i] == null || !Spawner.m_players[i].gameObject.activeInHierarchy)
+            {
+                Debug.LogWarning($"Player at index {i} is invalid or destroyed. Removing from m_players.");
+                Spawner.m_players.RemoveAt(i);
+                i--; // ÀÎµ¦½º Á¶Á¤
+            }
+        }
+
         StartCoroutine(B_Skill_Coroutine());
     }
 }

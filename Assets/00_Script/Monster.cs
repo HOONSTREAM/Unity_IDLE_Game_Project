@@ -70,9 +70,10 @@ public class Monster : Character
 
         if (Stage_Manager.M_State == Stage_State.Play || Stage_Manager.M_State == Stage_State.BossPlay)
         {
-            if (m_target == null)
+            if (m_target == null || !m_target.gameObject.activeInHierarchy)
             {
-                FindClosetTarget(Spawner.m_players.ToArray());
+                FindClosetTarget(Spawner.m_players.ToArray()); // 유효한 타겟 갱신
+                return; // 유효하지 않으면 업데이트 종료
             }
 
             if (m_target != null)

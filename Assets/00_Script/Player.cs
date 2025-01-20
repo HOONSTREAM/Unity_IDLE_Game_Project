@@ -286,4 +286,13 @@ public class Player : Character
         }
     }
 
+
+    private void OnDestroy()
+    {
+        if (Spawner.m_players.Contains(this))
+        {
+            Spawner.m_players.Remove(this);
+            Debug.Log($"Player {name} removed from Spawner.m_players.");
+        }
+    }
 }

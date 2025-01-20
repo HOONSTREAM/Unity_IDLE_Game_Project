@@ -43,14 +43,22 @@ public class Camera_Manager : MonoBehaviour
 
     private float Monster_Distance()
     {
-        var players = Spawner.m_players.ToArray();
+        var players = Spawner.m_players.ToArray(); // 현재 플레이어 배열 복사
+
         float maxdistance = Main_Distance;
 
-        foreach(var player in players)
+        foreach (var player in players)
         {
+            // 유효성 검사: null 또는 삭제된 오브젝트를 건너뜀
+            if (player == null || !player.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+
+            // 거리 계산
             float targetDistance = Vector3.Distance(Vector3.zero, player.transform.position) + Main_Distance_Value;
 
-            if(targetDistance > maxdistance)
+            if (targetDistance > maxdistance)
             {
                 maxdistance = targetDistance;
             }

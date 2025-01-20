@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -34,15 +35,21 @@ public class Character : MonoBehaviour
     //AnyState는 어떤 상태여도 트리거가 작동되면, 해당 애니메이션으로 갈수 있게끔 한다.
     public void AnimatorChange(string temp)
     {
-        if (Skill_none_Attack)
+        if (animator == null)
         {
-            if (Use_Skill)
-            {
-                return;
-            }
+            Debug.LogError($"Animator is null on {gameObject.name}. Called from AnimatorChange.");
         }
-       
+        else if (!animator.gameObject.activeInHierarchy)
+        {
+            Debug.LogError($"Animator's GameObject is inactive or destroyed on {animator.gameObject.name}. Called from AnimatorChange.");
+        }
 
+        if (Skill_none_Attack && Use_Skill)
+        {
+            return;
+        }
+
+        Debug.Log($"변경하려는 에니메이터 오브젝트 : {animator.gameObject.name}");
         animator.SetBool("isIDLE", false);
         animator.SetBool("isMOVE", false);
 
@@ -146,6 +153,14 @@ public class Character : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (animator != null)
+        {
+            Debug.Log($"Animator on {gameObject.name} is being destroyed.");
+            animator = null;
+        }
 
+    }
 
 }

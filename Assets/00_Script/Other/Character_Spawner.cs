@@ -23,6 +23,8 @@ public class Character_Spawner : MonoBehaviour
     /// </summary>
     public void Set_Hero_Main_Game()
     {
+        Spawner.m_players.Clear(); // m_players 초기화
+
         for (int i = 0; i < players.Length; i++)
         {
             if (players[i] != null)
@@ -31,6 +33,8 @@ public class Character_Spawner : MonoBehaviour
                 players[i] = null;             // 참조 초기화
             }
         }
+
+        
 
         // 2. Base_Manager.Character.Set_Character를 기반으로 새 영웅 배치
         for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
@@ -41,6 +45,7 @@ public class Character_Spawner : MonoBehaviour
                 Instatiate_Player(Data, i); // 새 영웅 생성 및 배치
             }
         }
+
     }
 
     private void Instatiate_Player(Character_Holder Data, int value)
