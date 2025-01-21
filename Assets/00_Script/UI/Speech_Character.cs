@@ -23,6 +23,7 @@ public class Speech_Character : MonoBehaviour
     {
 
         var go = Instantiate(buble_chat, Base_Canvas.instance.transform);
+        go.transform.SetSiblingIndex(0);
         go.Init(transform, speech_Types, cam);
 
         yield return new WaitForSeconds(2.0f);

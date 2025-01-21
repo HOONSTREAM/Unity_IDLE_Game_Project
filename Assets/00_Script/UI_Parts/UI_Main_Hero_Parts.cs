@@ -32,19 +32,6 @@ public class UI_Main_Hero_Parts : MonoBehaviour
     public void Initialize()
     {
         Reset_Main_Hero_Parts();
-
-        if (Main_Data == null)
-        {
-            HP.gameObject.SetActive(false);           
-            FillImage.transform.parent.gameObject.SetActive(false);
-            PlusIcon.gameObject.SetActive(true);
-            Char_Icon.gameObject.SetActive(false);
-        }
-
-        else
-        {
-            Init_Data(Main_Data, true);
-        }
     }
 
     public void Reset_Main_Hero_Parts()
@@ -52,6 +39,7 @@ public class UI_Main_Hero_Parts : MonoBehaviour
         Main_Data = null;
         HP.gameObject.SetActive(false);
         FillImage.transform.parent.gameObject.SetActive(false);
+        Get_Ready_Object.gameObject.SetActive(false);
         PlusIcon.gameObject.SetActive(true);
         Char_Icon.gameObject.SetActive(false);
     }

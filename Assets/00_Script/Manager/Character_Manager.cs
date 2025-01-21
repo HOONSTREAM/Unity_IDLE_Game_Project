@@ -16,7 +16,7 @@ public class Character_Manager
 
     public void Disable_Character(int value)
     {
-        Set_Character[value] = null;
+        Set_Character[value] = null;       
     }
 
 }

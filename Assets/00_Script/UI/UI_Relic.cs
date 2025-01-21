@@ -130,8 +130,6 @@ public class UI_Relic : UI_Base
             Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨 달성 시, 유물 칸 잠금이 해제 됩니다.");
             return;
         }
-
-        Debug.Log("Set_Item_Button 실행");
         Base_Manager.Item.Get_Item(value, Item.name);
         Initialize();
     }
@@ -144,9 +142,7 @@ public class UI_Relic : UI_Base
         for(int i = 0; i<Relic_Panel_Objects.Length; i++)
         {
             if (Base_Manager.Data.Main_Set_Item[i] != null)
-            {
-                Debug.Log("getitemcheck if 구문 진입");
-               
+            {                           
                 Relic_Panel_Objects[i].transform.GetChild(0).gameObject.SetActive(false);
                 Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(true);
                 Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(true);
@@ -155,8 +151,7 @@ public class UI_Relic : UI_Base
             }
 
             else
-            {
-                Debug.Log("getitemcheck else 구문 진입");
+            {               
                 Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(false);
                 Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(false);
             }

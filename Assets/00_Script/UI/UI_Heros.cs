@@ -125,11 +125,12 @@ public class UI_Heros : UI_Base
             for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
             {
                 var Data = Base_Manager.Character.Set_Character[i];
+
                 if (Data != null)
                 {
                     if (Data.Data == parts.Character)
                     {
-                        Base_Manager.Character.Disable_Character(i);
+                        Base_Manager.Character.Disable_Character(i);                        
                         Initialize();
                         return; 
                     }
@@ -271,7 +272,6 @@ public class UI_Heros : UI_Base
     /// </summary>
     public void UpGrade_Button(Holder holder, Character_Scriptable Data)
     {     
-        Debug.Log("강화버튼 클릭완료. 히어로 레벨 : " + holder.Hero_Level + "카드 양 : " + holder.Hero_Card_Amount);
 
         if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name))
         {

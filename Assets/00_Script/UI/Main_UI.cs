@@ -443,8 +443,7 @@ public class Main_UI : MonoBehaviour
     {
         Main_Parts_Dict.Clear();
 
-        for (int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++)        {
             main_hero_parts[i].Initialize();
         }
 

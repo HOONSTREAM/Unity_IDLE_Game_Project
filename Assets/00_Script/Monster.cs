@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Monster : Character
@@ -274,4 +275,13 @@ public class Monster : Character
     }
 
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+
+        if (Spawner.m_monsters.Contains(this))
+        {
+            Spawner.m_monsters.Remove(this);
+        }
+    }
 }

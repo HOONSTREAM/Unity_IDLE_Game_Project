@@ -33,39 +33,34 @@ public class Character : MonoBehaviour
 
     protected void InitAttack() => isATTACK = false;
     //AnyState는 어떤 상태여도 트리거가 작동되면, 해당 애니메이션으로 갈수 있게끔 한다.
+
     public void AnimatorChange(string temp)
     {
-        if (animator == null)
+        if (animator != null)
         {
-            Debug.LogError($"Animator is null on {gameObject.name}. Called from AnimatorChange.");
-        }
-        else if (!animator.gameObject.activeInHierarchy)
-        {
-            Debug.LogError($"Animator's GameObject is inactive or destroyed on {animator.gameObject.name}. Called from AnimatorChange.");
-        }
-
-        if (Skill_none_Attack && Use_Skill)
-        {
-            return;
-        }
-
-        Debug.Log($"변경하려는 에니메이터 오브젝트 : {animator.gameObject.name}");
-        animator.SetBool("isIDLE", false);
-        animator.SetBool("isMOVE", false);
-
-        if (temp == "isATTACK" || temp == "isVICTORY" || temp == "isDEAD" || temp == "isSKILL")
-        {
-            if(temp == "isATTACK")
+            if (Skill_none_Attack && Use_Skill)
             {
-                animator.speed = ATK_Speed;
+                return;
             }
 
-            animator.SetTrigger(temp);
-            return;
-        }
+            animator.SetBool("isIDLE", false);
+            animator.SetBool("isMOVE", false);
 
-        animator.speed = 1.0f;
-        animator.SetBool(temp, true);
+            if (temp == "isATTACK" || temp == "isVICTORY" || temp == "isDEAD" || temp == "isSKILL")
+            {
+                if (temp == "isATTACK")
+                {
+                    animator.speed = ATK_Speed;
+                }
+
+                animator.SetTrigger(temp);
+                return;
+            }
+
+            animator.speed = 1.0f;
+            animator.SetBool(temp, true);
+        }
+           
     }
 
     /// <summary>
@@ -156,8 +151,7 @@ public class Character : MonoBehaviour
     private void OnDestroy()
     {
         if (animator != null)
-        {
-            Debug.Log($"Animator on {gameObject.name} is being destroyed.");
+        {           
             animator = null;
         }
 

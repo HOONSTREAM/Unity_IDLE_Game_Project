@@ -22,7 +22,8 @@ public class Player : Character
         Data_Set(Resources.Load<Character_Scriptable>("Scriptable/Character/" + CH_Name));
 
         Spawner.m_players.Add(this);
-        Base_Manager.Stage.M_ReadyEvent += OnReady;
+        Base_Manager.Stage.M_PlayEvent += OnReady;
+        Base_Manager.Stage.M_BossEvent -= OnBoss;
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
@@ -94,23 +95,43 @@ public class Player : Character
          
     }
     private void OnReady()
-    {
-        isDead = false;
-        AnimatorChange("isIDLE");
-        Spawner.m_players.Add(this);
-        Set_ATK_HP_Sub_Hero();
-        transform.position = startPos;
-        transform.rotation = rotation;
+    {   
+        if(this != null)
+        {
+            isDead = false;
+
+            if (!Spawner.m_players.Contains(this))
+            {
+                Spawner.m_players.Add(this);
+                Debug.Log($"Player {gameObject.name} added to Spawner.m_players.");
+            }
+
+            AnimatorChange("isIDLE");
+
+            Set_ATK_HP_Sub_Hero();
+            transform.position = startPos;
+            transform.rotation = rotation;
+
+            return;
+        }
+     
     }
+
     private void OnBoss()
-    {
+    {     
         AnimatorChange("isIDLE");
-        Provocation_Effect.Play();
+
+        if (Provocation_Effect != null) //유효성검사
+        {
+            Provocation_Effect.Play();
+        }
     }
+       
     private void OnClear()
     {
         AnimatorChange("isVICTORY");
     }
+
     private void OnDead()
     {
         Spawner.m_players.Add(this);
@@ -289,10 +310,11 @@ public class Player : Character
 
     private void OnDestroy()
     {
+        StopAllCoroutines();
+
         if (Spawner.m_players.Contains(this))
         {
-            Spawner.m_players.Remove(this);
-            Debug.Log($"Player {name} removed from Spawner.m_players.");
+            Spawner.m_players.Remove(this);            
         }
     }
 }
