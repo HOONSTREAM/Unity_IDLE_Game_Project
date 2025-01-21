@@ -280,7 +280,7 @@ public class Main_UI : MonoBehaviour
             if (Bottom_Popup_Text[i].gameObject.activeSelf == false)
             {
                 Bottom_Popup_Text[i].gameObject.SetActive(true);
-                Bottom_Popup_Text[i].text = "æ∆¿Ã≈€¿ª »πµÊ«œø¥Ω¿¥œ¥Ÿ. " + Utils.String_Color_Rarity(item.rarity) + "[" + item.Item_Name + "]</color>";
+                Bottom_Popup_Text[i].text = Utils.String_Color_Rarity(item.rarity) + "[" + item.Item_Name + "]</color>" + "»πµÊ";
 
                 for(int j = 0; j< i; j++)
                 {
@@ -322,7 +322,7 @@ public class Main_UI : MonoBehaviour
                     Bottom_Popup_Text[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 792.0f);
 
                     Bottom_Popup_Text[i].gameObject.SetActive(true);
-                    Bottom_Popup_Text[i].text = "æ∆¿Ã≈€¿ª »πµÊ«œø¥Ω¿¥œ¥Ÿ. " + Utils.String_Color_Rarity(item.rarity) + "[" + item.Item_Name + "]</color>";
+                    Bottom_Popup_Text[i].text = Utils.String_Color_Rarity(item.rarity) + "[" + item.Item_Name + "]</color>" + "»πµÊ";
                     StartCoroutine(Item_Bottom_Popup_FadeOut_Coroutine(Bottom_Popup_Text[0].GetComponent<RectTransform>()));
                 }
                 else

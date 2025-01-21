@@ -10,6 +10,7 @@ public class Speech_Character : MonoBehaviour
 
     public void Init()
     {
+        cam = Camera.main;
         StopAllCoroutines();
         StartCoroutine(Speech_Coroutine());
     }

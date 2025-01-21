@@ -9,6 +9,7 @@ public class PalaDin_Skill : Skill_Base
 
     public override void Set_Skill()
     {
+        gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
         StartCoroutine(Set_Skill_Coroutine());
     }
