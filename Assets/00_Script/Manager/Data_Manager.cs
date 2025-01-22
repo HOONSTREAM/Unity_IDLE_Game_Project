@@ -27,14 +27,19 @@ public class Holder
 
 public class Data
 {
+
+    public double ATK;
+    public double HP;
     public double Player_Money;
     public int DiaMond;
     public int Player_Level;
     public double EXP;
     public int Player_Stage = 1;
+    public int EXP_Upgrade_Count;
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
     public float buff_x2_speed = 0.0f;
     public int Buff_Level, Buff_Level_Count;
+    public int Quest_Count;
 
        
     /// <summary>
@@ -175,9 +180,9 @@ public class Data_Manager
     }
 
     public void Set_Player_ATK_HP()
-    {        
-        Base_Manager.Player.ATK = Utils.Data.levelData.Get_ATK();
-        Base_Manager.Player.HP = Utils.Data.levelData.Get_HP();
+    {
+        Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_ATK();
+        Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_HP();
 
         for (int i = 0; i < Spawner.m_players.Count; i++) // 영웅들 각각 ATK와 HP 세팅
         {

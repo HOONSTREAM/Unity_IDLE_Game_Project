@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Coin_Parent : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class Coin_Parent : MonoBehaviour
         Saving_Mode.onSaving -= OnSave;
     }
 
-    public void Init(Vector3 pos)
+    public void Init(Vector3 pos, Coin_Type type = Coin_Type.Gold, int reward_value = 0)
     {
         Saving_Mode.onSaving += OnSave;
 
@@ -56,9 +57,21 @@ public class Coin_Parent : MonoBehaviour
         transform.position = cam.WorldToScreenPoint(pos);
         for(int i = 0; i<childs.Length;i++)
         {
+            childs[i].GetComponent<Image>().sprite = Utils.Get_Atlas(type.ToString());
             childs[i].anchoredPosition = Vector2.zero;
         }
-        Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
+
+        switch (type)
+        {
+            case Coin_Type.Gold:
+                Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY();
+                break;
+            case Coin_Type.Dia:
+                Data_Manager.Main_Players_Data.DiaMond += reward_value;
+                break;
+
+        }
+        
         transform.parent = Base_Canvas.instance.Holder_Layer(0);
 
         

@@ -16,6 +16,23 @@ public enum Status_Type
     Costume
 }
 
+public enum Coin_Type
+{
+    Dia,
+    Gold,
+}
+
+public enum Quest_Type
+{
+    Monster,
+    Stage,
+    Gold_DG,
+    Dia_DG,
+    Upgrade,
+    Hero,
+
+}
+
 public enum Slider_Type
 {
     Default,

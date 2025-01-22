@@ -7,11 +7,6 @@ using UnityEngine.WSA;
 public class Player_Manager
 {
     
-    
-    public double ATK = default;
-    public double HP = default;
-
-
     public double Total_ATK; // 플레이어가 소유중인 영웅의 합계 ATK
     public double Total_HP; // 플레이어가 소유중인 영웅의 합계 HP
 
@@ -26,8 +21,8 @@ public class Player_Manager
             Data_Manager.Main_Players_Data.EXP = 0;
 
             // 메인캐릭터 ATK,HP 세팅
-            ATK = Utils.Data.levelData.Get_ATK();
-            HP = Utils.Data.levelData.Get_HP();
+            Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_ATK();
+            Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_HP();
 
             Main_UI.Instance.Level_Text_Check();
 
@@ -37,6 +32,8 @@ public class Player_Manager
         {
             Spawner.m_players[i].Set_ATK_HP_Sub_Hero();
         }
+
+        Data_Manager.Main_Players_Data.EXP_Upgrade_Count++;
     }
     public float EXP_Percentage()
     {
@@ -55,7 +52,7 @@ public class Player_Manager
     }
     public double Get_ATK(Rarity rarity, Holder holder)
     {
-        var Damage = ATK * ((int)rarity + 2);
+        var Damage = Data_Manager.Main_Players_Data.ATK * ((int)rarity + 2);
         float Level_Damage = ((holder.Hero_Level + 1) * 10) / 100.0f;
         var Final_Damage = Damage + (Damage * Level_Damage);
 
@@ -63,9 +60,9 @@ public class Player_Manager
     }
     public double Get_HP(Rarity rarity, Holder holder)
     {
-        var Now_HP = HP * ((int)rarity + 2);
+        var Now_HP = Data_Manager.Main_Players_Data.HP * ((int)rarity + 2);
         float Level_HP = ((holder.Hero_Level + 1) * 10) / 100.0f;
-        var Final_HP = HP + (Now_HP * Level_HP);
+        var Final_HP = Data_Manager.Main_Players_Data.HP + (Now_HP * Level_HP);
 
         return Final_HP;
     }

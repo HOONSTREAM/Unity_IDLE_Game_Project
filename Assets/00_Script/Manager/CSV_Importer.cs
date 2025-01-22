@@ -10,5 +10,6 @@ public class CSV_Importer
     public static List<Dictionary<string, object>> Hero_DES_Design = new List<Dictionary<string, object>>(CSVReader.Read("Hero_DES"));
     public static List<Dictionary<string, object>> RELIC_SWORD_Design = new List<Dictionary<string, object>>(CSVReader.Read("SWORD"));
     public static List<Dictionary<string, object>> DICE_Design = new List<Dictionary<string, object>>(CSVReader.Read("DICE"));
+    public static List<Dictionary<string, object>> Quest_Design = new List<Dictionary<string, object>>(CSVReader.Read("Quest"));
 }
 

@@ -177,6 +177,11 @@ public class Monster : Character
     }
     private void Dead_Event()
     {
+        if (Main_Quest.GetEnemy)
+        {
+            Main_Quest.monster_index++;
+        }
+
         if (Stage_Manager.isDungeon)
         {
             Stage_Manager.DungeonCount--;
