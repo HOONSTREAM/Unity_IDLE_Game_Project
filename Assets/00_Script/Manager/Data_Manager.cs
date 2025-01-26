@@ -7,10 +7,25 @@ using UnityEngine;
 /// 서버에서 관리 할 DB를 저장하는 용도로 사용하는 매니저 입니다.
 /// </summary>
 /// 
+
+[System.Serializable]
+public class Percentage_Smelt
+{
+    public Rarity Rarity;
+    public float Min;
+    public float Max;
+}
 public class Character_Holder
 {
     public Character_Scriptable Data;
     public Holder holder;
+}
+
+public class Smelt_Holder
+{
+    public Rarity rarity;
+    public Smelt_Status smelt_holder;
+    public float smelt_value;
 }
 
 public class Item_Holder
@@ -73,6 +88,8 @@ public class Data
 
     //광고구매 여부
     public bool isBuyADPackage = false;
+
+    public Smelt_Holder[] User_Main_Data_Smelt_Array = new Smelt_Holder[5];
 }
 
 public class Data_Manager
@@ -87,6 +104,7 @@ public class Data_Manager
     public Dictionary<string, Holder> character_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Item_Scriptable> Data_Item_Dictionary = new Dictionary<string, Item_Scriptable>();
     public Item_Scriptable[] Main_Set_Item = new Item_Scriptable[9]; // 유물 장착칸
+    public List<Smelt_Holder> User_Main_Data_Smelt = new List<Smelt_Holder>();
 
     public void Init()
     {

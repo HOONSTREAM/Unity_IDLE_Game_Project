@@ -68,7 +68,8 @@ public class Spawner : MonoBehaviour
     }
 
     public void OnReady()
-    {       
+    {
+        Stop_Coroutine_And_Delete_Monster();
         Back_To_MainGame_Map();
     }
 

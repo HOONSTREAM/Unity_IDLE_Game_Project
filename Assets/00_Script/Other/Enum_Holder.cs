@@ -16,6 +16,18 @@ public enum Status_Type
     Costume
 }
 
+public enum Smelt_Status
+{
+    ATK, // 공격력
+    HP, // 체력
+    MONEY, // 골드 드랍률
+    ITEM, // 아이템 드랍률
+    SKILL_COOL, // 스킬 쿨타임 감소
+    ATK_SPEED, // 공격력
+    CRITICAL_PERCENTAGE, //크리티컬 확률
+    CRITICAL_DAMAGE, // 크리티컬 데미지
+}
+
 public enum Coin_Type
 {
     Dia,

@@ -139,12 +139,16 @@ public class Player : Character
 
     private void OnDungeon(int Value)
     {
-        isDead = false;
-        AnimatorChange("isIDLE");
-        Spawner.m_players.Add(this);
-        Set_ATK_HP_Sub_Hero();
-        transform.position = startPos;
-        transform.rotation = rotation;
+        if(this != null)
+        {
+            isDead = false;
+            AnimatorChange("isIDLE");
+            Spawner.m_players.Add(this);
+            Set_ATK_HP_Sub_Hero();
+            transform.position = startPos;
+            transform.rotation = rotation;
+        }
+        
     }
 
     private void OnDungeonClear(int Value)

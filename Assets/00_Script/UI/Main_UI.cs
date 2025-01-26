@@ -436,6 +436,7 @@ public class Main_UI : MonoBehaviour
     private void OnReady()
     {
         FadeInOut(true);
+        Monster_Slider_Count();
         Parts_Initialize();
     }
 

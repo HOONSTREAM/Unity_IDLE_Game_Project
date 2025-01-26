@@ -28,6 +28,8 @@ public class Base_Canvas : MonoBehaviour
     private Button Dungeon_Button;
     [SerializeField]
     private Button Status_Button;
+    [SerializeField]
+    private Button Smelt_Button;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -72,6 +74,7 @@ public class Base_Canvas : MonoBehaviour
         ADS_Buff_Button.onClick.AddListener(() => { Get_UI("ADS_Buff"); });
         Shop_Button.onClick.AddListener(() => Get_UI("Shop", false, true, true, 5));
         Dungeon_Button.onClick.AddListener(() => Get_UI("UI_Dungeon", false, false, true, 3));
+        Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
         Status_Button.onClick.AddListener(() => Get_UI("@Status", true, false, true, 0));
 
 

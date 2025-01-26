@@ -36,6 +36,7 @@ public class Stage_Manager
         {
             case Stage_State.Ready:
                 Debug.Log("Stage : Ready");
+                Count = 0; // 카운트초기화
                 MaxCount = int.Parse(CSV_Importer.Spawn_Design[Data_Manager.Main_Players_Data.Player_Stage]["MaxCount"].ToString());
 
                 if(MaxCount > 30)
