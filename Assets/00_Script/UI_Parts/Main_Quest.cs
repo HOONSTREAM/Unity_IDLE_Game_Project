@@ -75,6 +75,7 @@ public class Main_Quest : MonoBehaviour
 
         Data_Manager.Main_Players_Data.Quest_Count++;
         Get_NextQuest();
+
     }
 
     /// <summary>

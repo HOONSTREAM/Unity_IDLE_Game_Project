@@ -21,8 +21,8 @@ public class Player_Manager
             Data_Manager.Main_Players_Data.EXP = 0;
 
             // 메인캐릭터 ATK,HP 세팅
-            Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_ATK();
-            Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_HP();
+            Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_Levelup_Next_ATK();
+            Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_Levelup_Next_HP();
 
             Main_UI.Instance.Level_Text_Check();
 
@@ -50,25 +50,39 @@ public class Player_Manager
 
         return (myexp / exp) * 100.0f;
     }
+
+    /// <summary>
+    /// 실제 영웅에 ATK를 적용합니다.
+    /// </summary>
+    /// <param name="rarity"></param>
+    /// <param name="holder"></param>
+    /// <returns></returns>
     public double Get_ATK(Rarity rarity, Holder holder)
     {
         var Damage = Data_Manager.Main_Players_Data.ATK * ((int)rarity + 2);
         float Level_Damage = ((holder.Hero_Level + 1) * 10) / 100.0f;
         var Final_Damage = Damage + (Damage * Level_Damage);
 
-        return Final_Damage;
+        return Final_Damage + Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK);
     }
+
+    /// <summary>
+    /// 실제 영웅에 HP를 적용합니다.
+    /// </summary>
+    /// <param name="rarity"></param>
+    /// <param name="holder"></param>
+    /// <returns></returns>
     public double Get_HP(Rarity rarity, Holder holder)
     {
         var Now_HP = Data_Manager.Main_Players_Data.HP * ((int)rarity + 2);
         float Level_HP = ((holder.Hero_Level + 1) * 10) / 100.0f;
         var Final_HP = Data_Manager.Main_Players_Data.HP + (Now_HP * Level_HP);
 
-        return Final_HP;
+        return Final_HP + +Base_Manager.Data.Get_smelt_value(Smelt_Status.HP);
     }
 
     /// <summary>
-    /// 플레이어의 총 합계 공격력을 리턴합니다.
+    /// 플레이어의 총 합계 공격력을 텍스트로 리턴합니다. 실제 적용되는 능력치가 아닙니다.
     /// </summary>
     /// <returns></returns>
     public double Calculate_Player_ATK()
@@ -88,13 +102,13 @@ public class Player_Manager
             }
         }
 
-        Total = Total_ATK;
+        Total = Total_ATK + Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK);
 
         return Total;
 
     }
     /// <summary>
-    /// 플레이어의 총 합계 체력을 리턴합니다.
+    /// 플레이어의 총 합계 체력을 텍스트로 리턴합니다. 실제 적용되는 능력치가 아닙니다.
     /// </summary>
     /// <returns></returns>
     public double Calculate_Player_HP()
@@ -114,7 +128,7 @@ public class Player_Manager
             }
         }
 
-        Total = Total_HP;
+        Total = Total_HP + Base_Manager.Data.Get_smelt_value(Smelt_Status.HP);
 
         return Total;
 
@@ -125,45 +139,30 @@ public class Player_Manager
     /// <returns></returns>
     public int Player_ALL_Ability_ATK_HP()
     {
-        Total_ATK = 0;
-        Total_HP = 0;
+        double value = Calculate_Player_ATK() + Calculate_Player_HP();
 
-        double Total;
-
-        var scriptableCharacters = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");
-
-        foreach (var characterScriptable in scriptableCharacters)
-        {
-            if (Base_Manager.Data.character_Holder.ContainsKey(characterScriptable.M_Character_Name))
-            {
-                Total_ATK += Base_Manager.Player.Get_ATK(characterScriptable.Rarity, Base_Manager.Data.character_Holder[characterScriptable.name]);
-                Total_HP += Base_Manager.Player.Get_HP(characterScriptable.Rarity, Base_Manager.Data.character_Holder[characterScriptable.name]);
-            }       
-        }
-
-        Total = Total_ATK + Total_HP;
-
-        return (int)Total;
+        return (int)value;
     }
-    
+
     public float Calculate_Item_Drop_Percentage()
     {
-        return 0.0f;
+        return 0.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.ITEM);
     }
     public float Calculate_Atk_Speed_Percentage()
     {
-        return 1.0f;
+        return (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK_SPEED));
     }
     public float Calculate_Gold_Drop_Percentage()
     {
-        return 0.0f;
+        return 0.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.MONEY);
     }
     public float Calculate_Critical_Percentage()
     {
-        return 20.0f;
+        return 20.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_PERCENTAGE);
     }
     public float Calculate_Cri_Damage_Percentage()
     {
-        return 140.0f;
+        return 140.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_DAMAGE);
     }
 }
+

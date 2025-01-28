@@ -160,19 +160,20 @@ public class Player : Character
     /// Scriptable Object Data를 바탕으로 데이터를 세팅합니다.
     /// </summary>
     /// <param name="datas"></param>
+    /// 
     private void Data_Set(Character_Scriptable datas)
     {
         CH_Data = datas;
         Bullet_Name = CH_Data.M_Character_Name;
         Attack_Range = datas.M_Attack_Range;
-        ATK_Speed = datas.M_Attack_Speed;
+        ATK_Speed = datas.M_Attack_Speed + Base_Manager.Player.Calculate_Atk_Speed_Percentage();
 
         Set_ATK_HP_Sub_Hero();
     }
     public void Set_ATK_HP_Sub_Hero()
     {
         ATK = Base_Manager.Player.Get_ATK(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name]);
-        HP = Base_Manager.Player.Get_HP(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name]);
+        HP = Base_Manager.Player.Get_HP(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name]);       
     }
     public void Get_MP(int mp)
     {

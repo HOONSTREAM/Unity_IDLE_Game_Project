@@ -270,7 +270,7 @@ public class Monster : Character
 
         if (critical_percentage <= Base_Manager.Player.Calculate_Critical_Percentage())
         {
-            dmg *= (Base_Manager.Player.Calculate_Cri_Damage_Percentage() / 100);
+            dmg *= (Base_Manager.Player.Calculate_Cri_Damage_Percentage() / 100); 
             return true;
         }
 

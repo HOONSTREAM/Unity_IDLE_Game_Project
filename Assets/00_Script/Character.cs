@@ -105,6 +105,8 @@ public class Character : MonoBehaviour
     {
         HP += heal;
 
+        
+
         var goOBJ = Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
         {
             value.GetComponent<Hit_Text>().Init(transform.position, heal, Color.green, true);

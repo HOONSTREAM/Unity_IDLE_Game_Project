@@ -56,7 +56,7 @@ public class Data
     public int Buff_Level, Buff_Level_Count;
     public int Quest_Count;
 
-       
+
     /// <summary>
     /// 플레이어 유저의 소환 레벨 변수
     /// </summary>
@@ -89,9 +89,7 @@ public class Data
     //광고구매 여부
     public bool isBuyADPackage = false;
 
-    public Smelt_Holder[] User_Main_Data_Smelt_Array = new Smelt_Holder[5];
 }
-
 public class Data_Manager
 {
 
@@ -104,22 +102,23 @@ public class Data_Manager
     public Dictionary<string, Holder> character_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Item_Scriptable> Data_Item_Dictionary = new Dictionary<string, Item_Scriptable>();
     public Item_Scriptable[] Main_Set_Item = new Item_Scriptable[9]; // 유물 장착칸
-    public List<Smelt_Holder> User_Main_Data_Smelt = new List<Smelt_Holder>();
+    public List<Smelt_Holder> User_Main_Data_Smelt_Array = new List<Smelt_Holder>();
+
 
     public void Init()
     {
-        
+
         Set_Character();
-        Set_Item();      
+        Set_Item();
     }
 
     public Character_Scriptable Get_Rarity_Character(Rarity rarity)
     {
-        List<Character_Scriptable> Ch_Scriptable_Data = new List<Character_Scriptable> ();
+        List<Character_Scriptable> Ch_Scriptable_Data = new List<Character_Scriptable>();
 
-        foreach(var data in Data_Character_Dictionary)
+        foreach (var data in Data_Character_Dictionary)
         {
-            if(data.Value.Data.Rarity == rarity && data.Value.Data.Main_Character == false)
+            if (data.Value.Data.Rarity == rarity && data.Value.Data.Main_Character == false)
             {
                 Ch_Scriptable_Data.Add(data.Value.Data);
             }
@@ -149,7 +148,7 @@ public class Data_Manager
     private void Set_Character()
     {
         var datas = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");
-       
+
 
         foreach (var data in datas)
         {
@@ -199,8 +198,8 @@ public class Data_Manager
 
     public void Set_Player_ATK_HP()
     {
-        Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_ATK();
-        Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_HP();
+        Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_Levelup_Next_ATK();
+        Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_Levelup_Next_HP();
 
         for (int i = 0; i < Spawner.m_players.Count; i++) // 영웅들 각각 ATK와 HP 세팅
         {
@@ -210,7 +209,7 @@ public class Data_Manager
 
     public void Set_Hero_Holding_Effect(Character_Scriptable Data)
     {
-        for(int i = 0; i<character_Holder.Count; i++)
+        for (int i = 0; i < character_Holder.Count; i++)
         {
             if (character_Holder[Data.name].Hero_Card_Amount > 1)
             {
@@ -219,4 +218,25 @@ public class Data_Manager
         }
     }
 
+    public float Get_smelt_value(Smelt_Status status)
+    {
+        float value = 0.0f;
+
+        for (int i = 0; i < User_Main_Data_Smelt_Array.Count; i++)
+        {
+            if (User_Main_Data_Smelt_Array[i].smelt_holder == status)
+            {
+                value += User_Main_Data_Smelt_Array[i].smelt_value;
+            }
+        }
+
+        return value;
+    }
+
+
 }
+
+
+
+
+
