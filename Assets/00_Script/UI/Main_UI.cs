@@ -545,13 +545,13 @@ public class Main_UI : MonoBehaviour
         {
             case 0:
 
-                Data_Manager.Main_Players_Data.DiaMond += ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 50);
+                Data_Manager.Main_Players_Data.DiaMond += ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON);
 
                 break;
 
             case 1:
 
-                int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) * 5;
+                int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
                 var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY);
 
                 Data_Manager.Main_Players_Data.Player_Money += value;

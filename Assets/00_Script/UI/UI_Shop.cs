@@ -43,11 +43,17 @@ public class UI_Shop : UI_Base
     [SerializeField]
     private Image Relic_Pickup_Count_Slider;
 
+    [Space(20f)]
+    [Header("Money_Amount")]
+    [SerializeField]
+    private TextMeshProUGUI Dia_Amount;
 
     private int Information_Panel_Summon_Level;
 
     public override bool Init()
     {
+        Dia_Amount.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
+
         Get_Init();
         Relic_Init();
         return base.Init();

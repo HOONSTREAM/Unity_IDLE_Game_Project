@@ -86,25 +86,15 @@ public class UI_Relic_Parts : MonoBehaviour
         }
 
         Equip_Relic_Image.gameObject.SetActive(Equip);
-        Minus_Button.gameObject.SetActive(Equip);
-        Plus_Button.gameObject.SetActive(!Equip);
 
     }
 
     /// <summary>
-    /// 유물 카드 우측상단의 탭을 누르면 활성화 되는 로직을 처리합니다.
-    /// </summary>
-    public void Click_My_Button()
-    {
-        parent.Set_Click(this);
-    }
-
-    /// <summary>
-    /// 보유중인 영웅을 터치했을 때의 기능을 구현합니다.
+    /// 보유중인 유물을 터치했을 때의 기능을 구현합니다.
     /// </summary>
     public void Click_My_Relic()
     {
-        parent.Get_Relic_Information(item);
+        parent.Get_Relic_Information(item, this);
     }
 
 

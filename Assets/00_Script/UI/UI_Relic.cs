@@ -20,6 +20,8 @@ public class UI_Relic : UI_Base
     private const int RELIC_SLOT_NUMBER = 9;
     public GameObject[] Relic_Panel_Objects;
 
+    private UI_Relic_Parts Clicked_Relic_Parts;
+
     #region Relic_Info
     [Space(20f)]
     [Header("Relic_Information")]
@@ -202,9 +204,11 @@ public class UI_Relic : UI_Base
 
     }
 
-    public void Get_Relic_Information(Item_Scriptable Data)
+    public void Get_Relic_Information(Item_Scriptable Data, UI_Relic_Parts parts)
     {
-        
+
+        Clicked_Relic_Parts = parts;
+
         switch (Data.name)
         {
             case "SWORD":
@@ -241,7 +245,11 @@ public class UI_Relic : UI_Base
         Upgrade.onClick.RemoveAllListeners();
         Upgrade.onClick.AddListener(() => UpGrade_Button(Base_Manager.Data.Item_Holder[Data.name], Data));
     }
-
+    public void Set_Heros_In_MainGame()
+    {       
+        Set_Click(Clicked_Relic_Parts);
+        Relic_Information.gameObject.SetActive(false);
+    }
     public void UpGrade_Button(Holder holder, Item_Scriptable Data)
     {
         Debug.Log("강화버튼 클릭완료. 히어로 레벨 : " + holder.Hero_Level + "카드 양 : " + holder.Hero_Card_Amount);
@@ -251,7 +259,7 @@ public class UI_Relic : UI_Base
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name);
             holder.Hero_Level++;
         }
-        Get_Relic_Information(Data);
+        Get_Relic_Information(Data, Clicked_Relic_Parts);
 
         for (int i = 0; i < relic_parts.Count; i++)
         {

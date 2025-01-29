@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class UI_Dungeon : UI_Base
 {
+
     [SerializeField]
     private TextMeshProUGUI Daily_Reset_Timer;
     [SerializeField]
@@ -23,6 +24,7 @@ public class UI_Dungeon : UI_Base
 
     private int[] Level = new int[2];
 
+
     public override bool Init()
     {
         Main_UI.Instance.FadeInOut(true, true, null);
@@ -35,11 +37,11 @@ public class UI_Dungeon : UI_Base
             Level[i] = Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i];
         }
 
-        int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) * 5; 
+        int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON; 
         var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY);
 
         // 레벨디자인 필요
-        Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 50).ToString();
+        Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
         Clear_Assets[1].text = StringMethod.ToCurrencyString(value);
 
         Key01ArrowButton[0].onClick.AddListener(() => ArrowButton(0, -1));
@@ -95,6 +97,17 @@ public class UI_Dungeon : UI_Base
         }
 
         Dungeon_Levels[KeyValue].text = (Level[KeyValue] + 1).ToString();
+
+        if(KeyValue == 0)
+        {
+            Clear_Assets[0].text = ((Level[KeyValue] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
+        }
+
+        else if(KeyValue == 1)
+        {
+            Clear_Assets[1].text = StringMethod.ToCurrencyString(Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, Level[KeyValue], Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON);
+        }
+
     }
 
 }

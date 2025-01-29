@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,9 @@ public class UI_Inventory : UI_Base
     private RectTransform Top_Content;
     private List<GameObject> Garbage_Inven_Change = new List<GameObject>();
 
+
+    [SerializeField]
+    private TextMeshProUGUI Gold_DG_Dia, Dia_DG_Dia, Gold, Dia;
     public override bool Init()
     {
         if(Garbage_Inven_Change.Count > 0)
@@ -76,7 +80,12 @@ public class UI_Inventory : UI_Base
                 }
 
             }
-                                  
+
+            Dia_DG_Dia.text = (Data_Manager.Main_Players_Data.Daily_Enter_Key[0] + Data_Manager.Main_Players_Data.User_Key_Assets[0]).ToString();
+            Gold_DG_Dia.text = (Data_Manager.Main_Players_Data.Daily_Enter_Key[1] + Data_Manager.Main_Players_Data.User_Key_Assets[1]).ToString();
+            Gold.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money);
+            Dia.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
+
         }
 
         for(int i = 0; i< Inven_Top_Buttons.Length; i++)

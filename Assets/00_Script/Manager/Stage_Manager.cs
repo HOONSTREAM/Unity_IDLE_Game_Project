@@ -5,7 +5,10 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class Stage_Manager
-{ 
+{
+
+   
+
     public static Stage_State M_State;
     public static int MaxCount = 3;
     public static int Count;
@@ -28,7 +31,11 @@ public class Stage_Manager
     public  OnDungeonDeadEvent M_DungeonDeadEvent;
 
     private const int FULL_MAX_COUNT = 30;
-  
+
+    public const int MULTIPLE_REWARD_GOLD_DUNGEON = 5000;
+    public const int MULTIPLE_REWARD_DIAMOND_DUNGEON = 50;
+
+
     public void State_Change(Stage_State state, int Value = 0)
     {
         M_State = state;
