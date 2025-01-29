@@ -72,24 +72,16 @@ public class UI_Heros_Parts : MonoBehaviour
         M_Count.text = Base_Manager.Data.character_Holder[Character.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Character.name);
         M_Level.text = "LV." + (Base_Manager.Data.character_Holder[Character.name].Hero_Level + 1).ToString();
     }
-    
-    /// <summary>
-    /// 영웅 카드 우측상단의 탭을 누르면 활성화 되는 로직을 처리합니다.
-    /// </summary>
-    public void Click_My_Button()
-    {    
-        Render_Manager.instance.HERO.Get_Particle(true);
-        parent.Set_Click(this);
-    }
+  
     /// <summary>
     /// 보유중인 영웅을 터치했을 때의 기능을 구현합니다.
     /// </summary>
     public void Click_My_Hero()
     {
-        parent.Get_Hero_Information(Character);
-        Render_Manager.instance.HERO.Get_Particle(true);
+        parent.Get_Hero_Information(Character, this);       
     }
-    public void Get_Character_Check()
+
+    public bool Get_Character_Check()
     {
         bool Equip = false;
 
@@ -106,9 +98,8 @@ public class UI_Heros_Parts : MonoBehaviour
         }
 
         Eqiup_Hero_Image.gameObject.SetActive(Equip);
-        Minus_Button.gameObject.SetActive(Equip);
-        Plus_Button.gameObject.SetActive(!Equip);
-
+    
+        return Equip;
     }
 
 }

@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class UI_Smelt : UI_Base
 {
-    Smelt_Scriptable smelt_Data;
+    private Smelt_Scriptable smelt_Data;
     public GameObject Smelt_Panel;
     public Transform Vertical_Content;
-    bool Opening = false;
+    private bool Opening = false;
     public TextMeshProUGUI CountText;
-    [HideInInspector] public List<GameObject> Garbage = new List<GameObject>();
+
+    [HideInInspector] 
+    public List<GameObject> Garbage = new List<GameObject>();
 
     public override bool Init()
     {

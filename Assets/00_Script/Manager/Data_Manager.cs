@@ -43,6 +43,7 @@ public class Holder
 public class Data
 {
 
+    public string Nick_Name = default;
     public double ATK;
     public double HP;
     public double Player_Money;

@@ -150,11 +150,11 @@ public class Player_Manager
     }
     public float Calculate_Atk_Speed_Percentage()
     {
-        return (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK_SPEED));
+        return (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK_SPEED) / 100);
     }
     public float Calculate_Gold_Drop_Percentage()
     {
-        return 0.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.MONEY);
+        return 0.0f + ( Base_Manager.Data.Get_smelt_value(Smelt_Status.MONEY) / 100 );
     }
     public float Calculate_Critical_Percentage()
     {

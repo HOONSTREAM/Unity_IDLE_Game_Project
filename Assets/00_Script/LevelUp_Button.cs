@@ -43,6 +43,14 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
             return;
         }
 
+        if(Data_Manager.Main_Players_Data.Player_Money <= Utils.Data.levelData.Get_LEVELUP_MONEY())
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("골드가 부족합니다.");
+            return;
+        }
+
+        Data_Manager.Main_Players_Data.Player_Money -= Utils.Data.levelData.Get_LEVELUP_MONEY();
+
         Base_Manager.Player.EXP_UP();
         InitEXP();
         transform.DORewind();

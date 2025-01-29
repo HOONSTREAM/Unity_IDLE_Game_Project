@@ -53,6 +53,12 @@ public class UI_Heros : UI_Base
     private ParticleImage Legendary_Image;
     [SerializeField]
     private Button Upgrade;
+    [SerializeField]
+    private TextMeshProUGUI Summon_Button_Text;
+
+
+    private bool is_Hero_inBattle = false;
+    private UI_Heros_Parts Clicked_Heros_Parts;
     #endregion
 
     public override bool Init()
@@ -95,6 +101,8 @@ public class UI_Heros : UI_Base
     }
     public override void DisableOBJ()
     {
+        Render_Manager.instance.HERO.Get_Particle(false); // 영웅배치 플러스버튼 삭제
+
         Main_UI.Instance.Layer_Check(-1); // 버튼을 다시 원래 크기로 되돌립니다.
 
         Main_UI.Instance.FadeInOut(false, true, () =>
@@ -142,7 +150,7 @@ public class UI_Heros : UI_Base
 
             for (int i = 0; i < hero_parts.Count; i++)
             {
-                hero_parts[i].Lock_OBJ.SetActive(true);
+                hero_parts[i].Lock_OBJ.SetActive(true);                
                 hero_parts[i].GetComponent<Outline>().enabled = false;
             }
 
@@ -197,8 +205,20 @@ public class UI_Heros : UI_Base
 
         Main_UI.Instance.Set_Character_Data();
     }
-    public void Get_Hero_Information(Character_Scriptable Data)
+    public void Get_Hero_Information(Character_Scriptable Data, UI_Heros_Parts parts)
     {
+        Clicked_Heros_Parts = parts;
+
+        if (Clicked_Heros_Parts.Get_Character_Check())
+        {
+            Summon_Button_Text.text = "해제";
+        }
+
+        else
+        {
+            Summon_Button_Text.text = "배치";
+        }
+
         Hero_Name name = Hero_Name.Dual_Blader;
 
         switch (Data.name)
@@ -279,7 +299,7 @@ public class UI_Heros : UI_Base
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
             holder.Hero_Level++;
         }
-        Get_Hero_Information(Data);
+        Get_Hero_Information(Data, Clicked_Heros_Parts);
 
         for(int i = 0; i< hero_parts.Count; i++)
         {
@@ -323,5 +343,18 @@ public class UI_Heros : UI_Base
 
         return Can_Upgrade;
     }
+
+    /// <summary>
+    /// 소환버튼을 눌러, 영웅을 배치합니다.
+    /// Clicked_Heros_Parts는, 영웅정보창이 열리는 메서드를 통해 UI_Heros_Parts에서 this로 참조받습니다.
+    /// </summary>
+    public void Set_Heros_In_MainGame()
+    {
+        Render_Manager.instance.HERO.Get_Particle(true);
+        Set_Click(Clicked_Heros_Parts);
+        Hero_Information.gameObject.SetActive(false);
+    }
+
+   
 
 }
