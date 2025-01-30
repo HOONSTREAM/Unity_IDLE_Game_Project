@@ -37,8 +37,8 @@ public class UI_Dungeon : UI_Base
             Level[i] = Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i];
         }
 
-        int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON; 
-        var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY);
+        int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1); 
+        var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
 
         // 레벨디자인 필요
         Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
@@ -105,7 +105,10 @@ public class UI_Dungeon : UI_Base
 
         else if(KeyValue == 1)
         {
-            Clear_Assets[1].text = StringMethod.ToCurrencyString(Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, Level[KeyValue], Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON);
+            double Gold_Value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, (Level[KeyValue] + 1),
+                Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
+
+            Clear_Assets[1].text = StringMethod.ToCurrencyString(Gold_Value);
         }
 
     }

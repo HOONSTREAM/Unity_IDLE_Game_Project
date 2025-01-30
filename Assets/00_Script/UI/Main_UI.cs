@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
@@ -511,6 +512,18 @@ public class Main_UI : MonoBehaviour
 
         Dungeon_Addtional_Sliders[Value].gameObject.SetActive(true);
 
+        if(Value == 0)
+        {
+            int Stage_Value = Stage_Manager.Dungeon_Level; // 0층에서 시작하므로 +1을 해줍니다.
+            Dungeon_Stage_Text.text = $"보물던전 {Stage_Value} 층";
+        }
+
+        else if (Value == 1)
+        {
+            int Stage_Value = (Stage_Manager.Dungeon_Level + 1); // 0층에서 시작하므로 +1을 해줍니다.
+            Dungeon_Stage_Text.text = $"골드던전 {Stage_Value} 층";
+        }
+
         FadeInOut(true, true);
         Parts_Initialize();
         Dungeon_Addtional_Sliders[Value].gameObject.SetActive(true);
@@ -545,14 +558,14 @@ public class Main_UI : MonoBehaviour
         {
             case 0:
 
-                Data_Manager.Main_Players_Data.DiaMond += ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON);
+                Data_Manager.Main_Players_Data.DiaMond += ((clear_Level + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON);
 
                 break;
 
             case 1:
 
-                int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
-                var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY);
+                int levelCount = (clear_Level + 1);
+                var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON; ;
 
                 Data_Manager.Main_Players_Data.Player_Money += value;
 

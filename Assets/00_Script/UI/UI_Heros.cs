@@ -296,9 +296,12 @@ public class UI_Heros : UI_Base
 
         if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name))
         {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("영웅 강화를 성공하였습니다.");
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
             holder.Hero_Level++;
         }
+
+        Base_Canvas.instance.Get_Toast_Popup().Initialize("영웅 강화에 필요한 카드가 부족합니다.");
         Get_Hero_Information(Data, Clicked_Heros_Parts);
 
         for(int i = 0; i< hero_parts.Count; i++)
@@ -350,6 +353,7 @@ public class UI_Heros : UI_Base
     /// </summary>
     public void Set_Heros_In_MainGame()
     {
+        Base_Canvas.instance.Get_Toast_Popup().Initialize("플러스 버튼을 눌러 영웅을 배치하세요.");
         Render_Manager.instance.HERO.Get_Particle(true);
         Set_Click(Clicked_Heros_Parts);
         Hero_Information.gameObject.SetActive(false);
