@@ -17,9 +17,10 @@ public class PalaDin_Skill : Skill_Base
     IEnumerator Set_Skill_Coroutine()
     {        
         Skill_Effect.gameObject.SetActive(true);
-        //TODO : 무적 ? 방어력 증가 ?
+        gameObject.GetComponent<Player>().HP *= 2.0d;
         yield return new WaitForSeconds(PalaDin_SKILL_DURATION_TIME);       
         Skill_Effect.gameObject.SetActive(false);
+        gameObject.GetComponent<Player>().HP *= 1.0d;
         ReturnSkill();
     }
 }

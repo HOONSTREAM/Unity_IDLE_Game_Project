@@ -225,7 +225,7 @@ public class UI_Heros : UI_Base
         {
             case "Dual_Blader":
                 name = Hero_Name.Dual_Blader;
-                Holding_Effect_Amount_First.text = Utils.Data.Dual_Effect_Data.Get_ALL_ATK(Data).ToString("0.00");
+                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
                 Holding_Effect_Amount_Second.text = "0";
                 Holding_Effect_First.text = "아군 전체 물리공격력";
                 Holding_Effect_Second.text = "아이템 드랍확률";
@@ -238,12 +238,17 @@ public class UI_Heros : UI_Base
                 break;
             case "PalaDin":
                 name = Hero_Name.PalaDin;
-                Holding_Effect_Amount_First.text = Utils.Data.PalaDin_Effect_Data.Get_ALL_ATK(Data).ToString("0.00");
+                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
                 Holding_Effect_Amount_Second.text = "0";
                 Holding_Effect_First.text = "아군 전체 물리공격력";
                 Holding_Effect_Second.text = "아이템 드랍확률";              
                 break;
-
+            case "Elemental_Master_Black":
+                name = Hero_Name.Elemental_Master_Black;
+                break;
+            case "Sword_Master":
+                name = Hero_Name.Sword_Master;
+                break;
 
         }
 

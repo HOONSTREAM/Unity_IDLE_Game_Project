@@ -41,7 +41,7 @@ public class Relic_Manager : MonoBehaviour
        
         string value = "SWORD";
      
-        if (!RandomCount(float.Parse(CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["start_percent"].ToString())));
+        if (!RandomCount(float.Parse(CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["start_percent"].ToString())))
         {
             return;
         }
@@ -57,6 +57,8 @@ public class Relic_Manager : MonoBehaviour
                 Spawner.m_monsters[i].GetDamage(player.ATK * 1.7f);
             }
         }
+
+        Destroy(go , 2.0f);
     }
 
     /// <summary>

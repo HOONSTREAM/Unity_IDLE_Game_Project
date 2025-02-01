@@ -59,11 +59,33 @@ public class Player_Manager
     /// <returns></returns>
     public double Get_ATK(Rarity rarity, Holder holder)
     {
-        var Damage = Data_Manager.Main_Players_Data.ATK * ((int)rarity + 2);
-        float Level_Damage = ((holder.Hero_Level + 1) * 10) / 100.0f;
-        var Final_Damage = Damage + (Damage * Level_Damage);
+        var Damage = Data_Manager.Main_Players_Data.ATK * ((int)rarity + 1);
+        float Level_Damage = ((holder.Hero_Level + 1) * ((int)rarity * 3)) / 10.0f;
 
-        return Final_Damage + Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK);
+        var Final_Damage = (Damage + (Damage * Level_Damage)) * (1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK) / 100));
+
+        return Final_Damage * Check_Player_Holding_Effect();
+    }
+
+    private double Check_Player_Holding_Effect()
+    {
+        double Holding_Effect_Value = default;
+
+        var Datas = Base_Manager.Data.Data_Character_Dictionary;
+
+        foreach (var data in Datas)
+        {
+            if (Base_Manager.Data.Data_Character_Dictionary.ContainsKey(data.Value.Data.name))
+            {               
+                Debug.Log($"{data.Value.Data.name}의 보유효과를 적용합니다.");
+                Holding_Effect_Value += (Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(data.Value.Data) / 100);
+            }
+        }
+
+        Debug.Log($"{(1.0f) + Holding_Effect_Value} 의 보유효과 퍼센트 합계");
+
+        return (1.0f) + Holding_Effect_Value;
+
     }
 
     /// <summary>
@@ -74,11 +96,11 @@ public class Player_Manager
     /// <returns></returns>
     public double Get_HP(Rarity rarity, Holder holder)
     {
-        var Now_HP = Data_Manager.Main_Players_Data.HP * ((int)rarity + 2);
-        float Level_HP = ((holder.Hero_Level + 1) * 10) / 100.0f;
+        var Now_HP = Data_Manager.Main_Players_Data.HP * ((int)rarity + 1);
+        float Level_HP = ((holder.Hero_Level + 1) * ((int)rarity * 3)) / 10.0f;
         var Final_HP = Data_Manager.Main_Players_Data.HP + (Now_HP * Level_HP);
 
-        return Final_HP + +Base_Manager.Data.Get_smelt_value(Smelt_Status.HP);
+        return Final_HP * (1.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.HP));
     }
 
     /// <summary>
@@ -102,7 +124,7 @@ public class Player_Manager
             }
         }
 
-        Total = Total_ATK + Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK);
+        Total = Total_ATK;
 
         return Total;
 
@@ -128,7 +150,7 @@ public class Player_Manager
             }
         }
 
-        Total = Total_HP + Base_Manager.Data.Get_smelt_value(Smelt_Status.HP);
+        Total = Total_HP;
 
         return Total;
 

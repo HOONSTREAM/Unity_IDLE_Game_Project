@@ -13,11 +13,9 @@ public class Level_Design : ScriptableObject
     [Space(20f)]
     public StageData stageData;
     [Space(20f)]
-    public HeroCardData heroCardData;
+    public HeroCardData heroCardData;    
     [Space(20f)]
-    public Dual_Blader_Effect_Data Dual_Effect_Data;
-    [Space(20f)]
-    public PalaDin_Effect_Data PalaDin_Effect_Data;
+    public Holding_Effect_Data Holding_Effect_Data;
 
 }
 
@@ -103,14 +101,24 @@ public class Dual_Blader_Effect_Data
     [Space(10f)]
     public float Base_ATK;
     public int Base_DROP;
-   
 
-    public double Get_ALL_ATK(Character_Scriptable Data) => Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
+
+    public double Get_ALL_ATK_Holding_Effect(Character_Scriptable Data)
+    {
+        if (!Base_Manager.Data.character_Holder.ContainsKey(Data.name))
+        {
+            Debug.Log("듀얼블레이더를 보유하고 있지 않습니다.");
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+        return Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
+    }
+
 
 }
 
 [System.Serializable]
-public class PalaDin_Effect_Data
+public class Holding_Effect_Data
 {
     public int Current_Level;
     [Range(0.0f, 10.0f)]
@@ -123,6 +131,15 @@ public class PalaDin_Effect_Data
     
 
 
-    public double Get_ALL_ATK(Character_Scriptable Data) => Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
+    public double Get_ALL_ATK_Holding_Effect(Character_Scriptable Data)
+    {
+        if (!Base_Manager.Data.character_Holder.ContainsKey(Data.name))
+        {
+            Debug.Log($"{Data.name}을 보유하고 있지 않습니다.");
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+       return Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
+    } 
 
 }
