@@ -103,7 +103,6 @@ public class Player : Character
             if (!Spawner.m_players.Contains(this))
             {
                 Spawner.m_players.Add(this);
-                Debug.Log($"Player {gameObject.name} added to Spawner.m_players.");
             }
 
             AnimatorChange("isIDLE");

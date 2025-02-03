@@ -16,8 +16,7 @@ public class Elemental_B_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        Debug.Log("set_skill_coroutine ¿¤¸Þºí·¢");
-
+      
         Skill_Effect.gameObject.SetActive(true);
 
         var localMonsters = (monsters != null) ? (Monster[])monsters.Clone() : null;

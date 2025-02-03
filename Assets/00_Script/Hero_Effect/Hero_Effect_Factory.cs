@@ -6,7 +6,7 @@ using static I_Hero_Effect;
 
 public class Increase_ATK_Effect : IHeroEffect
 {
-    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.ATK;
+    public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ATK;
 
     public double ApplyEffect(Character_Scriptable data)
     {
@@ -17,7 +17,7 @@ public class Increase_ATK_Effect : IHeroEffect
 
 public class Increase_GoldDrop_Effect : IHeroEffect
 {
-    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.GOLD_DROP;
+    public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.GOLD_DROP;
 
     public double ApplyEffect(Character_Scriptable data)
     {
@@ -27,7 +27,7 @@ public class Increase_GoldDrop_Effect : IHeroEffect
 
 public class Increase_CriticalDamage_Effect : IHeroEffect
 {
-    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.CRITICAL_DAMAGE;
+    public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.CRITICAL_DAMAGE;
     public double ApplyEffect(Character_Scriptable data)
     {
         return Utils.Data.Holding_Effect_Data.Get_ALL_CRI_DMG_Effect(data) / 100;
@@ -36,7 +36,7 @@ public class Increase_CriticalDamage_Effect : IHeroEffect
 
 public class Increase_Critical_Percentage_Effect : IHeroEffect
 {
-    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.CRITICAL_PERCENTAGE;
+    public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.CRITICAL_PERCENTAGE;
     public double ApplyEffect(Character_Scriptable data)
     {
         return Utils.Data.Holding_Effect_Data.Get_ALL_CRI_PERCENT_Effect(data) / 100;
@@ -45,7 +45,7 @@ public class Increase_Critical_Percentage_Effect : IHeroEffect
 
 public class Increase_ItemDrop_Effect : IHeroEffect
 {
-    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.ITEM_DROP;
+    public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ITEM_DROP;
     public double ApplyEffect(Character_Scriptable data)
     {
         return Utils.Data.Holding_Effect_Data.Get_ALL_ITEM_DROP_Holding_Effect(data) / 100;
@@ -54,7 +54,7 @@ public class Increase_ItemDrop_Effect : IHeroEffect
 
 public class Increase_ATKSpeed_Effect : IHeroEffect
 {
-    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.ATK_SPEED;
+    public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ATK_SPEED;
     public double ApplyEffect(Character_Scriptable data)
     {
         return Utils.Data.Holding_Effect_Data.Get_ALL_ATK_SPEED_Holding_Effect(data) / 100;
@@ -63,7 +63,7 @@ public class Increase_ATKSpeed_Effect : IHeroEffect
 
 public class Increase_HP_Effect : IHeroEffect
 {
-    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.HP;
+    public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.HP;
     public double ApplyEffect(Character_Scriptable data)
     {
         return Utils.Data.Holding_Effect_Data.Get_ALL_HP_Holding_Effect(data) / 100;

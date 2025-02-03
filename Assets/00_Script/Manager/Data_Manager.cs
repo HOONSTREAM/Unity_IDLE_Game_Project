@@ -208,17 +208,6 @@ public class Data_Manager
         }
     }
 
-    public void Set_Hero_Holding_Effect(Character_Scriptable Data)
-    {
-        for (int i = 0; i < character_Holder.Count; i++)
-        {
-            if (character_Holder[Data.name].Hero_Card_Amount > 1)
-            {
-                Debug.Log($"{Data.name}의 보유효과를 증가시킵니다.");
-            }
-        }
-    }
-
     public float Get_smelt_value(Smelt_Status status)
     {
         float value = 0.0f;

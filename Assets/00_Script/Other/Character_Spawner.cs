@@ -29,13 +29,12 @@ public class Character_Spawner : MonoBehaviour
             {               
                 if (Spawner.m_players.Contains(players[i]))
                 {
-                    Spawner.m_players.Remove(players[i]);
-                    Debug.Log($"Player {players[i].name} 가 Spawner.m_players에서 먼저 삭제됩니다.");
+                    Spawner.m_players.Remove(players[i]);                    
                 }
 
                 
                 Destroy(players[i].gameObject); // 기존 오브젝트 삭제
-                Debug.Log($"{players[i].name}을 디스트로이하고 null로 초기화합니다.");
+               
                 players[i] = null;// 참조 초기화
             }
         }
@@ -48,7 +47,6 @@ public class Character_Spawner : MonoBehaviour
             var Data = Base_Manager.Character.Set_Character[i];
             if (Data != null) // 유효한 데이터만 처리
             {
-                Debug.Log($"Set_Character{i}의 {Base_Manager.Character.Set_Character[i].Data.M_Character_Name}을 재배치합니다.");
                 Instatiate_Player(Data, i); // 새 영웅 생성 및 배치
             }
         }

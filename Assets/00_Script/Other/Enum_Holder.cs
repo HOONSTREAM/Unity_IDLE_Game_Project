@@ -28,7 +28,7 @@ public enum Smelt_Status
     CRITICAL_DAMAGE, // 크리티컬 데미지
 }
 
-public enum Hero_Holding_Effect_Type
+public enum Holding_Effect_Type
 {
     ATK,
     HP,

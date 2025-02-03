@@ -7,7 +7,7 @@ public class I_Hero_Effect : MonoBehaviour
 {
     public interface IHeroEffect
     {
-        Hero_Holding_Effect_Type Get_Effect_Type();
+        Holding_Effect_Type Get_Effect_Type();
         double ApplyEffect(Character_Scriptable data);
     }
 }

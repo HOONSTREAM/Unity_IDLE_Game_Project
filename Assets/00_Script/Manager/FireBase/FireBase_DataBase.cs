@@ -189,9 +189,7 @@ public partial class FireBase_Manager
                 var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
 
                 Base_Manager.Data.Item_Holder = data;
-                
-                Debug.Log("로드된 인벤토리 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.Item_Holder));
-
+                              
             }
 
             else
@@ -214,11 +212,6 @@ public partial class FireBase_Manager
 
                 Base_Manager.Data.User_Main_Data_Smelt_Array = data;
                 Base_Manager.Data.Init();
-
-                for(int i = 0; i < 5 ; i++)
-                {
-                    Debug.Log("로드된 각인 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.User_Main_Data_Smelt_Array[i].smelt_holder.ToString()));
-                }
 
             }
 
@@ -275,12 +268,8 @@ public partial class FireBase_Manager
 
                 Base_Manager.Data.Data_Character_Dictionary[characterScriptable.M_Character_Name] = characterHolder;
 
-                Debug.Log($"캐릭터 추가됨: {characterScriptable.M_Character_Name}");
             }
 
-            Debug.Log("로드된 Character_Holder 데이터: " + JsonConvert.SerializeObject(Base_Manager.Data.character_Holder));
-            Debug.Log("로드된 캐릭터 딕셔너리 : " + JsonConvert.SerializeObject(Base_Manager.Data.Data_Character_Dictionary));
-            
         }
     }
 

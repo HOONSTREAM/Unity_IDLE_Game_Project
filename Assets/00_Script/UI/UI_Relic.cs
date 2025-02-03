@@ -218,8 +218,8 @@ public class UI_Relic : UI_Base
                 name = Relic_Name.SWORD;
                 start_percent = CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["start_percent"].ToString();
                 effect_percent = CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["effect_percent"].ToString();
-                Holding_Effect_Amount_First.text = "0";
-                Holding_Effect_Amount_Second.text = "0";
+                Holding_Effect_Amount_First.text = Utils.Data.Hoiding_Effect_Data_Relic.Get_ALL_ATK_SPEED_Holding_Effect_Relic(Data).ToString("0.00");
+                Holding_Effect_Amount_Second.text = Utils.Data.Hoiding_Effect_Data_Relic.Get_ALL_ITEM_DROP_Holding_Effect_Relic(Data).ToString("0.00");
                 Holding_Effect_First.text = "아군 전체 공격속도";
                 Holding_Effect_Second.text = "아이템 드랍확률";
 
@@ -228,8 +228,8 @@ public class UI_Relic : UI_Base
             case "DICE":
                 name = Relic_Name.DICE;
                 start_percent = CSV_Importer.DICE_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["start_percent"].ToString();
-                Holding_Effect_Amount_First.text = "0";
-                Holding_Effect_Amount_Second.text = "0";
+                Holding_Effect_Amount_First.text = Utils.Data.Hoiding_Effect_Data_Relic.Get_ALL_GOLD_DROP_Holding_Effect_Relic(Data).ToString("0.00");
+                Holding_Effect_Amount_Second.text = Utils.Data.Hoiding_Effect_Data_Relic.Get_ALL_HP_Holding_Effect_Relic(Data).ToString("0.00");
                 Holding_Effect_First.text = "골드 획득량 증가";
                 Holding_Effect_Second.text = "아군 전체 체력";
                 break;
@@ -284,8 +284,6 @@ public class UI_Relic : UI_Base
     }
     public void UpGrade_Button(Holder holder, Item_Scriptable Data)
     {
-        Debug.Log("강화버튼 클릭완료. 히어로 레벨 : " + holder.Hero_Level + "카드 양 : " + holder.Hero_Card_Amount);
-
         if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name))
         {
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name);
