@@ -28,6 +28,17 @@ public enum Smelt_Status
     CRITICAL_DAMAGE, // 크리티컬 데미지
 }
 
+public enum Hero_Holding_Effect_Type
+{
+    ATK,
+    HP,
+    ATK_SPEED,
+    GOLD_DROP,
+    ITEM_DROP,
+    CRITICAL_DAMAGE,
+    CRITICAL_PERCENTAGE
+}
+
 public enum Coin_Type
 {
     Dia,

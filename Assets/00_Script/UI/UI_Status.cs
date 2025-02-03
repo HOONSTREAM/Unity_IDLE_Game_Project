@@ -29,8 +29,8 @@ public class UI_Status : UI_Base
         Player_Level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
         ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Calculate_Player_ATK());
         HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Calculate_Player_HP());
-        GoldDrop.text = string.Format("{0:0}%", Base_Manager.Player.Calculate_Gold_Drop_Percentage());
-        ItemDrop.text = string.Format("{0:0}%", Base_Manager.Player.Calculate_Item_Drop_Percentage());
+        GoldDrop.text = $"{100 + Base_Manager.Player.Calculate_Gold_Drop_Percentage() * 100}%";
+        ItemDrop.text = $"{100 + Base_Manager.Player.Calculate_Item_Drop_Percentage() * 100}%";
         Atk_Speed.text = $"{100 + Base_Manager.Player.Calculate_Atk_Speed_Percentage() * 100}%";
         Critical.text = string.Format("{0:0.0}%", Base_Manager.Player.Calculate_Critical_Percentage());
         Cri_Damage.text = string.Format("{0:0.0}%", Base_Manager.Player.Calculate_Cri_Damage_Percentage());

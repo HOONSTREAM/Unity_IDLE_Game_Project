@@ -1,0 +1,90 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static I_Hero_Effect;
+
+
+public class Increase_ATK_Effect : IHeroEffect
+{
+    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.ATK;
+
+    public double ApplyEffect(Character_Scriptable data)
+    {
+        return Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(data) / 100;
+    }
+    
+}
+
+public class Increase_GoldDrop_Effect : IHeroEffect
+{
+    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.GOLD_DROP;
+
+    public double ApplyEffect(Character_Scriptable data)
+    {
+        return Utils.Data.Holding_Effect_Data.Get_ALL_GOLD_DROP_Holding_Effect(data) / 100;
+    }
+}
+
+public class Increase_CriticalDamage_Effect : IHeroEffect
+{
+    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.CRITICAL_DAMAGE;
+    public double ApplyEffect(Character_Scriptable data)
+    {
+        return Utils.Data.Holding_Effect_Data.Get_ALL_CRI_DMG_Effect(data) / 100;
+    }
+}
+
+public class Increase_Critical_Percentage_Effect : IHeroEffect
+{
+    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.CRITICAL_PERCENTAGE;
+    public double ApplyEffect(Character_Scriptable data)
+    {
+        return Utils.Data.Holding_Effect_Data.Get_ALL_CRI_PERCENT_Effect(data) / 100;
+    }
+}
+
+public class Increase_ItemDrop_Effect : IHeroEffect
+{
+    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.ITEM_DROP;
+    public double ApplyEffect(Character_Scriptable data)
+    {
+        return Utils.Data.Holding_Effect_Data.Get_ALL_ITEM_DROP_Holding_Effect(data) / 100;
+    }
+}
+
+public class Increase_ATKSpeed_Effect : IHeroEffect
+{
+    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.ATK_SPEED;
+    public double ApplyEffect(Character_Scriptable data)
+    {
+        return Utils.Data.Holding_Effect_Data.Get_ALL_ATK_SPEED_Holding_Effect(data) / 100;
+    }
+}
+
+public class Increase_HP_Effect : IHeroEffect
+{
+    public Hero_Holding_Effect_Type Get_Effect_Type() => Hero_Holding_Effect_Type.HP;
+    public double ApplyEffect(Character_Scriptable data)
+    {
+        return Utils.Data.Holding_Effect_Data.Get_ALL_HP_Holding_Effect(data) / 100;
+    }
+}
+
+public static class HeroEffectFactory
+{
+    private static readonly Dictionary<string, List<IHeroEffect>> hero_Effects = new Dictionary<string, List<IHeroEffect>>
+        {
+            { "Dual_Blader", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_Critical_Percentage_Effect() } },
+            { "Hunter", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_GoldDrop_Effect() } },
+            { "Elemental_Master_White", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_ItemDrop_Effect() } },
+            { "Elemental_Master_Black", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_ATKSpeed_Effect() } },
+            { "PalaDin", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_CriticalDamage_Effect() } },
+            { "Sword_Master", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect() } }
+        };
+
+    public static List<IHeroEffect> Get_Holding_Effects(string heroName)
+    {
+        return hero_Effects.TryGetValue(heroName, out var effects) ? effects : new List<IHeroEffect>();
+    }
+
+}

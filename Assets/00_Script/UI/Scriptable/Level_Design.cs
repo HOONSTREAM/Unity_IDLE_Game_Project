@@ -123,23 +123,122 @@ public class Holding_Effect_Data
     public int Current_Level;
     [Range(0.0f, 10.0f)]
     public float ALL_ATK;
+    public float ALL_HP;
+    public float ALL_ATK_SPEED;
+    public float ALL_GOLD_DROP;
+    public float ALL_ITEM_DROP;
+    public float ALL_CRI_DMG;
+    public float ALL_CRI_PCT;
 
     [Space(20f)]
     [Header("BASE_VALUE")]
     [Space(10f)]
     public float Base_ATK;
+    public float Base_HP;
+    public float Base_ATK_SPEED;
+    public float Base_GOLD_DROP;
+    public float Base_ITEM_DROP;
+    public float Base_CRI_DMG;
+    public float Base_CRI_PCT;
     
-
 
     public double Get_ALL_ATK_Holding_Effect(Character_Scriptable Data)
     {
-        if (!Base_Manager.Data.character_Holder.ContainsKey(Data.name))
+        if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)
         {
             Debug.Log($"{Data.name}을 보유하고 있지 않습니다.");
             return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
         }
 
-       return Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
-    } 
+        double Value = Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
+        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+
+        return Application_Rarity_Value;
+    }
+
+    public double Get_ALL_ATK_SPEED_Holding_Effect(Character_Scriptable Data)
+    {
+        if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)
+        {
+            Debug.Log($"{Data.name}을 보유하고 있지 않습니다.");
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+        double Value = Utils.CalculateValue(Base_ATK_SPEED, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK_SPEED);
+        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+
+        return Application_Rarity_Value;
+    }
+
+    public double Get_ALL_HP_Holding_Effect(Character_Scriptable Data)
+    {
+        if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)
+        {
+            Debug.Log($"{Data.name}을 보유하고 있지 않습니다.");
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+        double Value = Utils.CalculateValue(Base_HP, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_HP);
+        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+
+        return Application_Rarity_Value;
+    }
+
+    public double Get_ALL_GOLD_DROP_Holding_Effect(Character_Scriptable Data)
+    {
+        if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)
+        {
+            Debug.Log($"{Data.name}을 보유하고 있지 않습니다.");
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+        double Value = Utils.CalculateValue(Base_GOLD_DROP, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_GOLD_DROP);
+        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+
+        return Application_Rarity_Value;
+    }
+
+    public double Get_ALL_ITEM_DROP_Holding_Effect(Character_Scriptable Data)
+    {
+        if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)
+        {
+            Debug.Log($"{Data.name}을 보유하고 있지 않습니다.");
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+        double Value = Utils.CalculateValue(Base_ITEM_DROP, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ITEM_DROP);
+        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+
+        return Application_Rarity_Value;
+    }
+
+    public double Get_ALL_CRI_DMG_Effect(Character_Scriptable Data)
+    {
+        if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)
+        {
+            Debug.Log($"{Data.name}을 보유하고 있지 않습니다.");
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+        double Value = Utils.CalculateValue(Base_CRI_DMG, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_CRI_DMG);
+        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+
+        return Application_Rarity_Value;
+    }
+
+    public double Get_ALL_CRI_PERCENT_Effect(Character_Scriptable Data)
+    {
+        if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)
+        {
+            Debug.Log($"{Data.name}을 보유하고 있지 않습니다.");
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+        double Value = Utils.CalculateValue(Base_CRI_PCT, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_CRI_PCT);
+        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+
+        return Application_Rarity_Value;
+    }
+
 
 }

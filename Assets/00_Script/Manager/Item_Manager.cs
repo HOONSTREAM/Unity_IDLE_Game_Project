@@ -35,7 +35,7 @@ public class Item_Manager
             if(data.Value.Minimum_Drop_Stage <= Data_Manager.Main_Players_Data.Player_Stage)
             {
                 float ValueCount = Random.Range(0.0f, 100.0f);
-                float Smelt_Value = +Base_Manager.Player.Calculate_Item_Drop_Percentage();
+                float Smelt_Value = Base_Manager.Player.Calculate_Item_Drop_Percentage();
 
                 float Total_Value = ValueCount + Smelt_Value;
                

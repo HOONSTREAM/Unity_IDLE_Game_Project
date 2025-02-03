@@ -226,28 +226,44 @@ public class UI_Heros : UI_Base
             case "Dual_Blader":
                 name = Hero_Name.Dual_Blader;
                 Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = "0";
+                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_CRI_PERCENT_Effect(Data).ToString("0.00");
                 Holding_Effect_First.text = "아군 전체 물리공격력";
-                Holding_Effect_Second.text = "아이템 드랍확률";
+                Holding_Effect_Second.text = "아군 크리티컬 확률";
                 break;
             case "Hunter":
                 name = Hero_Name.Hunter;
+                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
+                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_GOLD_DROP_Holding_Effect(Data).ToString("0.00");
+                Holding_Effect_First.text = "아군 전체 물리공격력";
+                Holding_Effect_Second.text = "아군 골드 획득량";
                 break;
             case "Elemental_Master_White":
                 name = Hero_Name.Elemental_Master_White;
+                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
+                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_ITEM_DROP_Holding_Effect(Data).ToString("0.00");
+                Holding_Effect_First.text = "아군 전체 물리공격력";
+                Holding_Effect_Second.text = "아군 아이템 드랍률";
                 break;
             case "PalaDin":
                 name = Hero_Name.PalaDin;
                 Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = "0";
+                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_CRI_DMG_Effect(Data).ToString("0.00");
                 Holding_Effect_First.text = "아군 전체 물리공격력";
-                Holding_Effect_Second.text = "아이템 드랍확률";              
+                Holding_Effect_Second.text = "아군 크리티컬 데미지";              
                 break;
             case "Elemental_Master_Black":
                 name = Hero_Name.Elemental_Master_Black;
+                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
+                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_SPEED_Holding_Effect(Data).ToString("0.00");
+                Holding_Effect_First.text = "아군 전체 물리공격력";
+                Holding_Effect_Second.text = "아군 공격속도";
                 break;
             case "Sword_Master":
                 name = Hero_Name.Sword_Master;
+                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
+                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_HP_Holding_Effect(Data).ToString("0.00");
+                Holding_Effect_First.text = "아군 전체 물리공격력";
+                Holding_Effect_Second.text = "아군 전체 체력";
                 break;
 
         }
