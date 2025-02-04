@@ -5,6 +5,7 @@ using static I_Relic_Effect;
 
 public class Increase_ATK_Effect_Relic : IRelicEffect
 {
+    public string Get_Effect_Name() => "아군 전체 물리공격력";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ATK;
 
     public double ApplyEffect(Item_Scriptable data)
@@ -16,6 +17,7 @@ public class Increase_ATK_Effect_Relic : IRelicEffect
 
 public class Increase_GoldDrop_Effect_Relic : IRelicEffect
 {
+    public string Get_Effect_Name() => "아군 골드획득량";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.GOLD_DROP;
 
     public double ApplyEffect(Item_Scriptable data)
@@ -26,6 +28,7 @@ public class Increase_GoldDrop_Effect_Relic : IRelicEffect
 
 public class Increase_CriticalDamage_Effect_Relic : IRelicEffect
 {
+    public string Get_Effect_Name() => "아군 치명타 데미지";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.CRITICAL_DAMAGE;
     public double ApplyEffect(Item_Scriptable data)
     {
@@ -35,6 +38,7 @@ public class Increase_CriticalDamage_Effect_Relic : IRelicEffect
 
 public class Increase_Critical_Percentage_Effect_Relic : IRelicEffect
 {
+    public string Get_Effect_Name() => "아군 치명타 확률";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.CRITICAL_PERCENTAGE;
     public double ApplyEffect(Item_Scriptable data)
     {
@@ -44,6 +48,7 @@ public class Increase_Critical_Percentage_Effect_Relic : IRelicEffect
 
 public class Increase_ItemDrop_Effect_Relic : IRelicEffect
 {
+    public string Get_Effect_Name() => "아군 아이템 드랍률";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ITEM_DROP;
     public double ApplyEffect(Item_Scriptable data)
     {
@@ -53,6 +58,7 @@ public class Increase_ItemDrop_Effect_Relic : IRelicEffect
 
 public class Increase_ATKSpeed_Effect_Relic : IRelicEffect
 {
+    public string Get_Effect_Name() => "아군 전체 공격속도";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ATK_SPEED;
     public double ApplyEffect(Item_Scriptable data)
     {
@@ -62,6 +68,7 @@ public class Increase_ATKSpeed_Effect_Relic : IRelicEffect
 
 public class Increase_HP_Effect_Relic : IRelicEffect
 {
+    public string Get_Effect_Name() => "아군 전체 체력";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.HP;
     public double ApplyEffect(Item_Scriptable data)
     {

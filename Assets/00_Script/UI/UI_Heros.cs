@@ -209,79 +209,25 @@ public class UI_Heros : UI_Base
     {
         Clicked_Heros_Parts = parts;
 
-        if (Clicked_Heros_Parts.Get_Character_Check())
-        {
-            Summon_Button_Text.text = "해제";
-        }
+        Summon_Button_Text.text = Clicked_Heros_Parts.Get_Character_Check() ? "해제" : "배치";
 
-        else
-        {
-            Summon_Button_Text.text = "배치";
-        }
 
-        Hero_Name name = Hero_Name.Dual_Blader;
+        var effects = HeroEffectFactory.Get_Holding_Effects(Data.name); // 히어로 팩토리에서 보유효과를 가져옵니다.
 
-        switch (Data.name)
-        {
-            case "Dual_Blader":
-                name = Hero_Name.Dual_Blader;
-                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_CRI_PERCENT_Effect(Data).ToString("0.00");
-                Holding_Effect_First.text = "아군 전체 물리공격력";
-                Holding_Effect_Second.text = "아군 크리티컬 확률";
-                break;
-            case "Hunter":
-                name = Hero_Name.Hunter;
-                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_GOLD_DROP_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_First.text = "아군 전체 물리공격력";
-                Holding_Effect_Second.text = "아군 골드 획득량";
-                break;
-            case "Elemental_Master_White":
-                name = Hero_Name.Elemental_Master_White;
-                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_ITEM_DROP_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_First.text = "아군 전체 물리공격력";
-                Holding_Effect_Second.text = "아군 아이템 드랍률";
-                break;
-            case "PalaDin":
-                name = Hero_Name.PalaDin;
-                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_CRI_DMG_Effect(Data).ToString("0.00");
-                Holding_Effect_First.text = "아군 전체 물리공격력";
-                Holding_Effect_Second.text = "아군 크리티컬 데미지";              
-                break;
-            case "Elemental_Master_Black":
-                name = Hero_Name.Elemental_Master_Black;
-                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_SPEED_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_First.text = "아군 전체 물리공격력";
-                Holding_Effect_Second.text = "아군 공격속도";
-                break;
-            case "Sword_Master":
-                name = Hero_Name.Sword_Master;
-                Holding_Effect_Amount_First.text = Utils.Data.Holding_Effect_Data.Get_ALL_ATK_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = Utils.Data.Holding_Effect_Data.Get_ALL_HP_Holding_Effect(Data).ToString("0.00");
-                Holding_Effect_First.text = "아군 전체 물리공격력";
-                Holding_Effect_Second.text = "아군 전체 체력";
-                break;
-
-        }
+        Holding_Effect_Amount_First.text = (effects[0].ApplyEffect(Data) * 100).ToString("0.00"); // 직접 능력치 적용이 아닌, 퍼센트로 나타내기 위해 X100을 합니다.
+        Holding_Effect_Amount_Second.text = (effects[1].ApplyEffect(Data) * 100).ToString("0.00"); //  직접 능력치 적용이 아닌, 퍼센트로 나타내기 위해 X100을 합니다.
+        Holding_Effect_First.text = effects[0].Get_Effect_Name();
+        Holding_Effect_Second.text = effects[1].Get_Effect_Name();
 
         Hero_Information.gameObject.SetActive(true);
 
-        if(Data.Rarity == Rarity.Legendary)
-        {
-            Legendary_Image.gameObject.SetActive(true);
-        }
-        else
-        {
-            Legendary_Image.gameObject.SetActive(false);
-        }
+        Legendary_Image.gameObject.SetActive(Data.Rarity == Rarity.Legendary);
+
+        int heroID = Hero_Enum_Mapper.GetHeroID(Data.name);
 
         Hero_Name_Text.text = Data.M_Character_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(Data.Rarity) + Data.Rarity.ToString();
-        Description_Text.text = CSV_Importer.Hero_DES_Design[(int)name]["Hero_DES"].ToString();
+        Description_Text.text = CSV_Importer.Hero_DES_Design[heroID]["Hero_DES"].ToString();
         double atk = Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]);
         double hp = Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]);
 
@@ -297,9 +243,9 @@ public class UI_Heros : UI_Base
 
         //스킬
         
-        Skill_Description.text = CSV_Importer.Hero_Skill_Design[(int)name]["Skill_DES"].ToString();
-        Skill_Image.sprite = Resources.Load<Sprite>(CSV_Importer.Hero_Skill_Design[(int)name]["Skill_Image"].ToString());
-        Skill_Name_Text.text = CSV_Importer.Hero_Skill_Design[(int)name]["Skill_Name"].ToString();
+        Skill_Description.text = CSV_Importer.Hero_Skill_Design[heroID]["Skill_DES"].ToString();
+        Skill_Image.sprite = Resources.Load<Sprite>(CSV_Importer.Hero_Skill_Design[heroID]["Skill_Image"].ToString());
+        Skill_Name_Text.text = CSV_Importer.Hero_Skill_Design[heroID]["Skill_Name"].ToString();
         
 
         Upgrade.onClick.RemoveAllListeners();
@@ -321,8 +267,11 @@ public class UI_Heros : UI_Base
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
             holder.Hero_Level++;
         }
-
-        Base_Canvas.instance.Get_Toast_Popup().Initialize("영웅 강화에 필요한 카드가 부족합니다.");
+        else
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("영웅 강화에 필요한 카드가 부족합니다.");
+        }
+        
         Get_Hero_Information(Data, Clicked_Heros_Parts);
 
         for(int i = 0; i< hero_parts.Count; i++)

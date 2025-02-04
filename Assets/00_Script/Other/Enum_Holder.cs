@@ -1,5 +1,4 @@
 
-
 public enum Rarity
 {
     Common,
@@ -69,26 +68,6 @@ public enum ItemType
     Equipment,
     Consumable,   
     ETC,
-}
-
-public enum Hero_Name
-{
-    Dual_Blader = 0,
-    Elemental_Master_White = 1,
-    Hunter = 2,
-    PalaDin = 3,
-    Elemental_Master_Black = 4,
-    Sword_Master = 5,
-
-}
-
-public enum Relic_Name
-{
-    SWORD = 0,
-    DICE = 1,
-    MANA = 2,
-    DEF = 3,
-    HP = 4,
 }
 
 public enum Stage_State

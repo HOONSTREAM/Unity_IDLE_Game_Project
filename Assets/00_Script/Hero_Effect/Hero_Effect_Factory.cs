@@ -6,6 +6,7 @@ using static I_Hero_Effect;
 
 public class Increase_ATK_Effect : IHeroEffect
 {
+    public string Get_Effect_Name() => "아군 전체 물리공격력";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ATK;
 
     public double ApplyEffect(Character_Scriptable data)
@@ -17,6 +18,7 @@ public class Increase_ATK_Effect : IHeroEffect
 
 public class Increase_GoldDrop_Effect : IHeroEffect
 {
+    public string Get_Effect_Name() => "아군 골드획득량";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.GOLD_DROP;
 
     public double ApplyEffect(Character_Scriptable data)
@@ -27,6 +29,7 @@ public class Increase_GoldDrop_Effect : IHeroEffect
 
 public class Increase_CriticalDamage_Effect : IHeroEffect
 {
+    public string Get_Effect_Name() => "아군 치명타 데미지";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.CRITICAL_DAMAGE;
     public double ApplyEffect(Character_Scriptable data)
     {
@@ -36,6 +39,7 @@ public class Increase_CriticalDamage_Effect : IHeroEffect
 
 public class Increase_Critical_Percentage_Effect : IHeroEffect
 {
+    public string Get_Effect_Name() => "아군 치명타 확률";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.CRITICAL_PERCENTAGE;
     public double ApplyEffect(Character_Scriptable data)
     {
@@ -45,6 +49,7 @@ public class Increase_Critical_Percentage_Effect : IHeroEffect
 
 public class Increase_ItemDrop_Effect : IHeroEffect
 {
+    public string Get_Effect_Name() => "아군 아이템 드랍률";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ITEM_DROP;
     public double ApplyEffect(Character_Scriptable data)
     {
@@ -54,6 +59,7 @@ public class Increase_ItemDrop_Effect : IHeroEffect
 
 public class Increase_ATKSpeed_Effect : IHeroEffect
 {
+    public string Get_Effect_Name() => "아군 전체 공격속도";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.ATK_SPEED;
     public double ApplyEffect(Character_Scriptable data)
     {
@@ -63,6 +69,7 @@ public class Increase_ATKSpeed_Effect : IHeroEffect
 
 public class Increase_HP_Effect : IHeroEffect
 {
+    public string Get_Effect_Name() => "아군 전체 체력";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.HP;
     public double ApplyEffect(Character_Scriptable data)
     {

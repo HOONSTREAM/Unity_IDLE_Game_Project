@@ -209,58 +209,48 @@ public class UI_Relic : UI_Base
 
         Clicked_Relic_Parts = parts;
 
-        Relic_Name name = Relic_Name.SWORD;
+        var effects = RelicEffectFactory.Get_Holding_Effects_Relic(Data.name); // 유물 팩토리에서 보유효과를 가져옵니다.
 
-        switch (Data.name)
+        if (!CSV_Importer.Relic_CSV_DATA_AUTO_Map.TryGetValue(Data.name.ToUpper(), out var csvData))
         {
-            case "SWORD":
-
-                name = Relic_Name.SWORD;
-                start_percent = CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["start_percent"].ToString();
-                effect_percent = CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["effect_percent"].ToString();
-                Holding_Effect_Amount_First.text = Utils.Data.Hoiding_Effect_Data_Relic.Get_ALL_ATK_SPEED_Holding_Effect_Relic(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = Utils.Data.Hoiding_Effect_Data_Relic.Get_ALL_ITEM_DROP_Holding_Effect_Relic(Data).ToString("0.00");
-                Holding_Effect_First.text = "아군 전체 공격속도";
-                Holding_Effect_Second.text = "아이템 드랍확률";
-
-                break;
-
-            case "DICE":
-                name = Relic_Name.DICE;
-                start_percent = CSV_Importer.DICE_Design[Base_Manager.Data.Item_Holder[Data.name].Hero_Level]["start_percent"].ToString();
-                Holding_Effect_Amount_First.text = Utils.Data.Hoiding_Effect_Data_Relic.Get_ALL_GOLD_DROP_Holding_Effect_Relic(Data).ToString("0.00");
-                Holding_Effect_Amount_Second.text = Utils.Data.Hoiding_Effect_Data_Relic.Get_ALL_HP_Holding_Effect_Relic(Data).ToString("0.00");
-                Holding_Effect_First.text = "골드 획득량 증가";
-                Holding_Effect_Second.text = "아군 전체 체력";
-                break;
-
-            case "DEF":
-                name = Relic_Name.DEF;
-                break;
-            case "HP":
-                name = Relic_Name.HP;
-                break;
-            case "MANA":
-                name = Relic_Name.MANA;
-                break;
+            Debug.LogWarning($"유물 {Data.name}의 CSV 데이터를 찾을 수 없습니다.");
+            return;
         }
 
-        
+        int heroLevel = Base_Manager.Data.Item_Holder[Data.name].Hero_Level;
 
-        Relic_Information.gameObject.SetActive(true);
-
-        if (Data.rarity == Rarity.Legendary)
+        if (heroLevel < csvData.Count) // CSV 데이터 존재 여부 확인
         {
-            Legendary_Image.gameObject.SetActive(true);
+            start_percent = csvData[heroLevel]["start_percent"].ToString();
+
+            if (csvData[heroLevel].TryGetValue("effect_percent", out object effectValue))
+            {
+                effect_percent = effectValue.ToString();
+            }
+            else
+            {
+                effect_percent = default;  // 기본값 처리
+            }
         }
         else
         {
-            Legendary_Image.gameObject.SetActive(false);
+            Debug.LogWarning($"유물 {Data.name}의 {heroLevel} 레벨 데이터가 없습니다.");
         }
+
+        Holding_Effect_Amount_First.text = (effects[0].ApplyEffect(Data) * 100).ToString("0.00");
+        Holding_Effect_Amount_Second.text = (effects[1].ApplyEffect(Data) * 100).ToString("0.00");
+        Holding_Effect_First.text = effects[0].Get_Effect_Name();
+        Holding_Effect_Second.text = effects[1].Get_Effect_Name();
+
+        Relic_Information.gameObject.SetActive(true);
+
+        Legendary_Image.gameObject.SetActive(Data.rarity == Rarity.Legendary);
+
+        int RelicID = Relic_Enum_Mapper.GetRelicID(Data.name);
 
         Relic_Name_Text.text = Data.Item_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(Data.rarity) + Data.rarity.ToString();
-        Description_Text.text = string.Format(CSV_Importer.Relic_DES_Design[(int)name]["RELIC_DES"].ToString(), start_percent, effect_percent);
+        Description_Text.text = CSV_Importer.Relic_DES_Design[RelicID]["RELIC_DES"].ToString();
         Level_Text.text = "LV." + (Base_Manager.Data.Item_Holder[Data.name].Hero_Level + 1).ToString();
         Slider_Count_Text.text = "(" + Base_Manager.Data.Item_Holder[Data.name].Hero_Card_Amount + "/" + Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name) + ")";
         Slider_Count_Fill.fillAmount = Base_Manager.Data.Item_Holder[Data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name);
@@ -268,10 +258,10 @@ public class UI_Relic : UI_Base
         Rarity_Image.sprite = Utils.Get_Atlas(Data.rarity.ToString());
 
         //스킬
-
-        Skill_Description.text = CSV_Importer.Relic_Skill_Design[(int)name]["Skill_DES"].ToString();
-        Skill_Image.sprite = Resources.Load<Sprite>(CSV_Importer.Relic_Skill_Design[(int)name]["Skill_Image"].ToString());
-        Skill_Name_Text.text = CSV_Importer.Relic_Skill_Design[(int)name]["Skill_Name"].ToString();
+       
+        Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent, effect_percent);
+        Skill_Image.sprite = Resources.Load<Sprite>(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_Image"].ToString());
+        Skill_Name_Text.text = CSV_Importer.Relic_Skill_Design[RelicID]["Skill_Name"].ToString();
 
 
         Upgrade.onClick.RemoveAllListeners();
