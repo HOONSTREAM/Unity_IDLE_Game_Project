@@ -132,10 +132,10 @@ public class UI_Gacha : UI_Base
                 go.transform.GetChild(0).gameObject.SetActive(false);
             }
 
-            
-            
 
-            Base_Manager.FireBase.WriteData(); // 데이터 저장
+
+
+            GameObject.Find("BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
 
         }
 

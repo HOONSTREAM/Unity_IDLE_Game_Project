@@ -1,3 +1,5 @@
+using BackEnd;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,7 +10,113 @@ using UnityEngine;
 /// </summary>
 /// 
 
-[System.Serializable]
+
+#region BackEnd
+public class BackendGameData
+{
+    private static BackendGameData _instance = null;
+
+    public static BackendGameData Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new BackendGameData();
+            }
+
+            return _instance;
+        }
+    }
+
+    /// <summary>
+    /// 처음 회원가입을 하면, 유저 데이터를 초기화 합니다.
+    /// </summary>
+    public void Initialize_User_Data()
+    {
+        // Step 1. 게임 재화 초기화하기
+
+        if (Data_Manager.Main_Players_Data == null)
+        {
+            Data_Manager.Main_Players_Data = new Data();
+        }
+
+        Debug.Log("데이터를 초기화합니다.");
+
+        Data_Manager.Main_Players_Data.Nick_Name = default;
+        Data_Manager.Main_Players_Data.ATK = default;
+        Data_Manager.Main_Players_Data.HP = default;
+        Data_Manager.Main_Players_Data.Player_Money = default;
+        Data_Manager.Main_Players_Data.DiaMond = default;
+        Data_Manager.Main_Players_Data.Player_Level = default;
+        Data_Manager.Main_Players_Data.EXP = default;
+        Data_Manager.Main_Players_Data.Player_Stage = 1;
+        Data_Manager.Main_Players_Data.EXP_Upgrade_Count = 0;
+        Data_Manager.Main_Players_Data.Buff_Timers[0] = 0;
+        Data_Manager.Main_Players_Data.Buff_Timers[1] = 0;
+        Data_Manager.Main_Players_Data.Buff_Timers[2] = 0;
+        Data_Manager.Main_Players_Data.buff_x2_speed = 0;
+        Data_Manager.Main_Players_Data.Buff_Level = default;
+        Data_Manager.Main_Players_Data.Buff_Level_Count = default;
+        Data_Manager.Main_Players_Data.Quest_Count = default;
+        Data_Manager.Main_Players_Data.Hero_Summon_Count = default;
+        Data_Manager.Main_Players_Data.Hero_Pickup_Count = default;
+        Data_Manager.Main_Players_Data.Relic_Pickup_Count = default;
+        Data_Manager.Main_Players_Data.Relic_Summon_Count = default;
+        Data_Manager.Main_Players_Data.StartDate = DateTime.Now.ToString();
+        Data_Manager.Main_Players_Data.EndDate = DateTime.Now.ToString();
+        Data_Manager.Main_Players_Data.Daily_Enter_Key[0] = 3;
+        Data_Manager.Main_Players_Data.Daily_Enter_Key[1] = 3;
+        Data_Manager.Main_Players_Data.User_Key_Assets[0] = 0;
+        Data_Manager.Main_Players_Data.User_Key_Assets[1] = 0;
+        Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] = 0;
+        Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] = 0;
+
+        Param param = new Param();
+
+        param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed);
+        param.Add("NICK_NAME", Data_Manager.Main_Players_Data.Nick_Name);
+        param.Add("ATK", Data_Manager.Main_Players_Data.ATK);
+        param.Add("HP", Data_Manager.Main_Players_Data.HP);
+        param.Add("PLAYER_MONEY", Data_Manager.Main_Players_Data.Player_Money);
+        param.Add("DIAMOND", Data_Manager.Main_Players_Data.DiaMond);
+        param.Add("PLAYER_LEVEL", Data_Manager.Main_Players_Data.Player_Level);
+        param.Add("PLAYER_EXP", Data_Manager.Main_Players_Data.EXP);
+        param.Add("PLAYER_STAGE", Data_Manager.Main_Players_Data.Player_Stage);
+        param.Add("EXP_UPGRADE_COUNT", Data_Manager.Main_Players_Data.EXP_Upgrade_Count);
+        param.Add("BUFF_TIMER", Data_Manager.Main_Players_Data.Buff_Timers);     
+        param.Add("BUFF_LEVEL", Data_Manager.Main_Players_Data.Buff_Level);
+        param.Add("BUFF_LEVEL_COUNT", Data_Manager.Main_Players_Data.Buff_Level_Count);
+        param.Add("QUEST_COUNT", Data_Manager.Main_Players_Data.Quest_Count);
+        param.Add("HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.Hero_Summon_Count);
+        param.Add("HERO_PICKUP_COUNT", Data_Manager.Main_Players_Data.Hero_Pickup_Count);
+        param.Add("RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.Relic_Summon_Count);
+        param.Add("RELIC_PICKUP_COUNT", Data_Manager.Main_Players_Data.Relic_Pickup_Count);
+        param.Add("START_DATE", Data_Manager.Main_Players_Data.StartDate);
+        param.Add("END_DATE", Data_Manager.Main_Players_Data.EndDate);
+        param.Add("DAILY_ENTER_KEY", Data_Manager.Main_Players_Data.Daily_Enter_Key);
+        param.Add("USER_KEY_ASSETS", Data_Manager.Main_Players_Data.User_Key_Assets);
+        param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level);
+        
+
+        Debug.Log("'USER' 테이블에 새로운 데이터 행을 추가합니다.");
+
+        var bro = Backend.GameData.Insert("USER", param);
+
+        if (bro.IsSuccess())
+        {
+            Debug.Log("데이터를 추가하는데 성공했습니다. : " + bro);
+        }
+        else
+        {
+            Debug.LogError("데이터를 추가하는데 실패했습니다. : " + bro);
+        }
+        
+    }
+}
+    #endregion
+
+    [System.Serializable]
 public class Percentage_Smelt
 {
     public Rarity Rarity;
@@ -53,7 +161,7 @@ public class Data
     public int Player_Stage = 1;
     public int EXP_Upgrade_Count;
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
-    public float buff_x2_speed = 0.0f;
+    public float buff_x2_speed;
     public int Buff_Level, Buff_Level_Count;
     public int Quest_Count;
 
@@ -125,7 +233,7 @@ public class Data_Manager
             }
         }
 
-        return Ch_Scriptable_Data[Random.Range(0, Ch_Scriptable_Data.Count)];
+        return Ch_Scriptable_Data[UnityEngine.Random.Range(0, Ch_Scriptable_Data.Count)];
 
     }
 
@@ -141,7 +249,7 @@ public class Data_Manager
             }
         }
 
-        return item_Scriptable_Data[Random.Range(0, item_Scriptable_Data.Count)];
+        return item_Scriptable_Data[UnityEngine.Random.Range(0, item_Scriptable_Data.Count)];
 
     }
 
@@ -168,7 +276,11 @@ public class Data_Manager
             }
             character.holder = s_holder;
 
-            Data_Character_Dictionary.Add(data.M_Character_Name, character);
+            if (!Data_Character_Dictionary.ContainsKey(data.M_Character_Name))
+            {
+                Data_Character_Dictionary.Add(data.M_Character_Name, character);
+            }
+            
         }
     }
 
@@ -193,7 +305,11 @@ public class Data_Manager
             }
             item.holder = s_holder;
 
-            Data_Item_Dictionary.Add(data.name, item.Data);
+            if (!Data_Item_Dictionary.ContainsKey(data.name))
+            {
+                Data_Item_Dictionary.Add(data.name, item.Data);
+            }
+            
         }
     }
 

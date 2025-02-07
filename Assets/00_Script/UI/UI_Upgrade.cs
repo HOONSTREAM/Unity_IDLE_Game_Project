@@ -47,7 +47,7 @@ public class UI_Upgrade : UI_Base
             heroes.hero_parts[i].Initialize();
         }
 
-        Base_Manager.FireBase.WriteData();
+        GameObject.Find("BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
 
     }
 

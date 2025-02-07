@@ -133,7 +133,7 @@ public class UI_Relic_Gacha : UI_Base
 
 
 
-            Base_Manager.FireBase.WriteData(); // 데이터 저장
+            GameObject.Find("BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
 
         }
 

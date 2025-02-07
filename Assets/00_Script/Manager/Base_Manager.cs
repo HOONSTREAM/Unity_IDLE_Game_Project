@@ -16,8 +16,7 @@ public class Base_Manager : MonoBehaviour
     private static Character_Manager _character = new Character_Manager();
     private static Inventory_Manager _inventory = new Inventory_Manager();
     private static ADS_Manager _ads = new ADS_Manager();
-    private static FireBase_Manager _firebase = new FireBase_Manager();
-    
+      
  
     public static Pool_Manager Pool { get { return _pool; } }
     public static Player_Manager Player { get { return _player; } }
@@ -27,8 +26,7 @@ public class Base_Manager : MonoBehaviour
     public static Character_Manager Character { get { return _character; } }
     public static Inventory_Manager Inventory { get { return _inventory; } }
     public static ADS_Manager ADS { get { return _ads; } }
-    public static FireBase_Manager FireBase { get { return _firebase; } }
-
+    
     public static bool is_Fast_Mode = false;
     public static bool Get_MainGame_Start = false;
 
@@ -52,7 +50,7 @@ public class Base_Manager : MonoBehaviour
         if (Save_Timer >= 10.0f)
         {
             Save_Timer = 0.0f;
-            FireBase.WriteData();
+            GameObject.Find("BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
         }
 
         for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
@@ -79,8 +77,7 @@ public class Base_Manager : MonoBehaviour
             instance = this;
             Pool.Initialize(transform);
             ADS.Init();
-            Data.Init();
-            FireBase.Init();            
+            Data.Init();           
             DontDestroyOnLoad(this.gameObject);
         }
 
@@ -134,10 +131,7 @@ public class Base_Manager : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        if (Get_MainGame_Start)
-        {
-            FireBase.WriteData();
-        }
+        
        
     }
 
