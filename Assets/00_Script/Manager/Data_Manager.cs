@@ -105,13 +105,64 @@ public class BackendGameData
 
         if (bro.IsSuccess())
         {
-            Debug.Log("데이터를 추가하는데 성공했습니다. : " + bro);
+            Debug.Log("유저 기본 데이터를 추가하는데 성공했습니다. : " + bro);
         }
         else
         {
-            Debug.LogError("데이터를 추가하는데 실패했습니다. : " + bro);
+            Debug.LogError("유저 기본 데이터를 추가하는데 실패했습니다. : " + bro);
         }
-        
+
+        Param character_param = new Param();
+
+        character_param.Add("character", Base_Manager.Data.character_Holder);
+
+        Debug.Log("CHARACTER 테이블에 새로운 데이터 행을 추가합니다.");
+
+        var char_bro = Backend.GameData.Insert("CHARACTER",character_param);
+
+        if (char_bro.IsSuccess())
+        {
+            Debug.Log("영웅 보유 데이터를 추가하는데 성공했습니다. : " + char_bro);
+        }
+        else
+        {
+            Debug.LogError("영웅 보유 데이터를 추가하는데 실패했습니다. : " + char_bro);
+        }
+
+        Param item_param = new Param();
+
+        item_param.Add("Item", Base_Manager.Data.Item_Holder);
+
+        Debug.Log("ITEM 테이블에 새로운 데이터 행을 추가합니다.");
+
+        var item_bro = Backend.GameData.Insert("ITEM", item_param);
+
+        if (item_bro.IsSuccess())
+        {
+            Debug.Log("인벤토리 데이터를 추가하는데 성공했습니다. : " + item_bro);
+        }
+        else
+        {
+            Debug.LogError("인벤토리 데이터를 추가하는데 실패했습니다. : " + item_bro);
+        }
+
+        Param smelt_param = new Param();
+
+        smelt_param.Add("Smelt", Base_Manager.Data.User_Main_Data_Smelt_Array);
+
+        Debug.Log("ITEM 테이블에 새로운 데이터 행을 추가합니다.");
+
+        var smelt_bro = Backend.GameData.Insert("SMELT", smelt_param);
+
+        if (smelt_bro.IsSuccess())
+        {
+            Debug.Log("인벤토리 데이터를 추가하는데 성공했습니다. : " + smelt_bro);
+        }
+        else
+        {
+            Debug.LogError("인벤토리 데이터를 추가하는데 실패했습니다. : " + smelt_bro);
+        }
+
     }
 }
     #endregion

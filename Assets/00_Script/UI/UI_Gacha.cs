@@ -135,7 +135,7 @@ public class UI_Gacha : UI_Base
 
 
 
-            GameObject.Find("BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
+            GameObject.Find("@BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
 
         }
 

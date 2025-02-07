@@ -84,7 +84,7 @@ public class UI_Offline_Reward : UI_Base
 
         DisableOBJ();
         Main_UI.Instance.Level_Text_Check();
-        GameObject.Find("BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
+        GameObject.Find("@BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
     }
     /// <summary>
     /// 광고를 시청하고, 2배의 오프라인 보상을 수령합니다.
@@ -103,7 +103,7 @@ public class UI_Offline_Reward : UI_Base
 
         DisableOBJ();
         Main_UI.Instance.Level_Text_Check();
-        GameObject.Find("BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
+        GameObject.Find("@BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
     }
 
     /// <summary>

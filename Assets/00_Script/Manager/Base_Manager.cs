@@ -50,7 +50,7 @@ public class Base_Manager : MonoBehaviour
         if (Save_Timer >= 10.0f)
         {
             Save_Timer = 0.0f;
-            GameObject.Find("BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
+            GameObject.Find("@BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
         }
 
         for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)

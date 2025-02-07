@@ -48,6 +48,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             Data_Manager.Main_Players_Data.Daily_Enter_Key[0] = 2;
             Data_Manager.Main_Players_Data.Daily_Enter_Key[1] = 2;
         }
+
         Debug.Log("종료시간 : " + Data_Manager.Main_Players_Data.EndDate);
 
         Param param = new Param();
@@ -78,87 +79,78 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         BackendReturnObject bro = null;
 
-        Debug.Log("나의 데이터를 수정합니다");
+        Debug.Log("유저 기본 데이터를 수정합니다");
 
         bro = Backend.GameData.Update("USER", new Where(), param);
 
         if (bro.IsSuccess())
         {
-            Debug.Log("데이터 수정에 성공했습니다. : " + bro);
+            Debug.Log("유저 기본 데이터 수정에 성공했습니다. : " + bro);
         }
         else
         {
-            Debug.LogError("데이터 수정에 실패했습니다. : " + bro);
+            Debug.LogError("유저 기본 데이터 수정에 실패했습니다. : " + bro);
         }
 
-        //string DefalutJson = JsonUtility.ToJson(data);
-
-        //DB_reference.Child("USER").Child(currentUser.UserId).Child("DATA").SetRawJsonValueAsync(DefalutJson).ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        Debug.Log("Child.DATA 데이터 쓰기 성공하였습니다.");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
-        //    }
-
-        //});
+        
         #endregion
 
         #region CHARACTER DATA
 
-        string Character_Json = JsonConvert.SerializeObject(Base_Manager.Data.character_Holder);
+        Param character_param = new Param();
+        string char_Json_Data = JsonConvert.SerializeObject(Base_Manager.Data.character_Holder);
+        character_param.Add("Character", char_Json_Data);
 
-        //DB_reference.Child("USER").Child(currentUser.UserId).Child("CHARACTER").SetRawJsonValueAsync(Character_Json).ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        Debug.Log(" Child.character 데이터 쓰기 성공하였습니다.");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
-        //    }
+        Debug.Log("영웅 보유 데이터를 수정합니다");
 
-        //});
+        var character_bro = Backend.GameData.Update("CHARACTER", new Where(), character_param);
+
+        if (character_bro.IsSuccess())
+        {
+            Debug.Log("영웅 보유 데이터 수정에 성공했습니다. : " + character_bro);
+        }
+        else
+        {
+            Debug.LogError("영웅 보유 데이터 수정에 실패했습니다. : " + character_bro);
+        }
         #endregion
 
         #region ITEM_DATA
-        string Item_Json = JsonConvert.SerializeObject(Base_Manager.Data.Item_Holder);
+        Param item_param = new Param();
+        string Json_item_Data = JsonConvert.SerializeObject(Base_Manager.Data.Item_Holder);
+        item_param.Add("Item", Json_item_Data);
 
-        //DB_reference.Child("USER").Child(currentUser.UserId).Child("ITEM").SetRawJsonValueAsync(Item_Json).ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        Debug.Log(" Child.Item 데이터 쓰기 성공하였습니다.");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
-        //    }
+        Debug.Log("인벤토리 데이터를 수정합니다");
 
-        //});
+        var item_bro = Backend.GameData.Update("ITEM", new Where(), item_param);
 
+        if (item_bro.IsSuccess())
+        {
+            Debug.Log("유저 인벤토리 데이터 수정에 성공했습니다. : " + item_bro);
+        }
+        else
+        {
+            Debug.LogError("유저 인벤토리 데이터 수정에 실패했습니다. : " + item_bro);
+        }
         #endregion
 
         #region SMELT_DATA
-        string smelt_json = JsonConvert.SerializeObject(Base_Manager.Data.User_Main_Data_Smelt_Array);
+        Param smelt_param = new Param();
+        string Json_Smelt_Data = JsonConvert.SerializeObject(Base_Manager.Data.User_Main_Data_Smelt_Array); 
+        smelt_param.Add("Smelt", Json_Smelt_Data);
+     
+        Debug.Log("유저 각인 데이터를 수정합니다");
 
-        //DB_reference.Child("USER").Child(currentUser.UserId).Child("SMELT").SetRawJsonValueAsync(smelt_json).ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        Debug.Log(" Child.smelt 데이터 쓰기 성공하였습니다.");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("데이터 쓰기 실패 : " + task.Exception.ToString());
-        //    }
+        var smelt_bro = Backend.GameData.Update("SMELT", new Where(), smelt_param);
 
-        //});
-
+        if (smelt_bro.IsSuccess())
+        {
+            Debug.Log("유저 영웅 각인 데이터 수정에 성공했습니다. : " + smelt_bro);
+        }
+        else
+        {
+            Debug.LogError("유저 영웅 각인 데이터 수정에 실패했습니다. : " + smelt_bro);
+        }
         #endregion
 
     }
@@ -167,122 +159,7 @@ public partial class BackEnd_Manager : MonoBehaviour
     /// </summary>
     public void ReadData()
     {
-        #region Default_Data
-        //DB_reference.Child("USER").Child(currentUser.UserId).Child("DATA").GetValueAsync().ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        DataSnapshot snapshot = task.Result;
-
-        //        var Default_Data = JsonUtility.FromJson<Data>(snapshot.GetRawJsonValue());
-        //        Data data = new Data();
-        //        if (Default_Data != null)
-        //        {
-        //            data = Default_Data;
-        //        }
-        //        data.StartDate = DateTime.Now.ToString();
-
-        //        if (string.IsNullOrEmpty(data.EndDate))
-        //        {
-        //            /*data.EndDate가 null 또는 빈 문자열일때,
-        //            DateTime.Parse가 호출되면 FormatException이 발생.
-        //            메서드가 예외를 처리하지 않을 경우 메서드가 중도종료됨..*/
-
-        //            data.EndDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        //            Debug.Log("EndDate가 없어서 기본값으로 설정: " + data.EndDate);
-        //        }
-
-        //        DateTime startDate = DateTime.Parse(data.StartDate);
-        //        DateTime endDate = DateTime.Parse(data.EndDate);
-
-        //        if (Get_Date_Dungeon_Item(startDate, endDate))
-        //        {
-        //            data.Daily_Enter_Key[0] = 2;
-        //            data.Daily_Enter_Key[1] = 2;
-        //        }
-
-        //        Data_Manager.Main_Players_Data = data;
-        //        Debug.Log("시작시간 : " + data.StartDate);
-        //        Loading_Scene.instance.LoadingMain();
-        //    }
-
-        //    else
-        //    {
-        //        Debug.LogError("데이터 읽기 실패 : " + task.Exception.ToString());
-        //    }
-        //});
-        #endregion
-
-        #region Character_Data
-
-        //DB_reference.Child("USER").Child(currentUser.UserId).Child("CHARACTER").GetValueAsync().ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        DataSnapshot snapshot = task.Result;
-
-        //        var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
-
-        //        Base_Manager.Data.character_Holder = data;
-        //        Base_Manager.Data.Init();
-        //        Set_Character_Data_Dictionary();
-
-
-        //    }
-
-        //    else
-        //    {
-        //        Debug.LogError("데이터 읽기 실패 : " + task.Exception.ToString());
-        //    }
-        //});
-
-        #endregion
-
-        #region Item_Data
-
-        //DB_reference.Child("USER").Child(currentUser.UserId).Child("ITEM").GetValueAsync().ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        DataSnapshot snapshot = task.Result;
-
-        //        var data = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(snapshot.GetRawJsonValue());
-
-        //        Base_Manager.Data.Item_Holder = data;
-
-        //    }
-
-        //    else
-        //    {
-        //        Debug.LogError("데이터 읽기 실패 : " + task.Exception.ToString());
-        //    }
-        //});
-
-        #endregion
-
-        #region Smelt_Data
-
-        //DB_reference.Child("USER").Child(currentUser.UserId).Child("SMELT").GetValueAsync().ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted)
-        //    {
-        //        DataSnapshot snapshot = task.Result;
-
-        //        var data = JsonConvert.DeserializeObject<List<Smelt_Holder>>(snapshot.GetRawJsonValue());
-
-        //        Base_Manager.Data.User_Main_Data_Smelt_Array = data;
-        //        Base_Manager.Data.Init();
-
-        //    }
-
-        //    else
-        //    {
-        //        Debug.LogError("데이터 읽기 실패 : " + task.Exception.ToString());
-        //    }
-        //});
-
-        #endregion
-
+        #region DEFAULT DATA
         Debug.Log("'USER' 테이블의 데이터를 조회하는 함수를 호출합니다.");
         var bro = Backend.GameData.GetMyData("USER", new Where());
         if (bro.IsSuccess())
@@ -310,13 +187,13 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.EXP = double.Parse(gameDataJson[0]["PLAYER_EXP"].ToString());
                 data.Player_Stage = int.Parse(gameDataJson[0]["PLAYER_STAGE"].ToString());
                 data.EXP_Upgrade_Count = int.Parse(gameDataJson[0]["EXP_UPGRADE_COUNT"].ToString());
-               
+
                 data.Buff_Timers[0] = float.Parse(gameDataJson[0]["BUFF_TIMER"][0].ToString());
                 data.Buff_Timers[1] = float.Parse(gameDataJson[0]["BUFF_TIMER"][1].ToString());
                 data.Buff_Timers[2] = float.Parse(gameDataJson[0]["BUFF_TIMER"][2].ToString());
 
                 data.buff_x2_speed = float.Parse(gameDataJson[0]["SPEED"].ToString());
-                data.Buff_Level= int.Parse(gameDataJson[0]["BUFF_LEVEL"].ToString());
+                data.Buff_Level = int.Parse(gameDataJson[0]["BUFF_LEVEL"].ToString());
                 data.Buff_Level_Count = int.Parse(gameDataJson[0]["BUFF_LEVEL_COUNT"].ToString());
                 data.Quest_Count = int.Parse(gameDataJson[0]["QUEST_COUNT"].ToString());
 
@@ -337,7 +214,16 @@ public partial class BackEnd_Manager : MonoBehaviour
 
                 data.Dungeon_Clear_Level[0] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][0].ToString());
                 data.Dungeon_Clear_Level[1] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][1].ToString());
-              
+
+                DateTime startDate = DateTime.Parse(data.StartDate);
+                DateTime endDate = DateTime.Parse(data.EndDate);
+
+                if (Get_Date_Dungeon_Item(startDate, endDate))
+                {
+                    data.Daily_Enter_Key[0] = 2;
+                    data.Daily_Enter_Key[1] = 2;
+                }
+
                 Data_Manager.Main_Players_Data = data;
 
                 Base_Manager.Data.Init();
@@ -350,6 +236,36 @@ public partial class BackEnd_Manager : MonoBehaviour
         {
             Debug.LogError("데이터 조회에 실패했습니다. : " + bro);
         }
+
+        #endregion
+
+        //#region CHARACTER DATA
+        //Debug.Log("'CHARACTER' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        //var char_bro = Backend.GameData.GetMyData("CHARACTER", new Where());
+        //if (char_bro.IsSuccess())
+        //{
+        //    LitJson.JsonData gameDataJson = char_bro.GetReturnValuetoJSON();
+
+        //    if (gameDataJson[0].Keys.Contains("Character"))
+        //    {
+
+
+        //        foreach (string key in gameDataJson[0]["Character"].Keys)
+        //        {
+        //            //Base_Manager.Data.character_Holder[key] = Holder.Parse(gameDataJson[0]["Character"][key].ToString());
+        //        }
+
+
+        //        // Base_Manager.Data.character_Holder = character_data;
+        //        Base_Manager.Data.Init();
+        //        Set_Character_Data_Dictionary();
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogError("영웅 보유 데이터 조회에 실패했습니다. : " + char_bro);
+        //}
+        //#endregion
 
     }
     /// <summary>
