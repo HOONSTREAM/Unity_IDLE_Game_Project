@@ -9,16 +9,16 @@ using BackEnd.BackndNewtonsoft.Json.Linq;
 public partial class BackEnd_Manager : MonoBehaviour
 {
     /// <summary>
-    /// 유저 데이터를 저장합니다.
+    /// 유저 데이터를 저장합니다. BackendReturnObject는 서버와 통신한 결과값을 의미합니다.
     /// </summary>
     public void WriteData()
     {
-        Debug.Log("데이터를 기록합니다.");
+        Debug.Log("WriteData 메서드 호출, 데이터를 기록합니다.");
         #region DEFAULT DATA
 
         if (Data_Manager.Main_Players_Data == null)
         {
-            Debug.LogError("데이터가 존재하지 않습니다. Initialize 혹은 Get을 통해 데이터를 생성해주세요.");
+            Debug.LogError("데이터가 존재하지 않습니다. Initialize 통해 데이터를 생성해주세요.");
             return;
         }
         if (string.IsNullOrEmpty(Data_Manager.Main_Players_Data.StartDate))
@@ -76,12 +76,10 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("DAILY_ENTER_KEY", Data_Manager.Main_Players_Data.Daily_Enter_Key);
         param.Add("USER_KEY_ASSETS", Data_Manager.Main_Players_Data.User_Key_Assets);
         param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level);
-
-        BackendReturnObject bro = null;
-
+        
         Debug.Log("유저 기본 데이터를 수정합니다");
 
-        bro = Backend.GameData.Update("USER", new Where(), param);
+        var bro = Backend.GameData.Update("USER", new Where(), param);
 
         if (bro.IsSuccess())
         {
@@ -152,13 +150,13 @@ public partial class BackEnd_Manager : MonoBehaviour
             Debug.LogError("유저 영웅 각인 데이터 수정에 실패했습니다. : " + smelt_bro);
         }
         #endregion
-
     }
     /// <summary>
     /// 유저 데이터를 불러옵니다.
     /// </summary>
     public void ReadData()
     {
+        Debug.Log("ReadData 메서드 호출, 데이터를 불러옵니다.");
         #region DEFAULT DATA
         Debug.Log("'USER' 테이블의 데이터를 조회하는 함수를 호출합니다.");
         var bro = Backend.GameData.GetMyData("USER", new Where());
@@ -248,18 +246,19 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         //    if (gameDataJson[0].Keys.Contains("Character"))
         //    {
+        //        string charJsonData = gameDataJson[0]["Character"].ToString();
+        //        Dictionary<string,Holder> dict = JsonConvert.DeserializeObject<Dictionary<string,Holder>>(charJsonData);
+        //        Base_Manager.Data.character_Holder = dict;
 
-
-        //        foreach (string key in gameDataJson[0]["Character"].Keys)
-        //        {
-        //            //Base_Manager.Data.character_Holder[key] = Holder.Parse(gameDataJson[0]["Character"][key].ToString());
-        //        }
-
-
-        //        // Base_Manager.Data.character_Holder = character_data;
         //        Base_Manager.Data.Init();
         //        Set_Character_Data_Dictionary();
+        //        Debug.Log("CHARACTER 테이블 데이터를 정상적으로 불러와 데이터를 업데이트 하였습니다");
         //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("CHARACTER 테이블 데이터가 존재하지 않습니다.");
+        //    }
+
         //}
         //else
         //{
@@ -267,6 +266,61 @@ public partial class BackEnd_Manager : MonoBehaviour
         //}
         //#endregion
 
+        //#region ITEM_DATA
+
+        //Debug.Log("'ITEM' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        //var item_bro = Backend.GameData.GetMyData("ITEM", new Where());
+        //if (item_bro.IsSuccess())
+        //{
+        //    LitJson.JsonData gameDataJson = item_bro.GetReturnValuetoJSON();
+
+        //    if (gameDataJson[0].Keys.Contains("Item"))
+        //    {
+        //        string charJsonData = gameDataJson[0]["Item"].ToString();
+        //        Base_Manager.Data.Item_Holder = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(charJsonData);
+        //        Base_Manager.Data.Init();
+        //        Debug.Log("ITEM 테이블 데이터를 정상적으로 불러와 데이터를 업데이트 하였습니다");
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("ITEM 데이터가 존재하지 않습니다.");
+        //    }
+
+        //}
+        //else
+        //{
+        //    Debug.LogError("인벤토리 데이터 조회에 실패했습니다. : " + item_bro);
+        //}
+        //#endregion
+
+        //#region SMELT_DATA
+
+        //Debug.Log("'SMELT' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        //var smelt_bro = Backend.GameData.GetMyData("ITEM", new Where());
+        //if (smelt_bro.IsSuccess())
+        //{
+        //    LitJson.JsonData gameDataJson = smelt_bro.GetReturnValuetoJSON();
+
+        //    if (gameDataJson[0].Keys.Contains("Smelt"))
+        //    {
+        //        string charJsonData = gameDataJson[0]["Smelt"].ToString();
+        //        Base_Manager.Data.User_Main_Data_Smelt_Array = JsonConvert.DeserializeObject<List<Smelt_Holder>>(charJsonData);
+        //        Base_Manager.Data.Init();
+        //        Debug.Log("SMELT 테이블 데이터를 정상적으로 불러와 데이터를 업데이트 하였습니다");
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("SMELT 데이터가 존재하지 않습니다.");
+        //    }
+
+        //}
+        //else
+        //{
+        //    Debug.LogError("유저 각인 데이터 조회에 실패했습니다. : " + item_bro);
+        //}
+
+
+        //#endregion
     }
     /// <summary>
     /// 날짜가 자정이 지났는지 확인하고, 데일리 입장권을 지급할 지 판단합니다.

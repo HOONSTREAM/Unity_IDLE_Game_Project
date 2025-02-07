@@ -31,8 +31,8 @@ public partial class BackEnd_Manager : MonoBehaviour
 
     private void User_Data_Initialize()
     {
-        //CustomSignUp("user6", "1234"); // [추가] 뒤끝 회원가입 함수
-        CustomLogin("user6", "1234");
+        CustomSignUp("user7", "1234"); // [추가] 뒤끝 회원가입 함수
+        CustomLogin("user7", "1234");
 
         ReadData(); // 데이터를 초기화 합니다
 
