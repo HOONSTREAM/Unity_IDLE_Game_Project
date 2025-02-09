@@ -22,22 +22,61 @@ public partial class BackEnd_Manager : MonoBehaviour
         }
     }
 
-
-
-    public void CustomLogin(string id, string pw)
+    public void CustomLogin()
     {
         Debug.Log("로그인을 요청합니다.");
 
-        var bro = Backend.BMember.CustomLogin(id, pw);
+        //CustomSignUp("user1", "1234");
+
+        var bro = Backend.BMember.CustomLogin("user1", "1234");
 
         if (bro.IsSuccess())
         {
             Debug.Log("로그인이 성공했습니다. : " + bro);
+
+            ReadData(); // 데이터를 초기화 합니다
+
+            WriteData(); //서버에 저장된 데이터를 업데이트합니다.
+
+            Loading_Scene.instance.Main_Game_Start_Custom_Account_Test();
+
         }
         else
         {
             Debug.LogError("로그인이 실패했습니다. : " + bro);
         }
+    }
+
+    public void Guest_Login()
+    {
+        Backend.BMember.DeleteGuestInfo();
+
+        Backend.BMember.GuestLogin(callback =>
+        {
+            if (callback.IsSuccess())
+            {
+                Debug.Log("게스트 로그인 성공");
+            }
+            else
+            {
+                Debug.LogError("게스트 로그인 실패: " + callback.GetErrorCode() + " " + callback.GetMessage());
+            }
+        });
+    }
+
+    public void GoogleLogin(string idToken)
+    {
+        Backend.BMember.AuthorizeFederation(idToken, FederationType.Google, "google", callback =>
+        {
+            if (callback.IsSuccess())
+            {
+                Debug.Log("구글 로그인 성공");
+            }
+            else
+            {
+                Debug.LogError("구글 로그인 실패: " + callback.GetErrorCode() + " " + callback.GetMessage());
+            }
+        });
     }
 
 
