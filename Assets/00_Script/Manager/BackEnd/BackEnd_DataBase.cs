@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using BackEnd;
 using BackEnd.BackndNewtonsoft.Json.Linq;
+using LitJson;
 
 public partial class BackEnd_Manager : MonoBehaviour
 {
@@ -97,7 +98,7 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         Param character_param = new Param();
         string char_Json_Data = JsonConvert.SerializeObject(Base_Manager.Data.character_Holder);
-        character_param.Add("Character", char_Json_Data);
+        character_param.Add("character", char_Json_Data);
 
         Debug.Log("영웅 보유 데이터를 수정합니다");
 
@@ -237,90 +238,135 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         #endregion
 
-        //#region CHARACTER DATA
-        //Debug.Log("'CHARACTER' 테이블의 데이터를 조회하는 함수를 호출합니다.");
-        //var char_bro = Backend.GameData.GetMyData("CHARACTER", new Where());
-        //if (char_bro.IsSuccess())
-        //{
-        //    LitJson.JsonData gameDataJson = char_bro.GetReturnValuetoJSON();
+        #region CHARACTER DATA
+        Debug.Log("'CHARACTER' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        var char_bro = Backend.GameData.GetMyData("CHARACTER", new Where());
 
-        //    if (gameDataJson[0].Keys.Contains("Character"))
-        //    {
-        //        string charJsonData = gameDataJson[0]["Character"].ToString();
-        //        Dictionary<string,Holder> dict = JsonConvert.DeserializeObject<Dictionary<string,Holder>>(charJsonData);
-        //        Base_Manager.Data.character_Holder = dict;
+        if (char_bro.Rows().Count > 0)
+        {
 
-        //        Base_Manager.Data.Init();
-        //        Set_Character_Data_Dictionary();
-        //        Debug.Log("CHARACTER 테이블 데이터를 정상적으로 불러와 데이터를 업데이트 하였습니다");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("CHARACTER 테이블 데이터가 존재하지 않습니다.");
-        //    }
+            var rows = BackendReturnObject.Flatten(char_bro.Rows());
 
-        //}
-        //else
-        //{
-        //    Debug.LogError("영웅 보유 데이터 조회에 실패했습니다. : " + char_bro);
-        //}
-        //#endregion
-
-        //#region ITEM_DATA
-
-        //Debug.Log("'ITEM' 테이블의 데이터를 조회하는 함수를 호출합니다.");
-        //var item_bro = Backend.GameData.GetMyData("ITEM", new Where());
-        //if (item_bro.IsSuccess())
-        //{
-        //    LitJson.JsonData gameDataJson = item_bro.GetReturnValuetoJSON();
-
-        //    if (gameDataJson[0].Keys.Contains("Item"))
-        //    {
-        //        string charJsonData = gameDataJson[0]["Item"].ToString();
-        //        Base_Manager.Data.Item_Holder = JsonConvert.DeserializeObject<Dictionary<string, Holder>>(charJsonData);
-        //        Base_Manager.Data.Init();
-        //        Debug.Log("ITEM 테이블 데이터를 정상적으로 불러와 데이터를 업데이트 하였습니다");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("ITEM 데이터가 존재하지 않습니다.");
-        //    }
-
-        //}
-        //else
-        //{
-        //    Debug.LogError("인벤토리 데이터 조회에 실패했습니다. : " + item_bro);
-        //}
-        //#endregion
-
-        //#region SMELT_DATA
-
-        //Debug.Log("'SMELT' 테이블의 데이터를 조회하는 함수를 호출합니다.");
-        //var smelt_bro = Backend.GameData.GetMyData("ITEM", new Where());
-        //if (smelt_bro.IsSuccess())
-        //{
-        //    LitJson.JsonData gameDataJson = smelt_bro.GetReturnValuetoJSON();
-
-        //    if (gameDataJson[0].Keys.Contains("Smelt"))
-        //    {
-        //        string charJsonData = gameDataJson[0]["Smelt"].ToString();
-        //        Base_Manager.Data.User_Main_Data_Smelt_Array = JsonConvert.DeserializeObject<List<Smelt_Holder>>(charJsonData);
-        //        Base_Manager.Data.Init();
-        //        Debug.Log("SMELT 테이블 데이터를 정상적으로 불러와 데이터를 업데이트 하였습니다");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("SMELT 데이터가 존재하지 않습니다.");
-        //    }
-
-        //}
-        //else
-        //{
-        //    Debug.LogError("유저 각인 데이터 조회에 실패했습니다. : " + item_bro);
-        //}
+            foreach (JsonData row in rows)
+            {
+                if (row.ContainsKey("character"))
+                {
+                    string charJsonData = row["character"].ToString();
+                    Dictionary<string, JsonData> characterData = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(charJsonData);
 
 
-        //#endregion
+                    foreach (var dict in characterData.Keys)
+                    {
+                        int hero_level = characterData[dict].ContainsKey("Hero_Level")
+                           ? int.Parse(characterData[dict]["Hero_Level"].ToString()) : 0;
+
+                        // 'Hero_Card_Amount' 값 가져오기 (예외 방지)
+                        int hero_card_amount = characterData[dict].ContainsKey("Hero_Card_Amount")
+                            ? int.Parse(characterData[dict]["Hero_Card_Amount"].ToString()) : 0;
+
+                        // Holder 객체 생성 후 Dictionary에 추가
+
+                        Holder holder = new Holder { Hero_Level = hero_level, Hero_Card_Amount = hero_card_amount };
+
+                        Base_Manager.Data.character_Holder[dict] = holder;
+                    }
+                }
+                
+            }
+
+            Set_Character_Data_Dictionary();
+            Base_Manager.Data.Init();
+
+            Debug.Log("영웅 보유 데이터 불러오기에 성공하였습니다.");
+        }
+        else
+        {
+            Debug.LogError("영웅 보유 데이터 조회에 실패했습니다. : " + char_bro);
+        }
+        #endregion
+
+        #region ITEM_DATA
+        Debug.Log("'ITEM' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        var item_bro = Backend.GameData.GetMyData("ITEM", new Where());
+
+        if (item_bro.Rows().Count > 0)
+        {
+
+            var rows = BackendReturnObject.Flatten(item_bro.Rows());
+
+            foreach (JsonData row in rows)
+            {
+                if (row.ContainsKey("Item"))
+                {
+                    string charJsonData = row["Item"].ToString();
+                    Dictionary<string, JsonData> characterData = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(charJsonData);
+
+
+                    foreach (var dict in characterData.Keys)
+                    {
+                        int Item_level = characterData[dict].ContainsKey("Hero_Level")
+                           ? int.Parse(characterData[dict]["Hero_Level"].ToString()) : 0;
+
+                        // 'Hero_Card_Amount' 값 가져오기 (예외 방지)
+                        int Item_card_amount = characterData[dict].ContainsKey("Hero_Card_Amount")
+                            ? int.Parse(characterData[dict]["Hero_Card_Amount"].ToString()) : 0;
+
+                        // Holder 객체 생성 후 Dictionary에 추가
+
+                        Holder holder = new Holder { Hero_Level = Item_level, Hero_Card_Amount = Item_card_amount };
+
+                        Base_Manager.Data.Item_Holder[dict] = holder;
+                    }
+                }
+
+            }
+        
+            Base_Manager.Data.Init();
+
+            Debug.Log("인벤토리 데이터 불러오기에 성공하였습니다.");
+        }
+        else
+        {
+            Debug.LogError("인벤토리 데이터 조회에 실패했습니다. : " + item_bro);
+        }
+
+        #endregion
+
+        #region SMELT_DATA
+
+        Debug.Log("'SMELT' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        var smelt_bro = Backend.GameData.GetMyData("SMELT", new Where());
+
+        if (smelt_bro.Rows().Count > 0)
+        {
+
+            var rows = BackendReturnObject.Flatten(smelt_bro.Rows());
+
+            foreach (JsonData row in rows)
+            {
+                if (row.ContainsKey("Smelt"))
+                {
+                    string Smelt_Json_Data = row["Smelt"].ToString();
+                    List<Smelt_Holder> smeltList = JsonConvert.DeserializeObject<List<Smelt_Holder>>(Smelt_Json_Data);
+                    Base_Manager.Data.User_Main_Data_Smelt_Array = smeltList;                 
+                }
+
+                else
+                {
+                    Debug.LogWarning("'Smelt' 데이터가 올바른 JSON 형식이 아닙니다.");
+                }
+
+            }
+
+            Base_Manager.Data.Init();
+
+            Debug.Log("영웅 각인 데이터 불러오기에 성공하였습니다.");
+        }
+        else
+        {
+            Debug.LogError("영웅 각인 데이터 조회에 실패했습니다. : " + smelt_bro);
+        }
+        #endregion
     }
     /// <summary>
     /// 날짜가 자정이 지났는지 확인하고, 데일리 입장권을 지급할 지 판단합니다.

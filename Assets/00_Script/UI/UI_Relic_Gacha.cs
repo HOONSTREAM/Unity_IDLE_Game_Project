@@ -133,8 +133,8 @@ public class UI_Relic_Gacha : UI_Base
 
 
 
-            GameObject.Find("@BackEnd_Manager").gameObject.GetComponent<BackEnd_Manager>().WriteData();
-
+            Base_Manager.BACKEND.WriteData();
+                
         }
 
         StartCoroutine(Block_Button_Coroutine());
