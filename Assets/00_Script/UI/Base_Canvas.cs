@@ -30,6 +30,8 @@ public class Base_Canvas : MonoBehaviour
     private Button Status_Button;
     [SerializeField]
     private Button Smelt_Button;
+    [SerializeField]
+    private Button AD_Package_Button;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -40,7 +42,7 @@ public class Base_Canvas : MonoBehaviour
     /// <summary>
     /// 오프라인 보상 시작 시간을 지정합니다. (Second 단위)
     /// </summary>
-    private const double START_OFFLINE_TIME = 10.0d; 
+    private const double START_OFFLINE_TIME = 1.0d; 
 
     private void Awake()
     {
@@ -76,7 +78,7 @@ public class Base_Canvas : MonoBehaviour
         Dungeon_Button.onClick.AddListener(() => Get_UI("UI_Dungeon", false, false, true, 3));
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
         Status_Button.onClick.AddListener(() => Get_UI("@Status", true, false, true, 0));
-
+        AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
 
     }
     private void Update()

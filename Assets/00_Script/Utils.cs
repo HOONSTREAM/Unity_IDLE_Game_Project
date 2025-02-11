@@ -144,7 +144,9 @@ public class Utils
         //TODO: 로컬시간작업 X , 외부통신하여 시간작업필요. 유저 조작 가능성 높음
 
         DateTime startDate = DateTime.Parse(Data_Manager.Main_Players_Data.StartDate);
+        Debug.Log($"게임시작 시간 : {startDate}");
         DateTime endDate = DateTime.Parse(Data_Manager.Main_Players_Data.EndDate);
+        Debug.Log($"게임 종료 시간 : {endDate}");
 
         TimeSpan timer = startDate - endDate;
         double Time_Count = timer.TotalSeconds;

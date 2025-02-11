@@ -22,36 +22,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             Debug.LogError("데이터가 존재하지 않습니다. Initialize 통해 데이터를 생성해주세요.");
             return;
         }
-        if (string.IsNullOrEmpty(Data_Manager.Main_Players_Data.StartDate))
-        {
-            /*data.EndDate가 null 또는 빈 문자열일때,
-            DateTime.Parse가 호출되면 FormatException이 발생.
-            메서드가 예외를 처리하지 않을 경우 메서드가 중도종료됨..*/
-
-            Data_Manager.Main_Players_Data.StartDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            Debug.Log("StartDate가 없어서 기본값으로 설정: " + Data_Manager.Main_Players_Data.StartDate);
-        }
-
-        if (string.IsNullOrEmpty(Data_Manager.Main_Players_Data.EndDate))
-        {
-            /*data.EndDate가 null 또는 빈 문자열일때,
-            DateTime.Parse가 호출되면 FormatException이 발생.
-            메서드가 예외를 처리하지 않을 경우 메서드가 중도종료됨..*/
-
-            Data_Manager.Main_Players_Data.EndDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            Debug.Log("EndDate가 없어서 기본값으로 설정: " + Data_Manager.Main_Players_Data.EndDate);
-        }
-        DateTime LastDate = DateTime.Parse(Data_Manager.Main_Players_Data.EndDate);
-        Data_Manager.Main_Players_Data.EndDate = DateTime.Now.ToString();
-
-        if (Get_Date_Dungeon_Item(LastDate, DateTime.Now))
-        {
-            Data_Manager.Main_Players_Data.Daily_Enter_Key[0] = 2;
-            Data_Manager.Main_Players_Data.Daily_Enter_Key[1] = 2;
-        }
-
-        Debug.Log("종료시간 : " + Data_Manager.Main_Players_Data.EndDate);
-
+        
         Param param = new Param();
 
         param.Add("NICK_NAME", Data_Manager.Main_Players_Data.Nick_Name);
@@ -204,6 +175,7 @@ public partial class BackEnd_Manager : MonoBehaviour
 
                 data.StartDate = DateTime.Now.ToString();
                 data.EndDate = gameDataJson[0]["END_DATE"].ToString();
+                
 
                 data.Daily_Enter_Key[0] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][0].ToString());
                 data.Daily_Enter_Key[1] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][1].ToString());
@@ -213,6 +185,27 @@ public partial class BackEnd_Manager : MonoBehaviour
 
                 data.Dungeon_Clear_Level[0] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][0].ToString());
                 data.Dungeon_Clear_Level[1] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][1].ToString());
+
+
+                //if (string.IsNullOrEmpty(data.StartDate))
+                //{
+                //    /*data.EndDate가 null 또는 빈 문자열일때,
+                //    DateTime.Parse가 호출되면 FormatException이 발생.
+                //    메서드가 예외를 처리하지 않을 경우 메서드가 중도종료됨..*/
+
+                //    Data_Manager.Main_Players_Data.StartDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                //    Debug.Log("StartDate가 없어서 기본값으로 설정: " + data.StartDate);
+                //}
+
+                //if (string.IsNullOrEmpty(data.EndDate))
+                //{
+                //    /*data.EndDate가 null 또는 빈 문자열일때,
+                //    DateTime.Parse가 호출되면 FormatException이 발생.
+                //    메서드가 예외를 처리하지 않을 경우 메서드가 중도종료됨..*/
+
+                //    Data_Manager.Main_Players_Data.EndDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                //    Debug.Log("EndDate가 없어서 기본값으로 설정: " + data.EndDate);
+                //}
 
                 DateTime startDate = DateTime.Parse(data.StartDate);
                 DateTime endDate = DateTime.Parse(data.EndDate);
