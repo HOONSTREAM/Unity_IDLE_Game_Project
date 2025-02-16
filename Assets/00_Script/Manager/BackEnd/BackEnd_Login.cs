@@ -9,11 +9,14 @@ public partial class BackEnd_Manager : MonoBehaviour
     {
         Debug.Log("회원가입을 요청합니다.");
 
+        GameObject go = Instantiate(Resources.Load<GameObject>("UI/LOGIN_UI_POLICY"));
+        go.transform.SetParent(GameObject.Find("Loading_CANVAS").gameObject.transform);
+
         var bro = Backend.BMember.CustomSignUp(id, pw);
 
         if (bro.IsSuccess())
         {
-            Debug.Log("회원가입에 성공했습니다. : " + bro);
+            Debug.Log("회원가입에 성공했습니다. : " + bro);         
             BackendGameData.Instance.Initialize_User_Data();
         }
         else
@@ -22,11 +25,9 @@ public partial class BackEnd_Manager : MonoBehaviour
         }
     }
 
-    public void CustomLogin()
+    public void Custom_Login_Policy_Agree()
     {
         Debug.Log("로그인을 요청합니다.");
-
-        //CustomSignUp("user1", "1234");
 
         var bro = Backend.BMember.CustomLogin("user1", "1234");
 
@@ -34,9 +35,9 @@ public partial class BackEnd_Manager : MonoBehaviour
         {
             Debug.Log("로그인이 성공했습니다. : " + bro);
 
-            ReadData(); // 데이터를 초기화 합니다
+            Base_Manager.BACKEND.ReadData();
 
-            WriteData(); //서버에 저장된 데이터를 업데이트합니다.
+            Base_Manager.BACKEND.WriteData(); //서버에 저장된 데이터를 업데이트합니다.
 
             Loading_Scene.instance.Main_Game_Start_Custom_Account_Test();
 
@@ -45,6 +46,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         {
             Debug.LogError("로그인이 실패했습니다. : " + bro);
         }
+
     }
 
     public void Guest_Login()

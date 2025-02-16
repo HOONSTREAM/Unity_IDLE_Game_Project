@@ -248,6 +248,8 @@ public class Data
 
     //광고구매 여부
     public bool isBuyADPackage = false;
+    //이벤트 푸시알람 동의 여부
+    public bool Event_Push_Alarm_Agree = false;
 
 }
 public class Data_Manager

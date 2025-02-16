@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Rendering;
-using UnityEditor.Search;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 public class Main_UI : MonoBehaviour
 {

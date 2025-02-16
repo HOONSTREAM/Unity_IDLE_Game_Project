@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.WSA;
+
 
 public class Player_Manager
 {
@@ -47,7 +47,6 @@ public class Player_Manager
         return (myexp / exp) * 100.0f;
     }
     #endregion
-
 
     #region 전투력 계산
     /// <summary>
@@ -201,7 +200,6 @@ public class Player_Manager
         return 140.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_DAMAGE) +(float)Value + (float)Relic_Value;
     }
     #endregion
-
 
     #region 보유효과 계산
 

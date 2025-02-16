@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.WSA;
-using static UnityEditor.Progress;
-
 /// <summary>
 /// 영웅 배치 창을 다루는 스크립트 입니다.
 /// </summary>
