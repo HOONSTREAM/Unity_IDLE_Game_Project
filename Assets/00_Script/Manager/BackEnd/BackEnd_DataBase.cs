@@ -207,8 +207,8 @@ public partial class BackEnd_Manager : MonoBehaviour
                 //    Debug.Log("EndDate가 없어서 기본값으로 설정: " + data.EndDate);
                 //}
 
-                DateTime startDate = DateTime.Parse(data.StartDate);
-                DateTime endDate = DateTime.Parse(data.EndDate);
+                DateTime startDate = Utils.ParseDate(data.StartDate);
+                DateTime endDate = Utils.ParseDate(data.EndDate);
 
                 if (Get_Date_Dungeon_Item(startDate, endDate))
                 {

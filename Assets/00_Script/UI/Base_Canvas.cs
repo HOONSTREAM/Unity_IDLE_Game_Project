@@ -60,11 +60,11 @@ public class Base_Canvas : MonoBehaviour
     private void Start()
     {
 
-        // 빌드 시 ArgumentNullException : Value cannot be null; 발생. DateTime.parse 에러인듯.
-        //if (Utils.Offline_Timer_Check() >= START_OFFLINE_TIME)
-        //{
-        //    Get_UI("OFFLINE_REWARD");
-        //}
+        //빌드 시 ArgumentNullException: Value cannot be null; 발생.DateTime.parse 에러인듯.
+        if (Utils.Offline_Timer_Check() >= START_OFFLINE_TIME)
+        {
+            Get_UI("OFFLINE_REWARD");
+        }
 
 
         Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, false, true, 1));

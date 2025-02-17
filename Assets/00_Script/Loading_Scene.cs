@@ -38,17 +38,9 @@ public class Loading_Scene : MonoBehaviour
         while (asyncOperation.progress < 0.9f)
         {
             LoadingUpdate(asyncOperation.progress);
-
-            if (asyncOperation != null)
-            {
-                if (asyncOperation.progress >= 0.9f)
-                {                    
-                    Base_Manager.Get_MainGame_Start = true;
-                    yield return null;
-                }
-            }
-   
+            yield return null;
         }
+
         LoadingUpdate(1.0f); // 100% 완료되었음을 직접 보여주기 위함
                              
         yield return new WaitForSeconds(1.0f);
@@ -64,6 +56,7 @@ public class Loading_Scene : MonoBehaviour
 
     public void Main_Game_Start_Custom_Account_Test()
     {
+        Base_Manager.Get_MainGame_Start = true;
         asyncOperation.allowSceneActivation = true;
     }
 

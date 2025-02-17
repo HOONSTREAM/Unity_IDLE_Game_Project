@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -143,9 +144,9 @@ public class Utils
 
         //TODO: 로컬시간작업 X , 외부통신하여 시간작업필요. 유저 조작 가능성 높음
 
-        DateTime startDate = DateTime.Parse(Data_Manager.Main_Players_Data.StartDate);
+        DateTime startDate = Utils.ParseDate(Data_Manager.Main_Players_Data.StartDate);
         Debug.Log($"게임시작 시간 : {startDate}");
-        DateTime endDate = DateTime.Parse(Data_Manager.Main_Players_Data.EndDate);
+        DateTime endDate = Utils.ParseDate(Data_Manager.Main_Players_Data.EndDate);
         Debug.Log($"게임 종료 시간 : {endDate}");
 
         TimeSpan timer = startDate - endDate;
@@ -174,6 +175,28 @@ public class Utils
         {
             return false;
         }
+    }
+
+    public static DateTime ParseDate(string dateString)
+    {
+        //if (string.IsNullOrEmpty(dateString))
+        //    return DateTime.Now; // 기본값 설정
+
+        string[] dateFormats = new[]
+        {
+        "yyyy-MM-dd HH:mm:ss",  // 기본적인 날짜 형식
+        "yyyy-MM-ddTHH:mm:ss.fffZ", // ISO 8601 UTC 형식
+        "yyyy-MM-dd 오후 hh:mm:ss", // 한글이 포함된 형식
+        "yyyy-MM-dd 오전 hh:mm:ss"
+    };
+
+        if (DateTime.TryParseExact(dateString, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime parsedDate))
+        {
+            return parsedDate;
+        }
+
+        Debug.LogWarning($"날짜 변환 실패: {dateString}");
+        return DateTime.Now; // 변환 실패 시 현재 시간 반환
     }
 
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Stage_Manager
 {
@@ -37,8 +38,16 @@ public class Stage_Manager
 
     public void State_Change(Stage_State state, int Value = 0)
     {
+
+        if(SceneManager.GetActiveScene().name != "MainGame")
+        {
+            Debug.Log("현재 Scene이 MainGame이 아닙니다.");
+            return;
+        }
+
         M_State = state;
-        switch(state)
+        
+        switch (state)
         {
             case Stage_State.Ready:
                 Debug.Log("Stage : Ready");
