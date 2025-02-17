@@ -15,6 +15,9 @@ public class Loading_Scene : MonoBehaviour
     private AsyncOperation asyncOperation;
     public GameObject TapToStart_Object;
 
+    [SerializeField]
+    private GameObject Title_Object;
+
     private void Awake()
     {
         if(instance == null)
@@ -23,7 +26,8 @@ public class Loading_Scene : MonoBehaviour
         }
     }
     private void Start()
-    {       
+    {
+        
         version_text.text = "Version : " + Application.version;
         sliderParent = slider.transform.parent.gameObject;        
     }
@@ -34,18 +38,19 @@ public class Loading_Scene : MonoBehaviour
 
         asyncOperation = SceneManager.LoadSceneAsync("MainGame");
         asyncOperation.allowSceneActivation = false;
- 
+
         while (asyncOperation.progress < 0.9f)
         {
             LoadingUpdate(asyncOperation.progress);
-            yield return null;
         }
+            LoadingUpdate(1.0f); // 100% 완료되었음을 직접 보여주기 위함
 
-        LoadingUpdate(1.0f); // 100% 완료되었음을 직접 보여주기 위함
-                             
-        yield return new WaitForSeconds(1.0f);
-        slider.gameObject.SetActive(false);
-        TapToStart_Object.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1.0f);
+            slider.gameObject.SetActive(false);
+            Title_Object.gameObject.SetActive(true);
+            Base_Manager.SOUND.Play(Sound.BGM, "Loading_Scene");
+            TapToStart_Object.gameObject.SetActive(true);
+        
     }
 
     public void LoadingMain()

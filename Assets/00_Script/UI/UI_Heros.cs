@@ -104,7 +104,7 @@ public class UI_Heros : UI_Base
         Main_UI.Instance.FadeInOut(false, true, () =>
         {
             Main_UI.Instance.FadeInOut(true, false, null);
-            Base_Manager.Stage.State_Change(Stage_State.Ready); // 영웅명단이 체인지 되면 바로 반영
+            //Base_Manager.Stage.State_Change(Stage_State.Ready); // 영웅명단이 체인지 되면 바로 반영보류
             base.DisableOBJ();
         });
 

@@ -17,6 +17,7 @@ public class Base_Manager : MonoBehaviour
     private static Inventory_Manager _inventory = new Inventory_Manager();
     private static ADS_Manager _ads = new ADS_Manager();
     private static BackEnd_Manager _backEnd = new BackEnd_Manager();
+    private static Sound_Manager _sound = new Sound_Manager();
       
  
     public static Pool_Manager Pool { get { return _pool; } }
@@ -28,6 +29,7 @@ public class Base_Manager : MonoBehaviour
     public static Inventory_Manager Inventory { get { return _inventory; } }
     public static ADS_Manager ADS { get { return _ads; } }
     public static BackEnd_Manager BACKEND {  get { return _backEnd; } }
+    public static Sound_Manager SOUND { get { return _sound; } }
 
     
     public static bool is_Fast_Mode = false;
@@ -80,7 +82,8 @@ public class Base_Manager : MonoBehaviour
             instance = this;
             Pool.Initialize(transform);
             ADS.Init();
-            Data.Init();           
+            Data.Init();
+            SOUND.Init();
             DontDestroyOnLoad(this.gameObject);
         }
 

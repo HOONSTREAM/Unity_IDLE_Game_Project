@@ -8,6 +8,13 @@ public enum Rarity
     Legendary
 }
 
+public enum Sound
+{
+    BGM,
+    BGS,
+    MAX
+}
+
 public enum Status_Type
 {
     Status,

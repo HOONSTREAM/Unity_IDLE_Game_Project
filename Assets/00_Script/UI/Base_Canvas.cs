@@ -59,6 +59,7 @@ public class Base_Canvas : MonoBehaviour
     }
     private void Start()
     {
+        Base_Manager.SOUND.Play(Sound.BGM, "Main");
 
         //빌드 시 ArgumentNullException: Value cannot be null; 발생.DateTime.parse 에러인듯.
         if (Utils.Offline_Timer_Check() >= START_OFFLINE_TIME)
