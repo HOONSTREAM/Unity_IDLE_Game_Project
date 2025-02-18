@@ -61,7 +61,7 @@ public class Sound_Manager
                 audioSource.Stop();
 
             audioSource.clip = audioClip;
-
+            
             audioSource.Play();
         }
         else if (type == Sound.BGS)
@@ -71,6 +71,7 @@ public class Sound_Manager
                 return false;
 
             audioSource.PlayOneShot(audioClip);
+            
             return true;
         }
         return false;

@@ -41,6 +41,9 @@ public partial class BackEnd_Manager : MonoBehaviour
 
             Loading_Scene.instance.Main_Game_Start_Custom_Account_Test();
 
+           PlayerPrefs.SetFloat("BGM", 1.0f);
+           PlayerPrefs.SetFloat("BGS", 1.0f);
+
         }
         else
         {

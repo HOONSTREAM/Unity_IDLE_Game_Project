@@ -32,6 +32,8 @@ public class Base_Canvas : MonoBehaviour
     private Button Smelt_Button;
     [SerializeField]
     private Button AD_Package_Button;
+    [SerializeField]
+    private Button Setting_Button;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -81,6 +83,7 @@ public class Base_Canvas : MonoBehaviour
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
         Status_Button.onClick.AddListener(() => Get_UI("@Status", true, false, true, 0));
         AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
+        Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
 
     }
     private void Update()
