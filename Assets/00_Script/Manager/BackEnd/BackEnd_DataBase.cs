@@ -392,10 +392,10 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         foreach (var characterScriptable in scriptableCharacters)
         {
-            if (Base_Manager.Data.character_Holder.ContainsKey(characterScriptable.M_Character_Name))
+            if (Base_Manager.Data.character_Holder.ContainsKey(characterScriptable.Character_EN_Name))
             {
                 // 캐릭터 데이터를 Scriptable과 매칭
-                var holderData = Base_Manager.Data.character_Holder[characterScriptable.M_Character_Name];
+                var holderData = Base_Manager.Data.character_Holder[characterScriptable.Character_EN_Name];
 
                 var characterHolder = new Character_Holder
                 {
@@ -403,7 +403,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                     holder = holderData
                 };
 
-                Base_Manager.Data.Data_Character_Dictionary[characterScriptable.M_Character_Name] = characterHolder;
+                Base_Manager.Data.Data_Character_Dictionary[characterScriptable.Character_EN_Name] = characterHolder;
 
             }
 

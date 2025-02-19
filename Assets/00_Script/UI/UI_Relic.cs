@@ -246,7 +246,7 @@ public class UI_Relic : UI_Base
         int RelicID = Relic_Enum_Mapper.GetRelicID(Data.name);
 
         Relic_Name_Text.text = Data.Item_Name;
-        Rarity_Text.text = Utils.String_Color_Rarity(Data.rarity) + Data.rarity.ToString();
+        Rarity_Text.text = Utils.String_Color_Rarity(Data.rarity) + Data.KO_rarity.ToString();
         Description_Text.text = CSV_Importer.Relic_DES_Design[RelicID]["RELIC_DES"].ToString();
         Level_Text.text = "LV." + (Base_Manager.Data.Item_Holder[Data.name].Hero_Level + 1).ToString();
         Slider_Count_Text.text = "(" + Base_Manager.Data.Item_Holder[Data.name].Hero_Card_Amount + "/" + Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name) + ")";

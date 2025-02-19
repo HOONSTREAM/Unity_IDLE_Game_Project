@@ -70,7 +70,7 @@ public class UI_Heros : UI_Base
 
         foreach (var data in Data)
         {
-            _dict.Add(data.Value.Data.M_Character_Name, data.Value.Data);
+            _dict.Add(data.Value.Data.Character_EN_Name, data.Value.Data);
         }
       
 
@@ -185,7 +185,7 @@ public class UI_Heros : UI_Base
     }
     public void Set_Character_Button(int value)
     {
-        Base_Manager.Character.Get_Character(value, Character.M_Character_Name);
+        Base_Manager.Character.Get_Character(value, Character.Character_EN_Name);
         Initialize();
     }
     public void Initialize()
@@ -222,7 +222,7 @@ public class UI_Heros : UI_Base
         int heroID = Hero_Enum_Mapper.GetHeroID(Data.name);
 
         Hero_Name_Text.text = Data.M_Character_Name;
-        Rarity_Text.text = Utils.String_Color_Rarity(Data.Rarity) + Data.Rarity.ToString();
+        Rarity_Text.text = Utils.String_Color_Rarity(Data.Rarity) + Data.KO_Rarity.ToString();
         Description_Text.text = CSV_Importer.Hero_DES_Design[heroID]["Hero_DES"].ToString();
         double atk = Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]);
         double hp = Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]);

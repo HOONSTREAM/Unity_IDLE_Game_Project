@@ -53,7 +53,7 @@ public class UI_Heros_Parts : MonoBehaviour
         M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
         M_Count.text = Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);       
         M_Rarity_Image.sprite = Utils.Get_Atlas(data.Rarity.ToString());
-        M_character_Image.sprite = Utils.Get_Atlas(data.M_Character_Name);
+        M_character_Image.sprite = Utils.Get_Atlas(data.Character_EN_Name);
         M_character_Image.SetNativeSize();
         
         RectTransform rect = M_character_Image.GetComponent<RectTransform>();

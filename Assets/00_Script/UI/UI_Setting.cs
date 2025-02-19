@@ -42,6 +42,7 @@ public class UI_Setting : UI_Base
     {
         BackendReturnObject bro = Backend.BMember.GetUserInfo();
         GUIUtility.systemCopyBuffer = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+        Base_Canvas.instance.Get_Toast_Popup().Initialize("클립보드에 UUID를 복사하였습니다.");
     }
 
     public void Get_Policy_URL(string url)

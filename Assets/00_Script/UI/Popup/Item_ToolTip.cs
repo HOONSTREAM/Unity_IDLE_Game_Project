@@ -42,7 +42,7 @@ public class Item_ToolTip : MonoBehaviour
         Rect.anchoredPosition = pos;
         Item_Image.sprite = Utils.Get_Atlas(item.name);
         Item_Name_Text.text = item.Item_Name;
-        Rarity_Text.text = Utils.String_Color_Rarity(item.rarity) + item.rarity.ToString();
+        Rarity_Text.text = Utils.String_Color_Rarity(item.rarity) + item.KO_rarity.ToString();
         Description_Text.text = string.Format(item.Item_Description,15,30);
 
         if(item.rarity == Rarity.Legendary)

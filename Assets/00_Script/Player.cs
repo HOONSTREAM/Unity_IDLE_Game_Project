@@ -163,7 +163,7 @@ public class Player : Character
     private void Data_Set(Character_Scriptable datas)
     {
         CH_Data = datas;
-        Bullet_Name = CH_Data.M_Character_Name;
+        Bullet_Name = CH_Data.Character_EN_Name;
         Attack_Range = datas.M_Attack_Range;
         ATK_Speed = datas.M_Attack_Speed;
 

@@ -55,7 +55,7 @@ public class Character_Spawner : MonoBehaviour
 
     private void Instatiate_Player(Character_Holder Data, int value)
     {
-        string temp = Data.Data.M_Character_Name;
+        string temp = Data.Data.Character_EN_Name;
         var go = Instantiate(Resources.Load<GameObject>("Character/" + temp));
         players[value] = go.GetComponent<Player>();
         go.transform.position = SpawnTransform[value].transform.position;

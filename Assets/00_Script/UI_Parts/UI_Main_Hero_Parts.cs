@@ -60,7 +60,7 @@ public class UI_Main_Hero_Parts : MonoBehaviour
         Get_Ready_Object.gameObject.SetActive(Ready);
 
         Char_Icon.gameObject.SetActive(true);
-        Char_Icon.sprite = Utils.Get_Atlas(data.M_Character_Name);
+        Char_Icon.sprite = Utils.Get_Atlas(data.Character_EN_Name);
     }
 
     public void State_Check(Player player)

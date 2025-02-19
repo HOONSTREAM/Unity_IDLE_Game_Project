@@ -31,7 +31,7 @@ public class Render_Hero : MonoBehaviour
             if (Base_Manager.Character.Set_Character[i] != null)
             {
                 
-                string temp = Base_Manager.Character.Set_Character[i].Data.M_Character_Name;
+                string temp = Base_Manager.Character.Set_Character[i].Data.Character_EN_Name;
 
                 var go = Instantiate(Resources.Load<GameObject>("Character/" + temp));
                 go.transform.rotation = Quaternion.identity;

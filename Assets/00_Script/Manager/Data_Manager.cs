@@ -319,19 +319,19 @@ public class Data_Manager
             character.Data = data;
             Holder s_holder = new Holder();
 
-            if (character_Holder.ContainsKey(data.M_Character_Name))
+            if (character_Holder.ContainsKey(data.Character_EN_Name))
             {
-                s_holder = character_Holder[data.M_Character_Name];
+                s_holder = character_Holder[data.Character_EN_Name];
             }
             else
             {
-                character_Holder.Add(data.M_Character_Name, s_holder);
+                character_Holder.Add(data.Character_EN_Name, s_holder);
             }
             character.holder = s_holder;
 
-            if (!Data_Character_Dictionary.ContainsKey(data.M_Character_Name))
+            if (!Data_Character_Dictionary.ContainsKey(data.Character_EN_Name))
             {
-                Data_Character_Dictionary.Add(data.M_Character_Name, character);
+                Data_Character_Dictionary.Add(data.Character_EN_Name, character);
             }
             
         }
