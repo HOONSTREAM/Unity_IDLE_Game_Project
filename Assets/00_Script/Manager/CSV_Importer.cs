@@ -13,6 +13,7 @@ public class CSV_Importer
     public static List<Dictionary<string, object>> Relic_DES_Design = new List<Dictionary<string, object>>(CSVReader.Read("Relic_DES"));   
     public static List<Dictionary<string, object>> Quest_Design = new List<Dictionary<string, object>>(CSVReader.Read("Quest"));
     public static List<Dictionary<string, object>> Localization_Design = new List<Dictionary<string, object>>(CSVReader.Read("Localization"));
+    public static List<Dictionary<string, object>> Daily_Quest_Design = new List<Dictionary<string, object>>(CSVReader.Read("Daily_Quest"));
 
 
     #region 유물 아이템 발동확률, 효과퍼센트
