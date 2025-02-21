@@ -34,6 +34,8 @@ public class Base_Canvas : MonoBehaviour
     private Button AD_Package_Button;
     [SerializeField]
     private Button Setting_Button;
+    [SerializeField]
+    private Button Daily_Quest_Button;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -84,6 +86,7 @@ public class Base_Canvas : MonoBehaviour
         Status_Button.onClick.AddListener(() => Get_UI("@Status", true, false, true, 0));
         AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
+        Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
 
     }
     private void Update()

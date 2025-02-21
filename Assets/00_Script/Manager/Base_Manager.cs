@@ -19,6 +19,7 @@ public class Base_Manager : MonoBehaviour
     private static BackEnd_Manager _backEnd = new BackEnd_Manager();
     private static Sound_Manager _sound = new Sound_Manager();
     private static Localization_Manager _local = new Localization_Manager();
+    private static Daily_Quest_Manager _daily = new Daily_Quest_Manager();
       
  
     public static Pool_Manager Pool { get { return _pool; } }
@@ -32,6 +33,8 @@ public class Base_Manager : MonoBehaviour
     public static BackEnd_Manager BACKEND {  get { return _backEnd; } }
     public static Sound_Manager SOUND { get { return _sound; } }
     public static Localization_Manager LOCAL { get { return _local; } }
+    public static Daily_Quest_Manager DAILY { get { return _daily; } }
+    
 
     
     public static bool is_Fast_Mode = false;
@@ -87,6 +90,7 @@ public class Base_Manager : MonoBehaviour
             Data.Init();
             SOUND.Init();
             //LOCAL.Init();
+            DAILY.Init();
             DontDestroyOnLoad(this.gameObject);
         }
 

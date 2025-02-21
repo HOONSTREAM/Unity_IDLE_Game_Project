@@ -22,6 +22,16 @@ public enum Status_Type
     Costume
 }
 
+public enum Daily_Quest_Type
+{
+    Daily_Attendance,
+    Level_up,
+    Summon,
+    Relic,
+    Dungeon_Gold,
+    Dungeon_Dia,
+}
+
 public enum Smelt_Status
 {
     ATK, // °ø°Ý·Â
