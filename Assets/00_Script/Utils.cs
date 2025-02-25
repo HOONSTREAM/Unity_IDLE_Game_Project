@@ -1,3 +1,4 @@
+using BackEnd;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -137,27 +138,29 @@ public class Utils
     ///
     public static double Offline_Timer_Check()
     {
-        if(Data_Manager.Main_Players_Data.StartDate == "" || Data_Manager.Main_Players_Data.EndDate == "")
+        if(Data_Manager.Main_Players_Data.StartDate == null || Data_Manager.Main_Players_Data.EndDate == null)
         {
             return 0.0d;
         }
 
         //TODO: 로컬시간작업 X , 외부통신하여 시간작업필요. 유저 조작 가능성 높음
 
-        DateTime startDate = Utils.ParseDate(Data_Manager.Main_Players_Data.StartDate);
+        DateTime startDate = Data_Manager.Main_Players_Data.StartDate;
         Debug.Log($"게임시작 시간 : {startDate}");
-        DateTime endDate = Utils.ParseDate(Data_Manager.Main_Players_Data.EndDate);
+        DateTime endDate = Data_Manager.Main_Players_Data.EndDate;
         Debug.Log($"게임 종료 시간 : {endDate}");
 
         TimeSpan timer = startDate - endDate;
+
         double Time_Count = timer.TotalSeconds;
 
         return Time_Count;
     }
 
     public static string NextDayTimer()
-    {
-        DateTime nowDate = DateTime.Now;
+    {       
+        DateTime nowDate = Get_Server_Time();
+
         DateTime NextDate = nowDate.AddDays(1); // AddDays = 지정된 날짜로부터 일수를 1일 올려주는
         NextDate = new DateTime(NextDate.Year, NextDate.Month, NextDate.Day, 0, 0, 0);
         TimeSpan timer = NextDate - nowDate;
@@ -177,26 +180,18 @@ public class Utils
         }
     }
 
-    public static DateTime ParseDate(string dateString)
+    /// <summary>
+    /// 뒤끝서버시간을 참조하여, 서버시간을 받아옵니다.
+    /// </summary>
+    /// <returns></returns>
+    public static DateTime Get_Server_Time()
     {
-        //if (string.IsNullOrEmpty(dateString))
-        //    return DateTime.Now; // 기본값 설정
+        BackendReturnObject servertime = Backend.Utils.GetServerTime();
 
-        string[] dateFormats = new[]
-        {
-        "yyyy-MM-dd HH:mm:ss",  // 기본적인 날짜 형식
-        "yyyy-MM-ddTHH:mm:ss.fffZ", // ISO 8601 UTC 형식
-        "yyyy-MM-dd 오후 hh:mm:ss", // 한글이 포함된 형식
-        "yyyy-MM-dd 오전 hh:mm:ss"
-    };
+        string time = servertime.GetReturnValuetoJSON()["utcTime"].ToString();
+        DateTime parsedDate = DateTime.Parse(time);
 
-        if (DateTime.TryParseExact(dateString, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime parsedDate))
-        {
-            return parsedDate;
-        }
-
-        Debug.LogWarning($"날짜 변환 실패: {dateString}");
-        return DateTime.Now; // 변환 실패 시 현재 시간 반환
+        return parsedDate;
     }
 
 }

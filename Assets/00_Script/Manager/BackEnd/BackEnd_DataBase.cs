@@ -44,7 +44,8 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.Relic_Summon_Count);
         param.Add("RELIC_PICKUP_COUNT", Data_Manager.Main_Players_Data.Relic_Pickup_Count);
         param.Add("START_DATE", Data_Manager.Main_Players_Data.StartDate);
-        param.Add("END_DATE", DateTime.Now.ToString());
+        param.Add("END_DATE", Utils.Get_Server_Time());
+        Debug.Log($"저장된 서버 END_DATE :{Utils.Get_Server_Time()}");
         param.Add("DAILY_ENTER_KEY", Data_Manager.Main_Players_Data.Daily_Enter_Key);
         param.Add("USER_KEY_ASSETS", Data_Manager.Main_Players_Data.User_Key_Assets);
         param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level);
@@ -173,9 +174,11 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.Relic_Summon_Count = int.Parse(gameDataJson[0]["RELIC_SUMMON_COUNT"].ToString());
                 data.Relic_Pickup_Count = int.Parse(gameDataJson[0]["RELIC_PICKUP_COUNT"].ToString());
 
-                data.StartDate = DateTime.Now.ToString();
-                data.EndDate = gameDataJson[0]["END_DATE"].ToString();
+                // 서버 시간 받아오기
                 
+
+                data.EndDate = DateTime.Parse(gameDataJson[0]["END_DATE"].ToString());
+                data.StartDate = Utils.Get_Server_Time();
 
                 data.Daily_Enter_Key[0] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][0].ToString());
                 data.Daily_Enter_Key[1] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][1].ToString());
@@ -186,34 +189,33 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.Dungeon_Clear_Level[0] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][0].ToString());
                 data.Dungeon_Clear_Level[1] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][1].ToString());
 
+                DateTime startDate = data.StartDate;
+                DateTime endDate = data.EndDate;
 
-                //if (string.IsNullOrEmpty(data.StartDate))
-                //{
-                //    /*data.EndDate가 null 또는 빈 문자열일때,
-                //    DateTime.Parse가 호출되면 FormatException이 발생.
-                //    메서드가 예외를 처리하지 않을 경우 메서드가 중도종료됨..*/
+                Debug.Log($"받아온 startDate,endDate : {startDate} , {endDate} ");
 
-                //    Data_Manager.Main_Players_Data.StartDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                //    Debug.Log("StartDate가 없어서 기본값으로 설정: " + data.StartDate);
-                //}
-
-                //if (string.IsNullOrEmpty(data.EndDate))
-                //{
-                //    /*data.EndDate가 null 또는 빈 문자열일때,
-                //    DateTime.Parse가 호출되면 FormatException이 발생.
-                //    메서드가 예외를 처리하지 않을 경우 메서드가 중도종료됨..*/
-
-                //    Data_Manager.Main_Players_Data.EndDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                //    Debug.Log("EndDate가 없어서 기본값으로 설정: " + data.EndDate);
-                //}
-
-                DateTime startDate = Utils.ParseDate(data.StartDate);
-                DateTime endDate = Utils.ParseDate(data.EndDate);
 
                 if (Get_Date_Dungeon_Item(startDate, endDate))
                 {
+                    //던전 일일 입장권 초기화
                     data.Daily_Enter_Key[0] = 2;
                     data.Daily_Enter_Key[1] = 2;
+
+                    //일일 퀘스트 초기화
+                    data.Daily_Attendance = 1;
+                    data.Levelup = 0;
+                    data.Summon = 0;
+                    data.Dungeon_Dia = 0;
+                    data.Dungeon_Gold = 0;
+                    data.Relic = 0;
+
+                    data.Daily_Attendance_Clear = false;
+                    data.Level_up_Clear = false;
+                    data.Summon_Clear = false;
+                    data.Dungeon_Dia_Clear = false;
+                    data.Dungeon_Gold_Clear = false;
+                    data.Relic_Clear = false;
+
                 }
 
                 Data_Manager.Main_Players_Data = data;

@@ -51,6 +51,8 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
         Data_Manager.Main_Players_Data.Player_Money -= Utils.Data.levelData.Get_LEVELUP_MONEY();
 
+        Data_Manager.Main_Players_Data.Levelup++; // 일일퀘스트 조건 상승
+
         Base_Manager.Player.EXP_UP();
         InitEXP();
         transform.DORewind();

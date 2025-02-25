@@ -63,8 +63,8 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Hero_Pickup_Count = default;
         Data_Manager.Main_Players_Data.Relic_Pickup_Count = default;
         Data_Manager.Main_Players_Data.Relic_Summon_Count = default;
-        Data_Manager.Main_Players_Data.StartDate = DateTime.Now.ToString();
-        Data_Manager.Main_Players_Data.EndDate = DateTime.Now.ToString();
+        Data_Manager.Main_Players_Data.StartDate = Utils.Get_Server_Time();
+        Data_Manager.Main_Players_Data.EndDate = Utils.Get_Server_Time();
         Data_Manager.Main_Players_Data.Daily_Enter_Key[0] = 3;
         Data_Manager.Main_Players_Data.Daily_Enter_Key[1] = 3;
         Data_Manager.Main_Players_Data.User_Key_Assets[0] = 0;
@@ -238,8 +238,8 @@ public class Data
     /// <summary>
     /// 플레이어 유저의 게임 시작시간, 종료시간 기록
     /// </summary>
-    public string StartDate;
-    public string EndDate;
+    public DateTime StartDate;
+    public DateTime EndDate;
 
     //Dungeon
     public int[] Daily_Enter_Key = { 3, 3 }; // 일일마다 초기화 되는 키
@@ -251,7 +251,24 @@ public class Data
     //이벤트 푸시알람 동의 여부
     public bool Event_Push_Alarm_Agree = false;
 
+    //일일퀘스트
+
+    public int Daily_Attendance = 1;
+    public int Levelup;
+    public int Summon;
+    public int Relic;
+    public int Dungeon_Gold;
+    public int Dungeon_Dia;
+
+    public bool Daily_Attendance_Clear = false;
+    public bool Level_up_Clear = false;
+    public bool Summon_Clear = false;
+    public bool Relic_Clear = false;
+    public bool Dungeon_Gold_Clear = false;
+    public bool Dungeon_Dia_Clear = false;
+
 }
+
 public class Data_Manager
 {
 

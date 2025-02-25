@@ -7,16 +7,25 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class DailyQuest
 {
-    public Daily_Quest_Type Type;
-    public string Quest_Title;
-    public string Quest_Description;
-    public int Goal;
-    public int CurrentProgress;
-    public string Reward;
-    public int RewardCount;
+    public Daily_Quest_Type Type; // 퀘스트 종류
+    public string Quest_Title; // 퀘스트 이름
+    public string Quest_Description; // 퀘스트 설명
+    public int Goal; // 달성목표 (달성조건)
+    public int CurrentProgress; // 현재 진행 상태
+    public string Reward; // 보상종류
+    public int RewardCount; // 보상량
 
     public bool IsCompleted => CurrentProgress >= Goal;
 
+    /// <summary>
+    /// 생성자
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="quest_Title"></param>
+    /// <param name="quest_Description"></param>
+    /// <param name="goal"></param>
+    /// <param name="reward"></param>
+    /// <param name="rewardCount"></param>
     public DailyQuest(Daily_Quest_Type type, string quest_Title, string quest_Description, int goal, string reward, int rewardCount)
     {
         Type = type;
@@ -66,7 +75,7 @@ public class Achievement_Status
 }
 public class Daily_Quest_Manager
 {
-    List<Dictionary<string, object>> questData;
+    List<Dictionary<string, object>> QuestData;
     public List<DailyQuest> activeQuests = new List<DailyQuest>();
 
     //public Achievement_Scriptable scriptable_Data;
@@ -75,7 +84,7 @@ public class Daily_Quest_Manager
 
     public void Init()
     {
-        //LoadQuests();
+        LoadQuests();
         //scriptable_Data = Resources.Load<Achievement_Scriptable>("Scriptable/Achievement_Data");
         //Achievement_Lists = scriptable_Data.Achievement_Data;
         //LoadAchivement_Data();
@@ -96,10 +105,11 @@ public class Daily_Quest_Manager
 
     public void LoadQuests()
     {
-        questData = new List<Dictionary<string, object>>(CSV_Importer.Daily_Quest_Design);
-        for (int i = 0; i < questData.Count; i++)
+        QuestData = new List<Dictionary<string, object>>(CSV_Importer.Daily_Quest_Design);
+
+        for (int i = 0; i < QuestData.Count; i++)
         {
-            var data = questData[i];
+            var data = QuestData[i];
             Daily_Quest_Type type = (Daily_Quest_Type)Enum.Parse(typeof(Daily_Quest_Type), data["Type"].ToString());
             string questId = data["Title"].ToString();
             string description = data["Description"].ToString();
@@ -107,8 +117,8 @@ public class Daily_Quest_Manager
             string reward = data["Reward"].ToString();
             int rewardCount = int.Parse(data["Reward_Value"].ToString());
 
-            DailyQuest quest = new DailyQuest(type, questId, description, goal, reward, rewardCount);
-            activeQuests.Add(quest);
+            DailyQuest quest = new DailyQuest(type, questId, description, goal, reward, rewardCount); // 생성자를 통한 DailyQuest 객체 생성
+            activeQuests.Add(quest); // activeQuests 리스트에 추가
         }
     }
 }

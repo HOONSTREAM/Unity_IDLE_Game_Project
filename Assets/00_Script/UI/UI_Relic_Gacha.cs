@@ -81,10 +81,14 @@ public class UI_Relic_Gacha : UI_Base
         Blocking_Close_Button.gameObject.SetActive(true);
         Blocking_ReGaCha_Button.gameObject.SetActive(true);
 
+        
+
         for (int i = 0; i < Relic_Amount_Value; i++)
         {
             Data_Manager.Main_Players_Data.Relic_Summon_Count++;
+            Data_Manager.Main_Players_Data.Relic++; //일일퀘스트 조건 상승 (영웅소환)
             Data_Manager.Main_Players_Data.Relic_Pickup_Count++;
+
             Rarity rarity = Rarity.Common;
 
             if (Data_Manager.Main_Players_Data.Relic_Pickup_Count >= 110)
@@ -99,7 +103,7 @@ public class UI_Relic_Gacha : UI_Base
             var go = Instantiate(Gacha_Relic_Parts, Content); // 캐릭터 카드를 생성합니다.
             Reset_Gacha_Relic_Card_List.Add(go.gameObject);
             go.gameObject.SetActive(true);
-            yield return new WaitForSecondsRealtime(0.15f);
+            yield return new WaitForSecondsRealtime(0.05f);
 
             if (rarity != Rarity.Legendary)
             {

@@ -24,7 +24,7 @@ public enum Status_Type
 
 public enum Daily_Quest_Type
 {
-    Daily_Attendance,
+    Daily_Attendance = 0,
     Level_up,
     Summon,
     Relic,

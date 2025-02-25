@@ -12,64 +12,70 @@ public class Daily_Quest_Parts : MonoBehaviour
     public GameObject CollectedPanel;
     UI_Daily_Quest parent;
 
-    //public void Init(DailyQuest quest, UI_Daily_Quest parentData)
-    //{
-    //    parent = parentData;
-    //    CheckInit(quest.Type);
-    //    m_Quest = quest;
-    //    TItle.text = quest.Quest_Title;
-    //    Description.text = quest.Quest_Description;
-    //    RewardValue.text = quest.RewardCount.ToString();
-    //    RewardImage.sprite = Utils.Get_Atlas(quest.Reward);
-    //    Count.text = string.Format("({0}/{1})", TypeCount(quest.Type), quest.Goal);
-    //    SliderFill.fillAmount = (float)TypeCount(quest.Type) / (float)quest.Goal;
-    //}
+    public void Init(DailyQuest quest, UI_Daily_Quest parentData)
+    {
+        parent = parentData;
+        CheckInit(quest.Type);
+        m_Quest = quest;
+        TItle.text = quest.Quest_Title;
+        Description.text = quest.Quest_Description;
+        RewardValue.text = quest.RewardCount.ToString();
+        RewardImage.sprite = Utils.Get_Atlas(quest.Reward);
+        Count.text = string.Format("({0}/{1})", TypeCount(quest.Type), quest.Goal);       
+    }
 
-    //public void GetReward()
-    //{
-    //    if (TypeCount(m_Quest.Type) < m_Quest.Goal)
-    //    {
-    //        Base_Canvas.instance.Get_Toast().Initalize("퀘스트를 완료하지 못 하였습니다.", Color.white);
-    //        return;
-    //    }
+    public void GetReward()
+    {
+        if (TypeCount(m_Quest.Type) < m_Quest.Goal)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("퀘스트 달성조건이 충족되지 않았습니다.");
+            return;
+        }
 
-    //    Base_Canvas.instance.Get_UI("#Reward");
-    //    Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit(m_Quest.Reward, m_Quest.RewardCount);
-    //    switch (m_Quest.Type)
-    //    {
-    //        case DailyQuest_Type.DailyAttendance: Data_Mng.m_Data.DailyQuests[0] = true; break;
-    //        case DailyQuest_Type.LevelUpButton: Data_Mng.m_Data.DailyQuests[1] = true; break;
-    //        case DailyQuest_Type.Summon: Data_Mng.m_Data.DailyQuests[2] = true; break;
-    //        case DailyQuest_Type.ADS: Data_Mng.m_Data.DailyQuests[3] = true; break;
-    //        case DailyQuest_Type.Dungeon: Data_Mng.m_Data.DailyQuests[4] = true; break;
-    //    }
-    //    parent.Init();
-    //}
+        Base_Canvas.instance.Get_UI("UI_Reward");
 
-    //private void CheckInit(DailyQuest_Type type)
-    //{
-    //    bool GetCollected = false;
-    //    switch (type)
-    //    {
-    //        case DailyQuest_Type.DailyAttendance: GetCollected = Data_Mng.m_Data.DailyQuests[0]; break;
-    //        case DailyQuest_Type.LevelUpButton: GetCollected = Data_Mng.m_Data.DailyQuests[1]; break;
-    //        case DailyQuest_Type.Summon: GetCollected = Data_Mng.m_Data.DailyQuests[2]; break;
-    //        case DailyQuest_Type.ADS: GetCollected = Data_Mng.m_Data.DailyQuests[3]; break;
-    //        case DailyQuest_Type.Dungeon: GetCollected = Data_Mng.m_Data.DailyQuests[4]; break;
-    //    }
-    //    CollectedPanel.SetActive(GetCollected);
-    //}
+        Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit(m_Quest.Reward, m_Quest.RewardCount);
+        switch (m_Quest.Type)
+        {
+            case Daily_Quest_Type.Daily_Attendance: Data_Manager.Main_Players_Data.Daily_Attendance_Clear = true; break;
+            case Daily_Quest_Type.Level_up: Data_Manager.Main_Players_Data.Level_up_Clear = true; break;
+            case Daily_Quest_Type.Summon: Data_Manager.Main_Players_Data.Summon_Clear = true; break;
+            case Daily_Quest_Type.Relic: Data_Manager.Main_Players_Data.Relic_Clear = true; break;
+            case Daily_Quest_Type.Dungeon_Gold: Data_Manager.Main_Players_Data.Dungeon_Gold_Clear = true; break;
+            case Daily_Quest_Type.Dungeon_Dia: Data_Manager.Main_Players_Data.Dungeon_Dia_Clear = true; break;
 
-    //public int TypeCount(DailyQuest_Type type)
-    //{
-    //    switch (type)
-    //    {
-    //        case DailyQuest_Type.DailyAttendance: return Data_Mng.m_Data.DailyAttendance;
-    //        case DailyQuest_Type.LevelUpButton: return Data_Mng.m_Data.LevelUp;
-    //        case DailyQuest_Type.Summon: return Data_Mng.m_Data.Summon;
-    //        case DailyQuest_Type.ADS: return Data_Mng.m_Data.ADS;
-    //        case DailyQuest_Type.Dungeon: return Data_Mng.m_Data.Dungeon;
-    //    }
-    //    return -1;
-    //}
+        }
+        parent.Init();
+    }
+
+    private void CheckInit(Daily_Quest_Type type)
+    {
+        bool GetCollected = false;
+
+        switch (type)
+        {
+            case Daily_Quest_Type.Daily_Attendance: GetCollected = Data_Manager.Main_Players_Data.Daily_Attendance_Clear; break;
+            case Daily_Quest_Type.Level_up: GetCollected = Data_Manager.Main_Players_Data.Level_up_Clear; break;
+            case Daily_Quest_Type.Summon: GetCollected = Data_Manager.Main_Players_Data.Summon_Clear; break;
+            case Daily_Quest_Type.Relic: GetCollected = Data_Manager.Main_Players_Data.Relic_Clear; break;
+            case Daily_Quest_Type.Dungeon_Gold: GetCollected = Data_Manager.Main_Players_Data.Dungeon_Gold_Clear; break;
+            case Daily_Quest_Type.Dungeon_Dia: GetCollected = Data_Manager.Main_Players_Data.Dungeon_Dia_Clear; break;
+        }
+
+        CollectedPanel.SetActive(GetCollected);
+    }
+
+    public int TypeCount(Daily_Quest_Type type)
+    {
+        switch (type)
+        {
+            case Daily_Quest_Type.Daily_Attendance: return Data_Manager.Main_Players_Data.Daily_Attendance;
+            case Daily_Quest_Type.Level_up: return Data_Manager.Main_Players_Data.Levelup;
+            case Daily_Quest_Type.Summon: return Data_Manager.Main_Players_Data.Summon;
+            case Daily_Quest_Type.Relic: return Data_Manager.Main_Players_Data.Relic;
+            case Daily_Quest_Type.Dungeon_Gold: return Data_Manager.Main_Players_Data.Dungeon_Gold;
+            case Daily_Quest_Type.Dungeon_Dia: return Data_Manager.Main_Players_Data.Dungeon_Dia;
+        }
+        return -1;
+    }
 }

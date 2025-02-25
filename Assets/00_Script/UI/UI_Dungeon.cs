@@ -79,7 +79,18 @@ public class UI_Dungeon : UI_Base
         }
 
         Stage_Manager.Dungeon_Level = Level[value];
-        Base_Manager.Stage.State_Change(Stage_State.Dungeon, value);
+
+        // ÀÏÀÏÄù½ºÆ® Á¶°Ç »ó½Â
+        if(value == 0)
+        {
+            Data_Manager.Main_Players_Data.Dungeon_Dia++;
+        }
+        else
+        {
+            Data_Manager.Main_Players_Data.Dungeon_Gold++;
+        }
+
+        Base_Manager.Stage.State_Change(Stage_State.Dungeon, value);        
         Utils.CloseAllPopupUI();
     }
 

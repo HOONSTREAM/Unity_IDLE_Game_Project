@@ -8,6 +8,7 @@ public class UI_Daily_Quest : UI_Base
     public Transform Content;
     List<GameObject> Garbage_Object = new List<GameObject>();
     List<Transform> InitPanels = new List<Transform>();
+
     public override bool Init()
     {
         if (Garbage_Object.Count > 0)
@@ -22,7 +23,7 @@ public class UI_Daily_Quest : UI_Base
             var go = Instantiate(QuestPanel, Content);
             go.gameObject.SetActive(true);
 
-            //go.Init(quest, this);
+            go.Init(quest, this);
             Garbage_Object.Add(go.gameObject);
             InitPanels.Add(go.transform);
         }
@@ -34,6 +35,7 @@ public class UI_Daily_Quest : UI_Base
         //        InitPanels[i].SetAsLastSibling();
         //    }
         //}
+
         return base.Init();
     }
 }
