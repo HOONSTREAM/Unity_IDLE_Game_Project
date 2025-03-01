@@ -39,13 +39,13 @@ public class UI_Smelt : UI_Base
     {
         if (Opening) return;
 
-        //if (!Utils.Item_Count("Steel", 100))
-        //{
-        //    Base_Canvas.instance.Get_Toast_Popup().Initialize("각인에 필요한 재료가 부족합니다.");
-        //    return;
-        //}
+        if (!Utils.Item_Count("Steel", 100))
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("각인에 필요한 재료가 부족합니다.");
+            return;
+        }
 
-        //Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 100;
+        Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 100;
         Smelt_Request_Item_Count_Check();
         Opening = true;
 

@@ -69,7 +69,7 @@ public class UI_Dungeon : UI_Base
         if (Data_Manager.Main_Players_Data.Daily_Enter_Key[value] + Data_Manager.Main_Players_Data.User_Key_Assets[value] <= 0)
         {
             Base_Canvas.instance.Get_TOP_Popup().Initialize("입장할 수 있는 재화가 부족합니다.");
-            //return;
+            return;
         }
 
         if (Stage_Manager.isDead)

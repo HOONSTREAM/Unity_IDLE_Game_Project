@@ -19,6 +19,12 @@ public class UI_Heros : UI_Base
     [SerializeField]
     private TextMeshProUGUI User_Hero_Amount;
 
+    #region 영웅배치패널
+    public Image[] Main_Set_Panel_Hero_Image;
+    public GameObject[] Legendary_Particle;
+    public TextMeshProUGUI[] Main_Set_Hero_Name;
+    #endregion
+
     #region Hero_Infomation
     [Space(20f)]
     [Header("Hero_Information")]
@@ -59,6 +65,10 @@ public class UI_Heros : UI_Base
 
     public override bool Init()
     {
+        // 영웅배치패널 초기화
+
+        Main_Set_Hero_Panel();
+
         Main_UI.Instance.FadeInOut(true, true, null);
 
         var Data = Base_Manager.Data.Data_Character_Dictionary;
@@ -159,6 +169,7 @@ public class UI_Heros : UI_Base
         Debug.Log("Set_Character_Button실행");
         Base_Manager.Character.Get_Character(value, Character.Character_EN_Name);
         Initialize();
+        Main_Set_Hero_Panel();
     }
     public void Initialize()
     {     
@@ -170,6 +181,36 @@ public class UI_Heros : UI_Base
         }
 
         Main_UI.Instance.Set_Character_Data();
+    }
+    /// <summary>
+    /// 영웅창에서, 메인에 영웅을 배치 후 UI 텍스트,이미지,레전더리를 세팅합니다.
+    /// </summary>
+    public void Main_Set_Hero_Panel()
+    {
+        for (int i = 0; i < Main_Set_Panel_Hero_Image.Length; i++)
+        {
+            if (Base_Manager.Character.Set_Character[i] != null)
+            {
+                Main_Set_Panel_Hero_Image[i].sprite = Utils.Get_Atlas(Base_Manager.Character.Set_Character[i].Data.Character_EN_Name);
+                Main_Set_Panel_Hero_Image[i].color = new Color(255, 255, 255, 255);
+                Main_Set_Hero_Name[i].text = Base_Manager.Character.Set_Character[i].Data.M_Character_Name;
+
+                if (Base_Manager.Character.Set_Character[i].Data.Rarity == Rarity.Legendary)
+                {
+                    Legendary_Particle[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    Legendary_Particle[i].gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                Main_Set_Panel_Hero_Image[i].sprite = null;
+                Main_Set_Panel_Hero_Image[i].color = new Color(255, 255, 255, 0);
+                Main_Set_Hero_Name[i].text = " ";
+            }
+        }
     }
     public void Get_Hero_Information(Character_Scriptable Data, UI_Heros_Parts parts)
     {
@@ -292,6 +333,7 @@ public class UI_Heros : UI_Base
         Base_Canvas.instance.Get_Toast_Popup().Initialize("버튼을 눌러 영웅을 배치하세요.");       
         Set_Click(Clicked_Heros_Parts);
         Hero_Information.gameObject.SetActive(false);
+        Main_Set_Hero_Panel();
     }
 
    
