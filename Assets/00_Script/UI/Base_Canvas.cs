@@ -83,7 +83,7 @@ public class Base_Canvas : MonoBehaviour
         Shop_Button.onClick.AddListener(() => Get_UI("Shop", false, true, true, 5));
         Dungeon_Button.onClick.AddListener(() => Get_UI("UI_Dungeon", false, false, true, 3));
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
-        Status_Button.onClick.AddListener(() => Get_UI("@Status", true, false, true, 0));
+        Status_Button.onClick.AddListener(() => Get_UI("@Status", false, false, true, 0));
         AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));

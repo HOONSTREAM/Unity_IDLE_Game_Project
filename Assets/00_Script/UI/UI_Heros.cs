@@ -59,12 +59,7 @@ public class UI_Heros : UI_Base
 
     public override bool Init()
     {
-
-        InitButtons();
-        Render_Manager.instance.HERO.Init_Hero();
-
         Main_UI.Instance.FadeInOut(true, true, null);
-
 
         var Data = Base_Manager.Data.Data_Character_Dictionary;
 
@@ -96,9 +91,7 @@ public class UI_Heros : UI_Base
         return base.Init();
     }
     public override void DisableOBJ()
-    {
-        Render_Manager.instance.HERO.Get_Particle(false); // 영웅배치 플러스버튼 삭제
-
+    {        
         Main_UI.Instance.Layer_Check(-1); // 버튼을 다시 원래 크기로 되돌립니다.
 
         Main_UI.Instance.FadeInOut(false, true, () =>
@@ -156,44 +149,21 @@ public class UI_Heros : UI_Base
         }
 
     }
+   
     /// <summary>
-    /// 영웅을 클릭 후, 플러스 버튼이 생성되면, 영웅을 등록하기 위해, 플러스 버튼 위에 보이지 않는 가상의 버튼을 설정합니다.
+    /// 영웅 UI에 영웅배치를 합니다.
     /// </summary>
-    public void InitButtons()
-    {
-        for(int i = 0; i<Render_Manager.instance.HERO.Circles.Length; i++)
-        {
-            int index = i;
-            var go = new GameObject("Button").AddComponent<Button>();
-            go.onClick.AddListener(()=> Set_Character_Button(index));
-
-            go.transform.SetParent(this.transform); // 해당 오브젝트를 UI_Heros 팝업 하단에 자식오브젝트로 설정
-            go.gameObject.AddComponent<Image>();
-            //go.gameObject.AddComponent<RectTransform>(); 버튼에는 이미 RectTransform이 붙어있음.
-            
-            RectTransform rect = go.GetComponent<RectTransform>();
-
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-
-            rect.sizeDelta = new Vector2(150.0f, 150.0f);
-            go.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0.01f);
-
-            go.transform.position = Render_Manager.instance.ReturnScreenPoint(Render_Manager.instance.HERO.Circles[i]);        
-        }
-        
-    }
+    /// <param name="value"></param>
     public void Set_Character_Button(int value)
     {
+        Debug.Log("Set_Character_Button실행");
         Base_Manager.Character.Get_Character(value, Character.Character_EN_Name);
         Initialize();
     }
     public void Initialize()
-    {
-        Render_Manager.instance.HERO.Get_Particle(false);
-        Set_Click(null);
-        Render_Manager.instance.HERO.Init_Hero();
-
+    {     
+        Set_Click(null);    
+        
         for (int i = 0; i < hero_parts.Count; i++)
         {
             hero_parts[i].Get_Character_Check();
@@ -314,13 +284,12 @@ public class UI_Heros : UI_Base
     }
 
     /// <summary>
-    /// 소환버튼을 눌러, 영웅을 배치합니다.
+    /// 영웅정보창에서, 소환버튼을 눌러, 영웅배치를 준비합니다.
     /// Clicked_Heros_Parts는, 영웅정보창이 열리는 메서드를 통해 UI_Heros_Parts에서 this로 참조받습니다.
     /// </summary>
     public void Set_Heros_In_MainGame()
     {
-        Base_Canvas.instance.Get_Toast_Popup().Initialize("플러스 버튼을 눌러 영웅을 배치하세요.");
-        Render_Manager.instance.HERO.Get_Particle(true);
+        Base_Canvas.instance.Get_Toast_Popup().Initialize("버튼을 눌러 영웅을 배치하세요.");       
         Set_Click(Clicked_Heros_Parts);
         Hero_Information.gameObject.SetActive(false);
     }
