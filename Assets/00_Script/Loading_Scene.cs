@@ -22,6 +22,8 @@ public class Loading_Scene : MonoBehaviour
     private TextMeshProUGUI Auto_Login_Success_Text_First;
     [SerializeField]
     private TextMeshProUGUI Auto_Login_Success_Second;
+    
+    
 
     private void Awake()
     {

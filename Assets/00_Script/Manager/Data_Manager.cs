@@ -42,8 +42,7 @@ public class BackendGameData
         }
 
         Debug.Log("데이터를 초기화합니다.");
-
-        Data_Manager.Main_Players_Data.Nick_Name = "우하하";
+      
         Data_Manager.Main_Players_Data.ATK = default;
         Data_Manager.Main_Players_Data.HP = default;
         Data_Manager.Main_Players_Data.Player_Money = default;
@@ -71,11 +70,26 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.User_Key_Assets[1] = 0;
         Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] = 0;
         Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] = 0;
+        Data_Manager.Main_Players_Data.isBuyADPackage = false;
+        Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree = false;
+        Data_Manager.Main_Players_Data.Daily_Attendance = 1;
+        Data_Manager.Main_Players_Data.Levelup = 0;
+        Data_Manager.Main_Players_Data.Summon = 0;
+        Data_Manager.Main_Players_Data.Relic = 0;
+        Data_Manager.Main_Players_Data.Dungeon_Gold = 0;
+        Data_Manager.Main_Players_Data.Dungeon_Dia = 0;
+        Data_Manager.Main_Players_Data.Daily_Attendance_Clear = false;
+        Data_Manager.Main_Players_Data.Level_up_Clear = false;
+        Data_Manager.Main_Players_Data.Summon_Clear = false;
+        Data_Manager.Main_Players_Data.Relic_Clear = false;
+        Data_Manager.Main_Players_Data.Dungeon_Gold_Clear = false;
+        Data_Manager.Main_Players_Data.Dungeon_Dia_Clear = false;
+
+
 
         Param param = new Param();
 
         param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed);
-        param.Add("NICK_NAME", Data_Manager.Main_Players_Data.Nick_Name);
         param.Add("ATK", Data_Manager.Main_Players_Data.ATK);
         param.Add("HP", Data_Manager.Main_Players_Data.HP);
         param.Add("PLAYER_MONEY", Data_Manager.Main_Players_Data.Player_Money);
@@ -97,7 +111,21 @@ public class BackendGameData
         param.Add("DAILY_ENTER_KEY", Data_Manager.Main_Players_Data.Daily_Enter_Key);
         param.Add("USER_KEY_ASSETS", Data_Manager.Main_Players_Data.User_Key_Assets);
         param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level);
-        
+        param.Add("isBUY_AD_Package", Data_Manager.Main_Players_Data.isBuyADPackage);
+        param.Add("Event_Push_Alarm_Agree", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree);
+        param.Add("Daily_Attendance", Data_Manager.Main_Players_Data.Daily_Attendance);
+        param.Add("Level_up_Daily_Quest_Count", Data_Manager.Main_Players_Data.Levelup);
+        param.Add("Summon_Daily_Quest_Count", Data_Manager.Main_Players_Data.Summon);
+        param.Add("Relic_Daily_Quest_Count", Data_Manager.Main_Players_Data.Relic);
+        param.Add("Dungeon_Gold_Clear_Count", Data_Manager.Main_Players_Data.Dungeon_Gold);
+        param.Add("Dungeon_Dia_Clear_Count", Data_Manager.Main_Players_Data.Dungeon_Dia);
+        param.Add("Daily_Attendance_Clear", Data_Manager.Main_Players_Data.Daily_Attendance_Clear);
+        param.Add("Level_Up_Clear", Data_Manager.Main_Players_Data.Level_up_Clear);
+        param.Add("Summon_Count_Clear", Data_Manager.Main_Players_Data.Summon_Clear);
+        param.Add("Relic_Clear", Data_Manager.Main_Players_Data.Relic_Clear);
+        param.Add("Dungeon_Gold_Clear", Data_Manager.Main_Players_Data.Dungeon_Gold_Clear);
+        param.Add("Dungeon_Dia_Clear", Data_Manager.Main_Players_Data.Dungeon_Dia_Clear);
+
 
         Debug.Log("'USER' 테이블에 새로운 데이터 행을 추가합니다.");
 
@@ -201,8 +229,7 @@ public class Holder
 
 public class Data
 {
-
-    public string Nick_Name = " ";
+   
     public double ATK;
     public double HP;
     public double Player_Money;

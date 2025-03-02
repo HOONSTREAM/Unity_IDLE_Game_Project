@@ -24,8 +24,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         }
         
         Param param = new Param();
-
-        param.Add("NICK_NAME", Data_Manager.Main_Players_Data.Nick_Name);
+       
         param.Add("ATK", Data_Manager.Main_Players_Data.ATK);
         param.Add("HP", Data_Manager.Main_Players_Data.HP);
         param.Add("PLAYER_MONEY", Data_Manager.Main_Players_Data.Player_Money);
@@ -148,8 +147,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             else
             {
                 Data data = new Data();
-
-                data.Nick_Name = gameDataJson[0]["NICK_NAME"].ToString();
+             
                 data.ATK = double.Parse(gameDataJson[0]["ATK"].ToString());
                 data.HP = double.Parse(gameDataJson[0]["HP"].ToString());
                 data.Player_Money = double.Parse(gameDataJson[0]["PLAYER_MONEY"].ToString());

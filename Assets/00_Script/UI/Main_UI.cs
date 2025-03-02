@@ -142,13 +142,12 @@ public class Main_UI : MonoBehaviour
     private void Start()
     {
         Level_Text_Check();
-        Monster_Slider_Count();
-        Set_User_Nick_Name();
+        Monster_Slider_Count();       
         ADS_Buff_Check();
         Base_Manager.is_Fast_Mode = PlayerPrefs.GetInt("FAST") == 1 ? true : false;
-        Time.timeScale = Base_Manager.is_Fast_Mode ? 1.6f : 1.0f;
+        //Time.timeScale = Base_Manager.is_Fast_Mode ? 1.6f : 1.0f;
 
-        Fast_Mode_Lock_Image.gameObject.SetActive(!Base_Manager.is_Fast_Mode);
+        Fast_Mode_Lock_Image.gameObject.SetActive(true);
 
 
         for(int i = 0 ; i<ItemContent.childCount; i++)
@@ -167,6 +166,8 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_DungeonDeadEvent += OnDungeonDead;
 
         Base_Manager.Stage.State_Change(Stage_State.Ready);
+
+        Set_User_Nick_Name();
     }
 
     private void Update()
