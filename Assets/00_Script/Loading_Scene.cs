@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using BackEnd;
 
 public class Loading_Scene : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class Loading_Scene : MonoBehaviour
 
     [SerializeField]
     private GameObject Title_Object;
+    [SerializeField]
+    private TextMeshProUGUI Auto_Login_Success_Text_First;
+    [SerializeField]
+    private TextMeshProUGUI Auto_Login_Success_Second;
 
     private void Awake()
     {
@@ -49,7 +54,34 @@ public class Loading_Scene : MonoBehaviour
             slider.gameObject.SetActive(false);
             Title_Object.gameObject.SetActive(true);
             Base_Manager.SOUND.Play(Sound.BGM, "Loading_Scene");
+
+        var bro = Backend.BMember.LoginWithTheBackendToken();
+
+        #region Auto_Login
+        if (bro.IsSuccess())
+        {
+            //TODO :자동토큰로그인 구현부
+
+            Debug.Log("로그인 성공");
+
+            Auto_Login_Success_Text_First.gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(1.0f);
+            Auto_Login_Success_Text_First.gameObject.SetActive(false);
+            Auto_Login_Success_Second.gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(1.5f);
+            Auto_Login_Success_Second.gameObject.SetActive(false);
+
+            Base_Manager.BACKEND.Custom_Login_Policy_Agree();
+
+        }
+        else
+        {
+            //taptostart는 토큰만료되었을 때, 수동로그인 진행 시 구현, 그리고 출시직전 커스텀은 삭제하고 구글 페더레이션으로 교체
             TapToStart_Object.gameObject.SetActive(true);
+        }
+        #endregion
+
+        
         
     }
 

@@ -32,41 +32,22 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
 
         if (this.isAgree)
         {
-            
-
-            
+            First_Custom_Signup_And_Login_TestMethod();
         }
 
-        // Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree = true;
+         Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree = true;
     }
-
     public void Ok_Button()
     {
-        if(Service_Toggle.isOn && Privacy_Policy_Agree_Toggle.isOn)
+        if (Service_Toggle.isOn && Privacy_Policy_Agree_Toggle.isOn)
         {
             Debug.Log("정책에 동의하였습니다.");
             this.gameObject.SetActive(false);
             isAgree = true;
 
             if (this.isAgree)
-            {                
-                var bro = Backend.BMember.CustomLogin("user1", "1234");
-
-                if (bro.IsSuccess())
-                {
-                    Debug.Log("로그인이 성공했습니다. : " + bro);
-
-                    Base_Manager.BACKEND.ReadData();
-
-                    Base_Manager.BACKEND.WriteData(); //서버에 저장된 데이터를 업데이트합니다.
-
-                    Loading_Scene.instance.Main_Game_Start_Custom_Account_Test();
-
-                }
-                else
-                {
-                    Debug.LogError("로그인이 실패했습니다. : " + bro);
-                }
+            {
+                First_Custom_Signup_And_Login_TestMethod();
             }
 
         }
@@ -77,4 +58,45 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
             return;
         }
     }
+
+    private void First_Custom_Signup_And_Login_TestMethod()
+    {
+
+        var bro = Backend.BMember.CustomSignUp("user1", "1234");
+
+        if (bro.IsSuccess())
+        {
+            Debug.Log("회원가입 성공했습니다. : " + bro);
+
+            BackendGameData.Instance.Initialize_User_Data();
+
+            var login_bro = Backend.BMember.CustomLogin("user1", "1234");
+
+            if (login_bro.IsSuccess())
+            {
+                Debug.Log("로그인이 성공했습니다. : " + login_bro);
+
+                Base_Manager.BACKEND.ReadData();
+
+                Base_Manager.BACKEND.WriteData(); //서버에 저장된 데이터를 업데이트합니다.
+
+                Loading_Scene.instance.Main_Game_Start_Custom_Account_Test();
+
+                PlayerPrefs.SetFloat("BGM", 1.0f);
+                PlayerPrefs.SetFloat("BGS", 1.0f);
+
+            }
+
+            else
+            {
+                Debug.LogError("로그인이 실패했습니다. : " + bro);
+            }
+        }
+        else
+        {
+            Debug.LogError("회원가입이 실패했습니다. : " + bro);
+        }
+    }
+
+    
 }
