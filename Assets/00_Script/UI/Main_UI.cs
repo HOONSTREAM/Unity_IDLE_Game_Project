@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine;
+using BackEnd;
 
 public class Main_UI : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class Main_UI : MonoBehaviour
     private Color StageColor = new Color(0.1824517f, 1.0f, 0.0f, 1.0f);
     [SerializeField]
     private TextMeshProUGUI _boss_stage_text;
+    [SerializeField]
+    private TextMeshProUGUI _char_nick_name;
 
 
     [Space(20f)]
@@ -140,7 +143,7 @@ public class Main_UI : MonoBehaviour
     {
         Level_Text_Check();
         Monster_Slider_Count();
-        
+        Set_User_Nick_Name();
         ADS_Buff_Check();
         Base_Manager.is_Fast_Mode = PlayerPrefs.GetInt("FAST") == 1 ? true : false;
         Time.timeScale = Base_Manager.is_Fast_Mode ? 1.6f : 1.0f;
@@ -173,6 +176,13 @@ public class Main_UI : MonoBehaviour
             X2_Speed_Fill.fillAmount = Data_Manager.Main_Players_Data.buff_x2_speed / 1800.0f;
             X2_Time_Text.text = Utils.GetTimer(Data_Manager.Main_Players_Data.buff_x2_speed);
         }
+    }
+
+    private void Set_User_Nick_Name()
+    {
+        BackendReturnObject bro = Backend.BMember.GetUserInfo();
+        string temp = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();
+        _char_nick_name.text = temp;
     }
 
     public void Layer_Check(int value)

@@ -43,7 +43,7 @@ public class BackendGameData
 
         Debug.Log("데이터를 초기화합니다.");
 
-        Data_Manager.Main_Players_Data.Nick_Name = default;
+        Data_Manager.Main_Players_Data.Nick_Name = "우하하";
         Data_Manager.Main_Players_Data.ATK = default;
         Data_Manager.Main_Players_Data.HP = default;
         Data_Manager.Main_Players_Data.Player_Money = default;
@@ -202,7 +202,7 @@ public class Holder
 public class Data
 {
 
-    public string Nick_Name = default;
+    public string Nick_Name = " ";
     public double ATK;
     public double HP;
     public double Player_Money;

@@ -32,7 +32,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
 
         if (this.isAgree)
         {
-            //CustomSignUp("user2", "1234");
+            
 
             
         }
@@ -49,9 +49,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
             isAgree = true;
 
             if (this.isAgree)
-            {
-                //CustomSignUp("user2", "1234");
-
+            {                
                 var bro = Backend.BMember.CustomLogin("user1", "1234");
 
                 if (bro.IsSuccess())
