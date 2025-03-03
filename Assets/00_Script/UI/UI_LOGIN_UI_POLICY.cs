@@ -67,6 +67,16 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
         }
     }
 
+    public void Get_Policy_URL(string url)
+    {
+        Application.OpenURL(url);
+    }
+
+    public void Game_Quit()
+    {
+        Application.Quit();
+    }
+
     public void Set_User_NickName()
     {
         NickName_Text = NickName_InputField.text;

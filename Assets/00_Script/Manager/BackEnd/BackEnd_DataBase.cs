@@ -25,31 +25,53 @@ public partial class BackEnd_Manager : MonoBehaviour
         
         Param param = new Param();
        
-        param.Add("ATK", Data_Manager.Main_Players_Data.ATK);
-        param.Add("HP", Data_Manager.Main_Players_Data.HP);
-        param.Add("PLAYER_MONEY", Data_Manager.Main_Players_Data.Player_Money);
-        param.Add("DIAMOND", Data_Manager.Main_Players_Data.DiaMond);
-        param.Add("PLAYER_LEVEL", Data_Manager.Main_Players_Data.Player_Level);
-        param.Add("PLAYER_EXP", Data_Manager.Main_Players_Data.EXP);
-        param.Add("PLAYER_STAGE", Data_Manager.Main_Players_Data.Player_Stage);
-        param.Add("EXP_UPGRADE_COUNT", Data_Manager.Main_Players_Data.EXP_Upgrade_Count);
-        param.Add("BUFF_TIMER", Data_Manager.Main_Players_Data.Buff_Timers);
-        param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed);
+        param.Add("ATK", Data_Manager.Main_Players_Data.ATK); // 플레이어 공격력
+        param.Add("HP", Data_Manager.Main_Players_Data.HP); // 플레이어 체력
+        param.Add("PLAYER_MONEY", Data_Manager.Main_Players_Data.Player_Money); // 플레이어 골드 소지량
+        param.Add("DIAMOND", Data_Manager.Main_Players_Data.DiaMond); //플레이어 다이아몬드 소지량
+        param.Add("PLAYER_LEVEL", Data_Manager.Main_Players_Data.Player_Level); // 플레이어 레벨
+        param.Add("PLAYER_EXP", Data_Manager.Main_Players_Data.EXP); // 플레이어 경험치
+        param.Add("PLAYER_STAGE", Data_Manager.Main_Players_Data.Player_Stage); // 플레이어 스테이지
+        param.Add("EXP_UPGRADE_COUNT", Data_Manager.Main_Players_Data.EXP_Upgrade_Count); // 레벨업 버튼 카운트
+        param.Add("BUFF_TIMER", Data_Manager.Main_Players_Data.Buff_Timers); // 광고버프
+        param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed); // 2배속
         param.Add("BUFF_LEVEL", Data_Manager.Main_Players_Data.Buff_Level);
         param.Add("BUFF_LEVEL_COUNT", Data_Manager.Main_Players_Data.Buff_Level_Count);
-        param.Add("QUEST_COUNT", Data_Manager.Main_Players_Data.Quest_Count);
-        param.Add("HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.Hero_Summon_Count);
-        param.Add("HERO_PICKUP_COUNT", Data_Manager.Main_Players_Data.Hero_Pickup_Count);
-        param.Add("RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.Relic_Summon_Count);
-        param.Add("RELIC_PICKUP_COUNT", Data_Manager.Main_Players_Data.Relic_Pickup_Count);
-        param.Add("START_DATE", Data_Manager.Main_Players_Data.StartDate);
-        param.Add("END_DATE", Utils.Get_Server_Time());
-        Debug.Log($"저장된 서버 END_DATE :{Utils.Get_Server_Time()}");
-        param.Add("DAILY_ENTER_KEY", Data_Manager.Main_Players_Data.Daily_Enter_Key);
-        param.Add("USER_KEY_ASSETS", Data_Manager.Main_Players_Data.User_Key_Assets);
-        param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level);
+        param.Add("QUEST_COUNT", Data_Manager.Main_Players_Data.Quest_Count); // 퀘스트 단계
+        param.Add("HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.Hero_Summon_Count); // 영웅소환 카운트
+        param.Add("HERO_PICKUP_COUNT", Data_Manager.Main_Players_Data.Hero_Pickup_Count); // 영웅 확정소환 카운트
+        param.Add("RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.Relic_Summon_Count); // 유물소환 횟수 카운트
+        param.Add("RELIC_PICKUP_COUNT", Data_Manager.Main_Players_Data.Relic_Pickup_Count); // 확정소환 카운트
+        param.Add("START_DATE", Data_Manager.Main_Players_Data.StartDate); // 게임 시작시간
+        param.Add("END_DATE", Utils.Get_Server_Time()); // 서버시간        
+        param.Add("DAILY_ENTER_KEY", Data_Manager.Main_Players_Data.Daily_Enter_Key); // 데일리 지급 던전 입장키
+        param.Add("USER_KEY_ASSETS", Data_Manager.Main_Players_Data.User_Key_Assets); // 유저가 구매나, 추가로 지급받은 던전 입장키
+        param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level); // 최종 던전 클리어 레벨 (배열)
 
-        
+
+        param.Add("AD_PACKAGE", Data_Manager.Main_Players_Data.isBuyADPackage); // 광고제거 패키지 구매여부
+        param.Add("EVENT_PUSH_ALARM", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree); // 푸시알람 동의여부
+
+        #region 일일퀘스트 관련 데이터
+        param.Add("Daily_Attendance", Data_Manager.Main_Players_Data.Daily_Attendance); // 일일퀘스트 출석
+        param.Add("Daily_Levelup", Data_Manager.Main_Players_Data.Levelup); //일일퀘스트 레벨업 진행도 (24시 이후 초기화)
+        param.Add("Daily_Summon", Data_Manager.Main_Players_Data.Summon); //일일퀘스트 영웅소환 진행도 (24시 이후 초기화)
+        param.Add("Daily_Relic", Data_Manager.Main_Players_Data.Relic); //일일퀘스트 유물소환 진행도 (24시 이후 초기화)
+        param.Add("Daily_Dungeon_Gold", Data_Manager.Main_Players_Data.Dungeon_Gold); //골드 던전 클리어 횟수 (24시 이후 초기화)
+        param.Add("Daily_Dungeon_Dia", Data_Manager.Main_Players_Data.Dungeon_Dia); //다이아 던전 클리어 횟수 (24시 이후 초기화)
+
+        param.Add("Daily_Attendance_Clear", Data_Manager.Main_Players_Data.Daily_Attendance_Clear); // 출석체크 클리어 여부
+        param.Add("Daily_Levelup_Clear", Data_Manager.Main_Players_Data.Level_up_Clear); // 레벨업 클리어 여부
+        param.Add("Daily_Summon_Clear", Data_Manager.Main_Players_Data.Summon_Clear); // 영웅소환 클리어 여부
+        param.Add("Daily_Relic_Clear", Data_Manager.Main_Players_Data.Relic_Clear); // 유물소환 클리어 여부
+        param.Add("Daily_Dungeon_Gold_Clear", Data_Manager.Main_Players_Data.Dungeon_Gold_Clear); // 골드던전 클리어 여부
+        param.Add("Daily_Dungeon_Dia_Clear", Data_Manager.Main_Players_Data.Dungeon_Dia_Clear); // 다이아던전 클리어 여부
+        #endregion
+
+
+
+
+
         Debug.Log("유저 기본 데이터를 수정합니다");
 
         var bro = Backend.GameData.Update("USER", new Where(), param);
@@ -173,8 +195,6 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.Relic_Summon_Count = int.Parse(gameDataJson[0]["RELIC_SUMMON_COUNT"].ToString());
                 data.Relic_Pickup_Count = int.Parse(gameDataJson[0]["RELIC_PICKUP_COUNT"].ToString());
 
-                // 서버 시간 받아오기
-                
 
                 data.EndDate = DateTime.Parse(gameDataJson[0]["END_DATE"].ToString());
                 data.StartDate = Utils.Get_Server_Time();
@@ -191,8 +211,22 @@ public partial class BackEnd_Manager : MonoBehaviour
                 DateTime startDate = data.StartDate;
                 DateTime endDate = data.EndDate;
 
-                Debug.Log($"받아온 startDate,endDate : {startDate} , {endDate} ");
 
+                data.isBuyADPackage = bool.Parse(gameDataJson[0]["AD_PACKAGE"].ToString());
+                data.Event_Push_Alarm_Agree = bool.Parse(gameDataJson[0]["EVENT_PUSH_ALARM"].ToString());
+                data.Daily_Attendance = int.Parse(gameDataJson[0]["Daily_Attendance"].ToString());
+                data.Levelup = int.Parse(gameDataJson[0]["Daily_Levelup"].ToString());
+                data.Summon = int.Parse(gameDataJson[0]["Daily_Summon"].ToString());
+                data.Relic = int.Parse(gameDataJson[0]["Daily_Relic"].ToString());
+                data.Dungeon_Gold = int.Parse(gameDataJson[0]["Daily_Dungeon_Gold"].ToString());
+                data.Dungeon_Dia = int.Parse(gameDataJson[0]["Daily_Dungeon_Dia"].ToString());
+
+                data.Daily_Attendance_Clear = bool.Parse(gameDataJson[0]["Daily_Attendance_Clear"].ToString());
+                data.Level_up_Clear = bool.Parse(gameDataJson[0]["Daily_Levelup_Clear"].ToString());
+                data.Summon_Clear = bool.Parse(gameDataJson[0]["Daily_Summon_Clear"].ToString());
+                data.Relic_Clear = bool.Parse(gameDataJson[0]["Daily_Relic_Clear"].ToString());
+                data.Dungeon_Gold_Clear = bool.Parse(gameDataJson[0]["Daily_Dungeon_Gold_Clear"].ToString());
+                data.Dungeon_Dia_Clear = bool.Parse(gameDataJson[0]["Daily_Dungeon_Dia_Clear"].ToString());
 
                 if (Get_Date_Dungeon_Item(startDate, endDate))
                 {
