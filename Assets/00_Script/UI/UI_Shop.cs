@@ -50,6 +50,9 @@ public class UI_Shop : UI_Base
 
     private int Information_Panel_Summon_Level;
 
+    private const int Gacha_11_Price = 500;
+    private const int Gacha_1_Price = 50;
+
     public override bool Init()
     {
         Dia_Amount.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
@@ -162,32 +165,109 @@ public class UI_Shop : UI_Base
         Infomation_Panel.gameObject.SetActive(false);
     }
 
-    public void GachaButton(int value)
-    {
-        Base_Canvas.instance.Get_UI("GaCha");
-        var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
-        UI.Get_Gacha_Hero(value);
+    public void GachaButton(int value, bool ADS = false)
+    {   
+        if(ADS == true)
+        {
+            Base_Canvas.instance.Get_UI("GaCha");
+            var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
+            UI.Get_Gacha_Hero(value);
 
-        Init();
+            Init();
+        }
+
+        else
+        {
+            switch (value)
+            {
+                case 11:
+                    if(Data_Manager.Main_Players_Data.DiaMond < Gacha_11_Price)
+                    {
+                        Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
+                        return;
+                    }
+                    else
+                    {
+                        Data_Manager.Main_Players_Data.DiaMond -= Gacha_11_Price;
+                    }
+                        break;
+                case 1:
+                    if (Data_Manager.Main_Players_Data.DiaMond < Gacha_1_Price)
+                    {
+                        Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
+                        return;
+                    }
+                    else
+                    {
+                        Data_Manager.Main_Players_Data.DiaMond -= Gacha_1_Price;
+                    }
+                    break;
+            }
+
+            
+            Base_Canvas.instance.Get_UI("GaCha");
+            var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
+            UI.Get_Gacha_Hero(value);
+
+        }
+       
     }
     public void GachaButton_ADS()
     {
-        Base_Manager.ADS.ShowRewardedAds(() => GachaButton(1));
+        Base_Manager.ADS.ShowRewardedAds(() => GachaButton(1,true));
 
         Init();
     }
 
-    public void GachaButton_Relic(int value)
+    public void GachaButton_Relic(int value, bool ADS = false)
     {
-        Base_Canvas.instance.Get_UI("GaCha_Relic");
-        var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Relic_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
-        UI.Get_Gacha_Relic(value);
+        if (ADS == true)
+        {
+            Base_Canvas.instance.Get_UI("GaCha_Relic");
+            var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Relic_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
+            UI.Get_Gacha_Relic(value);
 
-        Init();
+            Init();
+        }
+
+        else
+        {
+            switch (value)
+            {
+                case 11:
+                    if (Data_Manager.Main_Players_Data.DiaMond < Gacha_11_Price)
+                    {
+                        Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
+                        return;
+                    }
+                    else
+                    {
+                        Data_Manager.Main_Players_Data.DiaMond -= Gacha_11_Price;
+                    }
+                    break;
+                case 1:
+                    if (Data_Manager.Main_Players_Data.DiaMond < Gacha_1_Price)
+                    {
+                        Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
+                        return;
+                    }
+                    else
+                    {
+                        Data_Manager.Main_Players_Data.DiaMond -= Gacha_1_Price;
+                    }
+                    break;
+            }
+
+
+            Base_Canvas.instance.Get_UI("GaCha_Relic");
+            var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Relic_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
+            UI.Get_Gacha_Relic(value);
+
+        }
     }
     public void GachaButton_Relic_ADS()
     {
-        Base_Manager.ADS.ShowRewardedAds(() => GachaButton_Relic(1));
+        Base_Manager.ADS.ShowRewardedAds(() => GachaButton_Relic(1,true));
 
         Init();
     }
