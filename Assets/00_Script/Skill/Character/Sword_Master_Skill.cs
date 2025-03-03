@@ -17,6 +17,7 @@ public class Sword_Master_Skill : Skill_Base
     IEnumerator Set_Skill_Coroutine()
     {
         Skill_Effect.gameObject.SetActive(true);
+        Base_Manager.SOUND.Play(Sound.BGS, "Sword_Master");
         Skill_Effect.GetComponent<ParticleSystem>().Play();
 
         for (int i = 0; i < 3; i++)

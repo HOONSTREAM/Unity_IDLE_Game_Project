@@ -168,13 +168,11 @@ public class Base_Canvas : MonoBehaviour
     }
     public Item_ToolTip Get_Item_Tooltip()
     {
-        if(item_tooltip != null)
+        if (item_tooltip == null) // 기존 툴팁이 없을 때만 새로 생성
         {
-            Destroy(item_tooltip.gameObject);
+            item_tooltip = Instantiate(Resources.Load<Item_ToolTip>("UI/Item_ToolTip"), transform);
         }
 
-        item_tooltip = Instantiate(Resources.Load<Item_ToolTip>("UI/Item_ToolTip"), transform);
-       
         return item_tooltip;
     }
 

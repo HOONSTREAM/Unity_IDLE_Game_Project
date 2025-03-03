@@ -55,7 +55,7 @@ public class Loading_Scene : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
             slider.gameObject.SetActive(false);
             Title_Object.gameObject.SetActive(true);
-            Base_Manager.SOUND.Play(Sound.BGM, "Loading_Scene");
+            Base_Manager.SOUND.Play(Sound.BGM, "Title");
 
         var bro = Backend.BMember.LoginWithTheBackendToken();
 

@@ -41,7 +41,8 @@ public class Elemental_W_Skill : Skill_Base
             }
 
             var Meteor = Skill_Effect.transform.GetChild(0).GetComponent<Meteor>();
-            Meteor.gameObject.SetActive(true);
+            Base_Manager.SOUND.Play(Sound.BGS, "Meteor");
+            Meteor.gameObject.SetActive(true);          
             Camera_Manager.instance.Camera_Shake();
             Vector3 Attack_pos = localMonsters[Random.Range(0, localMonsters.Length)].transform.position +
                 new Vector3(Random.insideUnitSphere.x * 3.0f, 0.0f, Random.insideUnitSphere.z * 3.0f);

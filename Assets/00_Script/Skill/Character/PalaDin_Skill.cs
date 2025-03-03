@@ -17,6 +17,7 @@ public class PalaDin_Skill : Skill_Base
     IEnumerator Set_Skill_Coroutine()
     {        
         Skill_Effect.gameObject.SetActive(true);
+        Base_Manager.SOUND.Play(Sound.BGS, "PalaDin");
         gameObject.GetComponent<Player>().HP *= 2.0d;
         yield return new WaitForSeconds(PalaDin_SKILL_DURATION_TIME);       
         Skill_Effect.gameObject.SetActive(false);

@@ -133,21 +133,23 @@ public class UI_Relic_Gacha : UI_Base
             {
                 go.transform.GetChild(0).gameObject.SetActive(false);
             }
-
-
-
-
-            Base_Manager.BACKEND.WriteData();
-                
+       
         }
 
         StartCoroutine(Block_Button_Coroutine());
     }
 
+    /// <summary>
+    /// 영웅이 전부 소환되기 전에 재소환을 시키면, 영웅이 덜 획득되는 버그가 발생하므로
+    /// 버튼락을 시킨 후에, 1초 뒤에 해제시켜주고, 획득한 영웅을 저장합니다.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Block_Button_Coroutine()
     {
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.5f);
+        Base_Manager.BACKEND.WriteData();
         Blocking_Close_Button.gameObject.SetActive(false);
         Blocking_ReGaCha_Button.gameObject.SetActive(false);
+        GameObject.Find("Shop").gameObject.GetComponent<UI_Shop>().Init();
     }
 }

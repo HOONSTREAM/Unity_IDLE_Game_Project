@@ -18,7 +18,7 @@ public class Elemental_B_Skill : Skill_Base
     {
       
         Skill_Effect.gameObject.SetActive(true);
-
+        Base_Manager.SOUND.Play(Sound.BGS, "Ele_Black");
         var localMonsters = (monsters != null) ? (Monster[])monsters.Clone() : null;
 
         if (localMonsters == null || localMonsters.Length == 0)

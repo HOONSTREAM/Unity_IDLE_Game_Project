@@ -136,21 +136,22 @@ public class UI_Gacha : UI_Base
                 go.transform.GetChild(0).gameObject.SetActive(false);
             }
 
-
-
-
-            Base_Manager.BACKEND.WriteData();
-
         }
 
         StartCoroutine(Block_Button_Coroutine());
     }
 
+    /// <summary>
+    /// 소환 코루틴 때마다 WriteData 호출은, 게임 렉을 초래하므로 버튼 블록 시 1회 저장
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Block_Button_Coroutine()
     {
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.5f);
+        Base_Manager.BACKEND.WriteData();
         Blocking_Close_Button.gameObject.SetActive(false);
         Blocking_ReGaCha_Button.gameObject.SetActive(false);
+        GameObject.Find("Shop").gameObject.GetComponent<UI_Shop>().Init();
     }
 
 }
