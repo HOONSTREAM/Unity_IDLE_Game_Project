@@ -48,7 +48,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level); // 최종 던전 클리어 레벨 (배열)
 
 
-        param.Add("AD_PACKAGE", Data_Manager.Main_Players_Data.isBuyADPackage); // 광고제거 패키지 구매여부
+        param.Add("isBUY_AD_Package", Data_Manager.Main_Players_Data.isBuyADPackage); // 광고제거 패키지 구매여부
         param.Add("ADS_HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count); // 광고시청 영웅소환 카운트
         param.Add("ADS_RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count); // 광고시청 유물소환 카운트
         param.Add("EVENT_PUSH_ALARM", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree); // 푸시알람 동의여부
@@ -215,7 +215,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                 DateTime endDate = data.EndDate;
 
 
-                data.isBuyADPackage = bool.Parse(gameDataJson[0]["AD_PACKAGE"].ToString());
+                data.isBuyADPackage = bool.Parse(gameDataJson[0]["isBUY_AD_Package"].ToString());
                 data.Event_Push_Alarm_Agree = bool.Parse(gameDataJson[0]["EVENT_PUSH_ALARM"].ToString());
                 data.Daily_Attendance = int.Parse(gameDataJson[0]["Daily_Attendance"].ToString());
                 data.Levelup = int.Parse(gameDataJson[0]["Daily_Levelup"].ToString());

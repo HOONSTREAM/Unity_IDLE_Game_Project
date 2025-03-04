@@ -69,6 +69,7 @@ public class Base_Canvas : MonoBehaviour
         if (Utils.Offline_Timer_Check() >= START_OFFLINE_TIME)
         {
             Get_UI("OFFLINE_REWARD");
+            Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
         }
 
 

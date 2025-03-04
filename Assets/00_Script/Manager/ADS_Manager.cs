@@ -86,10 +86,22 @@ public class ADS_Manager
     }
 
     public void ShowRewardedAds(Action rewardCallback)
-    {
+    {     
         _rewardedCallback = rewardCallback;
+
+        if(Data_Manager.Main_Players_Data.isBuyADPackage == true)
+        {
+            Debug.Log("광고제거");
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("광고 제거 대상입니다.");
+            _rewardedCallback?.Invoke();
+            _rewardedCallback = null;
+            return;
+        }
+
+
         if(_rewardad != null && _rewardad.CanShowAd())
         {
+            Debug.Log("광고제거미대상");
             _rewardad.Show((Reward reward) =>
             {
                 Debug.Log(String.Format(reward.Type + " : ", reward.Amount));
