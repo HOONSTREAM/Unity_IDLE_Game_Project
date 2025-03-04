@@ -34,10 +34,8 @@ public class Base_Manager : MonoBehaviour
     public static Sound_Manager SOUND { get { return _sound; } }
     public static Localization_Manager LOCAL { get { return _local; } }
     public static Daily_Quest_Manager DAILY { get { return _daily; } }
-    
 
-    
-    public static bool is_Fast_Mode = false;
+ 
     public static bool Get_MainGame_Start = false;
 
     private float Save_Timer = 0.0f;
@@ -83,10 +81,9 @@ public class Base_Manager : MonoBehaviour
         if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
             Data_Manager.Main_Players_Data.buff_x2_speed -= Time.unscaledDeltaTime;
+
         }
-
        
-
     }
     private void Init()
     {
@@ -99,7 +96,7 @@ public class Base_Manager : MonoBehaviour
             Data.Init();
             SOUND.Init();
             //LOCAL.Init();
-            DAILY.Init();
+            DAILY.Init();           
             DontDestroyOnLoad(this.gameObject);
         }
 

@@ -157,6 +157,77 @@ public class Utils
         return Time_Count;
     }
 
+    /// <summary>
+    /// 접속 종료 후의 재접속 시간을 계산하여, 광고락시간을 차감시킵니다.
+    /// </summary>
+    public static void Calculate_ADS_Timer()
+    {
+        TimeSpan span = TimeSpan.FromSeconds(Utils.Offline_Timer_Check());
+        double elapsedSeconds = span.TotalSeconds; // 총 경과된 초 단위
+        Debug.Log($"{elapsedSeconds}초가 지나서 그만큼 뺍니다.");
+
+        for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
+        {
+            if (Data_Manager.Main_Players_Data.ADS_Timer[i] > 0.0f)
+            {
+                // 남은 시간에서 경과된 시간 차감
+                float temp = Data_Manager.Main_Players_Data.ADS_Timer[i] -= (float)elapsedSeconds;
+                Debug.Log($"{temp}가 계산되었습니다. {Data_Manager.Main_Players_Data.ADS_Timer[i]}에서,{elapsedSeconds}를 뺐습니다.");
+
+                if (Data_Manager.Main_Players_Data.ADS_Timer[i] < 0)
+                {
+                    Debug.Log("타이머가 0이합니다. 0으로 수정합니다.");
+                    Data_Manager.Main_Players_Data.ADS_Timer[i] = 0; // 음수가 되지 않도록 보정
+                }
+            }
+
+        }
+    }
+
+    public static void Calculate_ADS_Buff_Timer()
+    {
+        TimeSpan span = TimeSpan.FromSeconds(Utils.Offline_Timer_Check());
+        double elapsedSeconds = span.TotalSeconds; // 총 경과된 초 단위
+        Debug.Log($"{elapsedSeconds}초가 지나서 그만큼 뺍니다.");
+
+        for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
+        {
+            if (Data_Manager.Main_Players_Data.Buff_Timers[i] > 0.0f)
+            {
+                // 남은 시간에서 경과된 시간 차감
+                float temp = Data_Manager.Main_Players_Data.Buff_Timers[i] -= (float)elapsedSeconds;
+               
+
+                if (Data_Manager.Main_Players_Data.Buff_Timers[i] < 0)
+                {
+                    Debug.Log("타이머가 0이합니다. 0으로 수정합니다.");
+                    Data_Manager.Main_Players_Data.Buff_Timers[i] = 0; // 음수가 되지 않도록 보정
+                }
+            }
+
+        }
+    }
+
+    public static void Calculate_ADS_X2_SPEED_Timer()
+    {
+        TimeSpan span = TimeSpan.FromSeconds(Utils.Offline_Timer_Check());
+        double elapsedSeconds = span.TotalSeconds; // 총 경과된 초 단위
+        Debug.Log($"{elapsedSeconds}초가 지나서 그만큼 뺍니다.");
+
+        if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
+        {
+            // 남은 시간에서 경과된 시간 차감
+            float temp = Data_Manager.Main_Players_Data.buff_x2_speed -= (float)elapsedSeconds;
+
+
+            if (Data_Manager.Main_Players_Data.buff_x2_speed < 0)
+            {
+                Debug.Log("타이머가 0이합니다. 0으로 수정합니다.");
+                Data_Manager.Main_Players_Data.buff_x2_speed = 0; // 음수가 되지 않도록 보정
+            }
+        }
+    }
+
     public static string NextDayTimer()
     {       
         DateTime nowDate = Get_Server_Time();

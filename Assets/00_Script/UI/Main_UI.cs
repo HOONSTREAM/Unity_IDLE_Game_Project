@@ -144,13 +144,8 @@ public class Main_UI : MonoBehaviour
         Level_Text_Check();
         Monster_Slider_Count();       
         ADS_Buff_Check();
-        Base_Manager.is_Fast_Mode = PlayerPrefs.GetInt("FAST") == 1 ? true : false;
-        //Time.timeScale = Base_Manager.is_Fast_Mode ? 1.6f : 1.0f;
-
-        Fast_Mode_Lock_Image.gameObject.SetActive(true);
-
-
-        for(int i = 0 ; i<ItemContent.childCount; i++)
+      
+        for (int i = 0 ; i<ItemContent.childCount; i++)
         {
             Bottom_Popup_Text.Add(ItemContent.GetChild(i).GetComponent<TextMeshProUGUI>());
             Bottom_Popup_Coroutine.Add(null);
@@ -172,13 +167,29 @@ public class Main_UI : MonoBehaviour
 
     private void Update()
     {
-        if(Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
+        Check_ADS_Fast_Mode();
+    }
+  
+    private void Check_ADS_Fast_Mode()
+    {
+        if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
+            X2_Speed_Fill.gameObject.SetActive(true);
             X2_Speed_Fill.fillAmount = Data_Manager.Main_Players_Data.buff_x2_speed / 1800.0f;
             X2_Time_Text.text = Utils.GetTimer(Data_Manager.Main_Players_Data.buff_x2_speed);
+            Fast_Mode_Lock_Image.gameObject.SetActive(!Data_Manager.Main_Players_Data.isFastMode);
+            Time.timeScale = Data_Manager.Main_Players_Data.isFastMode ? 1.6f : 1.0f;
+        }
+
+        else
+        {
+            Data_Manager.Main_Players_Data.isFastMode = false;
+            X2_Speed_Fill.gameObject.SetActive(false);
+            X2_Time_Text.text = default;
+            Fast_Mode_Lock_Image.gameObject.SetActive(!Data_Manager.Main_Players_Data.isFastMode);
+            Time.timeScale = Data_Manager.Main_Players_Data.isFastMode ? 1.6f : 1.0f;
         }
     }
-
     private void Set_User_Nick_Name()
     {
         BackendReturnObject bro = Backend.BMember.GetUserInfo();
@@ -237,45 +248,37 @@ public class Main_UI : MonoBehaviour
                 Buff_Lock[i].gameObject.SetActive(true);
             }
         }
-
-        if(Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
-        {
-            X2_Speed_Fill.transform.parent.gameObject.SetActive(true);
-        }
-        else
-        {
-            X2_Speed_Fill.transform.parent.gameObject.SetActive(false);
-        }
+     
     }
-    public void Get_Fast_Mode()
-    {        
-        bool fast = !(Base_Manager.is_Fast_Mode);
 
-        if(fast == true)
+    /// <summary>
+    /// 광고를 시청하고, 게임 두배속 효과를 획득합니다.
+    /// </summary>
+    public void Get_Fast_Mode()
+    {
+        bool fast = Data_Manager.Main_Players_Data.isFastMode;
+
+        if(fast == false)
         {
             if (Data_Manager.Main_Players_Data.buff_x2_speed <= 0.0f)
             {
                 Base_Manager.ADS.ShowRewardedAds(() =>
                 {
                     Data_Manager.Main_Players_Data.buff_x2_speed = 1800.0f;
-                    ADS_Buff_Check();
-                    Fast_Mode_Lock_Image.gameObject.SetActive(!fast);
-                    Time.timeScale = fast ? 1.6f : 1.0f;
+                    Data_Manager.Main_Players_Data.isFastMode = true;                                                                      
                 });
             }
+
+            Time.timeScale = Data_Manager.Main_Players_Data.isFastMode ? 1.6f : 1.0f;
         }
 
+        else
+        {
 
-        Base_Manager.is_Fast_Mode = fast;
-        PlayerPrefs.SetInt("FAST", fast == true ? 1 : 0);
-
-        ADS_Buff_Check();
-        Fast_Mode_Lock_Image.gameObject.SetActive(!fast);
-        Time.timeScale = fast ? 1.6f : 1.0f;
-       
-  
+        }
+         
     }
-
+ 
     /// <summary>
     /// 아이템을 획득하였을때, 팝업을 노출하는 메서드입니다.
     /// </summary>

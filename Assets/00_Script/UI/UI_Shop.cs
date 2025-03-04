@@ -77,8 +77,7 @@ public class UI_Shop : UI_Base
     {
         Dia_Amount.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
 
-        Set_Summon_Button();
-
+        Set_Summon_Button();      
         Get_Init();
         Relic_Init();
         return base.Init();

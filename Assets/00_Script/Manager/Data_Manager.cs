@@ -127,6 +127,7 @@ public class BackendGameData
         param.Add("Dungeon_Dia_Clear", Data_Manager.Main_Players_Data.Dungeon_Dia_Clear);
         param.Add("ADS_HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count);
         param.Add("ADS_RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count);
+        param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode);
 
 
         Debug.Log("'USER' 테이블에 새로운 데이터 행을 추가합니다.");
@@ -298,6 +299,7 @@ public class Data
     public bool Relic_Clear = false;
     public bool Dungeon_Gold_Clear = false;
     public bool Dungeon_Dia_Clear = false;
+    public bool isFastMode = false;
 
 }
 
@@ -318,10 +320,8 @@ public class Data_Manager
 
     public void Init()
     {
-
         Set_Character();
-        Set_Item();
-        Calculate_ADS_Timer();
+        Set_Item();       
     }
 
     public Character_Scriptable Get_Rarity_Character(Rarity rarity)
@@ -440,29 +440,6 @@ public class Data_Manager
         }
 
         return value;
-    }
-
-    /// <summary>
-    /// 접속 종료 후의 재접속 시간을 계산하여, 광고락시간을 차감시킵니다.
-    /// </summary>
-    public void Calculate_ADS_Timer()
-    {
-        TimeSpan elapsedTime = Data_Manager.Main_Players_Data.EndDate - Data_Manager.Main_Players_Data.StartDate;
-        double elapsedSeconds = elapsedTime.TotalSeconds; // 총 경과된 초 단위
-
-        for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
-        {
-            if (Data_Manager.Main_Players_Data.ADS_Timer[i] > 0.0f)
-            {
-                // 남은 시간에서 경과된 시간 차감
-                Data_Manager.Main_Players_Data.ADS_Timer[i] -= (float)elapsedSeconds;
-
-                if (Data_Manager.Main_Players_Data.ADS_Timer[i] < 0)
-                {
-                    Data_Manager.Main_Players_Data.ADS_Timer[i] = 0; // 음수가 되지 않도록 보정
-                }
-            }
-        }
     }
 
 }

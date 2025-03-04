@@ -24,6 +24,9 @@ public class UI_ADS_Buff : UI_Base
     private Image[] Buttons_Fill;
     
 
+    /// <summary>
+    /// 버프타이머를 업데이트 구문으로 검사하고, 초가 지나면 버프를 해제합니다.
+    /// </summary>
     private void Update()
     {
         for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
@@ -89,7 +92,7 @@ public class UI_ADS_Buff : UI_Base
         Skill_Cool_Time_Frame[Value].gameObject.SetActive(Get_bool);
 
         // 버프 부여
-
+       
         switch (Value)
         {
             case 0:

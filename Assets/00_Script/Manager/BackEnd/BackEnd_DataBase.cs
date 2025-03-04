@@ -67,6 +67,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("Daily_Relic_Clear", Data_Manager.Main_Players_Data.Relic_Clear); // 유물소환 클리어 여부
         param.Add("Daily_Dungeon_Gold_Clear", Data_Manager.Main_Players_Data.Dungeon_Gold_Clear); // 골드던전 클리어 여부
         param.Add("Daily_Dungeon_Dia_Clear", Data_Manager.Main_Players_Data.Dungeon_Dia_Clear); // 다이아던전 클리어 여부
+        param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode); // 패스트모드 활성화 여부
         #endregion
 
 
@@ -231,6 +232,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.Dungeon_Dia_Clear = bool.Parse(gameDataJson[0]["Daily_Dungeon_Dia_Clear"].ToString());
                 data.ADS_Hero_Summon_Count = int.Parse(gameDataJson[0]["ADS_HERO_SUMMON_COUNT"].ToString());
                 data.ADS_Relic_Summon_Count = int.Parse(gameDataJson[0]["ADS_RELIC_SUMMON_COUNT"].ToString());
+                data.isFastMode = bool.Parse(gameDataJson[0]["Fast_Mode"].ToString());
 
 
                 if (Get_Date_Dungeon_Item(startDate, endDate))
@@ -260,6 +262,11 @@ public partial class BackEnd_Manager : MonoBehaviour
                 }
 
                 Data_Manager.Main_Players_Data = data;
+
+                Utils.Calculate_ADS_Timer(); // 오프라인 시간만큼 광고 락 시간 차감
+                Utils.Calculate_ADS_Buff_Timer(); // 오프라인 시간만큼 광고버프 시간 차감
+                Utils.Calculate_ADS_X2_SPEED_Timer(); // 오프라인 시간만큼 광고 2배속 시간 차감
+
 
                 Base_Manager.Data.Init();
 
