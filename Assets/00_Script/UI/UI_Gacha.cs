@@ -29,7 +29,8 @@ public class UI_Gacha : UI_Base
     private List<GameObject> Reset_Gacha_Hero_Card_List = new List<GameObject>();
 
 
-    private const int GACHA_RESUMMON_PRICE_11 = 500;
+    private const int GACHA_RESUMMON_PRICE_11 = 500;   
+
     public override bool Init()
     {
         return base.Init();
@@ -49,7 +50,7 @@ public class UI_Gacha : UI_Base
         Reset_Gacha_Hero_Card_List.Clear();
     }
 
-    public void Get_Gacha_Hero(int Hero_Amount_Value)
+    public void Get_Gacha_Hero(int Hero_Amount_Value, bool ADS = false)
     {
         Hero_Amount_Value_Count = Hero_Amount_Value;
 
@@ -60,11 +61,16 @@ public class UI_Gacha : UI_Base
             case 11:
                 GaCha_ReSummon_Text.text = "11회 소환";
                 GaCha_ReSummon_Price.text = GACHA_RESUMMON_PRICE_11.ToString();
+                if (ADS == false)
+                {
+                    Data_Manager.Main_Players_Data.DiaMond -= GACHA_RESUMMON_PRICE_11;
+                }
                 ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Hero_Amount_Value));
                 break;
             case 1:
                 GaCha_ReSummon_Text.text = "1회 소환";
                 GaCha_ReSummon_Price.text = (GACHA_RESUMMON_PRICE_11 / 10).ToString();
+                Data_Manager.Main_Players_Data.DiaMond -= (GACHA_RESUMMON_PRICE_11/10);
                 ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Hero_Amount_Value));
                 break;
         }
@@ -73,9 +79,25 @@ public class UI_Gacha : UI_Base
 
     public void OnClick_ReGaCha(int value)
     {
+        switch (value)
+        {
+            case 11:
+                if(Data_Manager.Main_Players_Data.DiaMond < GACHA_RESUMMON_PRICE_11)
+                {
+                    Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
+                    return;
+                }
+                break;
+            case 1:
+                if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_RESUMMON_PRICE_11/10))
+                {
+                    Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
+                    return;
+                }
+                break;
+        }
         ReGaCha_Initialize();
-        Get_Gacha_Hero(value);
-       
+        Get_Gacha_Hero(value);     
     }
 
     IEnumerator GaCha_Coroutine(int Hero_Amount_Value)

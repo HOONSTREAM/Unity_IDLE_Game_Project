@@ -33,6 +33,12 @@ public class UI_Shop : UI_Base
     private Button Hero_Summon_Button_11;
     [SerializeField]
     private Button Hero_Summon_Button_1;
+    [SerializeField]
+    private TextMeshProUGUI ADS_Hero_Count;
+    [SerializeField]
+    private TextMeshProUGUI[] ADS_Timer_Text;
+    [SerializeField]
+    private GameObject[] ADS_Summon_Lock;
 
     [Space(20f)]
     [Header("Relic Shop")]
@@ -50,6 +56,12 @@ public class UI_Shop : UI_Base
     private Button Relic_Summon_Button_11;
     [SerializeField]
     private Button Relic_Summon_Button_1;
+    [SerializeField]
+    private TextMeshProUGUI ADS_Relic_Count;
+    [SerializeField]
+    private TextMeshProUGUI ADS_Relic_Timer_Text;
+  
+
 
     [Space(20f)]
     [Header("Money_Amount")]
@@ -58,8 +70,8 @@ public class UI_Shop : UI_Base
 
     private int Information_Panel_Summon_Level;
 
-    private const int Gacha_11_Price = 500;
-    private const int Gacha_1_Price = 50;
+    private const int GACHA_PRICE_11 = 500;
+   
 
     public override bool Init()
     {
@@ -71,6 +83,24 @@ public class UI_Shop : UI_Base
         Relic_Init();
         return base.Init();
     }
+
+    private void Update()
+    {
+        for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
+        {
+            if (Data_Manager.Main_Players_Data.ADS_Timer[i] > 0.0f)
+            {
+                ADS_Timer_Text[i].text = Utils.GetTimer(Data_Manager.Main_Players_Data.ADS_Timer[i]);
+                ADS_Summon_Lock[i].gameObject.SetActive(true);             
+            }
+
+            else
+            {
+                ADS_Summon_Lock[i].gameObject.SetActive(false);              
+            }
+        }
+    }
+
     #region Gacha_Button_Method
     public void GachaButton(int value, bool ADS = false)
     {
@@ -78,7 +108,7 @@ public class UI_Shop : UI_Base
         {
             Base_Canvas.instance.Get_UI("GaCha");
             var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
-            UI.Get_Gacha_Hero(value);
+            UI.Get_Gacha_Hero(value, true);
 
             Init();
         }
@@ -88,26 +118,18 @@ public class UI_Shop : UI_Base
             switch (value)
             {
                 case 11:
-                    if (Data_Manager.Main_Players_Data.DiaMond < Gacha_11_Price)
+                    if (Data_Manager.Main_Players_Data.DiaMond < GACHA_PRICE_11)
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
                         return;
-                    }
-                    else
-                    {
-                        Data_Manager.Main_Players_Data.DiaMond -= Gacha_11_Price;
-                    }
+                    }                   
                     break;
                 case 1:
-                    if (Data_Manager.Main_Players_Data.DiaMond < Gacha_1_Price)
+                    if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_PRICE_11/10))
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
                         return;
-                    }
-                    else
-                    {
-                        Data_Manager.Main_Players_Data.DiaMond -= Gacha_1_Price;
-                    }
+                    }                
                     break;
             }
 
@@ -121,7 +143,15 @@ public class UI_Shop : UI_Base
     }
     public void GachaButton_ADS()
     {
-        Base_Manager.ADS.ShowRewardedAds(() => GachaButton(1, true));
+        if (Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count >= 3)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("금일 최대 횟수를 이용하였습니다. 자정이후 초기화됩니다.");
+            return;
+        }
+
+        Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count++;
+        Data_Manager.Main_Players_Data.ADS_Timer[0] = 900.0f;
+        Base_Manager.ADS.ShowRewardedAds(() => GachaButton(11, true));
 
         Init();
     }
@@ -131,7 +161,7 @@ public class UI_Shop : UI_Base
         {
             Base_Canvas.instance.Get_UI("GaCha_Relic");
             var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Relic_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
-            UI.Get_Gacha_Relic(value);
+            UI.Get_Gacha_Relic(value, true);
 
             Init();
         }
@@ -141,26 +171,19 @@ public class UI_Shop : UI_Base
             switch (value)
             {
                 case 11:
-                    if (Data_Manager.Main_Players_Data.DiaMond < Gacha_11_Price)
+                    if (Data_Manager.Main_Players_Data.DiaMond < GACHA_PRICE_11)
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
                         return;
-                    }
-                    else
-                    {
-                        Data_Manager.Main_Players_Data.DiaMond -= Gacha_11_Price;
                     }
                     break;
                 case 1:
-                    if (Data_Manager.Main_Players_Data.DiaMond < Gacha_1_Price)
+                    if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_PRICE_11/10))
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
                         return;
                     }
-                    else
-                    {
-                        Data_Manager.Main_Players_Data.DiaMond -= Gacha_1_Price;
-                    }
+
                     break;
             }
 
@@ -173,7 +196,14 @@ public class UI_Shop : UI_Base
     }
     public void GachaButton_Relic_ADS()
     {
-        Base_Manager.ADS.ShowRewardedAds(() => GachaButton_Relic(1, true));
+        if(Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count >= 3)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("금일 최대 횟수를 이용하였습니다. 자정이후 초기화됩니다.");
+            return;
+        }
+        Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count++;
+        Data_Manager.Main_Players_Data.ADS_Timer[1] = 900.0f;
+        Base_Manager.ADS.ShowRewardedAds(() => GachaButton_Relic(11, true));
 
         Init();
     }
@@ -192,6 +222,8 @@ public class UI_Shop : UI_Base
     }
     private void Get_Init()
     {
+        ADS_Hero_Count.text = "(" + Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count.ToString() + "/3)";
+
         Real_Summon_Level_Text.text = "영웅 소환 레벨 Lv." + 
             (Utils.Calculate_Summon_Level(Data_Manager.Main_Players_Data.Hero_Summon_Count) + 1).ToString();
 
@@ -219,6 +251,8 @@ public class UI_Shop : UI_Base
     }
     private void Relic_Init()
     {
+        ADS_Relic_Count.text = "(" + Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count.ToString() + "/3)";
+
         Real_Relic_Summon_Level_Text.text = "유물 소환 레벨 Lv." +
            (Utils.Calculate_Summon_Level(Data_Manager.Main_Players_Data.Relic_Summon_Count) + 1).ToString();
 

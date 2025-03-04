@@ -71,7 +71,16 @@ public class Base_Manager : MonoBehaviour
             }           
         }
 
-        if(Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
+        for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
+        {
+            if (Data_Manager.Main_Players_Data.ADS_Timer[i] >= 0.0f)
+            {
+                Data_Manager.Main_Players_Data.ADS_Timer[i] -= Time.unscaledDeltaTime;
+            }
+        }
+
+
+        if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
             Data_Manager.Main_Players_Data.buff_x2_speed -= Time.unscaledDeltaTime;
         }

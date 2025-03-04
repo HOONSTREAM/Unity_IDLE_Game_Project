@@ -34,7 +34,8 @@ public class Daily_Quest_Parts : MonoBehaviour
 
         Base_Canvas.instance.Get_UI("UI_Reward");
 
-        Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit(m_Quest.Reward, m_Quest.RewardCount);
+        Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit(m_Quest.Reward, m_Quest.RewardCount); // 보상지급
+
         switch (m_Quest.Type)
         {
             case Daily_Quest_Type.Daily_Attendance: Data_Manager.Main_Players_Data.Daily_Attendance_Clear = true; break;

@@ -11,11 +11,9 @@ public class UI_ADS_Buff : UI_Base
     {
         ATK,
         GOLD,
-        CRITICAL
+        ITEM
     }
-
-    [SerializeField]
-    private TextMeshProUGUI Buff_Level_Text, Buff_Level_up_Count;
+   
     [SerializeField]
     private Button[] Buttons;
     [SerializeField]
@@ -24,8 +22,7 @@ public class UI_ADS_Buff : UI_Base
     private TextMeshProUGUI[] Timer_Text;
     [SerializeField]
     private Image[] Buttons_Fill;
-    [SerializeField]
-    private Image Level_Fill;
+    
 
     private void Update()
     {
@@ -36,6 +33,11 @@ public class UI_ADS_Buff : UI_Base
                 Buttons_Fill[i].fillAmount = 1 - (Data_Manager.Main_Players_Data.Buff_Timers[i] / 1800.0f);
 
                 Timer_Text[i].text = Utils.GetTimer(Data_Manager.Main_Players_Data.Buff_Timers[i]);
+            }
+
+            else
+            {
+                Set_Buff(i, false);
             }
 
         }
@@ -71,9 +73,7 @@ public class UI_ADS_Buff : UI_Base
         {
             bool Get_Buff = true;
             int state_Value = (int)state;
-
-            Data_Manager.Main_Players_Data.Buff_Level_Count++;
-
+          
             Data_Manager.Main_Players_Data.Buff_Timers[state_Value] = 1800.0f;
             Set_Buff(state_Value, Get_Buff);
 
@@ -87,6 +87,18 @@ public class UI_ADS_Buff : UI_Base
         Button_Lock[Value].gameObject.SetActive(Get_bool);
         Buff_Lock[Value].gameObject.SetActive(!Get_bool);
         Skill_Cool_Time_Frame[Value].gameObject.SetActive(Get_bool);
+
+        // 버프 부여
+
+        switch (Value)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
     }
 
 

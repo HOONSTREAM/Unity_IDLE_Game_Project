@@ -54,9 +54,9 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Buff_Timers[0] = 0;
         Data_Manager.Main_Players_Data.Buff_Timers[1] = 0;
         Data_Manager.Main_Players_Data.Buff_Timers[2] = 0;
-        Data_Manager.Main_Players_Data.buff_x2_speed = 0;
-        Data_Manager.Main_Players_Data.Buff_Level = default;
-        Data_Manager.Main_Players_Data.Buff_Level_Count = default;
+        Data_Manager.Main_Players_Data.ADS_Timer[0] = 0;
+        Data_Manager.Main_Players_Data.ADS_Timer[1] = 0;
+        Data_Manager.Main_Players_Data.buff_x2_speed = 0;       
         Data_Manager.Main_Players_Data.Quest_Count = default;
         Data_Manager.Main_Players_Data.Hero_Summon_Count = default;
         Data_Manager.Main_Players_Data.Hero_Pickup_Count = default;
@@ -84,6 +84,8 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Relic_Clear = false;
         Data_Manager.Main_Players_Data.Dungeon_Gold_Clear = false;
         Data_Manager.Main_Players_Data.Dungeon_Dia_Clear = false;
+        Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count = 0;
+        Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count = 0;
 
 
 
@@ -98,9 +100,7 @@ public class BackendGameData
         param.Add("PLAYER_EXP", Data_Manager.Main_Players_Data.EXP);
         param.Add("PLAYER_STAGE", Data_Manager.Main_Players_Data.Player_Stage);
         param.Add("EXP_UPGRADE_COUNT", Data_Manager.Main_Players_Data.EXP_Upgrade_Count);
-        param.Add("BUFF_TIMER", Data_Manager.Main_Players_Data.Buff_Timers);     
-        param.Add("BUFF_LEVEL", Data_Manager.Main_Players_Data.Buff_Level);
-        param.Add("BUFF_LEVEL_COUNT", Data_Manager.Main_Players_Data.Buff_Level_Count);
+        param.Add("BUFF_TIMER", Data_Manager.Main_Players_Data.Buff_Timers);            
         param.Add("QUEST_COUNT", Data_Manager.Main_Players_Data.Quest_Count);
         param.Add("HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.Hero_Summon_Count);
         param.Add("HERO_PICKUP_COUNT", Data_Manager.Main_Players_Data.Hero_Pickup_Count);
@@ -125,6 +125,8 @@ public class BackendGameData
         param.Add("Relic_Clear", Data_Manager.Main_Players_Data.Relic_Clear);
         param.Add("Dungeon_Gold_Clear", Data_Manager.Main_Players_Data.Dungeon_Gold_Clear);
         param.Add("Dungeon_Dia_Clear", Data_Manager.Main_Players_Data.Dungeon_Dia_Clear);
+        param.Add("ADS_HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count);
+        param.Add("ADS_RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count);
 
 
         Debug.Log("'USER' 테이블에 새로운 데이터 행을 추가합니다.");
@@ -239,8 +241,7 @@ public class Data
     public int Player_Stage = 1;
     public int EXP_Upgrade_Count;
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
-    public float buff_x2_speed;
-    public int Buff_Level, Buff_Level_Count;
+    public float buff_x2_speed;   
     public int Quest_Count;
 
 
@@ -275,6 +276,10 @@ public class Data
 
     //광고구매 여부
     public bool isBuyADPackage = false;
+    public int ADS_Hero_Summon_Count = 0;
+    public int ADS_Relic_Summon_Count = 0;
+    public float[] ADS_Timer = { 0.0f, 0.0f };
+
     //이벤트 푸시알람 동의 여부
     public bool Event_Push_Alarm_Agree = false;
 
@@ -316,6 +321,7 @@ public class Data_Manager
 
         Set_Character();
         Set_Item();
+        Calculate_ADS_Timer();
     }
 
     public Character_Scriptable Get_Rarity_Character(Rarity rarity)
@@ -436,6 +442,28 @@ public class Data_Manager
         return value;
     }
 
+    /// <summary>
+    /// 접속 종료 후의 재접속 시간을 계산하여, 광고락시간을 차감시킵니다.
+    /// </summary>
+    public void Calculate_ADS_Timer()
+    {
+        TimeSpan elapsedTime = Data_Manager.Main_Players_Data.EndDate - Data_Manager.Main_Players_Data.StartDate;
+        double elapsedSeconds = elapsedTime.TotalSeconds; // 총 경과된 초 단위
+
+        for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
+        {
+            if (Data_Manager.Main_Players_Data.ADS_Timer[i] > 0.0f)
+            {
+                // 남은 시간에서 경과된 시간 차감
+                Data_Manager.Main_Players_Data.ADS_Timer[i] -= (float)elapsedSeconds;
+
+                if (Data_Manager.Main_Players_Data.ADS_Timer[i] < 0)
+                {
+                    Data_Manager.Main_Players_Data.ADS_Timer[i] = 0; // 음수가 되지 않도록 보정
+                }
+            }
+        }
+    }
 
 }
 

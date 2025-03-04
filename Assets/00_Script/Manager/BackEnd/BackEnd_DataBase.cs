@@ -34,9 +34,8 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("PLAYER_STAGE", Data_Manager.Main_Players_Data.Player_Stage); // 플레이어 스테이지
         param.Add("EXP_UPGRADE_COUNT", Data_Manager.Main_Players_Data.EXP_Upgrade_Count); // 레벨업 버튼 카운트
         param.Add("BUFF_TIMER", Data_Manager.Main_Players_Data.Buff_Timers); // 광고버프
-        param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed); // 2배속
-        param.Add("BUFF_LEVEL", Data_Manager.Main_Players_Data.Buff_Level);
-        param.Add("BUFF_LEVEL_COUNT", Data_Manager.Main_Players_Data.Buff_Level_Count);
+        param.Add("ADS_TIMER", Data_Manager.Main_Players_Data.ADS_Timer); // 소환 광고 시청 락타임
+        param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed); // 2배속       
         param.Add("QUEST_COUNT", Data_Manager.Main_Players_Data.Quest_Count); // 퀘스트 단계
         param.Add("HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.Hero_Summon_Count); // 영웅소환 카운트
         param.Add("HERO_PICKUP_COUNT", Data_Manager.Main_Players_Data.Hero_Pickup_Count); // 영웅 확정소환 카운트
@@ -50,6 +49,8 @@ public partial class BackEnd_Manager : MonoBehaviour
 
 
         param.Add("AD_PACKAGE", Data_Manager.Main_Players_Data.isBuyADPackage); // 광고제거 패키지 구매여부
+        param.Add("ADS_HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count); // 광고시청 영웅소환 카운트
+        param.Add("ADS_RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count); // 광고시청 유물소환 카운트
         param.Add("EVENT_PUSH_ALARM", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree); // 푸시알람 동의여부
 
         #region 일일퀘스트 관련 데이터
@@ -184,9 +185,10 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.Buff_Timers[1] = float.Parse(gameDataJson[0]["BUFF_TIMER"][1].ToString());
                 data.Buff_Timers[2] = float.Parse(gameDataJson[0]["BUFF_TIMER"][2].ToString());
 
-                data.buff_x2_speed = float.Parse(gameDataJson[0]["SPEED"].ToString());
-                data.Buff_Level = int.Parse(gameDataJson[0]["BUFF_LEVEL"].ToString());
-                data.Buff_Level_Count = int.Parse(gameDataJson[0]["BUFF_LEVEL_COUNT"].ToString());
+                data.ADS_Timer[0] = float.Parse(gameDataJson[0]["ADS_TIMER"][0].ToString());
+                data.ADS_Timer[1] = float.Parse(gameDataJson[0]["ADS_TIMER"][1].ToString());
+
+                data.buff_x2_speed = float.Parse(gameDataJson[0]["SPEED"].ToString());            
                 data.Quest_Count = int.Parse(gameDataJson[0]["QUEST_COUNT"].ToString());
 
 
@@ -227,6 +229,9 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.Relic_Clear = bool.Parse(gameDataJson[0]["Daily_Relic_Clear"].ToString());
                 data.Dungeon_Gold_Clear = bool.Parse(gameDataJson[0]["Daily_Dungeon_Gold_Clear"].ToString());
                 data.Dungeon_Dia_Clear = bool.Parse(gameDataJson[0]["Daily_Dungeon_Dia_Clear"].ToString());
+                data.ADS_Hero_Summon_Count = int.Parse(gameDataJson[0]["ADS_HERO_SUMMON_COUNT"].ToString());
+                data.ADS_Relic_Summon_Count = int.Parse(gameDataJson[0]["ADS_RELIC_SUMMON_COUNT"].ToString());
+
 
                 if (Get_Date_Dungeon_Item(startDate, endDate))
                 {
@@ -248,6 +253,9 @@ public partial class BackEnd_Manager : MonoBehaviour
                     data.Dungeon_Dia_Clear = false;
                     data.Dungeon_Gold_Clear = false;
                     data.Relic_Clear = false;
+
+                    data.ADS_Hero_Summon_Count = 0;
+                    data.ADS_Relic_Summon_Count = 0;
 
                 }
 
