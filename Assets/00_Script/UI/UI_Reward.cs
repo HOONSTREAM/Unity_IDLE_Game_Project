@@ -20,6 +20,7 @@ public class UI_Reward : UI_Base
 
     public void GetRewardInit(string ItemName, int Count)
     {
+        Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
         ItemImage.sprite = Utils.Get_Atlas(ItemName);
         CountText.text = Count <= 1 ? "" : "x" + Count.ToString();
 

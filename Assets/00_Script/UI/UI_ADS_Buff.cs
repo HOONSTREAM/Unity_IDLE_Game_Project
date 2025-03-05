@@ -9,9 +9,9 @@ public class UI_ADS_Buff : UI_Base
 {
     public enum ADS_Buff_State
     {
-        ATK,
         GOLD,
-        ITEM
+        ITEM,
+        ATK
     }
    
     [SerializeField]
@@ -92,16 +92,38 @@ public class UI_ADS_Buff : UI_Base
         Skill_Cool_Time_Frame[Value].gameObject.SetActive(Get_bool);
 
         // ¹öÇÁ ºÎ¿©
-       
-        switch (Value)
+
+        if (Get_bool == true)
         {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
+            switch (Value)
+            {
+                case 0: // °ñµå µå¶ø·ü »ó½Â
+                    Base_Manager.Player.Set_ADS_Buff(0, true);
+                    break;
+                case 1: // ¾ÆÀÌÅÛ µå¶ø·ü »ó½Â
+                    Base_Manager.Player.Set_ADS_Buff(1, true);
+                    break;
+                case 2: // ¿µ¿õ °ø°Ý·Â »ó½Â
+                    Base_Manager.Player.Set_ADS_Buff(2, true);
+                    break;
+            }
         }
+        else
+        {
+            switch (Value)
+            {
+                case 0:
+                    Base_Manager.Player.Set_ADS_Buff(0, false);
+                    break;
+                case 1:
+                    Base_Manager.Player.Set_ADS_Buff(1, false);
+                    break;
+                case 2:
+                    Base_Manager.Player.Set_ADS_Buff(2, false);
+                    break;
+            }
+        }
+
     }
 
 

@@ -7,6 +7,32 @@ using UnityEngine;
 
 public class Player_Manager
 {
+
+    // ADS 버프 적용 값
+    private float ADS_Gold_Buff_Value = 0.0f;
+    private float ADS_Item_Buff_Value = 0.0f;
+    private float ADS_Atk_Buff_Value = 0.0f;
+
+    /// <summary>
+    /// ADS 버프를 적용하는 메서드
+    /// </summary>
+    public void Set_ADS_Buff(int buffType, bool isActive)
+    {
+        float buffValue = isActive ? 3.0f : 0.0f; // 버프가 활성화되면 300% 증가
+
+        switch (buffType)
+        {
+            case 0: // 골드 드랍률 상승
+                ADS_Gold_Buff_Value = buffValue;
+                break;
+            case 1: // 아이템 드랍률 상승
+                ADS_Item_Buff_Value = buffValue;
+                break;
+            case 2: // 영웅 공격력 상승
+                ADS_Atk_Buff_Value = buffValue;
+                break;
+        }
+    }
     #region EXP 처리
     public void EXP_UP()
     {
@@ -59,13 +85,14 @@ public class Player_Manager
     {
         var holding_effect = Check_Player_Holding_Effects();
         var holding_effect_Relic = Check_Relic_Holding_Effects();
-
-        var Damage = Data_Manager.Main_Players_Data.ATK * ((int)rarity + 1);
+        var ADS_Buff_Value = ADS_Atk_Buff_Value;
+        var Damage = (Data_Manager.Main_Players_Data.ATK * ((int)rarity + 1)) * ADS_Buff_Value;
         float Level_Damage = ((holder.Hero_Level + 1) * ((int)rarity * 3)) / 10.0f;
 
         var Final_Damage = (Damage + (Damage * Level_Damage)) * (1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK) / 100));
 
-        return Final_Damage * (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)) * (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));
+        return Final_Damage * (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)) *
+            (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));
     }
 
     /// <summary>
@@ -150,7 +177,10 @@ public class Player_Manager
         var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.ITEM_DROP, 0.0));
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ITEM_DROP, 0.0));
 
-        return 0.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.ITEM) + (float)Value + (float)Relic_Value;
+        var ADS_Buff_Value = ADS_Item_Buff_Value;
+
+
+        return 0.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.ITEM) + (float)Value + (float)Relic_Value + ADS_Buff_Value;
     }
     public float Calculate_Atk_Speed_Percentage()
     {
@@ -172,9 +202,9 @@ public class Player_Manager
         var Value = ((holding_effect.GetValueOrDefault(Holding_Effect_Type.GOLD_DROP, 0.0)));
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.GOLD_DROP, 0.0));
 
-        
+        var ADS_Buff_Value = ADS_Gold_Buff_Value;
 
-        return 0.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.MONEY) / 100) + (float)Value + (float)Relic_Value;
+        return 0.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.MONEY) / 100) + (float)Value + (float)Relic_Value + ADS_Buff_Value;
     }
     public float Calculate_Critical_Percentage()
     {

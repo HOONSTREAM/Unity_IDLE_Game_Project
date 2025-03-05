@@ -103,8 +103,23 @@ public class UI_Shop : UI_Base
     #region Gacha_Button_Method
     public void GachaButton(int value, bool ADS = false)
     {
+        StartCoroutine(GaCha_Start_Delay_Coroutine(value, ADS));             
+    }
+
+    /// <summary>
+    /// 광고 종료 후 Unity의 그래픽 디바이스가 완전히 복구되기 전에 UI를 불러오면서 충돌이 발생할 수 있음.
+    /// 코루틴을 활용하여 0.5초간 딜레이 실행.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="ADS"></param>
+    /// <returns></returns>
+    IEnumerator GaCha_Start_Delay_Coroutine(int value, bool ADS)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
         if (ADS == true)
         {
+            
             Base_Canvas.instance.Get_UI("GaCha");
             var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
             UI.Get_Gacha_Hero(value, true);
@@ -120,25 +135,23 @@ public class UI_Shop : UI_Base
                     if (Data_Manager.Main_Players_Data.DiaMond < GACHA_PRICE_11)
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
-                        return;
-                    }                   
+                        yield break;
+                    }
                     break;
                 case 1:
-                    if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_PRICE_11/10))
+                    if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_PRICE_11 / 10))
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
-                        return;
-                    }                
+                        yield break;
+                    }
                     break;
             }
-
 
             Base_Canvas.instance.Get_UI("GaCha");
             var UI = Utils.UI_Holder.Peek().gameObject.GetComponent<UI_Gacha>(); // Get_UI로 소환한 Gacha 오브젝트를 가져온다.
             UI.Get_Gacha_Hero(value);
 
         }
-
     }
     public void GachaButton_ADS()
     {
@@ -156,6 +169,14 @@ public class UI_Shop : UI_Base
     }
     public void GachaButton_Relic(int value, bool ADS = false)
     {
+        StartCoroutine(Relic_Gacha_Delay_Coroutine(value,ADS));
+    }
+
+    IEnumerator Relic_Gacha_Delay_Coroutine(int value, bool ADS)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
         if (ADS == true)
         {
             Base_Canvas.instance.Get_UI("GaCha_Relic");
@@ -173,14 +194,14 @@ public class UI_Shop : UI_Base
                     if (Data_Manager.Main_Players_Data.DiaMond < GACHA_PRICE_11)
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
-                        return;
+                        yield break;
                     }
                     break;
                 case 1:
-                    if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_PRICE_11/10))
+                    if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_PRICE_11 / 10))
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
-                        return;
+                        yield break;
                     }
 
                     break;
