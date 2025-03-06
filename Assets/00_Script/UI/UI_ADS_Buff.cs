@@ -22,37 +22,13 @@ public class UI_ADS_Buff : UI_Base
     private TextMeshProUGUI[] Timer_Text;
     [SerializeField]
     private Image[] Buttons_Fill;
-    
-
-    /// <summary>
-    /// 버프타이머를 업데이트 구문으로 검사하고, 초가 지나면 버프를 해제합니다.
-    /// </summary>
-    private void Update()
-    {
-        for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
-        {
-            if (Data_Manager.Main_Players_Data.Buff_Timers[i] >= 0.0f)
-            {               
-                Buttons_Fill[i].fillAmount = 1 - (Data_Manager.Main_Players_Data.Buff_Timers[i] / 1800.0f);
-
-                Timer_Text[i].text = Utils.GetTimer(Data_Manager.Main_Players_Data.Buff_Timers[i]);
-            }
-
-            else
-            {
-                Set_Buff(i, false);
-            }
-
-        }
-    }
 
     /// <summary>
     /// UI_Base에 있는 Init을 재정의 하였으므로, Instantiate 가 되면, 해당 Init이 실행됨.
     /// </summary>
     /// <returns></returns>
     public override bool Init()
-    {
-       
+    {    
         for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
         {
 
@@ -66,8 +42,31 @@ public class UI_ADS_Buff : UI_Base
 
         }
 
-        return base.Init();
+        Base_Manager.Player.Init(); // 능력치 적용
 
+        return base.Init();
+    }
+
+    /// <summary>
+    /// 버프타이머를 업데이트 구문으로 검사하고, 초가 지나면 버프를 해제합니다.
+    /// </summary>
+    private void Update()
+    {
+        for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
+        {
+            if (Data_Manager.Main_Players_Data.Buff_Timers[i] >= 0.0f)
+            {
+                Buttons_Fill[i].fillAmount = 1 - (Data_Manager.Main_Players_Data.Buff_Timers[i] / 1800.0f);
+
+                Timer_Text[i].text = Utils.GetTimer(Data_Manager.Main_Players_Data.Buff_Timers[i]);
+            }
+
+            else
+            {
+                Set_Buff(i, false);
+            }
+
+        }
     }
 
     public void Get_ADS_Buff(ADS_Buff_State state)
@@ -122,8 +121,7 @@ public class UI_ADS_Buff : UI_Base
                     Base_Manager.Player.Set_ADS_Buff(2, false);
                     break;
             }
-        }
-
+        }      
     }
 
 

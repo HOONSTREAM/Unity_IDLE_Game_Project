@@ -31,7 +31,7 @@ public class UI_Dungeon : UI_Base
 
         for(int i = 0; i< KeyTexts.Length; i++)
         {
-            KeyTexts[i].text = "(" + Data_Manager.Main_Players_Data.Daily_Enter_Key[i].ToString() + "/3)";
+            KeyTexts[i].text = "(" + (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]).ToString() + "/2)";
             Dungeon_Enter_Request_Key[i].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]) <= 0 ? Color.red : Color.green;
             Dungeon_Levels[i].text = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] + 1).ToString();
             Level[i] = Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i];
@@ -75,6 +75,16 @@ public class UI_Dungeon : UI_Base
         if (Stage_Manager.isDead)
         {           
             Base_Canvas.instance.Get_TOP_Popup().Initialize("훈련 중엔, 던전에 진입할 수 없습니다.");
+            return;
+        }
+        if(Stage_Manager.M_State == Stage_State.Clear)
+        {
+            return;
+        }
+
+        if(Stage_Manager.isDungeon) // 던전 맵이 오픈되어 던전이 진행중 인지 확인
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("현재 던전공략이 진행 중 입니다.");
             return;
         }
 

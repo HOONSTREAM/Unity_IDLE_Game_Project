@@ -59,7 +59,7 @@ public class Stage_Manager
                     MaxCount = FULL_MAX_COUNT;
                 }
 
-                GameObject.Find("Character_Spawner").gameObject.GetComponent<Character_Spawner>().Set_Hero_Main_Game();
+                GameObject.Find("@Character_Spawner").gameObject.GetComponent<Character_Spawner>().Set_Hero_Main_Game();
                 Base_Manager.Data.Set_Player_ATK_HP();
                 Spawner.m_players.RemoveAll(player => player == null || !player.gameObject.activeInHierarchy); // 레디상태마다, m_players를 정리합니다.        
                 M_ReadyEvent?.Invoke();                
@@ -89,12 +89,14 @@ public class Stage_Manager
                 break;
             case Stage_State.Dead:
                 Debug.Log("Stage : Dead");
-                isDead = true;               
+                isDead = true;
+                Base_Manager.Pool.Clear_Pool();
                 M_DeadEvent?.Invoke();
                 break;
             case Stage_State.Dungeon:
                 Dungeon_Enter_Type = Value;
                 Debug.Log("Stage : Dungeon");
+                Base_Manager.SOUND.Play(Sound.BGM, "Dungeon");
                 isDungeon = true;
                 DungeonCount = FULL_MAX_COUNT;
                 M_DungeonEvent?.Invoke(Value);
@@ -102,13 +104,18 @@ public class Stage_Manager
                 break;
 
             case Stage_State.Dungeon_Clear:
-                Debug.Log("Stage : Dungeon_Clear");
+                Debug.Log("Stage : Dungeon_Clear");                   
+                Base_Manager.SOUND.Play(Sound.BGM, "Main");
                 isDungeon = false;
+                Base_Manager.Pool.Clear_Pool();
                 M_DungeonClearEvent?.Invoke(Value);               
                 break;
 
             case Stage_State.Dungeon_Dead:
                 Debug.Log("Stage : Dungeon_Dead");
+                Base_Manager.Pool.Clear_Pool();
+                Base_Manager.SOUND.Play(Sound.BGS, "Lose");
+                Base_Manager.SOUND.Play(Sound.BGM, "Main");
                 isDungeon = false;
                 M_DungeonDeadEvent?.Invoke();              
                 break;

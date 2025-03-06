@@ -41,10 +41,8 @@ public class Base_Manager : MonoBehaviour
     private float Save_Timer = 0.0f;
     private void Awake()
     {
-        Init();
-        
+        Init();        
     }
-
 
     private void Update()
     {
@@ -72,8 +70,8 @@ public class Base_Manager : MonoBehaviour
         for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
         {
             if (Data_Manager.Main_Players_Data.ADS_Timer[i] >= 0.0f)
-            {
-                Data_Manager.Main_Players_Data.ADS_Timer[i] -= Time.unscaledDeltaTime;
+            {               
+               Data_Manager.Main_Players_Data.ADS_Timer[i] -= Time.unscaledDeltaTime;             
             }
         }
 
@@ -96,7 +94,7 @@ public class Base_Manager : MonoBehaviour
             Data.Init();
             SOUND.Init();
             //LOCAL.Init();
-            DAILY.Init();           
+            DAILY.Init();            
             DontDestroyOnLoad(this.gameObject);
         }
 

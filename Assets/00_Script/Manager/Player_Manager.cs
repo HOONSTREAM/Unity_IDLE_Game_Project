@@ -7,18 +7,27 @@ using UnityEngine;
 
 public class Player_Manager
 {
-
+    #region ADS
     // ADS 버프 적용 값
     private float ADS_Gold_Buff_Value = 0.0f;
     private float ADS_Item_Buff_Value = 0.0f;
-    private float ADS_Atk_Buff_Value = 0.0f;
+    private float ADS_Atk_Buff_Value = 1.0f; // 곱셈으로 들어가므로.
+
+
+    public void Init()
+    {       
+        for (int i = 0; i < Spawner.m_players.Count; i++) // 각 서브 히어로 공격력 및 체력 세팅
+        {
+            Spawner.m_players[i].Set_ATK_HP_Sub_Hero();
+        }
+    }
 
     /// <summary>
     /// ADS 버프를 적용하는 메서드
     /// </summary>
     public void Set_ADS_Buff(int buffType, bool isActive)
     {
-        float buffValue = isActive ? 3.0f : 0.0f; // 버프가 활성화되면 300% 증가
+        float buffValue = isActive ? 3.0f : 1.0f; // 버프가 활성화되면 300% 증가
 
         switch (buffType)
         {
@@ -33,6 +42,14 @@ public class Player_Manager
                 break;
         }
     }
+
+    /// <summary>
+    /// 재접속을 하였을 때, 광고버프를 적용합니다.
+    /// </summary>
+   
+
+    #endregion
+
     #region EXP 처리
     public void EXP_UP()
     {
@@ -40,6 +57,8 @@ public class Player_Manager
        
         if(Data_Manager.Main_Players_Data.EXP >= Utils.Data.levelData.Get_MAXEXP()) // 레벨업 조건 달성 시
         {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨이 올라 더욱 강해졌습니다!");
+
             Data_Manager.Main_Players_Data.Player_Level++;
             Data_Manager.Main_Players_Data.EXP = 0;
 
@@ -313,6 +332,5 @@ public class Player_Manager
 
 
     #endregion
-
 }
 

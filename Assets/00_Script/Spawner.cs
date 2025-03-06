@@ -47,7 +47,7 @@ public class Spawner : MonoBehaviour
 
                 else
                 {
-                    Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(m_monsters[i].gameObject);
+                    //Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(m_monsters[i].gameObject);
                 }
                 
             }

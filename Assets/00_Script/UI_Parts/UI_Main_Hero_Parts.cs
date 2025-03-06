@@ -34,6 +34,9 @@ public class UI_Main_Hero_Parts : MonoBehaviour
         Reset_Main_Hero_Parts();
     }
 
+    /// <summary>
+    /// 메인 UI 하단의 영웅 페이지의 영웅 세팅을 진행합니다.
+    /// </summary>
     public void Reset_Main_Hero_Parts()
     {
         Main_Data = null;

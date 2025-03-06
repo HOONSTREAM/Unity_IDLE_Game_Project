@@ -172,6 +172,7 @@ public class Player : Character
 
     /// <summary>
     /// 각 영웅별 ATK, HP, ATK_SPEED를 세팅합니다.
+    /// Advice : X2_SPEED는 직접적인 ATK_SPEED를 수정하지않고, TimeScale을 수정합니다.
     /// </summary>
     public void Set_ATK_HP_Sub_Hero()
     {

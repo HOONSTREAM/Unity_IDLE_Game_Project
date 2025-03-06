@@ -457,7 +457,8 @@ public class Main_UI : MonoBehaviour
     {
         Main_Parts_Dict.Clear();
 
-        for (int i = 0; i < 6; i++)        {
+        for (int i = 0; i < 6; i++)        
+        {
             main_hero_parts[i].Initialize();
         }
 
@@ -472,7 +473,15 @@ public class Main_UI : MonoBehaviour
                 Value++;
                 main_hero_parts[i].Init_Data(Data.Data, false);
                 main_hero_parts[i].transform.SetSiblingIndex(Value);
-                Main_Parts_Dict.Add(Character_Spawner.players[i], main_hero_parts[i]);
+
+                if (Character_Spawner.players[i] != null) // 유효성검사
+                {
+                    Main_Parts_Dict.Add(Character_Spawner.players[i], main_hero_parts[i]);
+                }
+                else
+                {
+                    Debug.LogError($"{Character_Spawner.players[i]} 가 null 입니다.");
+                }
 
             }
         }

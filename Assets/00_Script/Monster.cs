@@ -245,7 +245,8 @@ public class Monster : Character
 
         else
         {
-            Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(this.gameObject);
+            //Clear_Pool을 통해 즉시 파괴되므로
+            //Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(this.gameObject);
         }
        
         

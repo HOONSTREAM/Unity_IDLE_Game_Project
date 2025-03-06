@@ -64,7 +64,7 @@ public class Coin_Parent : MonoBehaviour
         switch (type)
         {
             case Coin_Type.Gold:
-                Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY() * (1 + Base_Manager.Player.Calculate_Gold_Drop_Percentage());
+                Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY() * (1 + Base_Manager.Player.Calculate_Gold_Drop_Percentage());             
                 break;
             case Coin_Type.Dia:
                 Data_Manager.Main_Players_Data.DiaMond += reward_value;
