@@ -8,13 +8,14 @@ public class UI_Base : MonoBehaviour
 
     public virtual bool Init()
     {
+        Base_Manager.SOUND.Play(Sound.BGS, "Title_Button_OnPointerEnter_Sound");
         if (_init)
         {
             return false;
         }
 
         else
-        {
+        {         
             return true;
         }
     }
