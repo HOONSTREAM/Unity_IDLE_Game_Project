@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -37,11 +38,25 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Daily_Quest_Button;
 
+    [Space(20f)]
+    [Header("TOUCH_EFFECT")]
+    [SerializeField]
+    private ParticleSystem Touch_Effect;
+    private GraphicRaycaster raycaster;
+    private PointerEventData PointerEventData;
+    private EventSystem eventsystem;
+    private Canvas canvas;
+
+
+
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
     [HideInInspector]
     public UI_Base UI;
     public static bool isSavingMode = false;
+
+
+
 
     /// <summary>
     /// 오프라인 보상 시작 시간을 지정합니다. (Second 단위)
@@ -88,14 +103,56 @@ public class Base_Canvas : MonoBehaviour
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
 
+        Touch_Effect_Init();
     }
     private void Update()
     {
-        
+        Get_Escape_Panel();
+        Get_Touch_Effect();
+    }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+    #region Touch_Effect
+    private void Touch_Effect_Init()
+    {
+        canvas = this.GetComponent<Canvas>();
+        raycaster = canvas.GetComponent<GraphicRaycaster>();
+        eventsystem = FindObjectOfType<EventSystem>();
+    }
+
+    private void Get_Touch_Effect()
+    {
+        if (Input.touchCount > 0)  // 터치 입력이 있을 때만 실행
         {
-            if(Utils.UI_Holder.Count > 0)
+            Touch touch = Input.GetTouch(0);  // 첫 번째 터치만 처리
+
+            if (touch.phase == TouchPhase.Began)  // 터치가 시작될 때만 효과 발생
+            {
+                Vector2 touchPosition = touch.position;
+                CreateTouchEffect(touchPosition);
+            }
+        }
+    }
+
+    private void CreateTouchEffect(Vector2 touchPosition)
+    {
+        // 터치 좌표를 UI(Canvas) 좌표로 변환
+        Vector2 uiPosition;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform, touchPosition, canvas.worldCamera, out uiPosition
+        );
+
+        // 파티클 생성
+        ParticleSystem particle = Instantiate(Touch_Effect, canvas.transform);
+        particle.transform.localPosition = uiPosition;
+
+        // 일정 시간이 지나면 파티클 삭제
+        Destroy(particle.gameObject, 1.0f);
+    }
+    private void Get_Escape_Panel()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Utils.UI_Holder.Count > 0)
             {
                 Utils.ClosePopupUI();
             }
@@ -104,9 +161,10 @@ public class Base_Canvas : MonoBehaviour
             {
                 Get_UI("Back_Button_Popup");
             }
-            
+
         }
     }
+    #endregion
     public Transform Holder_Layer(int value)
     {
         return LAYER.GetChild(value);
