@@ -89,18 +89,21 @@ public class UI_Dungeon : UI_Base
         }
 
         Stage_Manager.Dungeon_Level = Level[value];
+ 
+        Base_Manager.Stage.State_Change(Stage_State.Dungeon, value);
 
         // 일일퀘스트 조건 상승
-        if(value == 0)
+        if (value == 0)
         {
             Data_Manager.Main_Players_Data.Dungeon_Dia++;
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 모든 적을 소탕하세요!");
         }
         else
         {
             Data_Manager.Main_Players_Data.Dungeon_Gold++;
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 보스를 처치하세요!");
         }
-
-        Base_Manager.Stage.State_Change(Stage_State.Dungeon, value);        
+    
         Utils.CloseAllPopupUI();
     }
 

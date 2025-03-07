@@ -218,7 +218,7 @@ public class Monster : Character
 
         Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>
         {
-            value.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            value.transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
             Base_Manager.instance.Return_Pool(value.GetComponent<ParticleSystem>().duration, value, "Smoke");
 
         });

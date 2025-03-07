@@ -38,17 +38,6 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Daily_Quest_Button;
 
-    [Space(20f)]
-    [Header("TOUCH_EFFECT")]
-    [SerializeField]
-    private ParticleSystem Touch_Effect;
-    private GraphicRaycaster raycaster;
-    private PointerEventData PointerEventData;
-    private EventSystem eventsystem;
-    private Canvas canvas;
-
-
-
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
     [HideInInspector]
@@ -102,52 +91,14 @@ public class Base_Canvas : MonoBehaviour
         AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
-
-        Touch_Effect_Init();
+       
     }
     private void Update()
     {
-        Get_Escape_Panel();
-        Get_Touch_Effect();
+        Get_Escape_Panel();      
     }
 
-    #region Touch_Effect
-    private void Touch_Effect_Init()
-    {
-        canvas = this.GetComponent<Canvas>();
-        raycaster = canvas.GetComponent<GraphicRaycaster>();
-        eventsystem = FindObjectOfType<EventSystem>();
-    }
-
-    private void Get_Touch_Effect()
-    {
-        if (Input.touchCount > 0)  // 터치 입력이 있을 때만 실행
-        {
-            Touch touch = Input.GetTouch(0);  // 첫 번째 터치만 처리
-
-            if (touch.phase == TouchPhase.Began)  // 터치가 시작될 때만 효과 발생
-            {
-                Vector2 touchPosition = touch.position;
-                CreateTouchEffect(touchPosition);
-            }
-        }
-    }
-
-    private void CreateTouchEffect(Vector2 touchPosition)
-    {
-        // 터치 좌표를 UI(Canvas) 좌표로 변환
-        Vector2 uiPosition;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvas.transform as RectTransform, touchPosition, canvas.worldCamera, out uiPosition
-        );
-
-        // 파티클 생성
-        ParticleSystem particle = Instantiate(Touch_Effect, canvas.transform);
-        particle.transform.localPosition = uiPosition;
-
-        // 일정 시간이 지나면 파티클 삭제
-        Destroy(particle.gameObject, 1.0f);
-    }
+    
     private void Get_Escape_Panel()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -164,7 +115,7 @@ public class Base_Canvas : MonoBehaviour
 
         }
     }
-    #endregion
+ 
     public Transform Holder_Layer(int value)
     {
         return LAYER.GetChild(value);
