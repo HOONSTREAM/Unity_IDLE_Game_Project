@@ -38,6 +38,17 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Daily_Quest_Button;
 
+
+    [Space(20f)]
+    [Header("TOUCH_EFFECT")]
+    [SerializeField]
+    private GameObject Touch_Effect;
+    private GraphicRaycaster raycaster;
+    private PointerEventData PointerEventData;
+    private EventSystem eventsystem;
+    private Canvas canvas;
+
+
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
     [HideInInspector]
@@ -91,14 +102,13 @@ public class Base_Canvas : MonoBehaviour
         AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
-       
+      
     }
     private void Update()
     {
-        Get_Escape_Panel();      
+        Get_Escape_Panel();        
     }
 
-    
     private void Get_Escape_Panel()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
