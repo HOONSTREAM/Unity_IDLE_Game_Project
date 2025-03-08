@@ -8,7 +8,8 @@ public class Touch_Event : MonoBehaviour
     [SerializeField]
     private Camera UI_camera;
     [SerializeField]
-    private ParticleSystem Touch_Effect; 
+    private ParticleSystem Touch_Effect;
+    
  
     private void Update()
     {
@@ -29,6 +30,8 @@ public class Touch_Event : MonoBehaviour
                 // 파티클 시스템 위치 이동
                 Touch_Effect.transform.position = new Vector3(touchPos.x, touchPos.y, Touch_Effect.transform.position.z);
 
+
+                Base_Manager.SOUND.Play(Sound.BGS, "Touch_Effect");
                 // 파티클 시스템 재생
                 Touch_Effect.Play();
             }

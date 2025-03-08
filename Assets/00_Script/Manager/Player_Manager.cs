@@ -58,7 +58,7 @@ public class Player_Manager
         if(Data_Manager.Main_Players_Data.EXP >= Utils.Data.levelData.Get_MAXEXP()) // 레벨업 조건 달성 시
         {
             Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨이 올라 더욱 강해졌습니다!");
-            Base_Manager.SOUND.Play(Sound.BGS, "levelup_sound");
+            Base_Manager.SOUND.Play(Sound.BGS, "Level_Up");
             Data_Manager.Main_Players_Data.Player_Level++;
             Data_Manager.Main_Players_Data.EXP = 0;
 

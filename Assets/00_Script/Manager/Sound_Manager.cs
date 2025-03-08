@@ -69,8 +69,8 @@ public class Sound_Manager
             AudioClip audioClip = GetAudioClip(path);
             if (audioClip == null)
                 return false;
-
-            audioSource.PlayOneShot(audioClip);
+         
+                audioSource.PlayOneShot(audioClip);
             
             return true;
         }

@@ -19,6 +19,7 @@ public class Main_Character : Skill_Base
 
         var character = HP_Check();
         m_Player.transform.LookAt(character.transform.position);
+        Base_Manager.SOUND.Play(Sound.BGS, "Heal_Sound");
         character.Heal(Skill_Damage(110));      
         Skill_Effect.gameObject.SetActive(true);
         Skill_Effect.transform.position = character.transform.position;

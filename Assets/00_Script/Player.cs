@@ -86,7 +86,7 @@ public class Player : Character
                 else if (targetDistance <= Attack_Range && isATTACK == false)
                 {
                     isATTACK = true;
-                    AnimatorChange("isATTACK");
+                    AnimatorChange("isATTACK");                    
                     Get_MP(5);
                     Invoke("InitAttack", (1.0f / ATK_Speed));
                 }
