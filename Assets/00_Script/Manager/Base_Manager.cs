@@ -148,10 +148,33 @@ public class Base_Manager : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        
-       
+             
     }
 
+    /// <summary>
+    /// 백그라운드에 간 시간을 계산하여, 오프라인 보상을 계산하여 지급합니다.
+    /// </summary>
+    /// <param name="pause"></param>
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause == true)
+        {
+            Data_Manager.Main_Players_Data.EndDate = Utils.Get_Server_Time();
+        }
+
+        else
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("앱으로 다시 돌아왔습니다.");
+
+            Data_Manager.Main_Players_Data.StartDate = Utils.Get_Server_Time();
+
+            if (Utils.Offline_Timer_Check() >= 1.0d)
+            {
+                Base_Canvas.instance.Get_UI("OFFLINE_REWARD");
+                Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
+            }
+        }
+    }
 
 
 }
