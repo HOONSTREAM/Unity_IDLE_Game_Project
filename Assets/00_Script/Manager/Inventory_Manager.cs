@@ -8,6 +8,11 @@ using UnityEngine;
 public class Inventory_Manager 
 {
   
+    /// <summary>
+    /// 실제로 플레이어에게 아이템을 지급합니다.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="Drop_count"></param>
     public void Get_Item(Item_Scriptable item, int Drop_count = 1)
     {
         if (Base_Manager.Data.Item_Holder.ContainsKey(item.name))

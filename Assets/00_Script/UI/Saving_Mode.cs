@@ -20,8 +20,10 @@ public class Saving_Mode : UI_Base
     private UI_Inventory_Parts item_parts;
     [SerializeField]
     private Image Off_Saving_Image;
+    [SerializeField]
+    private TextMeshProUGUI Now_Player_Stage;
 
-    public Dictionary<string, Item_Holder> saving_item_Dict = new Dictionary<string, Item_Holder>();
+    public Dictionary<string, Item_Holder> saving_item_Dict = new Dictionary<string, Item_Holder>(); // 세이브모드 상태일때, 아이템획득량을 임시로 저장합니다.
     public Dictionary<string, UI_Inventory_Parts> item_parts_saving_mode = new Dictionary<string, UI_Inventory_Parts>();
 
 
@@ -34,6 +36,10 @@ public class Saving_Mode : UI_Base
         _camera = Camera.main;
         _camera.enabled = false;
         onSaving?.Invoke();
+
+        Base_Manager.SOUND._audioSource[0].volume = 0.0f;
+        Base_Manager.SOUND._audioSource[1].volume = 0.0f;
+
         return base.Init();
     }
 
@@ -49,7 +55,7 @@ public class Saving_Mode : UI_Base
         Battery_Fill_Image.fillAmount = SystemInfo.batteryLevel;
 
         Time_Text.text = System.DateTime.Now.ToString("HH:mm:ss"); //핸드폰시간기준, 오프라인보상에 사용하면 버그로 악용될 수 있다.
-
+        Now_Player_Stage.text = $"<color=#FFFF00>{Data_Manager.Main_Players_Data.Player_Stage}</color>층 돌파중...";
 
 
         if (Input.GetMouseButtonDown(0))
@@ -70,6 +76,9 @@ public class Saving_Mode : UI_Base
             {
 
                 DisableOBJ();
+
+                Base_Manager.SOUND._audioSource[0].volume = 1.0f;
+                Base_Manager.SOUND._audioSource[1].volume = 1.0f;
             }
         }
 
@@ -95,7 +104,7 @@ public class Saving_Mode : UI_Base
         if (saving_item_Dict.ContainsKey(item.name))
         {
             saving_item_Dict[item.name].holder.Hero_Card_Amount++;
-            item_parts_saving_mode[item.name].Init(item.name, Base_Manager.Data.Item_Holder[item.name]);
+            item_parts_saving_mode[item.name].Init(item.name, saving_item_Dict[item.name].holder);
             return;
         }
 
@@ -106,6 +115,6 @@ public class Saving_Mode : UI_Base
 
         var go = Instantiate(item_parts, Content);
         item_parts_saving_mode.Add(item.name, go);
-        go.Init(items.Data.name, Base_Manager.Data.Item_Holder[item.name]);
+        go.Init(items.Data.name, saving_item_Dict[item.name].holder);
     }
 }
