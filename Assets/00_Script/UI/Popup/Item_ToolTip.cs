@@ -17,6 +17,9 @@ public class Item_ToolTip : MonoBehaviour
     [SerializeField]
     private ParticleImage Legendary_Particle;
 
+    private string start_percent;
+    private string effect_percent = default;
+
     private void Awake()
     {
 
@@ -47,18 +50,64 @@ public class Item_ToolTip : MonoBehaviour
 
 
     }
-           
+
+ 
     public void Show_Item_ToolTip(Item_Scriptable item, Vector2 pos)
     {
-        Rect.pivot = Set_Pivot_Point(pos);
+
+        if (item.ItemType == ItemType.Equipment)
+        {
+            var effects = RelicEffectFactory.Get_Holding_Effects_Relic(item.name); // 유물 팩토리에서 보유효과를 가져옵니다.
+
+            if (!CSV_Importer.Relic_CSV_DATA_AUTO_Map.TryGetValue(item.name.ToUpper(), out var csvData))
+            {
+                Debug.LogWarning($"유물 {item.name}의 CSV 데이터를 찾을 수 없습니다.");
+                return;
+            }
+
+            int heroLevel = Base_Manager.Data.Item_Holder[item.name].Hero_Level;
+
+            if (heroLevel < csvData.Count) // CSV 데이터 존재 여부 확인
+            {
+                start_percent = csvData[heroLevel]["start_percent"].ToString();
+
+                if (csvData[heroLevel].TryGetValue("effect_percent", out object effectValue))
+                {
+                    effect_percent = effectValue.ToString();
+                }
+                else
+                {
+                    effect_percent = default;  // 기본값 처리
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"유물 {item.name}의 {heroLevel} 레벨 데이터가 없습니다.");
+            }
+
+        }
+
+
+        string coloredStartPercent = $"<color=#FFFF00>{start_percent}</color>";
+        string coloredEffectPercent = $"<color=#FFFF00>{effect_percent}</color>";
+
 
         Rect.anchoredPosition = pos;
         Item_Image.sprite = Utils.Get_Atlas(item.name);
         Item_Name_Text.text = item.Item_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(item.rarity) + item.KO_rarity.ToString();
-        Description_Text.text = string.Format(item.Item_Description,15,30);
 
-        if(item.rarity == Rarity.Legendary)
+        if(item.ItemType == ItemType.Equipment)
+        {
+            Description_Text.text = string.Format(item.Item_Description, coloredStartPercent, coloredEffectPercent);
+        }
+        else
+        {
+            Description_Text.text = string.Format(item.Item_Description);
+        }
+
+
+        if (item.rarity == Rarity.Legendary)
         {
             Legendary_Particle.gameObject.SetActive(true);
         }
@@ -68,17 +117,5 @@ public class Item_ToolTip : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 아이템 툴팁이 잘리는 이슈를 방지하기 위해서 사용자가 터치한 스크린에 따라서 피벗을 조정합니다.
-    /// </summary>
-    /// <param name="pos"></param>
-    /// <returns></returns>
-    public Vector2 Set_Pivot_Point(Vector2 pos)
-    {
-        float xPos = pos.x > Screen.width / 2 ? 1.0f : 0.0f;
-        float yPos = pos.y > Screen.height / 2 ? 1.0f : 0.0f;
-
-
-        return new Vector2(xPos, yPos);
-    }
+  
 }
