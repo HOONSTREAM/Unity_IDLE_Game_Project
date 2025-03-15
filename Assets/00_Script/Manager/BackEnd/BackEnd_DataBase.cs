@@ -6,13 +6,14 @@ using System;
 using BackEnd;
 using BackEnd.BackndNewtonsoft.Json.Linq;
 using LitJson;
+using System.Threading.Tasks;
 
 public partial class BackEnd_Manager : MonoBehaviour
 {
     /// <summary>
     /// 유저 데이터를 저장합니다. BackendReturnObject는 서버와 통신한 결과값을 의미합니다.
     /// </summary>
-    public void WriteData()
+    public async Task WriteData()
     {
         Debug.Log("WriteData 메서드 호출, 데이터를 기록합니다.");
         #region DEFAULT DATA
@@ -70,8 +71,10 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode); // 패스트모드 활성화 여부
         #endregion
 
-
-
+        // 비동기 호출 (유니티 정책에 의한 메인스레드 유지)
+        // Unity의 메인스레드에서 실행되는 비동기작업을 처리할 때 유리함.
+        // 게임 프레임 블로킹 방지
+        await Task.Yield(); // 현재 프레임을 넘기고 다음 프레임에서 실행
 
 
         Debug.Log("유저 기본 데이터를 수정합니다");
@@ -98,6 +101,8 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         Debug.Log("영웅 보유 데이터를 수정합니다");
 
+        await Task.Yield();
+
         var character_bro = Backend.GameData.Update("CHARACTER", new Where(), character_param);
 
         if (character_bro.IsSuccess())
@@ -117,6 +122,8 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         Debug.Log("인벤토리 데이터를 수정합니다");
 
+        await Task.Yield();
+
         var item_bro = Backend.GameData.Update("ITEM", new Where(), item_param);
 
         if (item_bro.IsSuccess())
@@ -135,6 +142,8 @@ public partial class BackEnd_Manager : MonoBehaviour
         smelt_param.Add("Smelt", Json_Smelt_Data);
      
         Debug.Log("유저 각인 데이터를 수정합니다");
+
+        await Task.Yield();
 
         var smelt_bro = Backend.GameData.Update("SMELT", new Where(), smelt_param);
 
