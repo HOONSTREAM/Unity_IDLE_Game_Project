@@ -27,7 +27,7 @@ public class Player_Manager
     /// </summary>
     public void Set_ADS_Buff(int buffType, bool isActive)
     {
-        float buffValue = isActive ? 3.0f : 1.0f; // 버프가 활성화되면 300% 증가
+        float buffValue = isActive ? 3.0f : 0.0f; // 버프가 활성화되면 300% 증가
 
         switch (buffType)
         {
@@ -38,7 +38,8 @@ public class Player_Manager
                 ADS_Item_Buff_Value = buffValue * 100;
                 break;
             case 2: // 영웅 공격력 상승
-                ADS_Atk_Buff_Value = buffValue;
+                float _atk_buff_value = isActive ? 3.0f : 1.0f;
+                ADS_Atk_Buff_Value = _atk_buff_value;
                 break;
         }
     }
@@ -223,7 +224,7 @@ public class Player_Manager
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.GOLD_DROP, 0.0));
 
         var ADS_Buff_Value = ADS_Gold_Buff_Value;
-
+      
         return 0.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.MONEY) / 100) + (float)Value + (float)Relic_Value + ADS_Buff_Value;
     }
     public float Calculate_Critical_Percentage()
