@@ -35,7 +35,7 @@ public class Player_Manager
                 ADS_Gold_Buff_Value = buffValue;
                 break;
             case 1: // ¾ÆÀÌÅÛ µå¶ø·ü »ó½Â
-                ADS_Item_Buff_Value = buffValue;
+                ADS_Item_Buff_Value = buffValue * 100;
                 break;
             case 2: // ¿µ¿õ °ø°Ý·Â »ó½Â
                 ADS_Atk_Buff_Value = buffValue;
@@ -193,13 +193,16 @@ public class Player_Manager
         var holding_effect = Check_Player_Holding_Effects();
         var holding_effect_Relic = Check_Relic_Holding_Effects();
 
-        var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.ITEM_DROP, 0.0));
-        var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ITEM_DROP, 0.0));
+        var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.ITEM_DROP, 0.0)) * 100;
+        var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ITEM_DROP, 0.0)) * 100;
 
         var ADS_Buff_Value = ADS_Item_Buff_Value;
 
+        var total_value = (0.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.ITEM) +
+            (float)Value + (float)Relic_Value + ADS_Buff_Value);
 
-        return 0.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.ITEM) + (float)Value + (float)Relic_Value + ADS_Buff_Value;
+
+        return total_value;
     }
     public float Calculate_Atk_Speed_Percentage()
     {
@@ -208,9 +211,7 @@ public class Player_Manager
 
         var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK_SPEED, 0.0));
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK_SPEED, 0.0));
-
-        
-
+      
         return (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK_SPEED) / 100) + (float)Value + (float)Relic_Value;
     }
     public float Calculate_Gold_Drop_Percentage()
@@ -233,8 +234,6 @@ public class Player_Manager
         var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.CRITICAL_PERCENTAGE, 0.0) * 100);
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.CRITICAL_PERCENTAGE, 0.0) * 100);
 
-        
-
         return 20.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_PERCENTAGE) + (float)Value + (float)Relic_Value;
     }
     public float Calculate_Cri_Damage_Percentage()
@@ -244,8 +243,7 @@ public class Player_Manager
 
         var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.CRITICAL_DAMAGE, 0.0) * 100);
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.CRITICAL_DAMAGE, 0.0) * 100);
-
-        
+       
         return 140.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_DAMAGE) +(float)Value + (float)Relic_Value;
     }
     #endregion

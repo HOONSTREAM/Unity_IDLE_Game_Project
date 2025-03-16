@@ -42,7 +42,7 @@ public class UI_Smelt : UI_Base
         if (!Utils.Item_Count("Steel", 100))
         {
             Base_Canvas.instance.Get_Toast_Popup().Initialize("각인에 필요한 재료가 부족합니다.");
-            return;
+            //return;
         }
 
         Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 100;
@@ -63,8 +63,9 @@ public class UI_Smelt : UI_Base
 
         for (int i = 0; i < count; i++)
         {
-            Smelt_Status status = (Smelt_Status)Random.Range(0, 8); // 어떤 종류의 부가능력치를 부여할지 결정합니다.
-            int value = Calculate_Rarity_Percentage(); // 특정된 종류의 부가능력치의 등급을 결정합니다.
+            Smelt_Status status = (Smelt_Status)Random.Range(0, 7); // 어떤 종류의 부가능력치를 부여할지 결정합니다.
+            int value = Calculate_Rarity_Level(); // 특정된 종류의 부가능력치의 등급을 결정합니다.
+            Debug.Log($"{value} 의 값이 Calculate_Rarity_Level 메서드에서 나옴.");
             float valueCount = Random.Range(StatusHolder(status)[value].Min, StatusHolder(status)[value].Max); // 결정된 부가능력치 등급의 최솟값과 최댓값의 랜덤값을 산출합니다.
 
             Base_Manager.Data.User_Main_Data_Smelt_Array.Add(new Smelt_Holder { rarity = (Rarity)value, smelt_holder = status, smelt_value = valueCount });
@@ -96,6 +97,11 @@ public class UI_Smelt : UI_Base
         go.GetComponent<Animator>().SetTrigger("Open");
      
     }
+
+    /// <summary>
+    /// 몇개의 각인을 시킬 것인지 확률적으로 계산합니다.
+    /// </summary>
+    /// <returns></returns>
     private int Calculate_Rarity_Percentage()
     {
         int RandomCount = Random.Range(0, 100);
@@ -117,16 +123,42 @@ public class UI_Smelt : UI_Base
 
         return count >= 0 ? count : (int)smelt_Data.Smelt_Count_Value.Length;
     }
+
+    /// <summary>
+    /// 각인의 등급을 결정합니다.
+    /// </summary>
+    /// <returns></returns>
+    private int Calculate_Rarity_Level()
+    {
+        int RandomCount = Random.Range(0, 100);
+
+        float RandomValue = 0.0f;
+
+        int count = -1;
+
+        for (int i = 0; i < smelt_Data.Smelt_Count_Value.Length; i++)
+        {
+            RandomValue += smelt_Data.Smelt_Count_Value[i];
+
+            if (RandomValue >= RandomCount)
+            {
+                count = i + 1;
+                break;
+            }
+        }
+
+        return count >= 0 && count < 5 ? count : ( (int)smelt_Data.Smelt_Count_Value.Length - 1 );
+    }
+
     private string StatusString(Smelt_Status holder)
     {
         switch (holder)
         {
             case Smelt_Status.ATK: return "공격력 증가";
             case Smelt_Status.HP: return "HP 증가";
-            case Smelt_Status.MONEY: return "골드 획득량 증가"; // TODO : 적용필요
-            case Smelt_Status.ITEM: return "아이템 드랍률 증가"; // TODO : 적용필요
-            case Smelt_Status.SKILL_COOL: return "스킬 쿨타임 감소"; //TODO : 적용필요
-            case Smelt_Status.ATK_SPEED: return "공격 속도 증가"; //TODO : 적용필요
+            case Smelt_Status.MONEY: return "골드 획득량 증가"; 
+            case Smelt_Status.ITEM: return "아이템 드랍률 증가"; 
+            case Smelt_Status.ATK_SPEED: return "공격 속도 증가"; 
             case Smelt_Status.CRITICAL_PERCENTAGE: return "치명타 확률 증가";
             case Smelt_Status.CRITICAL_DAMAGE: return "치명타 데미지 증가";
         }
@@ -141,7 +173,6 @@ public class UI_Smelt : UI_Base
             case Smelt_Status.HP: return smelt_Data.HP_percentage;
             case Smelt_Status.MONEY: return smelt_Data.MONEY_percentage;
             case Smelt_Status.ITEM: return smelt_Data.ITEM_percentage;
-            case Smelt_Status.SKILL_COOL: return smelt_Data.SKILL_COOL_percntage;
             case Smelt_Status.ATK_SPEED: return smelt_Data.ATK_SPEED_percentage;
             case Smelt_Status.CRITICAL_PERCENTAGE: return smelt_Data.CRITICAL_PER_percentage;
             case Smelt_Status.CRITICAL_DAMAGE: return smelt_Data.CRITICAL_DMG_percentage;

@@ -37,7 +37,7 @@ public class Item_Manager
                 float ValueCount = Random.Range(0.0f, 100.0f);
                 float Smelt_Value = Base_Manager.Player.Calculate_Item_Drop_Percentage();
                 
-                float Adjusted_Chance = data.Value.Item_Chance * (1 + Smelt_Value);
+                float Adjusted_Chance = data.Value.Item_Chance * (1 + (Smelt_Value / 100.0f));
             
                 if (ValueCount <= Adjusted_Chance)
                 {

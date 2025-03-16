@@ -105,19 +105,19 @@ public class Stage_Manager
 
             case Stage_State.Dungeon_Clear:
                 Debug.Log("Stage : Dungeon_Clear");                   
-                Base_Manager.SOUND.Play(Sound.BGM, "Main");
-                isDungeon = false;
+                Base_Manager.SOUND.Play(Sound.BGM, "Main");                
                 Base_Manager.Pool.Clear_Pool();
-                M_DungeonClearEvent?.Invoke(Value);               
+                M_DungeonClearEvent?.Invoke(Value);
+                isDungeon = false;
                 break;
 
             case Stage_State.Dungeon_Dead:
                 Debug.Log("Stage : Dungeon_Dead");
                 Base_Manager.Pool.Clear_Pool();
                 Base_Manager.SOUND.Play(Sound.BGS, "Lose");
-                Base_Manager.SOUND.Play(Sound.BGM, "Main");
+                Base_Manager.SOUND.Play(Sound.BGM, "Main");               
+                M_DungeonDeadEvent?.Invoke();
                 isDungeon = false;
-                M_DungeonDeadEvent?.Invoke();              
                 break;
         }
     }

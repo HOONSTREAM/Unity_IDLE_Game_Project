@@ -18,7 +18,6 @@ public class Smelt_Scriptable : ScriptableObject
     public Percentage_Smelt[] HP_percentage; 
     public Percentage_Smelt[] MONEY_percentage;
     public Percentage_Smelt[] ITEM_percentage;
-    public Percentage_Smelt[] SKILL_COOL_percntage;
     public Percentage_Smelt[] CRITICAL_PER_percentage; 
     public Percentage_Smelt[] CRITICAL_DMG_percentage;
     public Percentage_Smelt[] ATK_SPEED_percentage;
