@@ -156,6 +156,27 @@ public partial class BackEnd_Manager : MonoBehaviour
             Debug.LogError("유저 영웅 각인 데이터 수정에 실패했습니다. : " + smelt_bro);
         }
         #endregion
+
+        #region PLAYER_SET_HERO_DATA
+        Param Player_Set_Hero_param = new Param();
+        string Json_Player_Set_Hero_data = JsonConvert.SerializeObject(Base_Manager.Character.Set_Character);
+        Player_Set_Hero_param.Add("Player_Set_Hero", Json_Player_Set_Hero_data);
+
+        Debug.Log("유저 영웅 배치 데이터를 수정합니다");
+
+        await Task.Yield();
+
+        var player_set_hero_bro = Backend.GameData.Update("PLAYER_SET_HERO", new Where(), Player_Set_Hero_param);
+
+        if (player_set_hero_bro.IsSuccess())
+        {
+            Debug.Log("유저 영웅 배치 데이터 수정에 성공했습니다. : " + player_set_hero_bro);
+        }
+        else
+        {
+            Debug.LogError("유저 영웅 배치 데이터 수정에 실패했습니다. : " + player_set_hero_bro);
+        }
+        #endregion
     }
     /// <summary>
     /// 유저 데이터를 불러옵니다.
@@ -417,6 +438,48 @@ public partial class BackEnd_Manager : MonoBehaviour
         else
         {
             Debug.LogError("영웅 각인 데이터 조회에 실패했습니다. : " + smelt_bro);
+        }
+        #endregion
+
+        #region PLAYER_SET_HERO_DATA
+
+        Debug.Log("'PLAYER_SET_HERO' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        var player_set_hero_bro = Backend.GameData.GetMyData("PLAYER_SET_HERO", new Where());
+
+        if (player_set_hero_bro.Rows().Count > 0)
+        {
+
+            var rows = BackendReturnObject.Flatten(player_set_hero_bro.Rows());
+
+            foreach (JsonData row in rows)
+            {
+                if (row.ContainsKey("Player_Set_Hero"))
+                {
+                    string Player_Set_Hero_Data = row["Player_Set_Hero"].ToString();
+
+                    if (string.IsNullOrEmpty(Player_Set_Hero_Data))
+                    {
+                        Debug.LogError("영웅 배치 데이터가 비어있습니다.");
+                        return;
+                    }
+                    Character_Holder[] char_holder = JsonConvert.DeserializeObject<Character_Holder[]>(Player_Set_Hero_Data);
+                    Base_Manager.Character.Set_Character = char_holder;
+                }
+
+                else
+                {
+                    Debug.LogWarning(" 'Player_Set_Hero' 데이터가 올바른 JSON 형식이 아닙니다.");
+                }
+
+            }
+
+            Base_Manager.Data.Init();
+
+            Debug.Log("영웅 배치 데이터 불러오기에 성공하였습니다.");
+        }
+        else
+        {
+            Debug.LogError("영웅 배치 데이터 조회에 실패했습니다. : " + player_set_hero_bro);
         }
         #endregion
     }

@@ -181,17 +181,34 @@ public class BackendGameData
 
         smelt_param.Add("Smelt", Base_Manager.Data.User_Main_Data_Smelt_Array);
 
-        Debug.Log("ITEM 테이블에 새로운 데이터 행을 추가합니다.");
+        Debug.Log("SMELT 테이블에 새로운 데이터 행을 추가합니다.");
 
         var smelt_bro = Backend.GameData.Insert("SMELT", smelt_param);
 
         if (smelt_bro.IsSuccess())
         {
-            Debug.Log("인벤토리 데이터를 추가하는데 성공했습니다. : " + smelt_bro);
+            Debug.Log("유저 영웅 각인 데이터를 추가하는데 성공했습니다. : " + smelt_bro);
         }
         else
         {
-            Debug.LogError("인벤토리 데이터를 추가하는데 실패했습니다. : " + smelt_bro);
+            Debug.LogError("유저 영웅 각인 데이터를 추가하는데 실패했습니다. : " + smelt_bro);
+        }
+
+        Param player_set_hero_param = new Param();
+
+        player_set_hero_param.Add("Player_Set_Hero", Base_Manager.Character.Set_Character);
+
+        Debug.Log("Player_Set_Hero 테이블에 새로운 데이터 행을 추가합니다.");
+
+        var player_set_hero_bro = Backend.GameData.Insert("PLAYER_SET_HERO", player_set_hero_param);
+
+        if (player_set_hero_bro.IsSuccess())
+        {
+            Debug.Log("유저 영웅 배치 데이터를 추가하는데 성공했습니다. : " + player_set_hero_bro);
+        }
+        else
+        {
+            Debug.LogError("유저 영웅 배치 데이터를 추가하는데 실패했습니다. : " + player_set_hero_bro);
         }
 
     }
@@ -245,7 +262,7 @@ public class Data
     public float buff_x2_speed;   
     public int Quest_Count;
 
-
+    
     /// <summary>
     /// 플레이어 유저의 소환 레벨 변수
     /// </summary>
