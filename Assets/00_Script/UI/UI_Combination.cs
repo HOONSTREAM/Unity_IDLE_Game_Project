@@ -1,0 +1,169 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using static UnityEditor.Progress;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
+
+public class UI_Combination : UI_Base
+{
+    [SerializeField]
+    private UI_Inventory_Parts First_Comb_Parts;
+    [SerializeField]
+    private UI_Inventory_Parts Second_Comb_Parts;
+    [SerializeField]
+    private UI_Inventory_Parts Third_Comb_Parts;
+    [SerializeField]
+    private UI_Inventory_Parts Four_Comb_Parts;
+    [SerializeField]
+    private UI_Inventory_Parts Selected_Item_Parts;
+
+    [SerializeField]
+    private TextMeshProUGUI First_Parts_Count_Text;
+    [SerializeField]
+    private TextMeshProUGUI Second_Parts_Count_Text;
+    [SerializeField]
+    private TextMeshProUGUI Third_Parts_Count_Text;
+    [SerializeField]
+    private TextMeshProUGUI Four_Parts_Count_Text;
+
+
+    private bool is_Comb_Scroll = false;
+    private bool is_Legendary_Ring_Book = false;
+
+    public override bool Init()
+    {
+        First_Comb_Parts.gameObject.SetActive(false);
+        Second_Comb_Parts.gameObject.SetActive(false);
+        Third_Comb_Parts.gameObject.SetActive(false);
+        Four_Comb_Parts.gameObject.SetActive(false);
+        Selected_Item_Parts.gameObject.SetActive(false);
+        is_Comb_Scroll = false;
+        is_Legendary_Ring_Book = false;
+
+        return base.Init();
+    }
+    /// <summary>
+    /// 조합스크롤 제작식을 노출시킵니다.
+    /// </summary>
+    public void Set_Comb_Scroll()
+    {
+        Init();
+
+        is_Comb_Scroll = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Scroll_Comb", Select_holder);
+        
+        First_Comb_Parts.gameObject.SetActive(true);
+        Second_Comb_Parts.gameObject.SetActive(true);
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1000;      
+        First_Comb_Parts.Init("Potion", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Potion", 1000) ? Color.green : Color.red;
+        Holder holder_2 = new Holder();
+        holder_2.Hero_Card_Amount = 1500;
+        Second_Comb_Parts.Init("scroll", holder_2);
+        Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
+        Second_Parts_Count_Text.color = Utils.Item_Count("scroll", 1500) ? Color.green : Color.red;
+    }
+    
+    /// <summary>
+    /// 전설 : 인피니티 링 제작식을 노출시킵니다.
+    /// </summary>
+    public void Set_Legendary_Ring_Book()
+    {
+        Init();
+        is_Legendary_Ring_Book = true;
+
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Comb_Book_Ring", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+        Second_Comb_Parts.gameObject.SetActive(true);
+        Third_Comb_Parts.gameObject.SetActive(true);
+        Four_Comb_Parts.gameObject.SetActive(true);
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 5000;
+        First_Comb_Parts.Init("Book", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Book", 5000) ? Color.green : Color.red;
+        Holder holder_2 = new Holder();
+        holder_2.Hero_Card_Amount = 3500;
+        Second_Comb_Parts.Init("Hondon_Potion", holder_2);
+        Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
+        Second_Parts_Count_Text.color = Utils.Item_Count("Hondon_Potion", 3500) ? Color.green : Color.red;
+        Holder holder_3 = new Holder();
+        holder_3.Hero_Card_Amount = 1000;
+        Third_Comb_Parts.Init("Steel", holder_3);
+        Third_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, holder_3.Hero_Card_Amount);
+        Third_Parts_Count_Text.color = Utils.Item_Count("Steel", 1000) ? Color.green : Color.red;
+        Holder holder_4 = new Holder();
+        holder_4.Hero_Card_Amount = 1000;
+        Four_Comb_Parts.Init("Scroll_Comb", holder_4);
+        Four_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount, holder_4.Hero_Card_Amount);
+        Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 1000) ? Color.green : Color.red;
+    }
+
+
+    public void Combination()
+    {
+        if (is_Comb_Scroll)
+        {
+            if(Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount >= 1000 && Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount >= 1500)
+            {
+                Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount -= 1000;
+                Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount -= 1500;
+                var item = Base_Manager.Data.Data_Item_Dictionary["Scroll_Comb"];
+                Base_Manager.Inventory.Get_Item(item);
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("조합 스크롤 제작 성공");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+                Set_Comb_Scroll();
+               
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("조합 스크롤 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+        }
+
+        else if (is_Legendary_Ring_Book)
+        {
+            if (Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount >= 5000 && 
+                Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount >= 3500 &&
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount >= 1000 &&
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount >= 1000)
+            {
+                Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount -= 5000;
+                Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount -= 3500;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 1000;
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount -= 1000;
+                var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Ring"];
+                Base_Manager.Inventory.Get_Item(item);
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("제작서 - 인피니티 링 제작 성공");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+                Set_Legendary_Ring_Book();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("제작서 - 인피니티 링 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+        }
+
+
+        _=Base_Manager.BACKEND.WriteData(); // _= 는 Task 비동기메서드나 일반 메서드의 반환값이 필요없을 때,
+                                            // 반환값 무시. 결과를 변수에 저장하지 않고 실행만 하는 것을 의미합니다.
+    }
+
+
+    public override void DisableOBJ()
+    {
+        base.DisableOBJ();
+    }
+}

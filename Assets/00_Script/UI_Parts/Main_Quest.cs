@@ -38,6 +38,7 @@ public class Main_Quest : MonoBehaviour
     public void Get_NextQuest()
     {
         monster_index = 0;
+        Data_Manager.Main_Players_Data.EXP_Upgrade_Count = 0;
 
         now_quest = Data[Data_Manager.Main_Players_Data.Quest_Count];
         m_State = (Quest_Type)Enum.Parse(typeof(Quest_Type), now_quest["Key"].ToString());
@@ -74,10 +75,12 @@ public class Main_Quest : MonoBehaviour
         });
 
         Data_Manager.Main_Players_Data.Quest_Count++;
+        
         Get_NextQuest();
 
     }
 
+   
     /// <summary>
     /// 실제 유저의 퀘스트 진행상황을 카운트 합니다.
     /// </summary>
