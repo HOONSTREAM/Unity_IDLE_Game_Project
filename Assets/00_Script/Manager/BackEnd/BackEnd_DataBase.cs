@@ -473,8 +473,9 @@ public partial class BackEnd_Manager : MonoBehaviour
 
             }
 
-            Base_Manager.Data.Init();
 
+            Base_Manager.Data.Init();
+            
             Debug.Log("영웅 배치 데이터 불러오기에 성공하였습니다.");
         }
         else

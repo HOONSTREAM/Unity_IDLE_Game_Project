@@ -80,6 +80,10 @@ public class UI_Heros_Parts : MonoBehaviour
         parent.Get_Hero_Information(Character, this);       
     }
 
+    /// <summary>
+    /// 영웅 UI의 영웅 카드 장착여부 검사하여, 장착중임을 나타냅니다.
+    /// </summary>
+    /// <returns></returns>
     public bool Get_Character_Check()
     {
         bool Equip = false;

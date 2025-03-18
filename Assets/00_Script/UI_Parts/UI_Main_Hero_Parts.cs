@@ -16,18 +16,11 @@ public class UI_Main_Hero_Parts : MonoBehaviour
     private Image Char_Icon, FillImage;
     [SerializeField]
     private TextMeshProUGUI HP, MP;
-
     [SerializeField]
     private GameObject Get_Ready_Object;
 
     private Character_Scriptable Main_Data = null;
 
-
-
-    private void Start()
-    {
-        Initialize();
-    }
 
     public void Initialize()
     {
@@ -57,13 +50,11 @@ public class UI_Main_Hero_Parts : MonoBehaviour
         Main_Data = data;
         LockIcon.gameObject.SetActive(false);
         PlusIcon.gameObject.SetActive(false);
-
-        HP.gameObject.SetActive(!Ready);
-        FillImage.transform.parent.gameObject.SetActive(!Ready);
-        Get_Ready_Object.gameObject.SetActive(Ready);
-
         Char_Icon.gameObject.SetActive(true);
         Char_Icon.sprite = Utils.Get_Atlas(data.Character_EN_Name);
+        HP.gameObject.SetActive(!Ready);
+        FillImage.transform.parent.gameObject.SetActive(!Ready);
+        Get_Ready_Object.gameObject.SetActive(Ready);       
     }
 
     public void State_Check(Player player)

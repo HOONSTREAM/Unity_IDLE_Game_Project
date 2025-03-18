@@ -138,15 +138,14 @@ public class Main_UI : MonoBehaviour
         {
             Instance = this;
         }
+      
     }
     private void Start()
     {
         Level_Text_Check();
         Monster_Slider_Count();       
         ADS_Buff_Check();
-        Set_Character_Data();
-        Parts_Initialize();
-
+     
         for (int i = 0 ; i<ItemContent.childCount; i++)
         {
             Bottom_Popup_Text.Add(ItemContent.GetChild(i).GetComponent<TextMeshProUGUI>());
@@ -165,6 +164,7 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.State_Change(Stage_State.Ready);
 
         Set_User_Nick_Name();
+       
     }
 
     private void Update()
@@ -451,11 +451,11 @@ public class Main_UI : MonoBehaviour
     private void OnReady()
     {
         FadeInOut(true);
-        Monster_Slider_Count();
-        Parts_Initialize();
+        Monster_Slider_Count();        
+        Parts_Initialize();        
     }
 
-    private void Parts_Initialize()
+    public void Parts_Initialize()
     {
         Main_Parts_Dict.Clear();
 
@@ -503,7 +503,7 @@ public class Main_UI : MonoBehaviour
             if (Data != null)
             {
                 indexValue++;
-                main_hero_parts[i].Init_Data(Data.Data, true);
+                main_hero_parts[i].Init_Data(Data.Data, true); // 진영교체
                 main_hero_parts[i].transform.SetSiblingIndex(indexValue);              
             }
         }
