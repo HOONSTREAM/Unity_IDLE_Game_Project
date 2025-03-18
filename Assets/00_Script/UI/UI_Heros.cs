@@ -136,7 +136,7 @@ public class UI_Heros : UI_Base
 
                 if (Data != null)
                 {
-                    if (Data.Data == parts.Character)
+                    if (Data.Data.Character_EN_Name == parts.Character.Character_EN_Name)
                     {
                         Base_Manager.Character.Disable_Character(i);                        
                         Initialize();

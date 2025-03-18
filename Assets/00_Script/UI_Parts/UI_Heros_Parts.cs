@@ -47,8 +47,7 @@ public class UI_Heros_Parts : MonoBehaviour
         parent = parentsBASE; 
         Character = data;
 
-        
-        
+              
         M_Level.text = "LV." + (Base_Manager.Data.character_Holder[data.name].Hero_Level + 1).ToString();
         M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
         M_Count.text = Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);       
@@ -89,7 +88,7 @@ public class UI_Heros_Parts : MonoBehaviour
         {
             if(Base_Manager.Character.Set_Character[i] != null)
             {
-                if (Base_Manager.Character.Set_Character[i].Data == Character)
+                if (Base_Manager.Character.Set_Character[i].Data.Character_EN_Name == Character.Character_EN_Name)
                 {
                     Equip = true;
                 }
