@@ -144,7 +144,9 @@ public class Main_UI : MonoBehaviour
         Level_Text_Check();
         Monster_Slider_Count();       
         ADS_Buff_Check();
-      
+        Set_Character_Data();
+        Parts_Initialize();
+
         for (int i = 0 ; i<ItemContent.childCount; i++)
         {
             Bottom_Popup_Text.Add(ItemContent.GetChild(i).GetComponent<TextMeshProUGUI>());
@@ -457,7 +459,7 @@ public class Main_UI : MonoBehaviour
     {
         Main_Parts_Dict.Clear();
 
-        for (int i = 0; i < 6; i++)        
+        for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)        
         {
             main_hero_parts[i].Initialize();
         }

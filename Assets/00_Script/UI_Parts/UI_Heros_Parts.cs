@@ -88,7 +88,10 @@ public class UI_Heros_Parts : MonoBehaviour
         {
             if(Base_Manager.Character.Set_Character[i] != null)
             {
-                if (Base_Manager.Character.Set_Character[i].Data.Character_EN_Name == Character.Character_EN_Name)
+                if (Base_Manager.Character.Set_Character[i].Data.Character_EN_Name == Character.Character_EN_Name) // C#에서는 객체를 비교할 때, 기본적으로 메모리 주소를 비교하므로,
+                                                                                                                   // == 연산자는 기본적으로 같은 객체(같은 메모리 주소)인지 비교한다.
+                                                                                                                   // 즉, 서버에서 새로운 데이터를 불러오면, 객체는 새로운 인스턴스로 생성되므로
+                                                                                                                   // 같은 데이터를 가진 객체이지만, 서로 다른 메모리 주소를 갖고있어 == 연산자는 false이다.
                 {
                     Equip = true;
                 }
