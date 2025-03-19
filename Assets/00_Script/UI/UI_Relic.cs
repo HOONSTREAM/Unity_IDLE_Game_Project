@@ -102,6 +102,7 @@ public class UI_Relic : UI_Base
 
         return base.Init();
     }
+
     public void Initialize()
     {
 
@@ -120,17 +121,23 @@ public class UI_Relic : UI_Base
     
     /// <summary>
     /// 장착 유물 데이터를 전체 아이템 딕셔너리에서, 유물 장착 딕셔너리에 데이터를 옮깁니다.
+    /// 실제로 유물 장착을 담당합니다.
     /// </summary>
     /// <param name="value"></param>
     public void Set_Item_Button(int value)
     {
-        if (Relic_Panel_Objects[value].transform.GetChild(0).gameObject.activeSelf)
+        int player_Level = Data_Manager.Main_Players_Data.Player_Level; // 플레이어 레벨 가져오기
+        int require_Level = value * 30;
+
+        if (player_Level < require_Level)
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨 달성 시, 유물 칸 잠금이 해제 됩니다.");
+            Base_Canvas.instance.Get_TOP_Popup().Initialize($"{require_Level}레벨 달성 시, 유물 칸 잠금이 해제 됩니다.");
             return;
         }
         Base_Manager.Item.Get_Item(value, Item.name);
         Initialize();
+        Clicked_Relic_Parts = null; // 장착 완료시 선택 된 유물 해제\
+        Item = null;
     }
 
     /// <summary>
@@ -138,19 +145,35 @@ public class UI_Relic : UI_Base
     /// </summary>
     public void Get_Equip_Relic_Check()
     {
-        for(int i = 0; i<Relic_Panel_Objects.Length; i++)
+        int player_Level = Data_Manager.Main_Players_Data.Player_Level; // 플레이어 레벨 가져오기
+
+        for (int i = 0; i < Relic_Panel_Objects.Length; i++)
         {
-            if (Base_Manager.Data.Main_Set_Item[i] != null)
-            {                           
-                Relic_Panel_Objects[i].transform.GetChild(0).gameObject.SetActive(false);
+            bool isUnlocked = player_Level >= (i * 30); // 레벨 30마다 한 칸 열림 (0, 30, 60, 90 ...)
+
+            if (isUnlocked) // 특정 레벨에 달성하여 유물 장착칸이 해금 된 경우
+            {
+                Relic_Panel_Objects[i].transform.GetChild(0).gameObject.SetActive(false); // 잠금 해제
+                Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(true);  // 유물 배경 활성화
+                Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(true);  // 유물 이미지 활성화
+            }
+            else // 레벨을 달성하지 못하여 해금되지 않은 경우
+            {
+                Relic_Panel_Objects[i].transform.GetChild(0).gameObject.SetActive(true);  // 잠금 유지
+                Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(false);
+                Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(false);
+            }
+
+            if (Base_Manager.Data.Main_Set_Item[i] != null) // 유물이 장착된 경우
+            {
                 Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(true);
                 Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(true);
-                Relic_Panel_Objects[i].transform.GetChild(2).GetComponent<Image>().sprite = Utils.Get_Atlas(Base_Manager.Data.Main_Set_Item[i].name);            
+                Relic_Panel_Objects[i].transform.GetChild(2).GetComponent<Image>().sprite = Utils.Get_Atlas(Base_Manager.Data.Main_Set_Item[i].name);
                 Relic_Panel_Objects[i].transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Base_Manager.Data.Main_Set_Item[i].rarity.ToString());
             }
 
-            else
-            {               
+            else // 장착해제했거나, 장착되지 않았을 경우
+            {
                 Relic_Panel_Objects[i].transform.GetChild(1).gameObject.SetActive(false);
                 Relic_Panel_Objects[i].transform.GetChild(2).gameObject.SetActive(false);
             }
@@ -175,9 +198,10 @@ public class UI_Relic : UI_Base
             for (int i = 0; i < Base_Manager.Data.Main_Set_Item.Length; i++)
             {
                 var Data = Base_Manager.Data.Main_Set_Item[i];
+
                 if (Data != null)
                 {
-                    if (Data == parts.item)
+                    if (Data.Item_Name == parts.item.Item_Name) // 아이템이 중복되었다면 배치 해제 (배치/해제 버튼)
                     {
                         Base_Manager.Item.Disable_Item(i);
                         Initialize();
@@ -196,7 +220,7 @@ public class UI_Relic : UI_Base
 
             parts.Lock_OBJ.SetActive(false);
             parts.GetComponent<Outline>().enabled = true;
-
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("빈 칸을 눌러 유물을 장착하세요.");
         }
 
     }
@@ -264,11 +288,12 @@ public class UI_Relic : UI_Base
         Upgrade.onClick.RemoveAllListeners();
         Upgrade.onClick.AddListener(() => UpGrade_Button(Base_Manager.Data.Item_Holder[Data.name], Data));
     }
-    public void Set_Heros_In_MainGame()
+    public void Set_Relic_In_MainGame()
     {       
         Set_Click(Clicked_Relic_Parts);
         Relic_Information.gameObject.SetActive(false);
     }
+   
     public void UpGrade_Button(Holder holder, Item_Scriptable Data)
     {
         if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name))
@@ -287,6 +312,8 @@ public class UI_Relic : UI_Base
 
     public void Disable_Relic_Information()
     {
+        Clicked_Relic_Parts = null;
+        Item = null;
         Relic_Information.gameObject.SetActive(false);
     }
 

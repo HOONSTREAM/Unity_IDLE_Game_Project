@@ -77,7 +77,7 @@ public class UI_Relic_Parts : MonoBehaviour
         {
             if (Base_Manager.Data.Main_Set_Item[i] != null)
             {
-                if (Base_Manager.Data.Main_Set_Item[i] == item)
+                if (Base_Manager.Data.Main_Set_Item[i].Item_Name == item.Item_Name)
                 {
                     Equip = true;
                 }

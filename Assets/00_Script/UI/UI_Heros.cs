@@ -134,7 +134,7 @@ public class UI_Heros : UI_Base
             {
                 var Data = Base_Manager.Character.Set_Character[i];
 
-                if (Data != null)
+                if (Data != null) // 만약 배치 버튼을 눌렀을 때, 이미 배치가 되어있다면 캐릭터 배치 해제 (배치/해제 버튼)
                 {
                     if (Data.Data.Character_EN_Name == parts.Character.Character_EN_Name)
                     {
@@ -207,6 +207,7 @@ public class UI_Heros : UI_Base
             else
             {
                 Main_Set_Panel_Hero_Image[i].sprite = null;
+                Legendary_Particle[i].gameObject.SetActive(false);
                 Main_Set_Panel_Hero_Image[i].color = new Color(255, 255, 255, 0);
                 Main_Set_Hero_Name[i].text = " ";
             }
