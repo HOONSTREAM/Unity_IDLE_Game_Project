@@ -95,8 +95,8 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
 
             //Base_Manager.BACKEND.ReadData();
 
-            Base_Manager.BACKEND.WriteData(); //서버에 저장된 데이터를 업데이트합니다.
-            
+            _ = Base_Manager.BACKEND.WriteData();
+
             Loading_Scene.instance.Main_Game_Start_Custom_Account_Test();
 
             PlayerPrefs.SetFloat("BGM", 1.0f);

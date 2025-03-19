@@ -38,7 +38,9 @@ public class Base_Manager : MonoBehaviour
  
     public static bool Get_MainGame_Start = false;
 
+    private float Save_Interval = 10.0f;
     private float Save_Timer = 0.0f;
+ 
     private void Awake()
     {
         Init();        
@@ -53,34 +55,19 @@ public class Base_Manager : MonoBehaviour
 
         Save_Timer += Time.unscaledDeltaTime;
 
-        if (Save_Timer >= 10.0f)
+        if (Save_Timer >= Save_Interval)
         {
             Save_Timer = 0.0f;
-            Base_Manager.BACKEND.WriteData();
+            SaveGame();
         }
-
-        for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
-        {
-            if (Data_Manager.Main_Players_Data.Buff_Timers[i] >= 0.0f)
-            {
-                Data_Manager.Main_Players_Data.Buff_Timers[i] -= Time.unscaledDeltaTime;
-            }           
-        }
-
-        for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
-        {
-            if (Data_Manager.Main_Players_Data.ADS_Timer[i] >= 0.0f)
-            {               
-               Data_Manager.Main_Players_Data.ADS_Timer[i] -= Time.unscaledDeltaTime;             
-            }
-        }
-
 
         if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
             Data_Manager.Main_Players_Data.buff_x2_speed -= Time.unscaledDeltaTime;
-
         }
+
+        Update_ADS_Buffs();
+        Update_ADS_Timer();
        
     }
     private void Init()
@@ -102,6 +89,55 @@ public class Base_Manager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    /// <summary>
+    /// 비동기 작업이 완료될 때까지 기다리지만, 메인 스레드를 블로킹(blocking)하지 않는 역할 (await)
+    /// 메인스레드를 멈추지않고, 다음 프레임에서도 게임이 정상적으로 실행될 수 있도록 하는 대기하는 기능을 함.
+    /// </summary>
+    private async void SaveGame()
+    {
+        await Base_Manager.BACKEND.WriteData();
+    }
+
+    /// <summary>
+    /// 광고버프 타이머를 측정합니다.
+    /// </summary>
+    private void Update_ADS_Buffs()
+    {
+        bool hasActiveBuff = false;
+
+        for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
+        {
+            if (Data_Manager.Main_Players_Data.Buff_Timers[i] > 0.0f)
+            {
+                Data_Manager.Main_Players_Data.Buff_Timers[i] = Mathf.Max(0,
+                    Data_Manager.Main_Players_Data.Buff_Timers[i] - Time.unscaledDeltaTime);
+                hasActiveBuff = true;
+            }
+        }
+
+        if (!hasActiveBuff) return; // 모든 버프가 0이면 더 이상 실행하지 않음
+    }
+
+    /// <summary>
+    /// 유물 및 영웅 광고소환에 대한 타이머를 측정합니다.
+    /// </summary>
+    private void Update_ADS_Timer()
+    {
+        bool hasActiveADS = false;
+
+        for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
+        {
+            if (Data_Manager.Main_Players_Data.ADS_Timer[i] > 0.0f)
+            {
+                Data_Manager.Main_Players_Data.ADS_Timer[i] = Mathf.Max(0,
+                    Data_Manager.Main_Players_Data.ADS_Timer[i] - Time.unscaledDeltaTime);
+                hasActiveADS = true;
+            }
+        }
+
+        if (!hasActiveADS) return;
     }
 
     public GameObject Instantiate_Path(string path)
@@ -137,18 +173,10 @@ public class Base_Manager : MonoBehaviour
     {
         StartCoroutine(Action_Coroutine(action, timer));
     }
-
+    
     public void StopAllPoolCoroutines()
     {
         StopAllCoroutines(); // 현재 실행 중인 모든 코루틴 중지
-    }
-
-    /// <summary>
-    /// 유니티가 종료(게임종료) 혹은 해당 스크립트가 파괴되었을 때 호출됩니다.
-    /// </summary>
-    private void OnDestroy()
-    {
-             
     }
 
     /// <summary>
@@ -175,6 +203,8 @@ public class Base_Manager : MonoBehaviour
             }
         }
     }
+
+   
 
 
 }

@@ -170,7 +170,7 @@ public class UI_Relic_Gacha : UI_Base
     IEnumerator Block_Button_Coroutine()
     {
         yield return new WaitForSecondsRealtime(0.5f);
-        Base_Manager.BACKEND.WriteData();
+        _ = Base_Manager.BACKEND.WriteData();
         Blocking_Close_Button.gameObject.SetActive(false);
         Blocking_ReGaCha_Button.gameObject.SetActive(false);
         GameObject.Find("Shop").gameObject.GetComponent<UI_Shop>().Init();

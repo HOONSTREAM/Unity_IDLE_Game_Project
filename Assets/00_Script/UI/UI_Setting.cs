@@ -67,7 +67,7 @@ public class UI_Setting : UI_Base
 
     public void Save_Button()
     {
-        Base_Manager.BACKEND.WriteData();
+        _ = Base_Manager.BACKEND.WriteData();
         Base_Canvas.instance.Get_Toast_Popup().Initialize("즉시 저장이 완료되었습니다.");
     }
 

@@ -19,8 +19,7 @@ public class UI_Upgrade : UI_Base
 
     IEnumerator All_Upgrade_Coroutine()
     {
-        //TODO : Character_Holder 
-
+        
         var Data = Base_Manager.Data.Data_Character_Dictionary;
         
         foreach (var Character_Data in Data)
@@ -46,7 +45,7 @@ public class UI_Upgrade : UI_Base
             heroes.hero_parts[i].Initialize();
         }
 
-        Base_Manager.BACKEND.WriteData();
+        _ = Base_Manager.BACKEND.WriteData();
 
     }
 

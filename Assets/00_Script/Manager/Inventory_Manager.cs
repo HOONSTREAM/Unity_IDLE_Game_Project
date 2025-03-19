@@ -30,5 +30,7 @@ public class Inventory_Manager
             Base_Manager.Data.Item_Holder.Add(item.name, holder);
         }
 
+        _=Base_Manager.BACKEND.WriteData();
+
     }
 }
