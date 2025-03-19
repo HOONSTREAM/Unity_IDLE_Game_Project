@@ -194,13 +194,13 @@ public class BackendGameData
             Debug.LogError("유저 영웅 각인 데이터를 추가하는데 실패했습니다. : " + smelt_bro);
         }
 
-        Param player_set_hero_param = new Param();
+        Param player_set_Hero_Param = new Param();
 
-        player_set_hero_param.Add("Player_Set_Hero", Base_Manager.Character.Set_Character);
+        player_set_Hero_Param.Add("Player_Set_Hero", Base_Manager.Character.Set_Character);
 
         Debug.Log("Player_Set_Hero 테이블에 새로운 데이터 행을 추가합니다.");
 
-        var player_set_hero_bro = Backend.GameData.Insert("PLAYER_SET_HERO", player_set_hero_param);
+        var player_set_hero_bro = Backend.GameData.Insert("PLAYER_SET_HERO", player_set_Hero_Param);
 
         if (player_set_hero_bro.IsSuccess())
         {
@@ -209,6 +209,23 @@ public class BackendGameData
         else
         {
             Debug.LogError("유저 영웅 배치 데이터를 추가하는데 실패했습니다. : " + player_set_hero_bro);
+        }
+
+        Param player_Set_Relic = new Param();
+
+        player_Set_Relic.Add("Player_Set_Relic", Base_Manager.Data.Main_Set_Item);
+
+        Debug.Log("Player_Set_Relic 테이블에 새로운 데이터 행을 추가합니다.");
+
+        var player_set_relic_bro = Backend.GameData.Insert("PLAYER_SET_RELIC", player_Set_Relic);
+
+        if (player_set_relic_bro.IsSuccess())
+        {
+            Debug.Log("유저 유물 배치 데이터를 추가하는데 성공했습니다. : " + player_set_relic_bro);
+        }
+        else
+        {
+            Debug.LogError("유저 유물 배치 데이터를 추가하는데 실패했습니다. : " + player_set_relic_bro);
         }
 
     }

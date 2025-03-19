@@ -59,7 +59,7 @@ public class UI_Relic_Parts : MonoBehaviour
     }
 
     /// <summary>
-    /// 캐릭터 강화가 이루어 진 뒤에, 바로 영웅창에서 적용 할 수있도록 합니다.
+    /// 유물 강화가 이루어 진 뒤에, 바로 유물창에서 적용 할 수있도록 합니다.
     /// </summary>
     public void Initialize()
     {
@@ -67,6 +67,8 @@ public class UI_Relic_Parts : MonoBehaviour
         M_Silder.fillAmount = (float)Base_Manager.Data.Item_Holder[item.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(item.name);
         M_Count.text = Base_Manager.Data.Item_Holder[item.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(item.name);
         M_Level.text = "LV." + (Base_Manager.Data.Item_Holder[item.name].Hero_Level + 1).ToString();
+
+        Get_Item_Check();
     }
 
     public void Get_Item_Check()
@@ -77,7 +79,7 @@ public class UI_Relic_Parts : MonoBehaviour
         {
             if (Base_Manager.Data.Main_Set_Item[i] != null)
             {
-                if (Base_Manager.Data.Main_Set_Item[i].Item_Name == item.Item_Name)
+                if (Base_Manager.Data.Main_Set_Item[i].Item_Name == item.Item_Name) // C# 메모리 주소 참조이므로 고유값비교 (객체비교 X)
                 {
                     Equip = true;
                 }
