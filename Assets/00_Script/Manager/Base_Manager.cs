@@ -38,9 +38,6 @@ public class Base_Manager : MonoBehaviour
  
     public static bool Get_MainGame_Start = false;
 
-    private float Save_Interval = 10.0f;
-    private float Save_Timer = 0.0f;
- 
     private void Awake()
     {
         Init();        
@@ -52,15 +49,7 @@ public class Base_Manager : MonoBehaviour
         {
             return;
         }
-
-        Save_Timer += Time.unscaledDeltaTime;
-
-        if (Save_Timer >= Save_Interval)
-        {
-            Save_Timer = 0.0f;
-            SaveGame();
-        }
-
+      
         if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
             Data_Manager.Main_Players_Data.buff_x2_speed -= Time.unscaledDeltaTime;

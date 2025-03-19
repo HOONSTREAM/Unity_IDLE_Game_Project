@@ -34,6 +34,8 @@ public class Player : Character
         startPos = transform.position;
         rotation = transform.rotation;
 
+        Main_UI.Instance.Character_State_Check(this);
+
     }
 
     private void Update()

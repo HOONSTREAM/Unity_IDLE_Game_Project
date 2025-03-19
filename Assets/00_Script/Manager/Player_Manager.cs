@@ -67,7 +67,7 @@ public class Player_Manager
             Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_Levelup_Next_ATK();
             Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_Levelup_Next_HP();
 
-            Main_UI.Instance.Level_Text_Check();
+            Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
 
         }
         

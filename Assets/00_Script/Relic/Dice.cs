@@ -53,6 +53,7 @@ public class Dice : MonoBehaviour
         Data_Manager.Main_Players_Data.Player_Money += totalGold;
 
         Debug.Log($"주사위 결과: {Gold_Text.text}, 추가 보너스: {bonusPercentage}%, 지급된 골드: {StringMethod.ToCurrencyString(totalGold)}");
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
     }
 
     /// <summary>

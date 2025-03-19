@@ -47,10 +47,10 @@ public class Coin_Parent : MonoBehaviour
         switch (type)
         {
             case Coin_Type.Gold:
-                Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY() * (1 + Base_Manager.Player.Calculate_Gold_Drop_Percentage());
+                Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY() * (1 + Base_Manager.Player.Calculate_Gold_Drop_Percentage());               
                 break;
             case Coin_Type.Dia:
-                Data_Manager.Main_Players_Data.DiaMond += reward_value;
+                Data_Manager.Main_Players_Data.DiaMond += reward_value;          
                 break;
 
         }
@@ -120,7 +120,7 @@ public class Coin_Parent : MonoBehaviour
             yield return null;
         }
 
-        Main_UI.Instance.Level_Text_Check();
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
     }
 
     private bool Distance_Boolean(Vector2[] end, float range)

@@ -83,7 +83,7 @@ public class UI_Offline_Reward : UI_Base
         }
 
         DisableOBJ();
-        Main_UI.Instance.Level_Text_Check();
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
         _ = Base_Manager.BACKEND.WriteData();
     }
     /// <summary>
@@ -102,7 +102,7 @@ public class UI_Offline_Reward : UI_Base
         });
 
         DisableOBJ();
-        Main_UI.Instance.Level_Text_Check();
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
         _ = Base_Manager.BACKEND.WriteData();
     }
 

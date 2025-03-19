@@ -142,7 +142,7 @@ public class Main_UI : MonoBehaviour
     }
     private void Start()
     {
-        Level_Text_Check();
+        Main_UI_PlayerInfo_Text_Check();
         Monster_Slider_Count();       
         ADS_Buff_Check();
      
@@ -518,7 +518,7 @@ public class Main_UI : MonoBehaviour
     }
     private void OnBoss()
     {
-        Level_Text_Check();
+        Main_UI_PlayerInfo_Text_Check();
         Slider_Object_Check(Slider_Type.Boss);
     }
     private void OnClear()
@@ -595,7 +595,7 @@ public class Main_UI : MonoBehaviour
                 break;
         }
 
-        Level_Text_Check();
+        Main_UI_PlayerInfo_Text_Check();
 
 
         Base_Canvas.instance.Get_TOP_Popup().Initialize("던전 클리어에 성공하였습니다!");
@@ -605,7 +605,7 @@ public class Main_UI : MonoBehaviour
     private void OnDead()
     {
         Base_Canvas.instance.Get_TOP_Popup().Initialize("전투에서 패배하였습니다.");
-        Main_UI.Instance.Level_Text_Check();
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
         StartCoroutine(Dead_Delay());
     }
 
@@ -639,7 +639,7 @@ public class Main_UI : MonoBehaviour
     /// <summary>
     /// 플레이어 레벨, 전투력, 골드, 스테이지 상태 의 텍스트를 업데이트 합니다.
     /// </summary>
-    public void Level_Text_Check()
+    public void Main_UI_PlayerInfo_Text_Check()
     {
         double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();
 

@@ -47,6 +47,8 @@ public class Daily_Quest_Parts : MonoBehaviour
 
         }
         parent.Init();
+
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
     }
 
     private void CheckInit(Daily_Quest_Type type)
