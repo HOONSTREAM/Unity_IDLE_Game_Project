@@ -126,7 +126,7 @@ public class UI_Relic : UI_Base
     /// <param name="value"></param>
     public void Set_Item_Button(int value)
     {
-        int player_Level = Data_Manager.Main_Players_Data.Player_Level; // 플레이어 레벨 가져오기
+        int player_Level = (Data_Manager.Main_Players_Data.Player_Level + 1); // 플레이어 레벨 가져오기
         int require_Level = value * 30;
 
         if (player_Level < require_Level)
@@ -145,8 +145,8 @@ public class UI_Relic : UI_Base
     /// </summary>
     public void Get_Equip_Relic_Check()
     {
-        int player_Level = Data_Manager.Main_Players_Data.Player_Level; // 플레이어 레벨 가져오기
-
+        int player_Level = (Data_Manager.Main_Players_Data.Player_Level + 1); // 플레이어 레벨 가져오기
+        
         for (int i = 0; i < Relic_Panel_Objects.Length; i++)
         {
             bool isUnlocked = player_Level >= (i * 30); // 레벨 30마다 한 칸 열림 (0, 30, 60, 90 ...)

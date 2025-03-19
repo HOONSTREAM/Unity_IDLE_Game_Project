@@ -39,13 +39,13 @@ public class UI_Smelt : UI_Base
     {
         if (Opening) return;
 
-        if (!Utils.Item_Count("Steel", 100))
+        if (!Utils.Item_Count("Steel", 300))
         {
             Base_Canvas.instance.Get_Toast_Popup().Initialize("각인에 필요한 재료가 부족합니다.");
-            //return;
+            return;
         }
 
-        Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 100;
+        Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 300;
         Smelt_Request_Item_Count_Check();
         Opening = true;
 
@@ -84,8 +84,8 @@ public class UI_Smelt : UI_Base
     }
     private void Smelt_Request_Item_Count_Check()
     {
-        CountText.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, 100);
-        CountText.color = Utils.Item_Count("Steel", 100) ? Color.green : Color.red;
+        CountText.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, 300);
+        CountText.color = Utils.Item_Count("Steel", 300) ? Color.green : Color.red;
     }
     private void Get_Smelt_Panel(int rarityValue, Smelt_Status status, float valueCount)
     {
