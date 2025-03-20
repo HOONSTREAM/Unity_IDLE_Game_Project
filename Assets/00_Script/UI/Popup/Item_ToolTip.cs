@@ -92,7 +92,9 @@ public class Item_ToolTip : MonoBehaviour
         string coloredEffectPercent = $"<color=#FFFF00>{effect_percent}</color>";
 
 
+        // 최종 위치 적용
         Rect.anchoredPosition = pos;
+
         Item_Image.sprite = Utils.Get_Atlas(item.name);
         Item_Name_Text.text = item.Item_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(item.rarity) + item.KO_rarity.ToString();
