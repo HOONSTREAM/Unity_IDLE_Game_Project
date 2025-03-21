@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Base_Manager : MonoBehaviour
 {
@@ -37,10 +38,17 @@ public class Base_Manager : MonoBehaviour
 
  
     public static bool Get_MainGame_Start = false;
+    private float Save_Interval = 10.0f;
+    private float Save_Time = 0.0f;
 
     private void Awake()
     {
         Init();        
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void Update()
@@ -48,6 +56,14 @@ public class Base_Manager : MonoBehaviour
         if(Get_MainGame_Start == false)
         {
             return;
+        }
+
+        Save_Time += Time.unscaledDeltaTime;
+
+        if(Save_Time >= Save_Interval)
+        {
+            Save_Time = 0.0f;
+            _=Base_Manager.BACKEND.WriteData();
         }
       
         if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
@@ -69,7 +85,6 @@ public class Base_Manager : MonoBehaviour
             ADS.Init();
             Data.Init();
             SOUND.Init();
-            //LOCAL.Init();
             DAILY.Init();            
             DontDestroyOnLoad(this.gameObject);
         }
@@ -78,15 +93,6 @@ public class Base_Manager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
-
-    /// <summary>
-    /// 비동기 작업이 완료될 때까지 기다리지만, 메인 스레드를 블로킹(blocking)하지 않는 역할 (await)
-    /// 메인스레드를 멈추지않고, 다음 프레임에서도 게임이 정상적으로 실행될 수 있도록 하는 대기하는 기능을 함.
-    /// </summary>
-    private async void SaveGame()
-    {
-        await Base_Manager.BACKEND.WriteData();
     }
 
     /// <summary>
@@ -191,9 +197,23 @@ public class Base_Manager : MonoBehaviour
                 Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
             }
         }
+
+        _=Base_Manager.BACKEND.WriteData();
     }
 
-   
+    /// <summary>
+    /// 어플리케이션 종료 시, 게임을 저장합니다.
+    /// </summary>
+    private void OnApplicationQuit()
+    {
+        if (Base_Manager.Get_MainGame_Start)
+        {
+            Debug.Log("게임을 정상적으로 종료하고, 데이터를 저장합니다.");
+            _ = Base_Manager.BACKEND.WriteData();
+        }
+    }
+
+
 
 
 }

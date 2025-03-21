@@ -65,7 +65,7 @@ public class UI_Smelt : UI_Base
         {
             Smelt_Status status = (Smelt_Status)Random.Range(0, 7); // 어떤 종류의 부가능력치를 부여할지 결정합니다.
             int value = Calculate_Rarity_Level(); // 특정된 종류의 부가능력치의 등급을 결정합니다.
-            Debug.Log($"{value} 의 값이 Calculate_Rarity_Level 메서드에서 나옴.");
+          
             float valueCount = Random.Range(StatusHolder(status)[value].Min, StatusHolder(status)[value].Max); // 결정된 부가능력치 등급의 최솟값과 최댓값의 랜덤값을 산출합니다.
 
             Base_Manager.Data.User_Main_Data_Smelt_Array.Add(new Smelt_Holder { rarity = (Rarity)value, smelt_holder = status, smelt_value = valueCount });
@@ -81,6 +81,8 @@ public class UI_Smelt : UI_Base
         }
 
         Opening = false;
+
+        _=Base_Manager.BACKEND.WriteData();
     }
     private void Smelt_Request_Item_Count_Check()
     {

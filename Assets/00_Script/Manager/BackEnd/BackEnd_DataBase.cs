@@ -16,6 +16,7 @@ public partial class BackEnd_Manager : MonoBehaviour
     public async Task WriteData()
     {
         Debug.Log("WriteData 메서드 호출, 데이터를 기록합니다.");
+
         #region DEFAULT DATA
 
         if (Data_Manager.Main_Players_Data == null)
@@ -73,19 +74,19 @@ public partial class BackEnd_Manager : MonoBehaviour
             param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode); // 패스트모드 활성화 여부
             #endregion
 
-            Debug.Log("유저 기본 데이터를 수정합니다");
-
-            var bro = Backend.GameData.Update("USER", new Where(), param);
-
-            if (bro.IsSuccess())
+            Backend.GameData.Update("USER", new Where(), param, (callback) =>
             {
-                Debug.Log("유저 기본 데이터 수정에 성공했습니다. : " + bro);
-            }
-            else
-            {
-                Debug.LogError("유저 기본 데이터 수정에 실패했습니다. : " + bro);
-            }
-
+                if (callback.IsSuccess())
+                {
+                    Debug.Log("유저 기본 데이터 업데이트에 성공하였습니다.");
+                }
+                else
+                {
+                    Debug.LogError("유저 기본 데이터 업데이트에 실패하였습니다.");
+                }
+            });
+            
+            await Task.Yield();
 
             #endregion
 
@@ -95,18 +96,21 @@ public partial class BackEnd_Manager : MonoBehaviour
             string char_Json_Data = JsonConvert.SerializeObject(Base_Manager.Data.character_Holder);
             character_param.Add("character", char_Json_Data);
 
-            Debug.Log("영웅 보유 데이터를 수정합니다");
-            
-            var character_bro = Backend.GameData.Update("CHARACTER", new Where(), character_param);
 
-            if (character_bro.IsSuccess())
+            Backend.GameData.Update("CHARACTER", new Where(), character_param, (callback) =>
             {
-                Debug.Log("영웅 보유 데이터 수정에 성공했습니다. : " + character_bro);
-            }
-            else
-            {
-                Debug.LogError("영웅 보유 데이터 수정에 실패했습니다. : " + character_bro);
-            }
+                if (callback.IsSuccess())
+                {
+                    Debug.Log("유저 영웅 보유 데이터 업데이트에 성공하였습니다.");
+                }
+                else
+                {
+                    Debug.LogError("유저 영웅 보유 데이터 업데이트에 실패하였습니다.");
+                }
+            });
+
+            await Task.Yield();
+
             #endregion
 
             #region ITEM_DATA
@@ -114,19 +118,19 @@ public partial class BackEnd_Manager : MonoBehaviour
             string Json_item_Data = JsonConvert.SerializeObject(Base_Manager.Data.Item_Holder);
             item_param.Add("Item", Json_item_Data);
 
-            Debug.Log("인벤토리 데이터를 수정합니다");
-
-            
-            var item_bro = Backend.GameData.Update("ITEM", new Where(), item_param);
-
-            if (item_bro.IsSuccess())
+            Backend.GameData.Update("ITEM", new Where(), item_param, (callback) =>
             {
-                Debug.Log("유저 인벤토리 데이터 수정에 성공했습니다. : " + item_bro);
-            }
-            else
-            {
-                Debug.LogError("유저 인벤토리 데이터 수정에 실패했습니다. : " + item_bro);
-            }
+                if (callback.IsSuccess())
+                {
+                    Debug.Log("유저 인벤토리 보유 데이터 업데이트에 성공하였습니다.");
+                }
+                else
+                {
+                    Debug.LogError("유저 인벤토리 보유 데이터 업데이트에 실패하였습니다.");
+                }
+            });
+
+
             #endregion
 
             #region SMELT_DATA
@@ -134,19 +138,21 @@ public partial class BackEnd_Manager : MonoBehaviour
             string Json_Smelt_Data = JsonConvert.SerializeObject(Base_Manager.Data.User_Main_Data_Smelt_Array);
             smelt_param.Add("Smelt", Json_Smelt_Data);
 
-            Debug.Log("유저 각인 데이터를 수정합니다");
-         
 
-            var smelt_bro = Backend.GameData.Update("SMELT", new Where(), smelt_param);
+            Backend.GameData.Update("SMELT", new Where(), smelt_param, (callback) =>
+            {
+                if (callback.IsSuccess())
+                {
+                    Debug.Log("유저 각인 데이터 업데이트에 성공하였습니다.");
+                }
+                else
+                {
+                    Debug.LogError("유저 각인 데이터 업데이트에 실패하였습니다.");
+                }
+            });
 
-            if (smelt_bro.IsSuccess())
-            {
-                Debug.Log("유저 영웅 각인 데이터 수정에 성공했습니다. : " + smelt_bro);
-            }
-            else
-            {
-                Debug.LogError("유저 영웅 각인 데이터 수정에 실패했습니다. : " + smelt_bro);
-            }
+            await Task.Yield();
+
             #endregion
 
             #region PLAYER_SET_HERO_DATA
@@ -155,18 +161,23 @@ public partial class BackEnd_Manager : MonoBehaviour
             Player_Set_Hero_param.Add("Player_Set_Hero", Json_Player_Set_Hero_data);
 
             Debug.Log("유저 영웅 배치 데이터를 수정합니다");
-          
 
-            var player_set_hero_bro = Backend.GameData.Update("PLAYER_SET_HERO", new Where(), Player_Set_Hero_param);
 
-            if (player_set_hero_bro.IsSuccess())
+            Backend.GameData.Update("PLAYER_SET_HERO", new Where(), Player_Set_Hero_param, (callback) =>
             {
-                Debug.Log("유저 영웅 배치 데이터 수정에 성공했습니다. : " + player_set_hero_bro);
-            }
-            else
-            {
-                Debug.LogError("유저 영웅 배치 데이터 수정에 실패했습니다. : " + player_set_hero_bro);
-            }
+                if (callback.IsSuccess())
+                {
+                    Debug.Log("유저 영웅 배치 데이터 업데이트에 성공하였습니다.");
+                }
+                else
+                {
+                    Debug.LogError("유저 영웅 배치 데이터 업데이트에 실패하였습니다.");
+                }
+            });
+
+            await Task.Yield();
+
+
             #endregion
 
             #region PLAYER_SET_RELIC_DATA
@@ -175,17 +186,21 @@ public partial class BackEnd_Manager : MonoBehaviour
             Player_Set_Relic_Param.Add("Player_Set_Relic", Json_Player_Set_Relic_data);
 
             Debug.Log("유저 유물 배치 데이터를 수정합니다");
-          
-            var player_set_relic_bro = Backend.GameData.Update("PLAYER_SET_RELIC", new Where(), Player_Set_Relic_Param);
 
-            if (player_set_relic_bro.IsSuccess())
+            Backend.GameData.Update("PLAYER_SET_RELIC", new Where(), Player_Set_Relic_Param, (callback) =>
             {
-                Debug.Log("유저 유물 배치 데이터 수정에 성공했습니다. : " + player_set_relic_bro);
-            }
-            else
-            {
-                Debug.LogError("유저 유물 배치 데이터 수정에 실패했습니다. : " + player_set_relic_bro);
-            }
+                if (callback.IsSuccess())
+                {
+                    Debug.Log("유저 유물 배치 데이터 업데이트에 성공하였습니다.");
+                }
+                else
+                {
+                    Debug.LogError("유저 유물 배치 데이터 업데이트에 실패하였습니다.");
+                }
+            });
+
+            await Task.Yield();
+
             #endregion
         }
 

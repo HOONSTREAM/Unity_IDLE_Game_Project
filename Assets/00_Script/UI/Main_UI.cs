@@ -582,7 +582,7 @@ public class Main_UI : MonoBehaviour
             case 0:
 
                 Data_Manager.Main_Players_Data.DiaMond += ((clear_Level + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON);
-
+                _ = Base_Manager.BACKEND.WriteData();
                 break;
 
             case 1:
@@ -591,7 +591,7 @@ public class Main_UI : MonoBehaviour
                 var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON; ;
 
                 Data_Manager.Main_Players_Data.Player_Money += value;
-
+                _ = Base_Manager.BACKEND.WriteData();
                 break;
         }
 

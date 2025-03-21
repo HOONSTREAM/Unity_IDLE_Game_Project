@@ -25,16 +25,7 @@ public partial class BackEnd_Manager : MonoBehaviour
 
     private void Start()
     {     
-        Loading_Scene.instance.LoadingMain();
-    }
-
-    private void OnDestroy()
-    {
-        if (Base_Manager.Get_MainGame_Start)
-        {
-            Debug.Log("게임을 정상적으로 종료하고, 데이터를 저장합니다.");           
-            _=WriteData();
-        }
+        Loading_Scene.instance.LoadingMain();  
     }
 
 }

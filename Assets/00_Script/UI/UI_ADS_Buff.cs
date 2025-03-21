@@ -54,7 +54,7 @@ public class UI_ADS_Buff : UI_Base
     {
         for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
         {
-            if (Data_Manager.Main_Players_Data.Buff_Timers[i] >= 0.0f)
+            if (Data_Manager.Main_Players_Data.Buff_Timers[i] > 0.0f)
             {
                 Buttons_Fill[i].fillAmount = 1 - (Data_Manager.Main_Players_Data.Buff_Timers[i] / 1800.0f);
 
