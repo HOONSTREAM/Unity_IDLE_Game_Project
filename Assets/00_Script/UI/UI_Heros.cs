@@ -32,6 +32,8 @@ public class UI_Heros : UI_Base
     [SerializeField]
     private GameObject Hero_Information;
     [SerializeField]
+    private GameObject Hero_Guide_Infomation;
+    [SerializeField]
     private TextMeshProUGUI Hero_Name_Text, Rarity_Text, Description_Text;
     [SerializeField]
     private TextMeshProUGUI Ability, ATK, HP;
@@ -303,6 +305,15 @@ public class UI_Heros : UI_Base
 
         Base_Canvas.instance.Get_UI("UpGrade_Panel");
         Utils.UI_Holder.Peek().GetComponent<UI_Upgrade>().Initialize(this);
+    }
+
+    public void Guide_Button()
+    {
+        Hero_Guide_Infomation.gameObject.SetActive(true);
+    }
+    public void Disable_Hero_Guide_Information()
+    {
+        Hero_Guide_Infomation.gameObject.SetActive(false);
     }
 
     /// <summary>

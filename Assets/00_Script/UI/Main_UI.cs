@@ -18,6 +18,8 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _level_Text; // 캐릭터의 레벨을 결정합니다.
     [SerializeField]
+    private TextMeshProUGUI Main_Char_HP_Text;
+    [SerializeField]
     private TextMeshProUGUI _player_ability; // 캐릭터의 최종 전투력을 결정합니다.
     [SerializeField]
     private TextMeshProUGUI _levelup_money_text; // 캐릭터의 레벨업에 필요한 돈을 결정합니다.
@@ -35,6 +37,7 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _char_nick_name;
 
+    private Character Cleric_Component;
 
     [Space(20f)]
     [Header("Fade")]
@@ -142,6 +145,8 @@ public class Main_UI : MonoBehaviour
     }
     private void Start()
     {
+        Cleric_Component = GameObject.Find("Cleric").gameObject.GetComponent<Character>();
+
         Main_UI_PlayerInfo_Text_Check();
         Monster_Slider_Count();       
         ADS_Buff_Check();
@@ -644,6 +649,7 @@ public class Main_UI : MonoBehaviour
         double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();
 
         _level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
+        Main_Char_HP_Text.text = StringMethod.ToCurrencyString(Cleric_Component.HP);
         _player_ability.text = ((int)Base_Manager.Player.Player_ALL_Ability_ATK_HP()).ToString();
 
         _levelup_money_text.text = StringMethod.ToCurrencyString((Levelup_money_Value));
