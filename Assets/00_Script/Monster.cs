@@ -223,10 +223,18 @@ public class Monster : Character
 
         });
 
-        Base_Manager.Pool.Pooling_OBJ("COIN_PARENT").Get((value) =>
+        if (Base_Canvas.isSavingMode)
         {
-            value.GetComponent<Coin_Parent>().Init(transform.position);
-        });
+            var reward = Utils.Data.stageData.Get_DROP_MONEY() * (1 + Base_Manager.Player.Calculate_Gold_Drop_Percentage());
+            Data_Manager.Main_Players_Data.Player_Money += reward;
+        }
+        else
+        {
+            Base_Manager.Pool.Pooling_OBJ("COIN_PARENT").Get((value) =>
+            {
+                value.GetComponent<Coin_Parent>().Init(transform.position);
+            });
+        }
 
         var Drop_items = Base_Manager.Item.Get_Drop_Set();
 

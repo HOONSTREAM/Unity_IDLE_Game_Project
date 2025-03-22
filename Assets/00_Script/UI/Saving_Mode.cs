@@ -23,6 +23,8 @@ public class Saving_Mode : UI_Base
     [SerializeField]
     private TextMeshProUGUI Now_Player_Stage;
 
+    public TextMeshProUGUI Gold_Text;
+
     public Dictionary<string, Item_Holder> saving_item_Dict = new Dictionary<string, Item_Holder>(); // 세이브모드 상태일때, 아이템획득량을 임시로 저장합니다.
     public Dictionary<string, UI_Inventory_Parts> item_parts_saving_mode = new Dictionary<string, UI_Inventory_Parts>();
 
@@ -56,7 +58,7 @@ public class Saving_Mode : UI_Base
 
         Time_Text.text = System.DateTime.Now.ToString("HH:mm:ss"); //핸드폰시간기준, 오프라인보상에 사용하면 버그로 악용될 수 있다.
         Now_Player_Stage.text = $"<color=#FFFF00>{Data_Manager.Main_Players_Data.Player_Stage}</color>층 돌파중...";
-
+        Gold_Text.text = $"<color=#FFFF00>{StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money)}</color>골드 획득중...";
 
         if (Input.GetMouseButtonDown(0))
         {
