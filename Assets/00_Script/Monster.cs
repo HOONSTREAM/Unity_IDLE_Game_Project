@@ -192,6 +192,7 @@ public class Monster : Character
             {
                 Base_Manager.Pool.m_pool_Dictionary["Gold_Dungeon"].Return(this.gameObject);
                 Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
+                Base_Manager.BACKEND.Log_Clear_Dungeon(Stage_Manager.Dungeon_Enter_Type);
             }
         }
 
@@ -251,13 +252,6 @@ public class Monster : Character
             Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);           
         }
 
-        else
-        {
-            //Clear_Pool을 통해 즉시 파괴되므로
-            //Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(this.gameObject);
-        }
-       
-        
     }
 
     /// <summary>

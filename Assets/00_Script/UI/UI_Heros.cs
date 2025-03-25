@@ -285,6 +285,7 @@ public class UI_Heros : UI_Base
             Base_Canvas.instance.Get_Toast_Popup().Initialize("영웅 강화를 성공하였습니다.");
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
             holder.Hero_Level++;
+            Base_Manager.BACKEND.Log_Hero_Upgrade(Data, holder);
         }
         else
         {

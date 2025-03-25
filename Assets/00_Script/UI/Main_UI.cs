@@ -393,6 +393,7 @@ public class Main_UI : MonoBehaviour
         if(Stage_Manager.DungeonCount <= 0)
         {
             Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear,Stage_Manager.Dungeon_Enter_Type);
+            Base_Manager.BACKEND.Log_Clear_Dungeon(Stage_Manager.Dungeon_Enter_Type);
         }
     }
 

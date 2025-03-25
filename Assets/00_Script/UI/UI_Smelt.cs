@@ -46,6 +46,7 @@ public class UI_Smelt : UI_Base
         }
 
         Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 300;
+        Base_Manager.BACKEND.Log_Try_Smelt();
         Smelt_Request_Item_Count_Check();
         Opening = true;
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class UI_Upgrade : UI_Base
 {
@@ -33,6 +34,8 @@ public class UI_Upgrade : UI_Base
                 int value = 0;
                 Calculate_Upgrade_Level(Character_Data.Value, ref value);
                 go.Init(Character_Data.Value, now_level, value + 1);
+
+                Base_Manager.BACKEND.Log_Hero_Upgrade(Character_Data.Value.Data, Character_Data.Value.holder);
             }
 
             yield return new WaitForSecondsRealtime(0.1f);
