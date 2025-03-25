@@ -23,6 +23,11 @@ public class UI_Heros : UI_Base
     public Image[] Main_Set_Panel_Hero_Image;
     public GameObject[] Legendary_Particle;
     public TextMeshProUGUI[] Main_Set_Hero_Name;
+    public GameObject[] Hero_Set_Buttons;
+    private Coroutine flickerCoroutine;
+    private bool isFlickering = false;
+    private Color normalColor = Color.white;
+    private Color alertColor = Color.red;
     #endregion
 
     #region Hero_Infomation
@@ -132,6 +137,8 @@ public class UI_Heros : UI_Base
 
         else
         {
+            StartButtonFlicker();
+
             for (int i = 0; i < Base_Manager.Character.Set_Character.Length; i++)
             {
                 var Data = Base_Manager.Character.Set_Character[i];
@@ -142,6 +149,7 @@ public class UI_Heros : UI_Base
                     {
                         Base_Manager.Character.Disable_Character(i);                        
                         Initialize();
+                        StopButtonFlicker();
                         return; 
                     }
                 }
@@ -172,6 +180,7 @@ public class UI_Heros : UI_Base
         Base_Manager.Character.Get_Character(value, Character.Character_EN_Name);
         Initialize();
         Main_Set_Hero_Panel();
+        StopButtonFlicker();
     }
     public void Initialize()
     {     
@@ -348,6 +357,53 @@ public class UI_Heros : UI_Base
         Main_Set_Hero_Panel();
     }
 
-   
+
+    #region 배치버튼깜빡임 효과 메서드
+    private void StartButtonFlicker()
+    {
+        if (isFlickering) return;
+
+        isFlickering = true;
+        flickerCoroutine = StartCoroutine(FlickerButtons());
+    }
+
+    private IEnumerator FlickerButtons()
+    {
+        float interval = 1.0f;
+
+        while (isFlickering)
+        {
+            foreach (var btn in Hero_Set_Buttons)
+            {
+                btn.GetComponent<Image>().color = alertColor;
+            }
+
+            yield return new WaitForSeconds(interval);
+
+            foreach (var btn in Hero_Set_Buttons)
+            {
+                btn.GetComponent<Image>().color = normalColor;
+            }
+
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    private void StopButtonFlicker()
+    {
+        if (!isFlickering) return;
+
+        isFlickering = false;
+
+        if (flickerCoroutine != null)
+            StopCoroutine(flickerCoroutine);
+
+        // 버튼 색상 복구
+        foreach (var btn in Hero_Set_Buttons)
+        {
+            btn.GetComponent<Image>().color = normalColor;
+        }
+    }
+    #endregion
 
 }
