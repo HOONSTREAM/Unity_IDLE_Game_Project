@@ -1,0 +1,424 @@
+@font-face { font-family: 'S-CoreDream'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-2ExtraLight.woff') format('woff'); font-weight: 200; font-style: normal; }
+@font-face { font-family: 'S-CoreDream'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'S-CoreDream'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-1Thin.woff') format('woff'); font-weight: 100; font-style: normal; }
+@font-face { font-family: 'S-CoreDream'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'S-CoreDream'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff'); font-weight: 500; font-style: normal; }
+
+body{
+  margin: 0;
+  font-family: 'S-CoreDream';
+}
+ul{
+  list-style: none;
+  padding: 0;
+}
+h1{
+  margin: 0;
+}
+button.no-style{
+  outline: none;
+  background: none;
+  border: none;
+}
+
+.lightbox{
+  display:block;
+  height: 100%;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background: rgba(0, 0, 0, 0.6);
+}
+.container{
+  display:block;
+  width:100%;
+  min-height: 721px;
+  background:#ffffff;
+  overflow:auto;
+}
+#header{
+  margin-top: 0 !important;
+  text-align:center;
+  padding-top: 18px;
+  padding-bottom: 14px;
+  margin: 0 auto;
+  display:block;
+  background:#035e63;
+  z-index: 999;
+  border-bottom: 1px solid #e2e2e2;
+
+}
+#header h1{
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  vertical-align: top;
+  display: inline-block;
+  margin-top: 1px;
+}
+#header button{
+  position: absolute;
+  right: 20px;
+  padding-top: 0;
+}
+.css-cancel {
+  display: inline-block;
+  position: relative;
+  margin: 0 20px 0 7px;
+  padding: 0;
+  width: 3px;
+  height: 20px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+.css-cancel:before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  width: 20px;
+  height: 3px;
+  margin-top: -2px;
+  background: #fff;
+}
+.tab-menu{
+  padding-top: 40px;
+  border-bottom: 1px solid #333;
+  padding-left: 6%;
+  padding-right: 6%;
+  font-size: 0;
+}
+.tab-menu a:last-child{
+  margin-left: -1px;
+}
+.item{
+  vertical-align: middle;
+  text-decoration: none;
+  padding: 8px 24px;
+  padding-top: 12px;
+  display: inline-block;
+  border: 1px solid #999;
+  border-bottom: none;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #aaaaaa;
+}
+.active{
+  background-color: #fff;
+  border: 1px solid #333;
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
+  color: #333;
+  z-index: 999;
+  position: relative;
+}
+.contents{
+  padding-top: 30px;
+  padding-left: 6%;
+  padding-right: 6%;
+}
+.contents label{
+  font-weight: 500;
+  font-size: 16px;
+  display: block;
+  color: #333;
+
+}
+label::after{
+  font-weight: 300;
+  color: #4ae1ca;
+  font-size: 16px;
+  margin:0;
+  content: '*';
+  color:#4ae1ca;
+  margin-left: 2px;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: -6px;
+}
+.upload label::after,
+.agree label::after{
+  content: '';
+}
+.contents select{
+  width: 100%;
+  font-size: 16px;
+  margin-top: 6px;
+  border: 1px solid #333;
+  font-weight: 400;
+  padding-left: 4px;
+  border-radius: 0px;
+  background-color: #fff;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  height: 33px;
+}
+.contents select option{
+  margin: 0;
+  padding: 0;
+}
+.form div{
+  padding-bottom: 32px;
+}
+.form div.attached-File{
+  padding-bottom: 5px;
+}
+.contents input{
+  height: 38px;
+  border: 1px solid #333;
+  width: 100%;
+  padding-left: 10px;
+  font-size: 18px;
+  margin-top: 6px;
+  box-sizing: border-box;
+  font-weight: 400;
+}
+.contents textarea{
+  border: 1px solid #333;
+  width: 100%;
+  font-size: 18px;
+  margin-top: 6px;
+  box-sizing: border-box;
+  padding: 10px;
+  height: 200px;
+}
+
+#input-file-deta
+{
+   border: 1px solid #333;
+   width : 100%;
+   text-align : center;
+   line-height : 35px;
+   background-color: #E0E0E0;
+   height: 38px;
+   margin-top: 6px;
+   font-size: 16px;
+   padding-top: 2px;
+   }
+
+.fileupload-btn:focus{
+  outline: none;
+}
+
+
+.upload label{
+  display: inline-block;
+  width: 70%;
+}
+.upload span{
+  display: inline-block;
+  width: 30%;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 300;
+  color: #777777;
+}
+.contents p{
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 20px;
+  margin-top: 8px;
+  word-spacing: -1.2px;
+  margin-bottom: 0;
+  color: #333;
+}
+.agree label{
+  font-weight: 300;
+  font-size: 13px;
+}
+.agree label p{
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 0;
+  margin-left: 4px;
+  font-weight: 400;
+}
+.agree input{
+  height: 16px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  width: 16px;
+  padding-left:0;
+}
+.main-btn{
+  width: 100%;
+  background-color: #333;
+  font-size: 16px;
+  color: #fff;
+  height: 44px;
+}
+h2{
+  margin: 0;
+  font-size: 10px;
+  font-weight: 400;
+  color: #777777;
+}
+.contents h2 span{
+  background-color: #4ae1ca;
+  border-radius: 10px;
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  text-align: center;
+  font-weight: 500;
+  color: #fff;
+  margin-right:4px;
+}
+.accordion{
+  margin-top: 14px;
+  border-top: 1px solid #333;
+}
+.accordion-item{
+  padding-top: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #333;
+}
+.accordion-item h1{
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+}
+.accordion-item p{
+  margin-top: 0px;
+  text-align: left;
+}
+.list{
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  text-align:left!important;
+}
+.list p{
+  color: #777777;
+}
+button.list {
+  height: 70px;
+    background: rgba( 255, 255, 255, 0.0 );
+    border: 1px solid #ffffff;
+    outline:none;
+}
+button div.title > div > h1 {
+  line-height: 2;
+}
+.panel{
+  display: none;
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+.question{
+  padding-bottom: 14px;
+}
+.answer{
+  padding-top: 14px;
+  border-top: 1px solid #aaa;
+  padding-bottom: 0;
+}
+
+.title{
+  width: 90%;
+  display: inline-block;
+}
+.arrow{
+  width: 8%;
+  display: inline-block;
+  vertical-align: top;
+}
+.arrow div{
+  width: 12px;
+  height: 12px;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  transform: rotate(45deg);
+  text-align: right;
+  margin-top: -2px;
+}
+.open div{
+  transform: rotate(-135deg);
+  margin-top: 6px;
+}
+.title div{
+  width: 71%;
+  display: inline-block;
+}
+.title div h1{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.finished{
+  width: 20%!important;
+  text-align: center;
+  background-color: #ededed;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  color: #aaaaaa;
+  vertical-align: top;
+  margin-top: 1px;
+  font-size: 10px;
+}
+.upload-file{
+  padding-bottom: 10px!important;
+  margin-top: 4px;
+}
+.upload-file button{
+  font-weight: 400;
+  font-size: 14px;
+  width: 2%;
+  display: inline-block;
+  padding: 0;
+  border: 0px;
+  background-color: #fff;
+  cursor: pointer;
+}
+.upload-file button:focus{
+  outline: none;
+}
+.upload-file p{
+  width: 97%;
+  display: inline-block;
+}
+
+.pop-layer {
+  position: absolute;
+  background-color: #fff;
+  z-index: 9999999;
+  display: block;
+  left: 50% !important;
+  top: 382px;
+  width: 420px;
+  transform: translate(-50%);
+  border: 1px solid #aaaaaa;
+  text-align: center;
+}
+
+.pop-layer p{
+  font-size: 16px;
+  margin-top: 64px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid #aaaaaa;
+  margin-bottom: 0;
+}
+.pop-layer p.p-header{
+  font-size: 16px;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #aaaaaa;
+  margin-bottom: 0;
+}
+.pop-layer div{
+  border-top: 1px solid #aaaaaa;
+  background-color: #333;
+  color: #fff;
+  width: 110px;
+  margin: 0 auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 16px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}

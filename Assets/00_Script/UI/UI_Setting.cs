@@ -45,6 +45,7 @@ public class UI_Setting : UI_Base
         Base_Manager.SOUND._audioSource[1].volume = BGS_Volume_Slider.value;
     }
 
+    #region User_Info_Copy
     public void Get_User_Indate_UUID()
     {
         BackendReturnObject bro = Backend.BMember.GetUserInfo();
@@ -66,12 +67,18 @@ public class UI_Setting : UI_Base
         Base_Canvas.instance.Get_Toast_Popup().Initialize("클립보드에 nickname를 복사하였습니다.");
     }
 
+    #endregion
+    /// <summary>
+    /// 유저의 데이터를 즉시 저장합니다.
+    /// </summary>
     public void Save_Button()
     {
         _ = Base_Manager.BACKEND.WriteData();
         Base_Canvas.instance.Get_Toast_Popup().Initialize("즉시 저장이 완료되었습니다.");
     }
-
+    /// <summary>
+    /// 로그아웃을 진행합니다. 기존 토큰이 삭제되어 자동로그인이 불가능해집니다.
+    /// </summary>
     public void Log_Out_Button()
     {
         Backend.BMember.Logout((callback) =>
@@ -85,9 +92,8 @@ public class UI_Setting : UI_Base
 
         });
     }
-
     /// <summary>
-    /// 회원탈퇴를 진행합니다.
+    /// 회원탈퇴를 진행합니다. 7일의 유예기간이 있습니다.
     /// </summary>
     public void Sign_Out_Button()
     {
@@ -100,12 +106,24 @@ public class UI_Setting : UI_Base
 #endif
 
     }
-
+    /// <summary>
+    /// 1대1문의 웹뷰를 불러옵니다.
+    /// </summary>
+    public void Get_Web_Question_Button()
+    {
+        Backend.Question.GetQuestionAuthorize(callback =>
+        {
+            string questionAuthorize = callback.GetReturnValuetoJSON()["authorize"].ToString();
+        });
+    }
     public void Get_Policy_URL(string url)
     {
         Application.OpenURL(url);
     }
 
+    /// <summary>
+    /// 카메라 흔들림 옵션을 키고 끌 수 있도록 제어합니다.
+    /// </summary>
     public void Camera_Shake_Button()
     {
         if (Camera_Shake_Toggle.isOn)
@@ -118,7 +136,6 @@ public class UI_Setting : UI_Base
             PlayerPrefs.SetInt("CAM", 0);
         }
     }
-
     public override void DisableOBJ()
     {
         PlayerPrefs.SetFloat("BGM", BGM_Volume_Slider.value);
