@@ -39,6 +39,8 @@ public class Base_Canvas : MonoBehaviour
     private Button Daily_Quest_Button;
     [SerializeField]
     private Button Combination_Button;
+    [SerializeField]
+    private Button Post_Box_Button;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -54,7 +56,7 @@ public class Base_Canvas : MonoBehaviour
     /// <summary>
     /// 오프라인 보상 시작 시간을 지정합니다. (Second 단위)
     /// </summary>
-    private const double START_OFFLINE_TIME = 1.0d; 
+    private const double START_OFFLINE_TIME = 300.0d; 
 
     private void Awake()
     {
@@ -102,7 +104,7 @@ public class Base_Canvas : MonoBehaviour
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
         Combination_Button.onClick.AddListener(() => Get_UI("UI_Combination", false, false, true));
-
+        Post_Box_Button.onClick.AddListener(() => Get_UI("UI_PostBox", false, false, true));
 
     }
     private void Update()

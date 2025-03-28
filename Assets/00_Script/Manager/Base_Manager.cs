@@ -191,7 +191,7 @@ public class Base_Manager : MonoBehaviour
 
             Data_Manager.Main_Players_Data.StartDate = Utils.Get_Server_Time();
 
-            if (Utils.Offline_Timer_Check() >= 1.0d)
+            if (Utils.Offline_Timer_Check() >= 300.0d)
             {
                 Base_Canvas.instance.Get_UI("OFFLINE_REWARD");
                 Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
