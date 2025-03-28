@@ -111,11 +111,18 @@ public class UI_Setting : UI_Base
     /// </summary>
     public void Get_Web_Question_Button()
     {
-        Backend.Question.GetQuestionAuthorize(callback =>
+        var bro = Backend.Question.GetQuestionAuthorize();
+        string questionAuthorize = bro.GetReturnValuetoJSON()["authorize"].ToString();
+
+#if UNITY_ANDROID
+        TheBackend.ToolKit.Question.Android.OpenQuestionView(questionAuthorize, Backend.UserInDate, (error) =>
         {
-            string questionAuthorize = callback.GetReturnValuetoJSON()["authorize"].ToString();
+            Debug.LogError("1:1 문의창 활성화중 에러가 발생했습니다 : " + error);
         });
+#endif
     }
+
+
     public void Get_Policy_URL(string url)
     {
         Application.OpenURL(url);
@@ -143,3 +150,4 @@ public class UI_Setting : UI_Base
         base.DisableOBJ();
     }
 }
+
