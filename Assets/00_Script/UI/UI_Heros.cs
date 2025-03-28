@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
@@ -284,6 +285,12 @@ public class UI_Heros : UI_Base
         {
             Base_Canvas.instance.Get_Toast_Popup().Initialize("영웅 강화를 성공하였습니다.");
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
+
+            if (holder.Hero_Card_Amount == 0)
+            {
+                holder.Hero_Card_Amount += 1;
+            }
+
             holder.Hero_Level++;
             Base_Manager.BACKEND.Log_Hero_Upgrade(Data, holder);
         }

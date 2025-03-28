@@ -33,6 +33,12 @@ public class UI_Upgrade : UI_Base
                 int now_level = Character_Data.Value.holder.Hero_Level + 1; //TODO
                 int value = 0;
                 Calculate_Upgrade_Level(Character_Data.Value, ref value);
+
+                if (Character_Data.Value.holder.Hero_Card_Amount == 0)
+                {
+                    Character_Data.Value.holder.Hero_Card_Amount += 1;
+                }
+
                 go.Init(Character_Data.Value, now_level, value + 1);
 
                 Base_Manager.BACKEND.Log_Hero_Upgrade(Character_Data.Value.Data, Character_Data.Value.holder);
@@ -57,6 +63,9 @@ public class UI_Upgrade : UI_Base
         while (holder.holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name))
         {
             holder.holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(holder.Data.name);
+
+            
+
             holder.holder.Hero_Level++;
         }
 

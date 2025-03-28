@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_Setting : UI_Base
@@ -21,7 +22,7 @@ public class UI_Setting : UI_Base
 
     public override bool Init()
     {
-        if(PlayerPrefs.GetInt("CAM") == 1)
+        if (PlayerPrefs.GetInt("CAM") == 1)
         {
             Camera_Shake_Toggle.isOn = true;
         }
@@ -69,6 +70,35 @@ public class UI_Setting : UI_Base
     {
         _ = Base_Manager.BACKEND.WriteData();
         Base_Canvas.instance.Get_Toast_Popup().Initialize("즉시 저장이 완료되었습니다.");
+    }
+
+    public void Log_Out_Button()
+    {
+        Backend.BMember.Logout((callback) =>
+        {
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+
+        });
+    }
+
+    /// <summary>
+    /// 회원탈퇴를 진행합니다.
+    /// </summary>
+    public void Sign_Out_Button()
+    {
+        Backend.BMember.WithdrawAccount(24 * 7);
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+
     }
 
     public void Get_Policy_URL(string url)
