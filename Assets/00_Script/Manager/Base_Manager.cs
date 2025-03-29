@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class Base_Manager : MonoBehaviour
 {
     public static Base_Manager instance;
-
+    public readonly string GOODS_CHART_NAME = "재화차트";
 
     private static Pool_Manager _pool = new Pool_Manager();
     private static Player_Manager _player = new Player_Manager();
