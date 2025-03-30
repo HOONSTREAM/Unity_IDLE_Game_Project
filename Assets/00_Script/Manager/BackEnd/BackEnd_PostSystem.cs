@@ -3,20 +3,25 @@ using GoogleMobileAds.Ump.Api;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BackEnd_PostSystem : MonoBehaviour
 {
+    [System.Serializable]
+    public class PostEvent : UnityEvent<List<PostData>> { }
+    public PostEvent onGetPostListEvent = new PostEvent();
+
+
     private List<PostData> postList = new List<PostData>();
 
     private void Start()
-    {
-        Debug.Log("백엔드 포스트 시스템 구문을 호출합니다.");
+    {       
         PostListGet(PostType.Admin);
     }
 
-    public void ReCeive_Button()
+    public void All_ReCeive_Button()
     {
-        PostReceive(PostType.Admin, 0);
+        PostReceiveAll(PostType.Admin);
     }
 
     public void PostListGet(PostType postType)
@@ -90,6 +95,9 @@ public class BackEnd_PostSystem : MonoBehaviour
 
                     }
 
+                    // 우편 리스트 불러오기가 완료되었을 때, 이벤트 메소드 호출
+                    onGetPostListEvent?.Invoke(postList);
+
                     // 저장 가능한 우편 정보 모두 출력
 
                     for(int i = 0; i< postList.Count; i++)
@@ -145,6 +153,10 @@ public class BackEnd_PostSystem : MonoBehaviour
         });
 
 
+    }
+    public void PostReceive(PostType postType, string inDate)
+    {
+        PostReceive(postType, postList.FindIndex(item => item.inDate.Equals(inDate)));
     }
     public void PostReceiveAll(PostType postType)
     {

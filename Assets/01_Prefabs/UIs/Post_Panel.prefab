@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 3254195754224541548}
   - component: {fileID: 8555156957713952441}
   m_Layer: 5
-  m_Name: Quest_Contents
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 1826372186811786041}
   - component: {fileID: 5455868337839773601}
   - component: {fileID: 5120366040380524417}
-  - component: {fileID: 285847964342133813}
+  - component: {fileID: -1428682930402748760}
   m_Layer: 5
   m_Name: Post_Panel
   m_TagString: Untagged
@@ -757,7 +757,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &285847964342133813
+--- !u!114 &-1428682930402748760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -766,15 +766,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6056237362761891857}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e94310d411e58aa4b96cebd5ccf097fa, type: 3}
+  m_Script: {fileID: 11500000, guid: de89a5acfdd804246a349726877b05c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TItle: {fileID: 8555156957713952441}
-  Description: {fileID: 1595100853216046004}
-  Count: {fileID: 0}
-  RewardValue: {fileID: 5714805350894630558}
-  RewardImage: {fileID: 5038303432149538411}
-  CollectedPanel: {fileID: 0}
+  ImageItemIcon: {fileID: 5038303432149538411}
+  Item_Count: {fileID: 5714805350894630558}
+  Text_Title: {fileID: 8555156957713952441}
+  Text_Content: {fileID: 1595100853216046004}
+  Text_Expiration_Date: {fileID: 792861312030839601}
+  button_Receive: {fileID: 889618032280536054}
 --- !u!1 &6952189531107420404
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,7 +864,7 @@ GameObject:
   - component: {fileID: 3989279981024753928}
   - component: {fileID: 889618032280536054}
   m_Layer: 5
-  m_Name: Reward_Button
+  m_Name: Receive_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
