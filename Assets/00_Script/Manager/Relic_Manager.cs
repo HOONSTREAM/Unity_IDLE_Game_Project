@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -26,6 +27,9 @@ public class Relic_Manager : MonoBehaviour
 
     public void Initalize()
     {
+        if (Base_Manager.Item.Set_Item_Check("DICE")) Delegate_Holder.Monster_Dead_Event -= DICE;
+        if (Base_Manager.Item.Set_Item_Check("SWORD")) Delegate_Holder.Player_attack_Event -= SWORD;
+        if (Base_Manager.Item.Set_Item_Check("MANA")) Delegate_Holder.player_hit_Event -= MANA;
         if (Base_Manager.Item.Set_Item_Check("DICE")) Delegate_Holder.Monster_Dead_Event += DICE;
         if (Base_Manager.Item.Set_Item_Check("SWORD")) Delegate_Holder.Player_attack_Event += SWORD;
         if (Base_Manager.Item.Set_Item_Check("MANA")) Delegate_Holder.player_hit_Event += MANA;
@@ -80,8 +84,9 @@ public class Relic_Manager : MonoBehaviour
     /// <param name="monster"></param>
     public void DICE(Monster monster)
     {
-       
-        if (!RandomCount(50))
+        string value = "DICE";
+
+        if (!RandomCount(float.Parse(CSV_Importer.RELIC_DICE_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["start_percent"].ToString())))
         {
             return;
         }

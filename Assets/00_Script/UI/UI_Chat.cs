@@ -12,6 +12,8 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
     [SerializeField]
     private GameObject ChatContent;
     [SerializeField]
+    private GameObject ScrollView;
+    [SerializeField]
     private TMP_InputField ChatInput;
     [SerializeField]
     private Button Send_Button;
@@ -28,7 +30,7 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
     private void Start()
     {
         ChatClient = new ChatClient(this, new ChatClientArguments());
-
+        
     }
 
     private void Update()
@@ -59,12 +61,19 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
 
     }
 
+    IEnumerator ScrollToBottom()
+    {
+        yield return null; // 한 프레임 대기 (레이아웃 정리 시간)
+        ScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
+    }
     public void OnChatMessage(MessageInfo messageInfo)
     {
         GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
         chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
         chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[랭킹 1위]";
         chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
+
+        StartCoroutine(ScrollToBottom());
     }
 
     public override void DisableOBJ()
@@ -100,6 +109,7 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         foreach (var msg in channelInfo.Messages)
         {
             OnChatMessage(msg);
+            StartCoroutine(ScrollToBottom());
         }
 
         // 현재 접속중인 유저 확인

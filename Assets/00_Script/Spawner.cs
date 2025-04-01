@@ -45,11 +45,6 @@ public class Spawner : MonoBehaviour
                     Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);                
                 }
 
-                else
-                {
-                    //Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(m_monsters[i].gameObject);
-                }
-                
             }
 
         }
@@ -64,6 +59,7 @@ public class Spawner : MonoBehaviour
 
         Main_Game_Map.gameObject.SetActive(true);
 
+        Stage_Manager.isDungeon_Map_Change = false;
 
     }
 
@@ -94,6 +90,7 @@ public class Spawner : MonoBehaviour
         Main_Game_Map.gameObject.SetActive(false);
         Maps[Value].gameObject.SetActive(true);
 
+        Stage_Manager.isDungeon_Map_Change = true;
 
         if(Value == 0) // 다이아몬드 던전
         {

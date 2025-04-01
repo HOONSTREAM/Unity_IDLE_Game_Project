@@ -23,7 +23,7 @@ public class UI_Dungeon : UI_Base
     private Button[] Key01ArrowButton, Key02ArrowButton;
 
     private int[] Level = new int[2];
-
+    
 
     public override bool Init()
     {
@@ -88,10 +88,16 @@ public class UI_Dungeon : UI_Base
             return;
         }
 
+        if(Stage_Manager.isDungeon_Map_Change == true)
+        {
+            return;
+        }
+
         Stage_Manager.Dungeon_Level = Level[value];
  
         Base_Manager.Stage.State_Change(Stage_State.Dungeon, value);
 
+       
         // ÀÏÀÏÄù½ºÆ® Á¶°Ç »ó½Â
         if (value == 0)
         {

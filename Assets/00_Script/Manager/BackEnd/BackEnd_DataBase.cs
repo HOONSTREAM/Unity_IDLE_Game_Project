@@ -192,6 +192,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                 if (callback.IsSuccess())
                 {
                     Debug.Log("유저 유물 배치 데이터 업데이트에 성공하였습니다.");
+                    Relic_Manager.instance.Initalize(); // 장착된 유물의 액티브효과를 적용시킵니다.
                 }
                 else
                 {

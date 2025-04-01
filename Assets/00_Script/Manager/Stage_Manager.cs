@@ -16,7 +16,8 @@ public class Stage_Manager
     
 
     public static bool isDead = false;
-    public static bool isDungeon = false;
+    public static bool isDungeon = false; // 던전 진행중인지 검사
+    public static bool isDungeon_Map_Change = false; // 맵이 변경되어 던전이 진행 되었으면 true, 끝나서 메인 맵으로 되돌아왔으면 false
     public static int Dungeon_Enter_Type = 0;
     public static int Dungeon_Level = 0; // 최종 클리어한 레벨과 다르게, 유저가 지정한 레벨을 의미합니다.
 
