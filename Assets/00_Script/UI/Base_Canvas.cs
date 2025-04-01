@@ -41,6 +41,8 @@ public class Base_Canvas : MonoBehaviour
     private Button Combination_Button;
     [SerializeField]
     private Button Post_Box_Button;
+    [SerializeField]
+    private Button Chat_Button;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -105,6 +107,7 @@ public class Base_Canvas : MonoBehaviour
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
         Combination_Button.onClick.AddListener(() => Get_UI("UI_Combination", false, false, true));
         Post_Box_Button.onClick.AddListener(() => Get_UI("UI_PostBox", false, false, true));
+        Chat_Button.onClick.AddListener(() => Get_UI("@Chat", false, false, true));
 
     }
     private void Update()
