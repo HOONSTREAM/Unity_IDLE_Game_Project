@@ -111,7 +111,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
 
     private void First_Custom_Login_TestMethod()
     {
-        var login_bro = Backend.BMember.CustomLogin("user1", "1234");
+        var login_bro = Backend.BMember.CustomLogin("user5", "1234");
 
         if (login_bro.IsSuccess())
         {

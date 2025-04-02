@@ -10,7 +10,7 @@ public partial class BackEnd_Manager : MonoBehaviour
     /// </summary>
     private void Custom_Sign_Up_Initialize()
     {
-        Backend.BMember.CustomSignUp("user1", "1234");
+        Backend.BMember.CustomSignUp("user5", "1234");
         BackendGameData.Instance.Initialize_User_Data();
         Custom_Login_Policy_Agree();
     }
@@ -23,7 +23,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         Debug.Log("로그인을 요청합니다.");
 
         
-        Backend.BMember.CustomLogin("user1", "1234", (BackendReturnObject bro) =>
+        Backend.BMember.CustomLogin("user5", "1234", (BackendReturnObject bro) =>
         {
             if (bro.IsSuccess())
             {
