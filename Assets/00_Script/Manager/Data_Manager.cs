@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -133,7 +134,9 @@ public class BackendGameData
         Debug.Log("'USER' 테이블에 새로운 데이터 행을 추가합니다.");
 
         var bro = Backend.GameData.Insert("USER", param);
-
+        string inDate = bro.GetInDate();
+        var _bro = Backend.URank.User.UpdateUserScore(Utils.LEADERBOARD_UUID, "USER", inDate, param); // 리더보드에 유저데이터를 등록합니다.
+       
         if (bro.IsSuccess())
         {
             Debug.Log("유저 기본 데이터를 추가하는데 성공했습니다. : " + bro);
@@ -141,6 +144,15 @@ public class BackendGameData
         else
         {
             Debug.LogError("유저 기본 데이터를 추가하는데 실패했습니다. : " + bro);
+        }
+
+        if (_bro.IsSuccess())
+        {
+            Debug.Log("유저 기본 데이터를 리더보드에 추가하는데 성공했습니다. : " + _bro);
+        }
+        else
+        {
+            Debug.LogError("유저 기본 데이터를 리더보드에 추가하는데 실패했습니다. : " + _bro);
         }
 
         Param character_param = new Param();

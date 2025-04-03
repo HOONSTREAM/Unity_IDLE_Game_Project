@@ -13,6 +13,7 @@ public class Utils
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
     public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
 
+    public static readonly string LEADERBOARD_UUID = "0195f6e0-a8cd-7d69-b421-10a1dc221fcf";
     public static void CloseAllPopupUI()
     {
         while(UI_Holder.Count > 0)

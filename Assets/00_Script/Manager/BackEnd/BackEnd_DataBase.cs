@@ -15,9 +15,10 @@ public partial class BackEnd_Manager : MonoBehaviour
     /// </summary>
     public async Task WriteData()
     {
+       
         Debug.Log("WriteData 메서드 호출, 데이터를 기록합니다.");
 
-        #region DEFAULT DATA
+            #region DEFAULT DATA
 
         if (Data_Manager.Main_Players_Data == null)
         {
@@ -74,18 +75,31 @@ public partial class BackEnd_Manager : MonoBehaviour
             param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode); // 패스트모드 활성화 여부
             #endregion
 
-            Backend.GameData.Update("USER", new Where(), param, (callback) =>
+            var bro = Backend.GameData.Get("USER", new Where());
+
+            if (bro.IsSuccess())
             {
-                if (callback.IsSuccess())
+                var inDate = bro.GetInDate();
+
+                Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, (callback) =>
                 {
-                    Debug.Log("유저 기본 데이터 업데이트에 성공하였습니다.");
-                }
-                else
-                {
-                    Debug.LogError("유저 기본 데이터 업데이트에 실패하였습니다.");
-                }
-            });
-            
+                    if (callback.IsSuccess())
+                    {
+                        Debug.Log("유저 기본 데이터 업데이트 및 리더보드 갱신에 성공하였습니다.");
+                    }
+                    else
+                    {
+                        Debug.LogError("유저 기본 데이터 업데이트 및 리더보드 갱신에 실패하였습니다.");
+                    }
+                });
+
+            }
+
+            else
+            {
+                return;
+            }
+
             await Task.Yield();
 
             #endregion
