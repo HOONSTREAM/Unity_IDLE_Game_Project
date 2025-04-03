@@ -187,8 +187,7 @@ public class Base_Manager : MonoBehaviour
 
         else
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("앱으로 다시 돌아왔습니다.");
-
+            
             Data_Manager.Main_Players_Data.StartDate = Utils.Get_Server_Time();
 
             if (Utils.Offline_Timer_Check() >= 300.0d)

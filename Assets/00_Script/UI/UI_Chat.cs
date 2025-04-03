@@ -100,6 +100,13 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
             }
 
             chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
+            chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas(parsedRank.ToString()); // ·©Å© ÀÌ¹ÌÁö
+
+            if (int.Parse(_rank) >= 10)
+            {
+                chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas("Bronze");
+            }
+
         }
 
         else
@@ -109,6 +116,7 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
             chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[ÃÊº¸]";
             chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = Color.gray;
             chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
+            chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas("Bronze"); // ·©Å© ÀÌ¹ÌÁö
         }
 
             StartCoroutine(ScrollToBottom());
