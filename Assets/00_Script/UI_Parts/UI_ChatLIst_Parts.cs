@@ -2,6 +2,7 @@ using BackEnd;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,9 @@ public class UI_ChatLIst_Parts : MonoBehaviour
     [SerializeField]
     private GameObject User_Info;
     [SerializeField]
-    private TextMeshProUGUI User_Level;
+    private TextMeshProUGUI User_Rank;
+    [SerializeField]
+    private TextMeshProUGUI Nick_Name;
 
     public void Get_User_Info()
     {
@@ -42,7 +45,7 @@ public class UI_ChatLIst_Parts : MonoBehaviour
             int level = int.Parse(bro.FlattenRows()[0]["PLAYER_LEVEL"].ToString());
 
             
-            User_Level.text = level.ToString();
+            User_Rank.text = level.ToString();
         }
 
         

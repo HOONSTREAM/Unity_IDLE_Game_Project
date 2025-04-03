@@ -68,12 +68,51 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
     }
     public void OnChatMessage(MessageInfo messageInfo)
     {
-        GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
-        chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
-        chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[∑©≈∑ 1¿ß]";
-        chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
+        string _rank = string.Empty;
+        var userBro = Backend.Social.GetUserInfoByNickName(messageInfo.GamerName);
+        string inDate = userBro.GetInDate();
+        var leader_board_bro = Backend.Leaderboard.User.GetLeaderboard(Utils.LEADERBOARD_UUID);
+        var rank = Backend.URank.User.GetUserRank(Utils.LEADERBOARD_UUID, inDate);
 
-        StartCoroutine(ScrollToBottom());
+        if (rank.IsSuccess())
+        {
+            LitJson.JsonData rankListJson = rank.GetFlattenJSON();
+            string extraName = string.Empty;
+
+            for (int i = 0; i < rankListJson["rows"].Count; i++)
+            {
+                _rank = rankListJson["rows"][i]["rank"].ToString();
+            }
+
+            GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
+            chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
+            chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[∑©≈∑ {_rank.ToString()}¿ß]";
+
+            int parsedRank;
+
+            if (int.TryParse(_rank, out parsedRank) && parsedRank >= 1 && parsedRank <= 10)
+            {
+                chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+            }
+            else
+            {
+                chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = Color.gray;
+            }
+
+            chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
+        }
+
+        else
+        {
+            GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
+            chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
+            chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[√ ∫∏]";
+            chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = Color.gray;
+            chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
+        }
+
+            StartCoroutine(ScrollToBottom());
+
     }
 
     public override void DisableOBJ()
