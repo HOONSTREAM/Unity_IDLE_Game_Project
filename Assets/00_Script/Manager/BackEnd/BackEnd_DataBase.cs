@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 public partial class BackEnd_Manager : MonoBehaviour
 {
+   
     /// <summary>
     /// 유저 데이터를 저장합니다. BackendReturnObject는 서버와 통신한 결과값을 의미합니다.
     /// </summary>
@@ -89,8 +90,39 @@ public partial class BackEnd_Manager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogError("유저 기본 데이터 업데이트 및 리더보드 갱신에 실패하였습니다.");
-                    }
+                        Debug.LogWarning("유저 기본 데이터 업데이트 및 리더보드 갱신에 실패하였습니다.");
+
+                        Backend.Leaderboard.User.GetMyLeaderboard(Utils.LEADERBOARD_UUID, callback => 
+                        {
+                            if (!callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드에 등록되어 있지않습니다. 재등록 후 재 저장 시도합니다.");
+
+                                var bro = Backend.GameData.GetMyData("USER", new Where());
+                                string inDate = bro.GetInDate();
+                                var _bro = Backend.URank.User.UpdateUserScore(Utils.LEADERBOARD_UUID, "USER", inDate, param); // 리더보드에 유저데이터를 등록합니다.
+
+                                if (_bro.IsSuccess())
+                                {
+                                    Debug.Log($"리더보드 등록에 성공하였습니다. : {callback}");
+
+                                }
+                                else
+                                {
+                                    Debug.LogError($"리더보드 등록에 실패하였습니다. : {callback}");
+                                    //TODO : 일단 업데이트만.
+                                }
+                            }
+
+                            else
+                            {
+                                Debug.LogError($"리더보드 미등록 에러 외, 다른 원인의 에러가 있습니다. : {callback}");
+                                return;
+                            }
+
+
+                        });
+                     }
                 });
 
             }

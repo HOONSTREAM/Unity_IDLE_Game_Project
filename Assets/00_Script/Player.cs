@@ -246,10 +246,15 @@ public class Player : Character
             if (Stage_Manager.isDungeon)
             {
                 Spawner.m_players.Remove(this); // 자신을 더이상 추적하지 못하도록 리스트에서 삭제
-                AnimatorChange("isDEAD");
-                m_target = null;
-                Base_Manager.Stage.State_Change(Stage_State.Dungeon_Dead);
-                return;
+
+                if (Spawner.m_players.Count <= 0) // 모든 생존 플레이어가 사망하였는지 검사
+                {
+                    AnimatorChange("isDEAD");
+                    m_target = null;
+                    Base_Manager.Stage.State_Change(Stage_State.Dungeon_Dead);
+                    return;
+                }
+                
             }
 
             else

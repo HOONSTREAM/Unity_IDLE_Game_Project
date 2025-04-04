@@ -162,8 +162,7 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.M_ClearEvent += OnClear;
         Base_Manager.Stage.M_DeadEvent += OnDead;
         Base_Manager.Stage.M_DungeonEvent += OnDungeon;
-        Base_Manager.Stage.M_DungeonClearEvent += OnDungeonClear;
-        Base_Manager.Stage.M_DungeonDeadEvent += OnDead;
+        Base_Manager.Stage.M_DungeonClearEvent += OnDungeonClear;        
         Base_Manager.Stage.M_DungeonDeadEvent += OnDungeonDead;
 
         Base_Manager.Stage.State_Change(Stage_State.Ready);
