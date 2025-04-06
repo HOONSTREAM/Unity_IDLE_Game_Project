@@ -16,7 +16,6 @@ public class UI_Rank : UI_Base
     private void Start()
     {
         Set_User_Rank();
-
     }
 
     private void Set_User_Rank()

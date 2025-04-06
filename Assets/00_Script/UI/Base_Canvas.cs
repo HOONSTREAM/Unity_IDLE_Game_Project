@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -57,10 +58,7 @@ public class Base_Canvas : MonoBehaviour
 
 
 
-    /// <summary>
-    /// 오프라인 보상 시작 시간을 지정합니다. (Second 단위)
-    /// </summary>
-    private const double START_OFFLINE_TIME = 300.0d; 
+    
 
     private void Awake()
     {
@@ -78,7 +76,7 @@ public class Base_Canvas : MonoBehaviour
     private void Start()
     {       
         
-        if (Utils.Offline_Timer_Check() >= START_OFFLINE_TIME)
+        if (Utils.Offline_Timer_Check() >= Utils.OFFLINE_TIME_CHECK)
         {
             Get_UI("OFFLINE_REWARD");
             Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
@@ -110,7 +108,19 @@ public class Base_Canvas : MonoBehaviour
         Combination_Button.onClick.AddListener(() => Get_UI("UI_Combination", false, false, true));
         Post_Box_Button.onClick.AddListener(() => Get_UI("UI_PostBox", false, false, true));
         Chat_Button.onClick.AddListener(() => Get_UI("@Chat", false, false, true));
-        Rank_Button.onClick.AddListener(() => Get_UI("UI_Rank", false, false, true));
+
+        Rank_Button.onClick.AddListener(() =>
+        {
+            DateTime serverTime = Utils.Get_Server_Time(); 
+
+            if (serverTime.Hour >= 0 && serverTime.Hour < 1)
+            {
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("00시~01시 사이에는, 랭크 업데이트 중 입니다.");
+                return; 
+            }
+
+            Get_UI("UI_Rank", false, false, true);
+        });
 
     }
     private void Update()

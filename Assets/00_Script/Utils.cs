@@ -14,6 +14,9 @@ public class Utils
     public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
 
     public static readonly string LEADERBOARD_UUID = "0195f6e0-a8cd-7d69-b421-10a1dc221fcf";
+    public static readonly double OFFLINE_TIME_CHECK = 300.0d;
+    public static bool is_push_alarm_agree = false;
+
     public static void CloseAllPopupUI()
     {
         while(UI_Holder.Count > 0)
@@ -155,6 +158,8 @@ public class Utils
 
         double Time_Count = timer.TotalSeconds;
 
+        Time_Count = Mathf.Min((float)Time_Count, 72000f);
+        
         return Time_Count;
     }
 
@@ -176,6 +181,8 @@ public class Utils
 
         double Time_Count = timer.TotalSeconds;
 
+        Time_Count = Mathf.Min((float)Time_Count,72000f);
+       
         return Time_Count;
     }
 

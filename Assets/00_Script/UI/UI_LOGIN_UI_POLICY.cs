@@ -46,20 +46,32 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
             Set_NickName_Panel.gameObject.SetActive(true);
         }
 
-         Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree = true;
+         Utils.is_push_alarm_agree = true;
     }
     public void Ok_Button()
     {
-        if (Service_Toggle.isOn && Privacy_Policy_Agree_Toggle.isOn)
-        {            
+        if (Service_Toggle.isOn && Privacy_Policy_Agree_Toggle.isOn && Event_Toggle.isOn)
+        {
             Policy_Frame.gameObject.SetActive(false);
             isAgree = true;
 
             if (this.isAgree)
             {
-                Set_NickName_Panel.gameObject.SetActive(true);             
+                Set_NickName_Panel.gameObject.SetActive(true);
             }
 
+            Utils.is_push_alarm_agree = true;
+        }
+
+        else if (Service_Toggle.isOn && Privacy_Policy_Agree_Toggle.isOn)
+        {
+            Policy_Frame.gameObject.SetActive(false);
+            isAgree = true;
+
+            if (this.isAgree)
+            {
+                Set_NickName_Panel.gameObject.SetActive(true);
+            }
         }
 
         else

@@ -153,6 +153,7 @@ public class BackendGameData
         else
         {
             Debug.LogError("유저 기본 데이터를 리더보드에 추가하는데 실패했습니다. : " + _bro);
+          
         }
 
         Param character_param = new Param();
