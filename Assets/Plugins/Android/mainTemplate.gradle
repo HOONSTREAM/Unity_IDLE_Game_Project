@@ -14,8 +14,25 @@ constraints {
    }
   }
 
+// Android Resolver Dependencies Start
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' // Assets/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:12
+    implementation 'com.google.android.gms:play-services-ads:23.6.0' // Assets/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:7
+    implementation 'com.google.android.gms:play-services-auth:19.0.0' // Assets/TheBackend/Toolkit/GoogleLogin/Android/Editor/BackendGoogleLoginAndroidDependencies.xml:9
+    implementation 'com.google.android.ump:user-messaging-platform:3.1.0' // Assets/GoogleMobileAds/Editor/GoogleUmpDependencies.xml:7
+// Android Resolver Dependencies End
 **DEPS**}
 
+// Android Resolver Exclusions Start
+android {
+  packagingOptions {
+      exclude ('/lib/armeabi/*' + '*')
+      exclude ('/lib/mips/*' + '*')
+      exclude ('/lib/mips64/*' + '*')
+      exclude ('/lib/x86/*' + '*')
+      exclude ('/lib/x86_64/*' + '*')
+  }
+}
+// Android Resolver Exclusions End
 android {
     ndkPath "**NDKPATH**"
 

@@ -78,7 +78,7 @@ public class Loading_Scene : MonoBehaviour
             yield return new WaitForSecondsRealtime(1.5f);
             Auto_Login_Success_Second.gameObject.SetActive(false);
 
-            Base_Manager.BACKEND.Custom_Login_Policy_Agree();
+            Base_Manager.BACKEND.Federation_Login_AfterCheck();
 
         }
         else
@@ -101,7 +101,7 @@ public class Loading_Scene : MonoBehaviour
         StartCoroutine(LoadData_Coroutine());
     }
 
-    public void Main_Game_Start_Custom_Account_Test()
+    public void Main_Game_Start()
     {
         Base_Manager.Get_MainGame_Start = true;
         asyncOperation.allowSceneActivation = true;

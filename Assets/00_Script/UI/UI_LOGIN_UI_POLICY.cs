@@ -118,35 +118,25 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
             return;
         }
 
-        First_Custom_Login_TestMethod();
-    }
+        var nicknameBro = Backend.BMember.UpdateNickname(NickName_Text);
 
-    private void First_Custom_Login_TestMethod()
-    {
-        var login_bro = Backend.BMember.CustomLogin("user8", "1234");   
-
-        if (login_bro.IsSuccess())
+        if (nicknameBro.IsSuccess())
         {
-            Debug.Log("로그인이 성공했습니다. : " + login_bro);
-
-            Backend.BMember.UpdateNickname(NickName_Text);
-   
+            Debug.Log("닉네임 등록 성공");
+            BackendGameData.Instance.Initialize_User_Data();
             _ = Base_Manager.BACKEND.WriteData();
-
-            Loading_Scene.instance.Main_Game_Start_Custom_Account_Test();
+            Loading_Scene.instance.Main_Game_Start();
 
             PlayerPrefs.SetFloat("BGM", 1.0f);
             PlayerPrefs.SetFloat("BGS", 1.0f);
-            
         }
         else
         {
             GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
             go.gameObject.SetActive(true);
             go.transform.SetSiblingIndex(4);
-            GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = "로그인에 실패했습니다. 지속적으로 실패하면, 관리자에게 문의하십시오. : " + login_bro;
+            GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = "로그인에 실패했습니다. 지속적으로 실패하면, 관리자에게 문의하십시오. : " + nicknameBro;
         }
     }
-
-    
+   
 }

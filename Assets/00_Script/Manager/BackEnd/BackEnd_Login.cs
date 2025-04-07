@@ -5,72 +5,75 @@ using UnityEngine;
 
 public partial class BackEnd_Manager : MonoBehaviour
 {
-    /// <summary>
-    /// 테스트메서드, 페더레이션 구현되면 삭제
-    /// </summary>
-    private void Custom_Sign_Up_Initialize()
+    public void StartGoogleLogin()
     {
-        Backend.BMember.CustomSignUp("user8", "1234");
-        BackendGameData.Instance.Initialize_User_Data();
-        Custom_Login_Policy_Agree();
+        TheBackend.ToolKit.GoogleLogin.Android.GoogleLogin(true, GoogleLoginCallback);
     }
 
-    /// <summary>
-    /// 페더레이션 구현되면 수정
-    /// </summary>
-    public void Custom_Login_Policy_Agree()
+    private void GoogleLoginCallback(bool isSuccess, string errorMessage, string token)
     {
-        Debug.Log("로그인을 요청합니다.");
-
-        
-        Backend.BMember.CustomLogin("user8", "1234", (BackendReturnObject bro) =>
+        if (isSuccess == false)
         {
-            if (bro.IsSuccess())
-            {
-                Debug.Log("로그인이 성공했습니다. : " + bro);
+            Debug.LogError(errorMessage);
+            return;
+        }
 
-                BackendReturnObject user_info = Backend.GameData.GetMyData("USER", new Where());
-                BackendReturnObject nickname_info = Backend.BMember.GetUserInfo();
-                if (user_info.IsSuccess())
-                {
-                    if (nickname_info.GetReturnValuetoJSON()["row"]["nickname"] != null)
-                    {
-                        Base_Manager.BACKEND.ReadData();
+        Debug.Log("구글 토큰 : " + token);
+        var bro = Backend.BMember.AuthorizeFederation(token, FederationType.Google);
+        Debug.Log("페데레이션 로그인 결과 : " + bro);
 
-                        _ = Base_Manager.BACKEND.WriteData(); //서버에 저장된 데이터를 업데이트합니다.
+        var userInfo = Backend.BMember.GetUserInfo();
+        if (userInfo.IsSuccess() && userInfo.GetReturnValuetoJSON()["row"]["nickname"] != null)
+        {
+            // 닉네임이 존재할 경우 바로 게임 시작
+            Base_Manager.BACKEND.ReadData();
+            _ = Base_Manager.BACKEND.WriteData();
+            Loading_Scene.instance.Main_Game_Start();
 
-                        Loading_Scene.instance.Main_Game_Start_Custom_Account_Test();
+            PlayerPrefs.SetFloat("BGM", 1.0f);
+            PlayerPrefs.SetFloat("BGS", 1.0f);
+        }
+        else
+        {
+            // 닉네임이 없을 경우 약관 동의 + 닉네임 입력
+            GameObject go = Instantiate(Resources.Load<GameObject>("UI/LOGIN_UI_POLICY"));
+            go.transform.SetParent(GameObject.Find("Loading_CANVAS").transform, false);
+        }
 
-                        PlayerPrefs.SetFloat("BGM", 1.0f);
-                        PlayerPrefs.SetFloat("BGS", 1.0f);
-                    }
+    }
+    
+    public void Federation_Login_AfterCheck()
+    {
+        BackendReturnObject userInfoBro = Backend.BMember.GetUserInfo();
+        if (!userInfoBro.IsSuccess())
+        {
+            GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
+            go.gameObject.SetActive(true);
+            go.transform.SetSiblingIndex(4);
+            GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = $"유저 정보 조회를 실패하였습니다. 관리자에게 문의해주세요.";
+            return;
+        }
 
-                    else
-                    {
-                        GameObject go = Instantiate(Resources.Load<GameObject>("UI/LOGIN_UI_POLICY"));
-                        go.transform.SetParent(GameObject.Find("Loading_CANVAS").gameObject.transform);
-                    }
-                }
+        var nicknameJson = userInfoBro.GetReturnValuetoJSON()["row"]["nickname"];
 
+        if (nicknameJson != null && !string.IsNullOrEmpty(nicknameJson.ToString()))
+        {
+            Debug.Log("닉네임 존재 → 데이터 로드 후 게임 시작");
 
-                else
-                {
-                    GameObject go = Instantiate(Resources.Load<GameObject>("UI/LOGIN_UI_POLICY"));
-                    go.transform.SetParent(GameObject.Find("Loading_CANVAS").gameObject.transform);
-                }
+            Base_Manager.BACKEND.ReadData();
+            _ = Base_Manager.BACKEND.WriteData();
+            Loading_Scene.instance.Main_Game_Start();
 
-            }
-            else
-            {
-                Debug.LogError("로그인이 실패했습니다. 회원가입을 진행합니다. : " + bro);
-                Custom_Sign_Up_Initialize();
+            PlayerPrefs.SetFloat("BGM", 1.0f);
+            PlayerPrefs.SetFloat("BGS", 1.0f);
+        }
+        else
+        {
+            Debug.Log("닉네임 없음 → 정책 동의 UI 생성");
 
-            }
-        });
-        
-
-       
-
+            GameObject go = Instantiate(Resources.Load<GameObject>("UI/LOGIN_UI_POLICY"));
+            go.transform.SetParent(GameObject.Find("Loading_CANVAS").transform, false);
+        }
     }
 
 }
