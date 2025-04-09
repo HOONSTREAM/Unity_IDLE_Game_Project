@@ -83,10 +83,6 @@ public class Loading_Scene : MonoBehaviour
         }
         else
         {
-            //taptostart는 토큰만료되었을 때, 수동로그인 진행 시 구현, 그리고 출시직전 커스텀은 삭제하고 구글 페더레이션으로 교체
-
-            ERROR_UI.gameObject.SetActive(true);
-            ERROR_TEXT.text = "로그인 토큰이 만료되었습니다. 다시 로그인을 시도하세요.";
             TapToStart_Object.gameObject.SetActive(true);
         }
         #endregion
