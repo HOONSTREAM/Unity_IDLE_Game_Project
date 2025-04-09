@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static TheBackend.ToolKit.GoogleLogin.Android;
 
 public class UI_Setting : UI_Base
 {
@@ -76,13 +77,23 @@ public class UI_Setting : UI_Base
         _ = Base_Manager.BACKEND.WriteData();
         Base_Canvas.instance.Get_Toast_Popup().Initialize("즉시 저장이 완료되었습니다.");
     }
+
     /// <summary>
     /// 로그아웃을 진행합니다. 기존 토큰이 삭제되어 자동로그인이 불가능해집니다.
     /// </summary>
-    public void Log_Out_Button()
+    public void SignOutGoogleLogin()
     {
-        Backend.BMember.Logout((callback) =>
+        TheBackend.ToolKit.GoogleLogin.Android.GoogleSignOut(true,GoogleSignOutCallback);
+    }
+    private void GoogleSignOutCallback(bool isSuccess, string error)
+    {
+        if (isSuccess == false)
         {
+            Debug.Log("구글 로그아웃 에러 응답 발생 : " + error);
+        }
+        else
+        {
+            Debug.Log("로그아웃 성공");
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -90,8 +101,9 @@ public class UI_Setting : UI_Base
         Application.Quit();
 #endif
 
-        });
+        }
     }
+
     /// <summary>
     /// 회원탈퇴를 진행합니다. 7일의 유예기간이 있습니다.
     /// </summary>

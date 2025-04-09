@@ -34,10 +34,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
         Privacy_Policy_Agree_Toggle.isOn = true;
         Event_Toggle.isOn = true;
 
-        GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
-        go.gameObject.SetActive(true);
-        go.transform.SetSiblingIndex(4);
-        GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = $"모든 정책에 동의하였습니다..";
+        Utils.Get_LoadingCanvas_ErrorUI("모든 정책에 동의하였습니다.");
         Policy_Frame.gameObject.SetActive(false);
         isAgree = true;
 
@@ -76,10 +73,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
 
         else
         {
-            GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
-            go.gameObject.SetActive(true);
-            go.transform.SetSiblingIndex(4);
-            GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = $"정책에 동의하지 않으면, 게임을 진행 할 수 없습니다.";
+            Utils.Get_LoadingCanvas_ErrorUI("정책에 동의하지않으면, 게임을 진행할 수 없습니다.");
             return;
         }
     }
@@ -100,10 +94,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
 
         if (string.IsNullOrEmpty(NickName_Text))
         {
-            GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
-            go.gameObject.SetActive(true);
-            go.transform.SetSiblingIndex(4);
-            GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = $"닉네임이 비어있습니다. 닉네임을 입력해주세요.";
+            Utils.Get_LoadingCanvas_ErrorUI($"닉네임이 비어있습니다. 닉네임을 입력해주세요.");            
             return;
         }
 
@@ -111,18 +102,14 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
 
         if (!checkBro.IsSuccess())
         {
-            GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
-            go.gameObject.SetActive(true);
-            go.transform.SetSiblingIndex(4);
-            GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = "닉네임이 중복되었습니다: " + checkBro.GetMessage();                      
+            Utils.Get_LoadingCanvas_ErrorUI("닉네임이 중복되었습니다: " + checkBro.GetMessage());                
             return;
         }
 
-        var nicknameBro = Backend.BMember.UpdateNickname(NickName_Text);
+        var nicknameBro = Backend.BMember.UpdateNickname(NickName_Text); // 닉네임 업데이트
 
         if (nicknameBro.IsSuccess())
-        {
-            Debug.Log("닉네임 등록 성공");
+        {           
             BackendGameData.Instance.Initialize_User_Data();
             _ = Base_Manager.BACKEND.WriteData();
             Loading_Scene.instance.Main_Game_Start();
@@ -132,10 +119,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
         }
         else
         {
-            GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
-            go.gameObject.SetActive(true);
-            go.transform.SetSiblingIndex(4);
-            GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = "로그인에 실패했습니다. 지속적으로 실패하면, 관리자에게 문의하십시오. : " + nicknameBro;
+            Utils.Get_LoadingCanvas_ErrorUI("로그인에 실패했습니다. 지속적으로 실패하면, 관리자에게 문의하십시오. : " + nicknameBro);
         }
     }
    

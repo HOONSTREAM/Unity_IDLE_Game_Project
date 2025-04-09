@@ -78,7 +78,7 @@ public class Loading_Scene : MonoBehaviour
             yield return new WaitForSecondsRealtime(1.5f);
             Auto_Login_Success_Second.gameObject.SetActive(false);
 
-            Base_Manager.BACKEND.Federation_Login_AfterCheck();
+            Base_Manager.BACKEND.StartGoogleLogin();
 
         }
         else

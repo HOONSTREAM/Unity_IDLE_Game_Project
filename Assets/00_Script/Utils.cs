@@ -70,7 +70,6 @@ public class Utils
         return "<color=#FFFFFF>";
     }
 
-
     /// <summary>
     /// 레벨디자인에 이용할 지수증가공식입니다.
     /// </summary>
@@ -139,7 +138,6 @@ public class Utils
         return Summon_Percentage;
     }
 
-    ///
     public static double Offline_Timer_Check()
     {
         if(Data_Manager.Main_Players_Data.StartDate == null || Data_Manager.Main_Players_Data.EndDate == null)
@@ -292,6 +290,14 @@ public class Utils
         DateTime parsedDate = DateTime.Parse(time);
 
         return parsedDate;
+    }
+
+    public static void Get_LoadingCanvas_ErrorUI(string text)
+    {
+        GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
+        go.gameObject.SetActive(true);
+        go.transform.SetSiblingIndex(4);
+        GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = text;
     }
 
 }
