@@ -11,7 +11,6 @@ using UnityEngine;
 /// </summary>
 /// 
 
-
 #region BackEnd
 public class BackendGameData
 {
@@ -96,7 +95,7 @@ public class BackendGameData
         param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed);
         param.Add("ATK", Data_Manager.Main_Players_Data.ATK);
         param.Add("HP", Data_Manager.Main_Players_Data.HP);
-        param.Add("Player_Tier", (int)Data_Manager.Main_Players_Data.Player_Tier);
+        param.Add("PLAYER_TIER", (int)Data_Manager.Main_Players_Data.Player_Tier);
         param.Add("PLAYER_MONEY", Data_Manager.Main_Players_Data.Player_Money);
         param.Add("DIAMOND", Data_Manager.Main_Players_Data.DiaMond);
         param.Add("PLAYER_LEVEL", Data_Manager.Main_Players_Data.Player_Level);
@@ -373,7 +372,6 @@ public class Data_Manager
         Set_Character();
         Set_Item();       
     }
-
     public Character_Scriptable Get_Rarity_Character(Rarity rarity)
     {
         List<Character_Scriptable> Ch_Scriptable_Data = new List<Character_Scriptable>();
@@ -389,7 +387,6 @@ public class Data_Manager
         return Ch_Scriptable_Data[UnityEngine.Random.Range(0, Ch_Scriptable_Data.Count)];
 
     }
-
     public Item_Scriptable Get_Rarity_Relic(Rarity rarity)
     {
         List<Item_Scriptable> item_Scriptable_Data = new List<Item_Scriptable>();
@@ -405,8 +402,6 @@ public class Data_Manager
         return item_Scriptable_Data[UnityEngine.Random.Range(0, item_Scriptable_Data.Count)];
 
     }
-
-
     private void Set_Character()
     {
         var datas = Resources.LoadAll<Character_Scriptable>("Scriptable/Character");
@@ -436,7 +431,6 @@ public class Data_Manager
             
         }
     }
-
     private void Set_Item()
     {
         var datas = Resources.LoadAll<Item_Scriptable>("Scriptable/Item");
@@ -465,7 +459,6 @@ public class Data_Manager
             
         }
     }
-
     public void Set_Player_ATK_HP()
     {
         Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_Levelup_Next_ATK();
@@ -476,7 +469,6 @@ public class Data_Manager
             Spawner.m_players[i].Set_ATK_HP_Sub_Hero();
         }
     }
-
     public float Get_smelt_value(Smelt_Status status)
     {
         float value = 0.0f;

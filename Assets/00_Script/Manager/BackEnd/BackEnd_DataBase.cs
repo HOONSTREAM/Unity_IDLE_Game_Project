@@ -307,7 +307,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.ADS_Relic_Summon_Count = int.Parse(gameDataJson[0]["ADS_RELIC_SUMMON_COUNT"].ToString());
                 data.isFastMode = bool.Parse(gameDataJson[0]["Fast_Mode"].ToString());
 
-                Data_Manager.Main_Players_Data.Player_Tier = (Player_Tier)tier_number;
+               
 
                 if (Get_Date_Dungeon_Item(startDate, endDate))
                 {
@@ -336,6 +336,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                 }
 
                 Data_Manager.Main_Players_Data = data;
+                Data_Manager.Main_Players_Data.Player_Tier = (Player_Tier)tier_number;
 
                 Utils.Calculate_ADS_Timer(); // 오프라인 시간만큼 광고 락 시간 차감
                 Utils.Calculate_ADS_Buff_Timer(); // 오프라인 시간만큼 광고버프 시간 차감

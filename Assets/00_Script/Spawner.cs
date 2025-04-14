@@ -9,6 +9,9 @@ public class Spawner : MonoBehaviour
     private float M_SpawnTime; // 몇 초마다 스폰이 될 것인지 결정.
     // 1. 몬스터는 여러마리가 몇 초 마다 수시로 여러번 스폰 되어야 한다.
 
+    private const int GOLD_DUNGEON_MULTIPLE_HARD = 10;
+    private const int TIER_DUNGEON_MULTIPLE_HARD = 50;
+
     //Spawner 에 손쉽게 접근하기 위해, static으로 설계
     public static List<Monster> m_monsters = new List<Monster>();
     public static List<Player> m_players = new List<Player>();
@@ -146,7 +149,7 @@ public class Spawner : MonoBehaviour
             var go = Base_Manager.Pool.Pooling_OBJ("Gold_Dungeon").Get((value) =>
             {
                 // 풀링이 생성될때의 기능을 구현한다.
-                value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * 10); // TODO : 레벨디자인 필요
+                value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * GOLD_DUNGEON_MULTIPLE_HARD); // TODO : 레벨디자인 필요
             });
 
             monster = go.GetComponent<Monster>();
@@ -181,7 +184,7 @@ public class Spawner : MonoBehaviour
         var go = Base_Manager.Pool.Pooling_OBJ("Tier_Dungeon").Get((value) =>
         {
             // 풀링이 생성될때의 기능을 구현한다.
-            value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * 2); // TODO : 레벨디자인 필요
+            value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * TIER_DUNGEON_MULTIPLE_HARD); // TODO : 레벨디자인 필요
         });
 
         monster = go.GetComponent<Monster>();
