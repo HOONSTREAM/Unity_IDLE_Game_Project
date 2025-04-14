@@ -84,6 +84,10 @@ public class Main_UI : MonoBehaviour
     private Image Gold_Dungeon_Slider_Fill;
     [SerializeField]
     private TextMeshProUGUI Gold_Dungeon_Hp_Text;
+    [SerializeField]
+    private Image Tier_Dungeon_Slider_Fill;
+    [SerializeField]
+    private TextMeshProUGUI Tier_Dungeon_Hp_Text;
     private Coroutine Dungeon_Coroutine = null;
 
     [Space(20f)]
@@ -413,8 +417,18 @@ public class Main_UI : MonoBehaviour
         }
         else
         {
-            Gold_Dungeon_Slider_Fill.fillAmount = value;
-            Gold_Dungeon_Hp_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
+            switch (Stage_Manager.Dungeon_Enter_Type)
+            {
+                case 1:
+                    Gold_Dungeon_Slider_Fill.fillAmount = value;
+                    Gold_Dungeon_Hp_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
+                    break;
+                case 2:
+                    Tier_Dungeon_Slider_Fill.fillAmount = value;
+                    Tier_Dungeon_Hp_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
+                    break;
+            }
+            
         }
     }
        
@@ -543,18 +557,24 @@ public class Main_UI : MonoBehaviour
         if(Value == 0)
         {
             int Stage_Value = Stage_Manager.Dungeon_Level; // 0층에서 시작하므로 +1을 해줍니다.
-            Dungeon_Stage_Text.text = $"보물던전 {Stage_Value} 층";
+            Dungeon_Stage_Text.text = $"보물던전 {Stage_Value + 1} 층";
         }
 
         else if (Value == 1)
         {
             int Stage_Value = (Stage_Manager.Dungeon_Level + 1); // 0층에서 시작하므로 +1을 해줍니다.
-            Dungeon_Stage_Text.text = $"골드던전 {Stage_Value} 층";
+            Dungeon_Stage_Text.text = $"골드던전 {Stage_Value + 1} 층";
+        }
+
+        else if (Value == 2)
+        {
+            Dungeon_Stage_Text.text = $"승급던전 도전 중";
         }
 
         FadeInOut(true, true);
         Parts_Initialize();
         Dungeon_Addtional_Sliders[Value].gameObject.SetActive(true);
+
         Slider_Object_Check(Slider_Type.Dungeon);     
     }
     private void OnDungeonClear(int Value)
@@ -564,22 +584,26 @@ public class Main_UI : MonoBehaviour
             StopCoroutine(Dungeon_Coroutine);
             Dungeon_Coroutine = null;
         }
-
         int clear_Level = Stage_Manager.Dungeon_Level;
 
-        if(Stage_Manager.Dungeon_Level == Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]) // 클리어레벨이 최종클리어레벨과 동일할 때에만 레벨증가
+        if (Value != 2)
         {
-            Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]++;
-        }
-       
+            
+            if (Stage_Manager.Dungeon_Level == Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]) // 클리어레벨이 최종클리어레벨과 동일할 때에만 레벨증가
+            {
+                Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]++;
+            }
 
-        if (Data_Manager.Main_Players_Data.Daily_Enter_Key[Value] > 0)
-        {
-            Data_Manager.Main_Players_Data.Daily_Enter_Key[Value]--;
-        }
-        else
-        {
-            Data_Manager.Main_Players_Data.User_Key_Assets[Value]--;
+
+            if (Data_Manager.Main_Players_Data.Daily_Enter_Key[Value] > 0)
+            {
+                Data_Manager.Main_Players_Data.Daily_Enter_Key[Value]--;
+            }
+            else
+            {
+                Data_Manager.Main_Players_Data.User_Key_Assets[Value]--;
+            }
+
         }
 
         switch (Value)
@@ -597,6 +621,14 @@ public class Main_UI : MonoBehaviour
 
                 Data_Manager.Main_Players_Data.Player_Money += value;
                 _ = Base_Manager.BACKEND.WriteData();
+                break;
+
+            case 2:
+                               
+                Player_Tier tier = Data_Manager.Main_Players_Data.Player_Tier;
+                Player_Tier next_tier = tier + 1;
+                Data_Manager.Main_Players_Data.Player_Tier = next_tier;
+
                 break;
         }
 

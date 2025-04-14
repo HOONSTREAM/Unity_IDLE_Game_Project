@@ -17,6 +17,8 @@ public class UI_Dungeon : UI_Base
     [SerializeField]
     private TextMeshProUGUI[] Clear_Assets; // 클리어 보상
     [SerializeField]
+    private Image Clear_Tier_Image;
+    [SerializeField]
     private TextMeshProUGUI[] Dungeon_Levels; // 난이도
 
     [SerializeField] 
@@ -43,6 +45,10 @@ public class UI_Dungeon : UI_Base
         // 레벨디자인 필요
         Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
         Clear_Assets[1].text = StringMethod.ToCurrencyString(value);
+        Clear_Assets[2].text = $"<color=##FFF00>{Utils.Set_Next_Tier_Name()}</color> 로 승급";
+        Player_Tier next_tier = Data_Manager.Main_Players_Data.Player_Tier + 1;
+        if(next_tier >= Player_Tier.Tier_Challenger) { next_tier = Player_Tier.Tier_Challenger; }
+        Clear_Tier_Image.sprite = Utils.Get_Atlas(next_tier.ToString());
 
         Key01ArrowButton[0].onClick.AddListener(() => ArrowButton(0, -1));
         Key01ArrowButton[1].onClick.AddListener(() => ArrowButton(0, 1));
@@ -66,50 +72,63 @@ public class UI_Dungeon : UI_Base
 
     public void Get_Dungeon(int value)
     {
-        if (Data_Manager.Main_Players_Data.Daily_Enter_Key[value] + Data_Manager.Main_Players_Data.User_Key_Assets[value] <= 0)
+        var playerData = Data_Manager.Main_Players_Data;
+        var popup = Base_Canvas.instance.Get_TOP_Popup();
+
+        bool isTierDungeon = value == 2;
+        bool isNormalDungeon = value != 2;
+
+        if (isTierDungeon && playerData.Player_Tier >= Player_Tier.Tier_Challenger)
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("입장할 수 있는 재화가 부족합니다.");
+            popup.Initialize("최고 티어에 도달하였습니다.");
+            return;
+        }
+
+        if (isNormalDungeon && playerData.Daily_Enter_Key[value] + playerData.User_Key_Assets[value] <= 0)
+        {
+            popup.Initialize("입장할 수 있는 재화가 부족합니다.");
             return;
         }
 
         if (Stage_Manager.isDead)
-        {           
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("훈련 중엔, 던전에 진입할 수 없습니다.");
-            return;
-        }
-        if(Stage_Manager.M_State == Stage_State.Clear)
         {
+            popup.Initialize("훈련 중엔, 던전에 진입할 수 없습니다.");
             return;
         }
 
-        if(Stage_Manager.isDungeon) // 던전 맵이 오픈되어 던전이 진행중 인지 확인
+        if (Stage_Manager.M_State == Stage_State.Clear || Stage_Manager.isDungeon || Stage_Manager.isDungeon_Map_Change)
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("현재 던전공략이 진행 중 입니다.");
+            if (Stage_Manager.isDungeon)
+            {
+                popup.Initialize("현재 던전공략이 진행 중 입니다.");
+            }
             return;
         }
 
-        if(Stage_Manager.isDungeon_Map_Change == true)
+        if (isNormalDungeon)
         {
-            return;
+            Stage_Manager.Dungeon_Level = Level[value];
         }
 
-        Stage_Manager.Dungeon_Level = Level[value];
- 
         Base_Manager.Stage.State_Change(Stage_State.Dungeon, value);
 
-       
-        // 일일퀘스트 조건 상승
-        if (value == 0)
+        switch (value)
         {
-            Data_Manager.Main_Players_Data.Dungeon_Dia++;
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 모든 적을 소탕하세요!");
+            case 0:
+                playerData.Dungeon_Dia++;
+                popup.Initialize("제한시간 안에 모든 적을 소탕하세요!");
+                break;
+
+            case 1:
+                playerData.Dungeon_Gold++;
+                popup.Initialize("제한시간 안에 보스를 처치하세요!");
+                break;
+
+            case 2:
+                popup.Initialize("제한시간 안에 처치하고 승급하세요!");
+                break;
         }
-        else
-        {
-            Data_Manager.Main_Players_Data.Dungeon_Gold++;
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 보스를 처치하세요!");
-        }
-    
+
         Utils.CloseAllPopupUI();
     }
 

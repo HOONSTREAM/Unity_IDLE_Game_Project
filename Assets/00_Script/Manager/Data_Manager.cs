@@ -46,6 +46,7 @@ public class BackendGameData
       
         Data_Manager.Main_Players_Data.ATK = default;
         Data_Manager.Main_Players_Data.HP = default;
+        Data_Manager.Main_Players_Data.Player_Tier = Player_Tier.Tier_Beginner;
         Data_Manager.Main_Players_Data.Player_Money = default;
         Data_Manager.Main_Players_Data.DiaMond = default;
         Data_Manager.Main_Players_Data.Player_Level = default;
@@ -95,6 +96,7 @@ public class BackendGameData
         param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed);
         param.Add("ATK", Data_Manager.Main_Players_Data.ATK);
         param.Add("HP", Data_Manager.Main_Players_Data.HP);
+        param.Add("Player_Tier", (int)Data_Manager.Main_Players_Data.Player_Tier);
         param.Add("PLAYER_MONEY", Data_Manager.Main_Players_Data.Player_Money);
         param.Add("DIAMOND", Data_Manager.Main_Players_Data.DiaMond);
         param.Add("PLAYER_LEVEL", Data_Manager.Main_Players_Data.Player_Level);
@@ -283,6 +285,7 @@ public class Data
     public double ATK;
     public double HP;
     public double Player_Money;
+    public Player_Tier Player_Tier;
     public int DiaMond;
     public int Player_Level;
     public double EXP;

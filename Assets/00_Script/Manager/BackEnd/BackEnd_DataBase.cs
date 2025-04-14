@@ -48,6 +48,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         var data = Data_Manager.Main_Players_Data;
         param.Add("ATK", data.ATK);
         param.Add("HP", data.HP);
+        param.Add("PLAYER_TIER", (int)data.Player_Tier);
         param.Add("PLAYER_MONEY", data.Player_Money);
         param.Add("DIAMOND", data.DiaMond);
         param.Add("PLAYER_LEVEL", data.Player_Level);
@@ -246,6 +247,7 @@ public partial class BackEnd_Manager : MonoBehaviour
              
                 data.ATK = double.Parse(gameDataJson[0]["ATK"].ToString());
                 data.HP = double.Parse(gameDataJson[0]["HP"].ToString());
+                int tier_number = int.Parse(gameDataJson[0]["PLAYER_TIER"].ToString());
                 data.Player_Money = double.Parse(gameDataJson[0]["PLAYER_MONEY"].ToString());
                 data.DiaMond = int.Parse(gameDataJson[0]["DIAMOND"].ToString());
                 data.Player_Level = int.Parse(gameDataJson[0]["PLAYER_LEVEL"].ToString());
@@ -305,6 +307,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.ADS_Relic_Summon_Count = int.Parse(gameDataJson[0]["ADS_RELIC_SUMMON_COUNT"].ToString());
                 data.isFastMode = bool.Parse(gameDataJson[0]["Fast_Mode"].ToString());
 
+                Data_Manager.Main_Players_Data.Player_Tier = (Player_Tier)tier_number;
 
                 if (Get_Date_Dungeon_Item(startDate, endDate))
                 {

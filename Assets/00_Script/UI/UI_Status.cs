@@ -1,5 +1,7 @@
+using BackEnd;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,7 +21,9 @@ public class UI_Status : UI_Base
     private GameObject[] Panel_Objs;
 
     [SerializeField]
-    private TextMeshProUGUI Player_Level_Text,User_NickName,Grade_Title,Ability, ATK, HP;
+    private Image Tier_Image;
+    [SerializeField]
+    private TextMeshProUGUI Player_Level_Text,User_NickName,Tier_Name,Ability, ATK, HP;
     [SerializeField]
     private TextMeshProUGUI GoldDrop, ItemDrop, Atk_Speed, Critical, Cri_Damage;
 
@@ -27,14 +31,18 @@ public class UI_Status : UI_Base
     {
         Ability.text = Base_Manager.Player.Player_ALL_Ability_ATK_HP().ToString();
         Player_Level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
-        ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Calculate_Player_ATK());
+        BackendReturnObject bro = Backend.BMember.GetUserInfo();
+        string temp = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();
+        User_NickName.text = temp;    
+        ATK.text = StringMethod.ToCurrencyString(Base_Manager.Player.Calculate_Player_ATK());       
         HP.text = StringMethod.ToCurrencyString(Base_Manager.Player.Calculate_Player_HP());
         GoldDrop.text = $"{100 + Base_Manager.Player.Calculate_Gold_Drop_Percentage() * 100}%";
         ItemDrop.text = $"{100 + (Base_Manager.Player.Calculate_Item_Drop_Percentage())}%";     
         Atk_Speed.text = $"{100 + Base_Manager.Player.Calculate_Atk_Speed_Percentage() * 100}%";
         Critical.text = string.Format("{0:0.0}%", Base_Manager.Player.Calculate_Critical_Percentage());
         Cri_Damage.text = string.Format("{0:0.0}%", Base_Manager.Player.Calculate_Cri_Damage_Percentage());
-
+        Tier_Name.text = Utils.Set_Tier_Name();
+        Tier_Image.sprite = Utils.Get_Atlas(Data_Manager.Main_Players_Data.Player_Tier.ToString());
         for (int i = 0; i< Status_Bottom_Buttons.Length; i++)
         {
             int index = i;
@@ -45,6 +53,8 @@ public class UI_Status : UI_Base
 
         return base.Init();
     }
+
+    
 
     /// <summary>
     /// 유저가 원하는 메뉴를 누르면 바가 움직이는 기능을 구현합니다.

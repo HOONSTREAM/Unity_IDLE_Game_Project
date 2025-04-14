@@ -43,6 +43,18 @@ public enum Smelt_Status
     CRITICAL_DAMAGE, // 크리티컬 데미지
 }
 
+public enum Player_Tier
+{
+    Tier_Beginner = 0,
+    Tier_Bronze = 1,
+    Tier_Silver = 2,
+    Tier_Gold,    
+    Tier_Diamond,
+    Tier_Master,
+    Tier_GrandMaster,
+    Tier_Challenger
+}
+
 public enum Holding_Effect_Type
 {
     ATK,

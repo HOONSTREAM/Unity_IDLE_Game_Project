@@ -78,7 +78,10 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         param.Add("Action", "Dungeon");
         param.Add("Dungeon_Type", Dungeon_Type);
-        param.Add("Clear_Level", Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Dungeon_Type]);
+        if(Dungeon_Type != 2)
+        {
+            param.Add("Clear_Level", Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Dungeon_Type]);
+        }      
         param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
 
         Backend.GameLog.InsertLogV2("User_Clear_Dungeon_Log", param, (callback) =>

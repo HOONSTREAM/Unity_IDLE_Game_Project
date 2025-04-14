@@ -300,4 +300,62 @@ public class Utils
         GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = text;
     }
 
+    public static string Set_Tier_Name()
+    {
+        string temp = default;
+
+        switch (Data_Manager.Main_Players_Data.Player_Tier)
+        {
+            case Player_Tier.Tier_Beginner:
+                return temp = "초보자";
+            case Player_Tier.Tier_Bronze:
+                return temp = "브론즈";
+            case Player_Tier.Tier_Silver:
+                return temp = "실버";
+            case Player_Tier.Tier_Gold:
+                return temp = "골드";
+            case Player_Tier.Tier_Diamond:
+                return temp = "다이아몬드";
+            case Player_Tier.Tier_Master:
+                return temp = "마스터";
+            case Player_Tier.Tier_GrandMaster:
+                return temp = "그랜드마스터";
+            case Player_Tier.Tier_Challenger:
+                return temp = "챌린저";
+
+        }
+
+        return temp;
+
+    }
+
+    public static string Set_Next_Tier_Name()
+    {
+        string temp = default;
+
+        switch (Data_Manager.Main_Players_Data.Player_Tier)
+        {
+            case Player_Tier.Tier_Beginner:
+                return temp = "브론즈";
+            case Player_Tier.Tier_Bronze:
+                return temp = "실버";
+            case Player_Tier.Tier_Silver:
+                return temp = "골드";
+            case Player_Tier.Tier_Gold:
+                return temp = "다이아몬드";
+            case Player_Tier.Tier_Diamond:
+                return temp = "마스터";
+            case Player_Tier.Tier_Master:
+                return temp = "그랜드마스터";
+            case Player_Tier.Tier_GrandMaster:
+                return temp = "챌린저";
+            case Player_Tier.Tier_Challenger:
+                return temp = "챌린저";
+
+        }
+
+        return temp;
+
+    }
+
 }

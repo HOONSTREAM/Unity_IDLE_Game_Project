@@ -34,7 +34,7 @@ public class Stage_Manager
     private const int FULL_MAX_COUNT = 30;
 
     public const int MULTIPLE_REWARD_GOLD_DUNGEON = 10000;
-    public const int MULTIPLE_REWARD_DIAMOND_DUNGEON = 50;
+    public const int MULTIPLE_REWARD_DIAMOND_DUNGEON = 20;
 
 
     public void State_Change(Stage_State state, int Value = 0)
