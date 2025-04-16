@@ -106,18 +106,39 @@ public class Player_Manager
         var holding_effect = Check_Player_Holding_Effects();
         var holding_effect_Relic = Check_Relic_Holding_Effects();
         var ADS_Buff_Value = ADS_Atk_Buff_Value;
-        var Damage = (Data_Manager.Main_Players_Data.ATK * ((int)rarity + 1)) * ADS_Buff_Value;
-        float Level_Damage = ((holder.Hero_Level + 1) * ((int)rarity * 3));
 
-        var Final_Damage = (Damage + (Damage * Level_Damage)) * (1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK) / 100));
+        int cardLevel = holder.Hero_Level + 1;
 
+        // 1. 카드 레벨에 절대적인 영향력을 주기 위한 공격력 기반 (레벨^2)
+        double levelFactor = Mathf.Pow(cardLevel, 2); // 레벨이 오를수록 공격력 폭발적으로 증가
+
+        // 2. 레벨 기반으로 공격력 직접 산출
+        double baseATK = levelFactor * 5.0; // 기본 배수는 게임 밸런스에 따라 조정
+
+        // 3. 등급 별 보정
+        baseATK *= ((int)rarity + 1); // 레어도 배수 적용
+
+        // 4. 유저 레벨 기반 공격력 추가
+        baseATK += Data_Manager.Main_Players_Data.ATK;
+        Debug.Log($"{Data_Manager.Main_Players_Data.ATK}의 기본공격력");
+        // 5. 광고 버프 적용
+        baseATK *= ADS_Buff_Value;
+
+        // 6. 각종 추가 버프 적용
+        baseATK *= (1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK) / 100));
+        Debug.Log($"{1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK) / 100)}의 각인밸류 가산중");
+        // 7. 티어 보정
         var tier = Data_Manager.Main_Players_Data.Player_Tier;
-        double multiplier = TierBonusTable.GetBonusMultiplier(tier);
+        double tierMultiplier = TierBonusTable.GetBonusMultiplier(tier);
+        Debug.Log($"{tierMultiplier}의 티어보너스 가산중");
+        baseATK *= tierMultiplier;
 
-        Debug.Log($"{tier.ToString()}이므로, {multiplier}가 곱해서 공격력이 적용됩니다.");
-
-        return (Final_Damage*multiplier) * (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)) *
-            (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));
+        // 8. 보유 효과 적용
+        baseATK *= (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));
+        Debug.Log($"{1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)}의 영웅 홀딩이펙트 가산중");
+        baseATK *= (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));
+        Debug.Log($"{1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)}의 유물 홀딩이펙트 가산중");
+        return baseATK;
     }
 
     /// <summary>
@@ -128,18 +149,32 @@ public class Player_Manager
     /// <returns></returns>
     public double Get_HP(Rarity rarity, Holder holder)
     {
-        var holding_effect = Check_Player_Holding_Effects();
-        var holding_effect_Relic = Check_Relic_Holding_Effects();
+        var holdingEffect = Check_Player_Holding_Effects();
+        var relicEffect = Check_Relic_Holding_Effects();
 
-        var Now_HP = Data_Manager.Main_Players_Data.HP * ((int)rarity + 1);
-        float Level_HP = ((holder.Hero_Level + 1) * ((int)rarity * 3)) / 10.0f;
-        var Final_HP = (Data_Manager.Main_Players_Data.HP + (Now_HP * Level_HP)) * (1.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.HP) / 100);
+        int cardLevel = holder.Hero_Level + 1;
+        double levelFactor = Mathf.Pow(cardLevel, 2);
+        double baseHP = levelFactor * 5.0;
+
+        baseHP *= ((int)rarity + 1);
+        baseHP += Data_Manager.Main_Players_Data.HP;
+        Debug.Log($"기본 체력: {Data_Manager.Main_Players_Data.HP}");
+
+        baseHP *= 1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.HP) / 100);
+        Debug.Log($"각인 효과: {1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.HP) / 100)}");
 
         var tier = Data_Manager.Main_Players_Data.Player_Tier;
-        double multiplier = TierBonusTable.GetBonusMultiplier(tier);
-        Debug.Log($"{tier.ToString()}이므로, {multiplier}가 곱해서 체력이 적용됩니다.");
+        double tierMultiplier = TierBonusTable.GetBonusMultiplier(tier);
+        baseHP *= tierMultiplier;
+        Debug.Log($"티어 보너스: {tierMultiplier}");
 
-        return (Final_HP*multiplier) * (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0)) * (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.HP, 0.0));
+        baseHP *= 1.0d + holdingEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0);
+        Debug.Log($"영웅 보유 효과: {1.0d + holdingEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0)}");
+
+        baseHP *= 1.0d + relicEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0);
+        Debug.Log($"유물 보유 효과: {1.0d + relicEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0)}");
+
+        return baseHP;
     }
 
     /// <summary>
