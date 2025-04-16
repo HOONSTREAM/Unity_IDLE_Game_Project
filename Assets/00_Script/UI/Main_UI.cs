@@ -14,7 +14,11 @@ public class Main_UI : MonoBehaviour
 
     #region Parameter
     [Space(20f)]
-    [Header("Default")]   
+    [Header("Default")]
+    [SerializeField]
+    private TextMeshProUGUI Tier_Text;
+    [SerializeField]
+    private Image Tier_Image;
     [SerializeField]
     private TextMeshProUGUI _level_Text; // 캐릭터의 레벨을 결정합니다.
     [SerializeField]
@@ -440,7 +444,7 @@ public class Main_UI : MonoBehaviour
 
         if (Stage_Manager.isDead)
         {
-            Dead_Frame.gameObject.SetActive(true); // 던전에서 실패해도, 데드프레임이 켜지면 안됨.
+            Dead_Frame.gameObject.SetActive(true); 
             Base_Canvas.instance.Get_TOP_Popup().Initialize("충분히 강해진 뒤에, BOSS버튼을 누르세요!");          
             return;
         }
@@ -679,6 +683,9 @@ public class Main_UI : MonoBehaviour
     public void Main_UI_PlayerInfo_Text_Check()
     {
         double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();
+
+        Tier_Text.text = Utils.Set_Tier_Name();
+        Tier_Image.sprite = Utils.Get_Atlas(Data_Manager.Main_Players_Data.Player_Tier.ToString());
 
         _level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
         Main_Char_HP_Text.text = StringMethod.ToCurrencyString(Cleric_Component.HP);

@@ -73,26 +73,26 @@ public class UI_Dungeon : UI_Base
     public void Get_Dungeon(int value)
     {
         var playerData = Data_Manager.Main_Players_Data;
-        var popup = Base_Canvas.instance.Get_TOP_Popup();
+        
 
         bool isTierDungeon = value == 2;
         bool isNormalDungeon = value != 2;
 
         if (isTierDungeon && playerData.Player_Tier >= Player_Tier.Tier_Challenger)
         {
-            popup.Initialize("최고 티어에 도달하였습니다.");
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 티어에 도달하였습니다.");
             return;
         }
 
         if (isNormalDungeon && playerData.Daily_Enter_Key[value] + playerData.User_Key_Assets[value] <= 0)
         {
-            popup.Initialize("입장할 수 있는 재화가 부족합니다.");
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("입장할 수 있는 재화가 부족합니다.");
             return;
         }
 
         if (Stage_Manager.isDead)
         {
-            popup.Initialize("훈련 중엔, 던전에 진입할 수 없습니다.");
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("훈련 중엔, 던전에 진입할 수 없습니다.");
             return;
         }
 
@@ -100,7 +100,7 @@ public class UI_Dungeon : UI_Base
         {
             if (Stage_Manager.isDungeon)
             {
-                popup.Initialize("현재 던전공략이 진행 중 입니다.");
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("현재 던전공략이 진행 중 입니다.");
             }
             return;
         }
@@ -116,16 +116,16 @@ public class UI_Dungeon : UI_Base
         {
             case 0:
                 playerData.Dungeon_Dia++;
-                popup.Initialize("제한시간 안에 모든 적을 소탕하세요!");
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 모든 적을 소탕하세요!");
                 break;
 
             case 1:
                 playerData.Dungeon_Gold++;
-                popup.Initialize("제한시간 안에 보스를 처치하세요!");
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 보스를 처치하세요!");
                 break;
 
             case 2:
-                popup.Initialize("제한시간 안에 처치하고 승급하세요!");
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 처치하고 승급하세요!");
                 break;
         }
 

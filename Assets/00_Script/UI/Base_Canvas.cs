@@ -74,7 +74,11 @@ public class Base_Canvas : MonoBehaviour
         }
     }
     private void Start()
-    {       
+    {
+        if (Data_Manager.Main_Players_Data.isBuyADPackage)
+        {
+            AD_Package_Button.gameObject.SetActive(false);
+        }
         
         if (Utils.Offline_Timer_Check() >= Utils.OFFLINE_TIME_CHECK)
         {

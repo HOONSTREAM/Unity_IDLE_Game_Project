@@ -12,11 +12,11 @@ public partial class BackEnd_Manager : MonoBehaviour
 
     public void Test_Custom_Login()
     {
-        //BackendReturnObject bro = Backend.BMember.CustomSignUp("user1", "1234");
-        //if (bro.IsSuccess())
-        //{
-        //    Debug.Log("회원가입에 성공했습니다");
-        //}
+    //    BackendReturnObject bro = Backend.BMember.CustomSignUp("user1", "1234");
+    //    if (bro.IsSuccess())
+    //    {
+    //        Debug.Log("회원가입에 성공했습니다");
+    //    }
 
         BackendReturnObject bros = Backend.BMember.CustomLogin("user1", "1234");
         if (bros.IsSuccess())

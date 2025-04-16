@@ -107,11 +107,16 @@ public class Player_Manager
         var holding_effect_Relic = Check_Relic_Holding_Effects();
         var ADS_Buff_Value = ADS_Atk_Buff_Value;
         var Damage = (Data_Manager.Main_Players_Data.ATK * ((int)rarity + 1)) * ADS_Buff_Value;
-        float Level_Damage = ((holder.Hero_Level + 1) * ((int)rarity * 3)) / 10.0f;
+        float Level_Damage = ((holder.Hero_Level + 1) * ((int)rarity * 3));
 
         var Final_Damage = (Damage + (Damage * Level_Damage)) * (1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK) / 100));
 
-        return Final_Damage * (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)) *
+        var tier = Data_Manager.Main_Players_Data.Player_Tier;
+        double multiplier = TierBonusTable.GetBonusMultiplier(tier);
+
+        Debug.Log($"{tier.ToString()}이므로, {multiplier}가 곱해서 공격력이 적용됩니다.");
+
+        return (Final_Damage*multiplier) * (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)) *
             (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));
     }
 
@@ -129,9 +134,12 @@ public class Player_Manager
         var Now_HP = Data_Manager.Main_Players_Data.HP * ((int)rarity + 1);
         float Level_HP = ((holder.Hero_Level + 1) * ((int)rarity * 3)) / 10.0f;
         var Final_HP = (Data_Manager.Main_Players_Data.HP + (Now_HP * Level_HP)) * (1.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.HP) / 100);
-       
 
-        return Final_HP * (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0)) * (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.HP, 0.0));
+        var tier = Data_Manager.Main_Players_Data.Player_Tier;
+        double multiplier = TierBonusTable.GetBonusMultiplier(tier);
+        Debug.Log($"{tier.ToString()}이므로, {multiplier}가 곱해서 체력이 적용됩니다.");
+
+        return (Final_HP*multiplier) * (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0)) * (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.HP, 0.0));
     }
 
     /// <summary>
@@ -329,6 +337,25 @@ public class Player_Manager
         return holdingEffectValues;
     }
 
+    public static class TierBonusTable
+    {
+        public static readonly Dictionary<Player_Tier, double> TierBonus = new Dictionary<Player_Tier, double>
+    {
+        { Player_Tier.Tier_Beginner, 1.0 },
+        { Player_Tier.Tier_Bronze, 1.5 },     // +150%
+        { Player_Tier.Tier_Silver, 2.5 },     // +250%
+        { Player_Tier.Tier_Gold, 4.0 },       // +400%
+        { Player_Tier.Tier_Diamond, 6.0 },    // +600%
+        { Player_Tier.Tier_Master, 8.0 },     // +800%
+        { Player_Tier.Tier_GrandMaster, 9.5 },// +950%
+        { Player_Tier.Tier_Challenger, 12.0 } // +1200%
+    };
+
+        public static double GetBonusMultiplier(Player_Tier tier)
+        {
+            return TierBonus.ContainsKey(tier) ? TierBonus[tier] : 1.0;
+        }
+    }
 
     #endregion
 }
