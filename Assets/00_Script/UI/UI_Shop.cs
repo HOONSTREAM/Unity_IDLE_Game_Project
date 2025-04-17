@@ -100,6 +100,11 @@ public class UI_Shop : UI_Base
         }
     }
 
+    public void Get_IAP_Product(string purchase_name)
+    {
+        Base_Manager.IAP.Purchase(purchase_name);
+    }
+
     #region Gacha_Button_Method
     public void GachaButton(int value, bool ADS = false)
     {
@@ -171,7 +176,6 @@ public class UI_Shop : UI_Base
     {
         StartCoroutine(Relic_Gacha_Delay_Coroutine(value,ADS));
     }
-
     IEnumerator Relic_Gacha_Delay_Coroutine(int value, bool ADS)
     {
         yield return new WaitForSecondsRealtime(0.5f);

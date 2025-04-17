@@ -21,6 +21,7 @@ public class Base_Manager : MonoBehaviour
     private static Sound_Manager _sound = new Sound_Manager();
     private static Localization_Manager _local = new Localization_Manager();
     private static Daily_Quest_Manager _daily = new Daily_Quest_Manager();
+    private static IAP_Manager _iap = new IAP_Manager();
       
  
     public static Pool_Manager Pool { get { return _pool; } }
@@ -35,6 +36,7 @@ public class Base_Manager : MonoBehaviour
     public static Sound_Manager SOUND { get { return _sound; } }
     public static Localization_Manager LOCAL { get { return _local; } }
     public static Daily_Quest_Manager DAILY { get { return _daily; } }
+    public static IAP_Manager IAP { get { return _iap; } }
 
  
     public static bool Get_MainGame_Start = false;
@@ -85,7 +87,8 @@ public class Base_Manager : MonoBehaviour
             ADS.Init();
             Data.Init();
             SOUND.Init();
-            DAILY.Init();            
+            DAILY.Init();
+            IAP.Init_Unity_IAP();
             DontDestroyOnLoad(this.gameObject);
         }
 
