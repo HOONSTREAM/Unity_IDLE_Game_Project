@@ -32,7 +32,7 @@ public class UI_Shop : UI_Base
     [SerializeField]
     private Button Hero_Summon_Button_11;
     [SerializeField]
-    private Button Hero_Summon_Button_1;
+    private Button Hero_Summon_Button_55;
     [SerializeField]
     private TextMeshProUGUI ADS_Hero_Count;
     [SerializeField]
@@ -55,7 +55,7 @@ public class UI_Shop : UI_Base
     [SerializeField]
     private Button Relic_Summon_Button_11;
     [SerializeField]
-    private Button Relic_Summon_Button_1;
+    private Button Relic_Summon_Button_55;
     [SerializeField]
     private TextMeshProUGUI ADS_Relic_Count;
     [SerializeField]
@@ -71,6 +71,7 @@ public class UI_Shop : UI_Base
     private int Information_Panel_Summon_Level;
 
     private const int GACHA_PRICE_11 = 500;
+    private const int GACHA_PRICE_55 = 2500;
    
 
     public override bool Init()
@@ -143,8 +144,8 @@ public class UI_Shop : UI_Base
                         yield break;
                     }
                     break;
-                case 1:
-                    if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_PRICE_11 / 10))
+                case 55:
+                    if (Data_Manager.Main_Players_Data.DiaMond < GACHA_PRICE_55)
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
                         yield break;
@@ -201,8 +202,8 @@ public class UI_Shop : UI_Base
                         yield break;
                     }
                     break;
-                case 1:
-                    if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_PRICE_11 / 10))
+                case 55:
+                    if (Data_Manager.Main_Players_Data.DiaMond < GACHA_PRICE_55)
                     {
                         Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
                         yield break;
@@ -235,14 +236,14 @@ public class UI_Shop : UI_Base
     private void Set_Summon_Button()
     {
         Hero_Summon_Button_11.onClick.RemoveAllListeners();
-        Hero_Summon_Button_1.onClick.RemoveAllListeners();
+        Hero_Summon_Button_55.onClick.RemoveAllListeners();
         Relic_Summon_Button_11.onClick.RemoveAllListeners();
-        Relic_Summon_Button_1.onClick.RemoveAllListeners();
+        Relic_Summon_Button_55.onClick.RemoveAllListeners();
 
         Hero_Summon_Button_11.onClick.AddListener(() => GachaButton(11));
-        Hero_Summon_Button_1.onClick.AddListener(() => GachaButton(1));
+        Hero_Summon_Button_55.onClick.AddListener(() => GachaButton(55));
         Relic_Summon_Button_11.onClick.AddListener(() => GachaButton_Relic(11));
-        Relic_Summon_Button_1.onClick.AddListener(() => GachaButton_Relic(1));
+        Relic_Summon_Button_55.onClick.AddListener(() => GachaButton_Relic(55));
     }
     private void Get_Init()
     {

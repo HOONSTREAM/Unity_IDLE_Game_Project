@@ -9,14 +9,19 @@ public class UI_Reward : UI_Base
     public Image ItemImage;
     public TextMeshProUGUI CountText;
 
-    //public void GetIAPReward(IAP_Holder iapName)
-    //{
-    //    switch (iapName)
-    //    {
-    //        case IAP_Holder.removeads: GetRewardInit("ADS", 0); break;
-    //        case IAP_Holder.dia300: GetRewardInit("Dia", 300); break;
-    //    }
-    //}
+    public void GetIAPReward(IAP_Holder iapName)
+    {
+        switch (iapName)
+        {
+            case IAP_Holder.remove_ads: GetRewardInit("ADS", 1); break;
+            case IAP_Holder.steel_1000: GetRewardInit("Steel", 1000); break;
+            case IAP_Holder.dia_19000: GetRewardInit("Dia", 19000); break;
+            case IAP_Holder.dia_1400: GetRewardInit("Dia", 1400); break;
+            case IAP_Holder.dia_4900: GetRewardInit("Dia", 4900); break;
+            case IAP_Holder.dungeon_dia_20: GetRewardInit("Dungeon_Dia", 20); break;
+            case IAP_Holder.gold_30: GetRewardInit("Dungeon_Gold", 30); break;
+        }
+    }
 
     public void GetRewardInit(string ItemName, int Count)
     {
@@ -27,7 +32,26 @@ public class UI_Reward : UI_Base
         switch (ItemName)
         {
             case "Dia": Data_Manager.Main_Players_Data.DiaMond += Count; break;
-            case "ADS": Data_Manager.Main_Players_Data.isBuyADPackage = true; break;
+
+            case "ADS": 
+                Data_Manager.Main_Players_Data.isBuyADPackage = true;
+                Data_Manager.Main_Players_Data.DiaMond += 3000;
+                Base_Manager.Data.Item_Holder["SWORD"].Hero_Card_Amount += 3;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 1000;
+                Base_Canvas.instance.Destroy_ADS_Button();
+                Destroy(GameObject.Find("AD_REMOVE_PACKAGE").gameObject);
+
+                break;
+
+            case "Steel": Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += Count; break;
+
+            case "Dungeon_Dia":
+                Data_Manager.Main_Players_Data.User_Key_Assets[0] += Count;
+                break;
+            case "Dungeon_Gold":
+                Data_Manager.Main_Players_Data.User_Key_Assets[1] += Count;
+                break;
         }
+
     }
 }

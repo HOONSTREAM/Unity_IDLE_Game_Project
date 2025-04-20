@@ -8,6 +8,18 @@ public enum Rarity
     Legendary
 }
 
+public enum IAP_Holder
+{
+    dia_1400,
+    dia_19000,
+    dia_4900,
+    dungeon_dia_20,
+    gold_30,
+    remove_ads,
+    steel_1000,
+
+}
+
 public enum Sound
 {
     BGM,

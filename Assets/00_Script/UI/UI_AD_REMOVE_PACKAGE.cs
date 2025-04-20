@@ -11,4 +11,10 @@ public class UI_AD_REMOVE_PACKAGE : UI_Base
             return;
         }
     }
+
+    public void Get_IAP_Product(string purchase_name)
+    {
+        Base_Manager.IAP.Purchase(purchase_name);
+    }
+
 }

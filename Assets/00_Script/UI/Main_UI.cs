@@ -818,7 +818,7 @@ public class Main_UI : MonoBehaviour
 
         while(time >= 0.0f)
         {
-            time -= Time.deltaTime;
+            time -= Time.unscaledDeltaTime;
             Dungeon_Slider.fillAmount = time / 30.0f;
             M_Dungeon_HP_Text.text = string.Format("{0:0.00}√ ",time);
             yield return null;

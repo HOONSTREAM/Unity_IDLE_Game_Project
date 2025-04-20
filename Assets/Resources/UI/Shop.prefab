@@ -890,7 +890,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1696560640079515739}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5275305394614204679}
+        m_TargetAssemblyTypeName: UI_Shop, Assembly-CSharp
+        m_MethodName: Get_IAP_Product
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: dia_4900
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &519741055409665701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,7 +1280,7 @@ GameObject:
   - component: {fileID: 3519678679262957738}
   - component: {fileID: 8070965928062327829}
   m_Layer: 5
-  m_Name: Button_1
+  m_Name: Button_50
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2495,7 +2507,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8796302672547598551}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5275305394614204679}
+        m_TargetAssemblyTypeName: UI_Shop, Assembly-CSharp
+        m_MethodName: Get_IAP_Product
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: dungeon_dia_20
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1325253259022722849
 GameObject:
   m_ObjectHideFlags: 0
@@ -4666,7 +4690,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1982085108048073570}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5275305394614204679}
+        m_TargetAssemblyTypeName: UI_Shop, Assembly-CSharp
+        m_MethodName: Get_IAP_Product
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: dia_1400
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1627635547051411438
 GameObject:
   m_ObjectHideFlags: 0
@@ -4832,7 +4868,7 @@ GameObject:
   - component: {fileID: 345485596575583739}
   - component: {fileID: 8149506819220645430}
   m_Layer: 5
-  m_Name: Button_1
+  m_Name: Button_50
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8003,7 +8039,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 40EA
+  m_text: 30EA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
   m_sharedMaterial: {fileID: -5982863480605260323, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
@@ -8466,7 +8502,7 @@ MonoBehaviour:
   Summon_Level_Count_Slider: {fileID: 1404073608430871594}
   Pickup_Count_Slider: {fileID: 9217131585628398426}
   Hero_Summon_Button_11: {fileID: 2641298517061625672}
-  Hero_Summon_Button_1: {fileID: 8070965928062327829}
+  Hero_Summon_Button_55: {fileID: 8070965928062327829}
   ADS_Hero_Count: {fileID: 7508613093153234843}
   ADS_Timer_Text:
   - {fileID: 5208371851291752372}
@@ -8480,7 +8516,7 @@ MonoBehaviour:
   Relic_Summon_Level_Count_Slider: {fileID: 5525250186486185093}
   Relic_Pickup_Count_Slider: {fileID: 4054769495302831247}
   Relic_Summon_Button_11: {fileID: 8823697756492186119}
-  Relic_Summon_Button_1: {fileID: 8149506819220645430}
+  Relic_Summon_Button_55: {fileID: 8149506819220645430}
   ADS_Relic_Count: {fileID: 4090292354666867441}
   ADS_Relic_Timer_Text: {fileID: 6239718922664441512}
   Dia_Amount: {fileID: 5929634626393773645}
@@ -11310,7 +11346,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1\uD68C \uC18C\uD658\n"
+  m_text: "50+5 \uD68C \uC18C\uD658"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
   m_sharedMaterial: {fileID: -5982863480605260323, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
@@ -12420,8 +12456,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 107.27228, y: 0}
-  m_SizeDelta: {x: 88.5446, y: 50}
+  m_AnchoredPosition: {x: 126.58093, y: 0}
+  m_SizeDelta: {x: 127.1619, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9071097610541871600
 CanvasRenderer:
@@ -12451,7 +12487,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: 2500
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
   m_sharedMaterial: {fileID: -5982863480605260323, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
@@ -16994,7 +17030,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5060683501134713438}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5275305394614204679}
+        m_TargetAssemblyTypeName: UI_Shop, Assembly-CSharp
+        m_MethodName: Get_IAP_Product
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: gold_30
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6900926707152414463
 GameObject:
   m_ObjectHideFlags: 0
@@ -19128,7 +19176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1\uD68C \uC18C\uD658\n"
+  m_text: "50+5 \uD68C \uC18C\uD658"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
   m_sharedMaterial: {fileID: -5982863480605260323, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
@@ -19232,8 +19280,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 103.27197, y: 0}
-  m_SizeDelta: {x: 80.5439, y: 50}
+  m_AnchoredPosition: {x: 126, y: 0}
+  m_SizeDelta: {x: 138.3487, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8722816352192517531
 CanvasRenderer:
@@ -19263,7 +19311,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: 2500
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
   m_sharedMaterial: {fileID: -5982863480605260323, guid: a4ddcf6d155720748a6d4b09e6870bf5, type: 2}
@@ -20204,7 +20252,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 2000}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5608183435391871190
@@ -22916,7 +22964,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3743963882239801686}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5275305394614204679}
+        m_TargetAssemblyTypeName: UI_Shop, Assembly-CSharp
+        m_MethodName: Get_IAP_Product
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: dia_19000
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9141373097713100737
 GameObject:
   m_ObjectHideFlags: 0

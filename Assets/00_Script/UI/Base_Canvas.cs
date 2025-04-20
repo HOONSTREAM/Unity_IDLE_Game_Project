@@ -148,7 +148,6 @@ public class Base_Canvas : MonoBehaviour
 
         }
     }
- 
     public Transform Holder_Layer(int value)
     {
         return LAYER.GetChild(value);
@@ -217,7 +216,6 @@ public class Base_Canvas : MonoBehaviour
 
         return item_tooltip;
     }
-
     public Skill_ToolTip Get_Skill_Tooltip()
     {
         if (skill_tooltip == null) // 기존 툴팁이 없을 때만 새로 생성
@@ -227,14 +225,16 @@ public class Base_Canvas : MonoBehaviour
 
         return skill_tooltip;
     }
-
     public UI_Toast_Popup Get_Toast_Popup()
     {
         return Instantiate(Resources.Load<UI_Toast_Popup>("UI/Popup"), transform); //transform은 해당위치에 생성하라는 인자
     }
-
     public UI_TOP_POPUP Get_TOP_Popup()
     {
         return Instantiate(Resources.Load<UI_TOP_POPUP>("UI/TOP_POPUP"), transform); //transform은 해당위치에 생성하라는 인자
+    }
+    public void Destroy_ADS_Button()
+    {
+        AD_Package_Button.gameObject.SetActive(false);
     }
 }

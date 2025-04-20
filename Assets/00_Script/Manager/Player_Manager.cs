@@ -109,15 +109,17 @@ public class Player_Manager
 
         int cardLevel = holder.Hero_Level + 1;
 
+        double rarityMultiplier = RarityBonusTable.RarityMultiplier.TryGetValue(rarity, out double value) ? value : 1.0;
+
         // 1. 카드 레벨에 절대적인 영향력을 주기 위한 공격력 기반 (레벨^2)
         double levelFactor = Mathf.Pow(cardLevel, 2); // 레벨이 오를수록 공격력 폭발적으로 증가
 
         // 2. 레벨 기반으로 공격력 직접 산출
-        double baseATK = levelFactor * 5.0; // 기본 배수는 게임 밸런스에 따라 조정
+        // 3. 레어리티 별 공격력 추가 상승
+        double baseATK = levelFactor * 5.0 * rarityMultiplier; // 기본 배수는 게임 밸런스에 따라 조정
 
-        // 3. 등급 별 보정
-        baseATK *= ((int)rarity + 1); // 레어도 배수 적용
-
+        Debug.Log($"{holder.Hero_Level}짜리 카드 {rarityMultiplier}가 추가로 곱해집니다.");
+       
         // 4. 유저 레벨 기반 공격력 추가
         baseATK += Data_Manager.Main_Players_Data.ATK;
         Debug.Log($"{Data_Manager.Main_Players_Data.ATK}의 기본공격력");
@@ -153,10 +155,13 @@ public class Player_Manager
         var relicEffect = Check_Relic_Holding_Effects();
 
         int cardLevel = holder.Hero_Level + 1;
-        double levelFactor = Mathf.Pow(cardLevel, 2);
-        double baseHP = levelFactor * 5.0;
 
-        baseHP *= ((int)rarity + 1);
+        double rarityMultiplier = RarityBonusTable.RarityMultiplier.TryGetValue(rarity, out double value) ? value : 1.0;
+
+        double levelFactor = Mathf.Pow(cardLevel, 2);
+        double baseHP = levelFactor * 5.0 * rarityMultiplier;
+
+        
         baseHP += Data_Manager.Main_Players_Data.HP;
         Debug.Log($"기본 체력: {Data_Manager.Main_Players_Data.HP}");
 
@@ -378,18 +383,31 @@ public class Player_Manager
     {
         { Player_Tier.Tier_Beginner, 1.0 },
         { Player_Tier.Tier_Bronze, 1.5 },     // +150%
-        { Player_Tier.Tier_Silver, 2.5 },     // +250%
-        { Player_Tier.Tier_Gold, 4.0 },       // +400%
-        { Player_Tier.Tier_Diamond, 6.0 },    // +600%
-        { Player_Tier.Tier_Master, 8.0 },     // +800%
-        { Player_Tier.Tier_GrandMaster, 9.5 },// +950%
-        { Player_Tier.Tier_Challenger, 12.0 } // +1200%
+        { Player_Tier.Tier_Silver, 2.0 },     // +250%
+        { Player_Tier.Tier_Gold, 2.5 },       // +400%
+        { Player_Tier.Tier_Diamond, 3.0 },    // +600%
+        { Player_Tier.Tier_Master, 3.5 },     // +800%
+        { Player_Tier.Tier_GrandMaster, 4.0 },// +950%
+        { Player_Tier.Tier_Challenger, 5.0 } // +1200%
     };
 
         public static double GetBonusMultiplier(Player_Tier tier)
         {
             return TierBonus.ContainsKey(tier) ? TierBonus[tier] : 1.0;
         }
+    }
+
+    public static class RarityBonusTable
+    {
+        public static readonly Dictionary<Rarity, double> RarityMultiplier = new Dictionary<Rarity, double>()
+        {
+            { Rarity.Common, 1.0 },
+            { Rarity.UnCommon, 2.0 },
+            { Rarity.Rare, 3.5 },
+            { Rarity.Epic, 5.5 },
+            { Rarity.Legendary, 30.0 }
+        };
+
     }
 
     #endregion

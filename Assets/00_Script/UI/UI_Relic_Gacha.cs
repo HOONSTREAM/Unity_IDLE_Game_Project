@@ -28,6 +28,7 @@ public class UI_Relic_Gacha : UI_Base
 
 
     private const int GACHA_RESUMMON_PRICE_11 = 500;
+    private const int GACHA_RESUMMON_PRICE_55 = 2500;
     public override bool Init()
     {
         return base.Init();
@@ -64,10 +65,10 @@ public class UI_Relic_Gacha : UI_Base
                 }            
                 ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Relic_Amount_Value));
                 break;
-            case 1:
-                GaCha_ReSummon_Text.text = "1회 소환";
-                GaCha_ReSummon_Price.text = (GACHA_RESUMMON_PRICE_11 / 10).ToString();
-                Data_Manager.Main_Players_Data.DiaMond -= (GACHA_RESUMMON_PRICE_11 / 10);
+            case 55:
+                GaCha_ReSummon_Text.text = "55회 소환";
+                GaCha_ReSummon_Price.text = (GACHA_RESUMMON_PRICE_55).ToString();
+                Data_Manager.Main_Players_Data.DiaMond -= (GACHA_RESUMMON_PRICE_55);
                 ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Relic_Amount_Value));
                 break;
         }
@@ -85,8 +86,8 @@ public class UI_Relic_Gacha : UI_Base
                     return;
                 }
                 break;
-            case 1:
-                if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_RESUMMON_PRICE_11 / 10))
+            case 55:
+                if (Data_Manager.Main_Players_Data.DiaMond < (GACHA_RESUMMON_PRICE_55))
                 {
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드가 부족합니다.");
                     return;
@@ -158,7 +159,15 @@ public class UI_Relic_Gacha : UI_Base
             {
                 go.transform.GetChild(0).gameObject.SetActive(false);
             }
-       
+
+            ScrollRect scrollRect = Content.GetComponentInParent<ScrollRect>();
+            if (scrollRect != null)
+            {
+                Canvas.ForceUpdateCanvases(); // 레이아웃 강제 업데이트
+                scrollRect.verticalNormalizedPosition = 0.0f; // 가장 아래로 스크롤
+            }
+
+
         }
 
         StartCoroutine(Block_Button_Coroutine());

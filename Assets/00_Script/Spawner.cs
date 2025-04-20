@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
     // 1. 몬스터는 여러마리가 몇 초 마다 수시로 여러번 스폰 되어야 한다.
 
     private const int GOLD_DUNGEON_MULTIPLE_HARD = 10;
-    private const int TIER_DUNGEON_MULTIPLE_HARD = 80;
+    private const int TIER_DUNGEON_FIRST_HARD = 60;
 
     //Spawner 에 손쉽게 접근하기 위해, static으로 설계
     public static List<Monster> m_monsters = new List<Monster>();
@@ -181,10 +181,20 @@ public class Spawner : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         Monster monster = null;
 
+        int dungeon_level = (int)Data_Manager.Main_Players_Data.Player_Tier + 1;
+        int difficulty = Mathf.RoundToInt(Mathf.Pow(dungeon_level, 2.0f) * TIER_DUNGEON_FIRST_HARD);
+
+        if(difficulty == 0)
+        {
+            difficulty = TIER_DUNGEON_FIRST_HARD;
+        }
+
+        Debug.Log($"{difficulty}의 티어던전 난이도 설정");
+
         var go = Base_Manager.Pool.Pooling_OBJ("Tier_Dungeon").Get((value) =>
         {
             // 풀링이 생성될때의 기능을 구현한다.
-            value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * TIER_DUNGEON_MULTIPLE_HARD); // TODO : 레벨디자인 필요
+            value.GetComponent<Monster>().Init(difficulty); // TODO : 레벨디자인 필요
         });
 
         monster = go.GetComponent<Monster>();
