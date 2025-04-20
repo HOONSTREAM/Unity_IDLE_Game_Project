@@ -404,8 +404,8 @@ public class Player_Manager
             { Rarity.Common, 1.0 },
             { Rarity.UnCommon, 2.0 },
             { Rarity.Rare, 3.5 },
-            { Rarity.Epic, 5.5 },
-            { Rarity.Legendary, 30.0 }
+            { Rarity.Epic, 20.5 },
+            { Rarity.Legendary, 60.0 }
         };
 
     }

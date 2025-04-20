@@ -182,7 +182,7 @@ public class Spawner : MonoBehaviour
         Monster monster = null;
 
         int dungeon_level = (int)Data_Manager.Main_Players_Data.Player_Tier + 1;
-        int difficulty = Mathf.RoundToInt(Mathf.Pow(dungeon_level, 2.0f) * TIER_DUNGEON_FIRST_HARD);
+        int difficulty = Mathf.RoundToInt(Mathf.Pow(dungeon_level, 3.0f) * TIER_DUNGEON_FIRST_HARD);
 
         if(difficulty == 0)
         {
