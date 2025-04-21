@@ -992,7 +992,7 @@ GameObject:
   - component: {fileID: 1726105150132106541}
   - component: {fileID: -8169426782952837670}
   m_Layer: 0
-  m_Name: Boss
+  m_Name: Boss_KingSlime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1007,7 +1007,7 @@ Transform:
   m_GameObject: {fileID: 8134946180786732859}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7923042141685427288}
@@ -1053,12 +1053,15 @@ MonoBehaviour:
   ATK: 0
   ATK_Speed: 0
   isDead: 0
+  Use_Skill: 0
+  Skill_none_Attack: 0
+  m_target: {fileID: 0}
   m_BulletTransform: {fileID: 789698963890906870}
+  Bullet_Name: 
   M_Speed: 2
-  R_ATK: 10
-  R_HP: 500
   R_ATTACK_RANGE: 2
   isBoss: 1
+  isDungeon: 0
 --- !u!114 &-8169426782952837670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1071,6 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aea9e31e8b25da4eb2eaf361e47d8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Skill_Effect: {fileID: 0}
 --- !u!1 &8146801976619531734
 GameObject:
   m_ObjectHideFlags: 0

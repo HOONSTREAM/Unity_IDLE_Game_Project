@@ -358,4 +358,40 @@ public class Utils
 
     }
 
+    /// <summary>
+    /// 스테이지 별로, 몬스터를 다르게 소환 시킵니다.
+    /// </summary>
+    /// <param name="stage"></param>
+    /// <returns></returns>
+    public static string GetStage_MonsterPrefab(int stage)
+    {
+        if (stage < 200)
+            return "Monster_Slime";
+        else 
+            return "Monster_Skeleton";
+       
+        //else if (stage < 400)
+        //    return "Monster_Troll";
+        //else
+        //    return "Monster_Dragon"; // 400층 이상
+    }
+
+    /// <summary>
+    /// 스테이지 별로, 보스를 다르게 소환 시킵니다.
+    /// </summary>
+    /// <param name="stage"></param>
+    /// <returns></returns>
+    public static string GetStage_BossPrefab(int stage)
+    {
+        if (stage < 200)
+            return "Boss_KingSlime";
+        else
+            return "Boss_LizardKing";
+        //else if (stage < 400)
+        //    return "Monster_Troll";
+        //else
+        //    return "Monster_Dragon"; // 400층 이상
+    }
+
+
 }

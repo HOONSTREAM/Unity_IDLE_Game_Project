@@ -30,7 +30,6 @@ public class Spawner : MonoBehaviour
         Base_Manager.Stage.M_BossEvent += OnBoss;
         Base_Manager.Stage.M_DungeonEvent += OnDungeon;
     }
-
     private void Stop_Coroutine_And_Delete_Monster()
     {
         if (coroutine != null)
@@ -45,7 +44,7 @@ public class Spawner : MonoBehaviour
                 if (m_monsters[i].isBoss == false)
                 {
                     m_monsters[i].isDead = true;
-                    Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(m_monsters[i].gameObject);                
+                    Base_Manager.Pool.m_pool_Dictionary[Utils.GetStage_MonsterPrefab(Data_Manager.Main_Players_Data.Player_Stage)].Return(m_monsters[i].gameObject);                
                 }
 
             }
@@ -54,7 +53,6 @@ public class Spawner : MonoBehaviour
 
         m_monsters.Clear();
     }
-
     private void Back_To_MainGame_Map()
     {
         Maps[0].gameObject.SetActive(false);
@@ -66,13 +64,11 @@ public class Spawner : MonoBehaviour
         Stage_Manager.isDungeon_Map_Change = false;
 
     }
-
     public void OnReady()
     {
         Stop_Coroutine_And_Delete_Monster();
         Back_To_MainGame_Map();
     }
-
     public void OnPlay()
     {
         if (Stage_Manager.isDungeon)
@@ -120,13 +116,11 @@ public class Spawner : MonoBehaviour
 
        
     }
-
     public void OnBoss()
     {
         Stop_Coroutine_And_Delete_Monster();
         StartCoroutine(BossSetCoroutine());     
     }    
-
     IEnumerator BossSetCoroutine(int Player_Stage = 0)
     {
         yield return new WaitForSeconds(2.0f);
@@ -134,7 +128,7 @@ public class Spawner : MonoBehaviour
 
         if(Stage_Manager.isDungeon == false)
         {
-            var go = Base_Manager.Pool.Pooling_OBJ("Boss").Get((value) =>
+            var go = Base_Manager.Pool.Pooling_OBJ(Utils.GetStage_BossPrefab(Data_Manager.Main_Players_Data.Player_Stage)).Get((value) =>
             {
                 // 풀링이 생성될때의 기능을 구현한다.
                 value.GetComponent<Monster>().Init(Player_Stage);
@@ -175,7 +169,6 @@ public class Spawner : MonoBehaviour
 
         Base_Manager.Stage.State_Change(Stage_State.BossPlay);
     }
-
     IEnumerator Tier_BossSetCoroutine()
     {
         yield return new WaitForSeconds(2.0f);
@@ -227,6 +220,8 @@ public class Spawner : MonoBehaviour
 
         int Monster_Spawn_Value = Count - m_monsters.Count;
 
+        string Monster_Prefabs = Utils.GetStage_MonsterPrefab(Data_Manager.Main_Players_Data.Player_Stage);
+
         for(int i = 0; i < Monster_Spawn_Value; i++)
         {
             pos = Vector3.zero + Random.insideUnitSphere * 5.0f;
@@ -240,7 +235,7 @@ public class Spawner : MonoBehaviour
             }
 
             //몬스터 스폰
-            var go = Base_Manager.Pool.Pooling_OBJ("Monster").Get((value) => 
+            var go = Base_Manager.Pool.Pooling_OBJ(Monster_Prefabs).Get((value) => 
             {
                 // 풀링이 생성될때의 기능을 구현한다.
 
@@ -248,7 +243,7 @@ public class Spawner : MonoBehaviour
                 value.transform.position = pos;
                 value.transform.LookAt(Vector3.zero);
                 m_monsters.Add(value.GetComponent<Monster>());
-
+                
             });
 
         }
@@ -261,5 +256,6 @@ public class Spawner : MonoBehaviour
         }
        
     }
-   
+
+    
 }

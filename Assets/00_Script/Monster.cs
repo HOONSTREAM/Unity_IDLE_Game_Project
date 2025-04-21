@@ -33,7 +33,7 @@ public class Monster : Character
     {
         isDead = false;
         ATK = isBoss ? Utils.Data.stageData.Get_ATK(Value)  * 10.0f : Utils.Data.stageData.Get_ATK(Value);
-        HP = isBoss ? Utils.Data.stageData.Get_HP(Value) * 10.0f : Utils.Data.stageData.Get_HP(Value);
+        HP = isBoss ? Utils.Data.stageData.Get_HP(Value) * 20.0f : Utils.Data.stageData.Get_HP(Value);
         ATK_Speed = 1.0f;
         MaxHP = HP;
 
@@ -260,7 +260,7 @@ public class Monster : Character
 
         if (!isBoss)
         {
-            Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(this.gameObject);           
+            Base_Manager.Pool.m_pool_Dictionary[Utils.GetStage_MonsterPrefab(Data_Manager.Main_Players_Data.Player_Stage)].Return(this.gameObject);           
         }
 
     }

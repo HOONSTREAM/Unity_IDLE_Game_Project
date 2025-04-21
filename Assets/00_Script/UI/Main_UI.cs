@@ -738,11 +738,11 @@ public class Main_UI : MonoBehaviour
         {
             if (Spawner.m_monsters[i].isBoss == true)
             {
-                Base_Manager.Pool.m_pool_Dictionary["Boss"].Return(Spawner.m_monsters[i].gameObject);
+                Base_Manager.Pool.m_pool_Dictionary[Utils.GetStage_BossPrefab(Data_Manager.Main_Players_Data.Player_Stage)].Return(Spawner.m_monsters[i].gameObject);
             }
             else
             {
-                Base_Manager.Pool.m_pool_Dictionary["Monster"].Return(Spawner.m_monsters[i].gameObject);
+                Base_Manager.Pool.m_pool_Dictionary[Utils.GetStage_MonsterPrefab(Data_Manager.Main_Players_Data.Player_Stage)].Return(Spawner.m_monsters[i].gameObject);
             }
         }
 
