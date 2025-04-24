@@ -6,7 +6,9 @@ using UnityEngine.UIElements;
 public class Elemental_W_Skill : Skill_Base
 {
 
-   
+    [SerializeField]
+    private GameObject Magic_Circle;
+
 
     public override void Set_Skill()
     {
@@ -42,6 +44,9 @@ public class Elemental_W_Skill : Skill_Base
 
             var Meteor = Skill_Effect.transform.GetChild(0).GetComponent<Meteor>();
             Base_Manager.SOUND.Play(Sound.BGS, "Meteor");
+            Magic_Circle.gameObject.SetActive(true);
+            Magic_Circle.gameObject.GetComponent<ParticleSystem>().Play();
+
             Meteor.gameObject.SetActive(true);          
             Camera_Manager.instance.Camera_Shake();
             Vector3 Attack_pos = localMonsters[Random.Range(0, localMonsters.Length)].transform.position +
@@ -55,6 +60,7 @@ public class Elemental_W_Skill : Skill_Base
 
         yield return new WaitForSecondsRealtime(5.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;
+        Magic_Circle.gameObject.SetActive(false);
         ReturnSkill();
       
     }
