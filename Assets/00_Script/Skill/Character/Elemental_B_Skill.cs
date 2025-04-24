@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Elemental_B_Skill : Skill_Base
 {
-    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 1.2f;
+    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 2.25f;
 
     public override void Set_Skill()
     {

@@ -53,7 +53,7 @@ public class Elemental_W_Skill : Skill_Base
                 new Vector3(Random.insideUnitSphere.x * 3.0f, 0.0f, Random.insideUnitSphere.z * 3.0f);
 
             Meteor.transform.position = Attack_pos;
-            Meteor.Init(Skill_Damage(200));
+            Meteor.Init(Skill_Damage(300));
             yield return new WaitForSeconds(0.1f);
             
         }

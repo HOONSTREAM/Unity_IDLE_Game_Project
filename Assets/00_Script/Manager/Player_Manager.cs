@@ -101,7 +101,7 @@ public class Player_Manager
     /// <param name="rarity"></param>
     /// <param name="holder"></param>
     /// <returns></returns>
-    public double Get_ATK(Rarity rarity, Holder holder)
+    public double Get_ATK(Rarity rarity, Holder holder, string Hero_name)
     {
         var holding_effect = Check_Player_Holding_Effects();
         var holding_effect_Relic = Check_Relic_Holding_Effects();
@@ -111,12 +111,14 @@ public class Player_Manager
 
         double rarityMultiplier = RarityBonusTable.RarityMultiplier.TryGetValue(rarity, out double value) ? value : 1.0;
 
+        double baseATK = Base_Manager.Data.Data_Character_Dictionary[Hero_name].Data.Base_ATK;
+
         // 1. 카드 레벨에 절대적인 영향력을 주기 위한 공격력 기반 (레벨^2)
         double levelFactor = Mathf.Pow(cardLevel, 2); // 레벨이 오를수록 공격력 폭발적으로 증가
 
         // 2. 레벨 기반으로 공격력 직접 산출
         // 3. 레어리티 별 공격력 추가 상승
-        double baseATK = levelFactor * 5.0 * rarityMultiplier; // 기본 배수는 게임 밸런스에 따라 조정
+        baseATK *= levelFactor * 5.0 * rarityMultiplier; // 기본 배수는 게임 밸런스에 따라 조정
 
         Debug.Log($"{holder.Hero_Level}짜리 카드 {rarityMultiplier}가 추가로 곱해집니다.");
        
@@ -196,7 +198,7 @@ public class Player_Manager
         {
             if (data.Value.Hero_Card_Amount > 0)
             {              
-                Total_ATK += Base_Manager.Player.Get_ATK(Base_Manager.Data.Data_Character_Dictionary[data.Key].Data.Rarity, data.Value);
+                Total_ATK += Base_Manager.Player.Get_ATK(Base_Manager.Data.Data_Character_Dictionary[data.Key].Data.Rarity, data.Value,data.Key);
             }
         }
 

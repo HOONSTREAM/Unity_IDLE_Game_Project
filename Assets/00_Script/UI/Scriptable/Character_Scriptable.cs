@@ -9,6 +9,10 @@ public class Character_Scriptable : ScriptableObject
     public string Character_EN_Name;
     public float M_Attack_Range;
     public float M_Attack_Speed;
+
+    public float Base_ATK;
+    public float Base_HP;
+
     public int MAX_MP;
     public Rarity Rarity;
     public string KO_Rarity;

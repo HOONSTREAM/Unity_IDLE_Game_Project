@@ -86,7 +86,8 @@ public static class HeroEffectFactory
             { "Elemental_Master_White", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_ItemDrop_Effect() } },
             { "Elemental_Master_Black", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_ATKSpeed_Effect() } },
             { "PalaDin", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_CriticalDamage_Effect() } },
-            { "Sword_Master", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect() } }
+            { "Sword_Master", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect() } },
+            { "Dragon_Knight", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_ATKSpeed_Effect() } },
         };
 
     public static List<IHeroEffect> Get_Holding_Effects(string heroName)

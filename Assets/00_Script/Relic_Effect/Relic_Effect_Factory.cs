@@ -82,9 +82,7 @@ public static class RelicEffectFactory
         {
             { "SWORD", new List<IRelicEffect> { new Increase_ATKSpeed_Effect_Relic(), new Increase_ItemDrop_Effect_Relic() } },
             { "DICE", new List<IRelicEffect> { new Increase_GoldDrop_Effect_Relic(), new Increase_HP_Effect_Relic() } },
-           // { "DEF", new List<IRelicEffect> { new Increase_ATK_Effect(), new Increase_ItemDrop_Effect() } },
-           // { "HP", new List<IRelicEffect> { new Increase_ATK_Effect(), new Increase_ATKSpeed_Effect() } },
-           // { "MANA", new List<IRelicEffect> { new Increase_ATK_Effect(), new Increase_CriticalDamage_Effect() } }
+            { "MANA", new List<IRelicEffect> { new Increase_ATK_Effect_Relic(), new Increase_CriticalDamage_Effect_Relic() } },
         };
 
 

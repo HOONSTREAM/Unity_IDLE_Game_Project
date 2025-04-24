@@ -54,11 +54,13 @@ public class Relic_Manager : MonoBehaviour
         GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/Burst"));
         go.transform.position = RealPos;
 
+        var effect_value = float.Parse(CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
+
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
             if (Vector3.Distance(Spawner.m_monsters[i].transform.position, RealPos) <= 3.0f)
             {
-                Spawner.m_monsters[i].GetDamage(player.ATK * 1.7f);
+                Spawner.m_monsters[i].GetDamage(player.ATK * effect_value);
             }
         }
 
@@ -71,11 +73,17 @@ public class Relic_Manager : MonoBehaviour
     /// <param name="player"></param>
     public void MANA(Player player)
     {
-        if (!RandomCount(50))
+        string value = "MANA";
+        float percent = float.Parse(CSV_Importer.RELIC_MANA_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["start_percent"].ToString());
+
+        if (!RandomCount(percent))
         {
             return;
         }
-        player.Get_MP(2);
+        Debug.Log("MANA ½ÇÇà");
+        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/MP"));
+        go.transform.position = player.transform.position;
+        player.Get_MP(int.Parse(CSV_Importer.RELIC_MANA_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString()));
     }
 
     /// <summary>
