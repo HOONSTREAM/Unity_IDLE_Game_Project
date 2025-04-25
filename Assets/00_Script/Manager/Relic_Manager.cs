@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 // SHIELD : 몬스터 사망 시 이벤트
 // SWORD : 근접 공격 이벤트
