@@ -83,6 +83,7 @@ public static class RelicEffectFactory
             { "SWORD", new List<IRelicEffect> { new Increase_ATKSpeed_Effect_Relic(), new Increase_ItemDrop_Effect_Relic() } },
             { "DICE", new List<IRelicEffect> { new Increase_GoldDrop_Effect_Relic(), new Increase_HP_Effect_Relic() } },
             { "MANA", new List<IRelicEffect> { new Increase_ATK_Effect_Relic(), new Increase_CriticalDamage_Effect_Relic() } },
+            { "HP", new List<IRelicEffect> { new Increase_HP_Effect_Relic(), new Increase_ATK_Effect_Relic() } },
         };
 
 

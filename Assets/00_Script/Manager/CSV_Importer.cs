@@ -19,6 +19,7 @@ public class CSV_Importer
     #region 유물 아이템 발동확률, 효과퍼센트
     public static List<Dictionary<string, object>> RELIC_SWORD_Design = new List<Dictionary<string, object>>(CSVReader.Read("SWORD"));
     public static List<Dictionary<string, object>> RELIC_MANA_Design = new List<Dictionary<string, object>>(CSVReader.Read("MANA"));
+    public static List<Dictionary<string, object>> RELIC_HP_Design = new List<Dictionary<string, object>>(CSVReader.Read("HP"));
     public static List<Dictionary<string, object>> RELIC_DICE_Design = new List<Dictionary<string, object>>(CSVReader.Read("DICE"));
     #endregion
 
@@ -26,7 +27,8 @@ public class CSV_Importer
     {
         { "SWORD", RELIC_SWORD_Design },
         { "DICE", RELIC_DICE_Design },
-        { "MANA", RELIC_MANA_Design }
+        { "MANA", RELIC_MANA_Design },
+        { "HP", RELIC_HP_Design }
     };
 
 }

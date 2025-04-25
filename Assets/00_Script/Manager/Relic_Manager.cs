@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 // SHIELD : 몬스터 사망 시 이벤트
 // SWORD : 근접 공격 이벤트
@@ -30,9 +31,11 @@ public class Relic_Manager : MonoBehaviour
         if (Base_Manager.Item.Set_Item_Check("DICE")) Delegate_Holder.Monster_Dead_Event -= DICE;
         if (Base_Manager.Item.Set_Item_Check("SWORD")) Delegate_Holder.Player_attack_Event -= SWORD;
         if (Base_Manager.Item.Set_Item_Check("MANA")) Delegate_Holder.player_hit_Event -= MANA;
+        if (Base_Manager.Item.Set_Item_Check("HP")) Delegate_Holder.player_hit_Event -= HP;
         if (Base_Manager.Item.Set_Item_Check("DICE")) Delegate_Holder.Monster_Dead_Event += DICE;
         if (Base_Manager.Item.Set_Item_Check("SWORD")) Delegate_Holder.Player_attack_Event += SWORD;
-        if (Base_Manager.Item.Set_Item_Check("MANA")) Delegate_Holder.player_hit_Event += MANA;
+        if (Base_Manager.Item.Set_Item_Check("MANA")) Delegate_Holder.player_hit_Event += MANA;       
+        if (Base_Manager.Item.Set_Item_Check("HP")) Delegate_Holder.player_hit_Event += HP;
     }
 
     /// <summary>
@@ -84,6 +87,32 @@ public class Relic_Manager : MonoBehaviour
         GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/MP"));
         go.transform.position = player.transform.position;
         player.Get_MP(int.Parse(CSV_Importer.RELIC_MANA_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString()));
+
+
+        Destroy(go, 2.0f);
+    }
+
+    public void HP(Player player)
+    {
+        string value = "HP";
+        float percent = float.Parse(CSV_Importer.RELIC_HP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["start_percent"].ToString());
+
+        if (!RandomCount(percent))
+        {
+            return;
+        }
+        Debug.Log("HP 실행");
+        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/HP"));
+        go.transform.position = player.transform.position;
+
+        float effect = float.Parse(CSV_Importer.RELIC_HP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
+        Debug.Log($"{effect}만큼 체력회복");
+        player.GetComponent<Player>().HP += (double)effect;
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
+        
+
+
+        Destroy(go, 2.0f);
     }
 
     /// <summary>
@@ -101,6 +130,9 @@ public class Relic_Manager : MonoBehaviour
         Vector3 RealPos = monster.transform.position;
         GameObject go = Instantiate(Resources.Load<GameObject>("PreFabs/Dice"));
         go.transform.position = RealPos;
+
+
+        Destroy(go, 2.0f);
     }
 
     private bool RandomCount(float RandomValue)
