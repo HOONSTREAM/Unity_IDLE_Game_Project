@@ -89,6 +89,7 @@ public static class HeroEffectFactory
             { "Sword_Master", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect() } },
             { "Dragon_Knight", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_ATKSpeed_Effect() } },
             { "Fighter", new List<IHeroEffect> { new Increase_HP_Effect(), new Increase_ItemDrop_Effect() } },
+            { "Desperado", new List<IHeroEffect> { new Increase_CriticalDamage_Effect(), new Increase_Critical_Percentage_Effect() } },
         };
 
     public static List<IHeroEffect> Get_Holding_Effects(string heroName)

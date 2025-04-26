@@ -46,6 +46,7 @@ public class Fighter_Skill : Skill_Base
         this.gameObject.GetComponent<Player>().Use_Skill = false;
         Skill_Effect.gameObject.SetActive(false);
 
+        Destroy(go, 2.0f);
         ReturnSkill();
     }
 }
