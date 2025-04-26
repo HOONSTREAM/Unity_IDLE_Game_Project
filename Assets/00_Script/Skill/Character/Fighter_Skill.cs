@@ -17,7 +17,6 @@ public class Fighter_Skill : Skill_Base
     IEnumerator Set_Skill_Coroutine()
     {
       
-        Skill_Effect.gameObject.SetActive(true);
         Base_Manager.SOUND.Play(Sound.BGS, "Fighter");
         var localMonsters = (monsters != null) ? (Monster[])monsters.Clone() : null;
 
@@ -44,7 +43,7 @@ public class Fighter_Skill : Skill_Base
 
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;
-        Skill_Effect.gameObject.SetActive(false);
+       
 
         Destroy(go, 2.0f);
         ReturnSkill();

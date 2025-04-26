@@ -124,7 +124,7 @@ public class Holding_Effect_Data
         }
 
         double Value = Utils.CalculateValue(Base_ATK, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK);
-        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.Rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -137,7 +137,7 @@ public class Holding_Effect_Data
         }
 
         double Value = Utils.CalculateValue(Base_ATK_SPEED, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ATK_SPEED);
-        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.Rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -150,7 +150,7 @@ public class Holding_Effect_Data
         }
 
         double Value = Utils.CalculateValue(Base_HP, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_HP);
-        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.Rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -163,7 +163,7 @@ public class Holding_Effect_Data
         }
 
         double Value = Utils.CalculateValue(Base_GOLD_DROP, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_GOLD_DROP);
-        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.Rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -176,7 +176,7 @@ public class Holding_Effect_Data
         }
 
         double Value = Utils.CalculateValue(Base_ITEM_DROP, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_ITEM_DROP);
-        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.Rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -189,7 +189,7 @@ public class Holding_Effect_Data
         }
 
         double Value = Utils.CalculateValue(Base_CRI_DMG, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_CRI_DMG);
-        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.Rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -202,7 +202,7 @@ public class Holding_Effect_Data
         }
 
         double Value = Utils.CalculateValue(Base_CRI_PCT, Base_Manager.Data.character_Holder[Data.name].Hero_Level, ALL_CRI_PCT);
-        double Application_Rarity_Value = Value * ((int)Data.Rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.Rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -243,7 +243,7 @@ public class Holding_Effect_Data_Relic
         }
 
         double Value = Utils.CalculateValue(Base_ATK, Base_Manager.Data.Item_Holder[Data.name].Hero_Level, ALL_ATK);
-        double Application_Rarity_Value = Value * ((int)Data.rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -256,7 +256,7 @@ public class Holding_Effect_Data_Relic
         }
 
         double Value = Utils.CalculateValue(Base_ATK_SPEED, Base_Manager.Data.Item_Holder[Data.name].Hero_Level, ALL_ATK_SPEED);
-        double Application_Rarity_Value = Value * ((int)Data.rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -269,7 +269,7 @@ public class Holding_Effect_Data_Relic
         }
 
         double Value = Utils.CalculateValue(Base_HP, Base_Manager.Data.Item_Holder[Data.name].Hero_Level, ALL_HP);
-        double Application_Rarity_Value = Value * ((int)Data.rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -282,7 +282,7 @@ public class Holding_Effect_Data_Relic
         }
 
         double Value = Utils.CalculateValue(Base_GOLD_DROP, Base_Manager.Data.Item_Holder[Data.name].Hero_Level, ALL_GOLD_DROP);
-        double Application_Rarity_Value = Value * ((int)Data.rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -295,7 +295,7 @@ public class Holding_Effect_Data_Relic
         }
 
         double Value = Utils.CalculateValue(Base_ITEM_DROP, Base_Manager.Data.Item_Holder[Data.name].Hero_Level, ALL_ITEM_DROP);
-        double Application_Rarity_Value = Value * ((int)Data.rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -308,7 +308,7 @@ public class Holding_Effect_Data_Relic
         }
 
         double Value = Utils.CalculateValue(Base_CRI_DMG, Base_Manager.Data.Item_Holder[Data.name].Hero_Level, ALL_CRI_DMG);
-        double Application_Rarity_Value = Value * ((int)Data.rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }
@@ -321,7 +321,7 @@ public class Holding_Effect_Data_Relic
         }
 
         double Value = Utils.CalculateValue(Base_CRI_PCT, Base_Manager.Data.Item_Holder[Data.name].Hero_Level, ALL_CRI_PCT);
-        double Application_Rarity_Value = Value * ((int)Data.rarity + 1);
+        double Application_Rarity_Value = Value * (((int)Data.rarity + 1) * 1.2);
 
         return Application_Rarity_Value;
     }

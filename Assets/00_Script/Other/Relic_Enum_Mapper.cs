@@ -10,7 +10,9 @@ public static class Relic_Enum_Mapper
         { "DICE", 1 },
         { "MANA", 2 },
         { "HP", 3 },
-      
+        { "ATK", 4 },
+        { "HP_UP", 5 },
+
     };
     
     public static int GetRelicID(string relicName)

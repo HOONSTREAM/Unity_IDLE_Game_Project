@@ -300,6 +300,11 @@ public class UI_Relic : UI_Base
         {
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name);
             holder.Hero_Level++;
+
+            if (holder.Hero_Card_Amount == 0)
+            {
+                holder.Hero_Card_Amount += 1;
+            }
         }
         Get_Relic_Information(Data, Clicked_Relic_Parts);
 

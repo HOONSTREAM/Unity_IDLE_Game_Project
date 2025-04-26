@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
     // 1. 몬스터는 여러마리가 몇 초 마다 수시로 여러번 스폰 되어야 한다.
 
     private const int GOLD_DUNGEON_MULTIPLE_HARD = 10;
-    private const int TIER_DUNGEON_FIRST_HARD = 60;
+    private const int TIER_DUNGEON_FIRST_HARD = 45;
 
     //Spawner 에 손쉽게 접근하기 위해, static으로 설계
     public static List<Monster> m_monsters = new List<Monster>();

@@ -119,29 +119,31 @@ public class Player_Manager
         // 2. 레벨 기반으로 공격력 직접 산출
         // 3. 레어리티 별 공격력 추가 상승
         baseATK *= levelFactor * 5.0 * rarityMultiplier; // 기본 배수는 게임 밸런스에 따라 조정
-
-        Debug.Log($"{holder.Hero_Level}짜리 카드 {rarityMultiplier}가 추가로 곱해집니다.");
-       
+           
         // 4. 유저 레벨 기반 공격력 추가
         baseATK += Data_Manager.Main_Players_Data.ATK;
-        Debug.Log($"{Data_Manager.Main_Players_Data.ATK}의 기본공격력");
+       
         // 5. 광고 버프 적용
         baseATK *= ADS_Buff_Value;
 
         // 6. 각종 추가 버프 적용
         baseATK *= (1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK) / 100));
-        Debug.Log($"{1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK) / 100)}의 각인밸류 가산중");
+        
+        if (Base_Manager.Item.Set_Item_Check("ATK"))
+        {
+            baseATK *= 1.15f;          
+        }
+
         // 7. 티어 보정
         var tier = Data_Manager.Main_Players_Data.Player_Tier;
         double tierMultiplier = TierBonusTable.GetBonusMultiplier(tier);
-        Debug.Log($"{tierMultiplier}의 티어보너스 가산중");
+       
         baseATK *= tierMultiplier;
 
         // 8. 보유 효과 적용
-        baseATK *= (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));
-        Debug.Log($"{1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)}의 영웅 홀딩이펙트 가산중");
+        baseATK *= (1.0d + holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));     
         baseATK *= (1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0));
-        Debug.Log($"{1.0d + holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0)}의 유물 홀딩이펙트 가산중");
+       
         return baseATK;
     }
 
@@ -165,21 +167,25 @@ public class Player_Manager
 
         
         baseHP += Data_Manager.Main_Players_Data.HP;
-        Debug.Log($"기본 체력: {Data_Manager.Main_Players_Data.HP}");
+       
 
         baseHP *= 1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.HP) / 100);
-        Debug.Log($"각인 효과: {1.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.HP) / 100)}");
+
+        if (Base_Manager.Item.Set_Item_Check("HP_UP"))
+        {
+            baseHP *= 1.5f;
+            Debug.Log("HP 유물 장착으로 체력 1.5배 증가");
+        }
 
         var tier = Data_Manager.Main_Players_Data.Player_Tier;
         double tierMultiplier = TierBonusTable.GetBonusMultiplier(tier);
         baseHP *= tierMultiplier;
-        Debug.Log($"티어 보너스: {tierMultiplier}");
+      
 
         baseHP *= 1.0d + holdingEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0);
-        Debug.Log($"영웅 보유 효과: {1.0d + holdingEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0)}");
-
+      
         baseHP *= 1.0d + relicEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0);
-        Debug.Log($"유물 보유 효과: {1.0d + relicEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0)}");
+        
 
         return baseHP;
     }
