@@ -52,7 +52,7 @@ public class Winter_Bringer_Skill : Skill_Base
         this.gameObject.GetComponent<Player>().Use_Skill = false;
         
 
-        Destroy(go, 2.0f);
+        Destroy(go);
 
         ReturnSkill();
     }
