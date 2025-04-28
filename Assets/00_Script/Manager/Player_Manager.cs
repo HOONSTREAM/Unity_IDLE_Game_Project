@@ -258,7 +258,11 @@ public class Player_Manager
         var total_value = (0.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.ITEM) +
             (float)Value + (float)Relic_Value + ADS_Buff_Value);
 
-
+        if (Base_Manager.Item.Set_Item_Check("ITEM_DROP"))
+        {
+            total_value *= 1.2f;          
+        }
+      
         return total_value;
     }
     public float Calculate_Atk_Speed_Percentage()

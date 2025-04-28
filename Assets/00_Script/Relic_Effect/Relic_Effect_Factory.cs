@@ -86,6 +86,7 @@ public static class RelicEffectFactory
             { "HP", new List<IRelicEffect> { new Increase_ATKSpeed_Effect_Relic(), new Increase_GoldDrop_Effect_Relic() } },
             { "ATK", new List<IRelicEffect> { new Increase_Critical_Percentage_Effect_Relic(), new Increase_CriticalDamage_Effect_Relic() } },
             { "HP_UP", new List<IRelicEffect> { new Increase_HP_Effect_Relic(), new Increase_CriticalDamage_Effect_Relic() } },
+            { "ITEM_DROP", new List<IRelicEffect> { new Increase_ATK_Effect_Relic(), new Increase_Critical_Percentage_Effect_Relic() } },
         };
 
 

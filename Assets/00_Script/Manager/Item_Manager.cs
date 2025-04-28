@@ -8,6 +8,11 @@ using UnityEngine;
 public class Item_Manager 
 {
 
+    /// <summary>
+    /// 유물 아이템을 장착했는지 확인합니다.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public bool Set_Item_Check(string name)
     {
         for (int i = 0; i < Base_Manager.Data.Main_Set_Item.Length; i++)
