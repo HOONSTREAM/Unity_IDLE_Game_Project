@@ -60,6 +60,8 @@ public class UI_Shop : UI_Base
     private TextMeshProUGUI ADS_Relic_Count;
     [SerializeField]
     private TextMeshProUGUI ADS_Relic_Timer_Text;
+    [SerializeField]
+    private GameObject TODAY_PACKAGE_SOLD_OUT;
   
 
 
@@ -104,6 +106,7 @@ public class UI_Shop : UI_Base
     public void Get_IAP_Product(string purchase_name)
     {
         Base_Manager.IAP.Purchase(purchase_name);
+        Init();
     }
 
     #region Gacha_Button_Method
@@ -247,6 +250,8 @@ public class UI_Shop : UI_Base
     }
     private void Get_Init()
     {
+        TODAY_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
+
         ADS_Hero_Count.text = "(" + Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count.ToString() + "/3)";
 
         Real_Summon_Level_Text.text = "영웅 소환 레벨 Lv." + 
@@ -272,6 +277,11 @@ public class UI_Shop : UI_Base
         Pickup_Text.text = "(" + valuePickUp.ToString() + "/110)";
         Pickup_Count_Slider.fillAmount = (float)valuePickUp / 110.0f;
 
+
+        if (Data_Manager.Main_Players_Data.isBuyTodayPackage)
+        {
+            TODAY_PACKAGE_SOLD_OUT.gameObject.SetActive(true);
+        }
        
     }
     private void Relic_Init()

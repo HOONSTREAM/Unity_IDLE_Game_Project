@@ -23,7 +23,6 @@ public class BackEnd_PostSystem : MonoBehaviour
     {
         PostReceiveAll(PostType.Admin);
     }
-
     public void PostListGet(PostType postType)
     {
         Backend.UPost.GetPostList(postType, callback =>

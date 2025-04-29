@@ -69,6 +69,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("USER_KEY_ASSETS", data.User_Key_Assets);
         param.Add("DUNGEON_CLEAR_LEVEL", data.Dungeon_Clear_Level);
         param.Add("isBUY_AD_Package", data.isBuyADPackage);
+        param.Add("isBUY_TODAY_Package", data.isBuyTodayPackage);
         param.Add("ADS_HERO_SUMMON_COUNT", data.ADS_Hero_Summon_Count);
         param.Add("ADS_RELIC_SUMMON_COUNT", data.ADS_Relic_Summon_Count);
 
@@ -289,6 +290,7 @@ public partial class BackEnd_Manager : MonoBehaviour
 
 
                 data.isBuyADPackage = bool.Parse(gameDataJson[0]["isBUY_AD_Package"].ToString());
+                data.isBuyTodayPackage = bool.Parse(gameDataJson[0]["isBUY_TODAY_Package"].ToString());
                 data.Event_Push_Alarm_Agree = bool.Parse(gameDataJson[0]["EVENT_PUSH_ALARM"].ToString());
                 data.Daily_Attendance = int.Parse(gameDataJson[0]["Daily_Attendance"].ToString());
                 data.Levelup = int.Parse(gameDataJson[0]["Daily_Levelup"].ToString());
@@ -332,6 +334,8 @@ public partial class BackEnd_Manager : MonoBehaviour
 
                     data.ADS_Hero_Summon_Count = 0;
                     data.ADS_Relic_Summon_Count = 0;
+
+                    data.isBuyTodayPackage = false;
 
                 }
 

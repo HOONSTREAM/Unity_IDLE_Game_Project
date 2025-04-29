@@ -13,7 +13,8 @@ public class UI_Reward : UI_Base
     {
         switch (iapName)
         {
-            case IAP_Holder.remove_ads: GetRewardInit("ADS", 1); break;
+            case IAP_Holder.remove_ads: GetRewardInit("PACKAGE_ADS", 1); break;
+            case IAP_Holder.package_1: GetRewardInit("PACKAGE_TODAY", 1); break;
             case IAP_Holder.steel_1000: GetRewardInit("Steel", 1000); break;
             case IAP_Holder.dia_19000: GetRewardInit("Dia", 19000); break;
             case IAP_Holder.dia_1400: GetRewardInit("Dia", 1400); break;
@@ -33,13 +34,22 @@ public class UI_Reward : UI_Base
         {
             case "Dia": Data_Manager.Main_Players_Data.DiaMond += Count; break;
 
-            case "ADS": 
+            case "PACKAGE_ADS": 
                 Data_Manager.Main_Players_Data.isBuyADPackage = true;
                 Data_Manager.Main_Players_Data.DiaMond += 3000;
                 Base_Manager.Data.Item_Holder["SWORD"].Hero_Card_Amount += 3;
                 Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 1000;
                 Base_Canvas.instance.Destroy_ADS_Button();
                 Destroy(GameObject.Find("AD_REMOVE_PACKAGE").gameObject);
+
+                break;
+
+            case "PACKAGE_TODAY":
+                Data_Manager.Main_Players_Data.isBuyTodayPackage = true;
+                Data_Manager.Main_Players_Data.DiaMond += 8000;                
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 600;
+                Data_Manager.Main_Players_Data.User_Key_Assets[0] += 2;
+                Data_Manager.Main_Players_Data.User_Key_Assets[1] += 2;
 
                 break;
 

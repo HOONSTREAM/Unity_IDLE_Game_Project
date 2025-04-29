@@ -17,6 +17,7 @@ public enum IAP_Holder
     gold_30,
     remove_ads,
     steel_1000,
+    package_1,
 
 }
 

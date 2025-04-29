@@ -72,6 +72,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] = 0;
         Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] = 0;
         Data_Manager.Main_Players_Data.isBuyADPackage = false;
+        Data_Manager.Main_Players_Data.isBuyTodayPackage = false;
         Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree = false;
         Data_Manager.Main_Players_Data.Daily_Attendance = 1;
         Data_Manager.Main_Players_Data.Levelup = 0;
@@ -114,6 +115,7 @@ public class BackendGameData
         param.Add("USER_KEY_ASSETS", Data_Manager.Main_Players_Data.User_Key_Assets);
         param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level);
         param.Add("isBUY_AD_Package", Data_Manager.Main_Players_Data.isBuyADPackage);
+        param.Add("isBUY_TODAY_Package", Data_Manager.Main_Players_Data.isBuyTodayPackage);
         param.Add("Event_Push_Alarm_Agree", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree);
         param.Add("Daily_Attendance", Data_Manager.Main_Players_Data.Daily_Attendance);
         param.Add("Level_up_Daily_Quest_Count", Data_Manager.Main_Players_Data.Levelup);
@@ -326,6 +328,7 @@ public class Data
 
     //광고구매 여부
     public bool isBuyADPackage = false;
+    public bool isBuyTodayPackage = false;
     public int ADS_Hero_Summon_Count = 0;
     public int ADS_Relic_Summon_Count = 0;
     public float[] ADS_Timer = { 0.0f, 0.0f };
