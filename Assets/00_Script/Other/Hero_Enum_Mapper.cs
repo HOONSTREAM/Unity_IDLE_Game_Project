@@ -16,6 +16,7 @@ public static class Hero_Enum_Mapper
         { "Fighter", 7 },
         { "Desperado", 8 },
         { "Winter_Bringer", 9 },
+        { "Druid", 10 },
 
     };
 

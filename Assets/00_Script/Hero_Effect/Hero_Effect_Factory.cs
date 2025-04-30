@@ -91,6 +91,8 @@ public static class HeroEffectFactory
             { "Fighter", new List<IHeroEffect> { new Increase_HP_Effect(), new Increase_ItemDrop_Effect() } },
             { "Desperado", new List<IHeroEffect> { new Increase_CriticalDamage_Effect(), new Increase_Critical_Percentage_Effect() } },
             { "Winter_Bringer", new List<IHeroEffect> { new Increase_ATKSpeed_Effect(), new Increase_CriticalDamage_Effect() } },
+            { "Druid", new List<IHeroEffect> { new Increase_GoldDrop_Effect(), new Increase_HP_Effect() } },
+
         };
 
     public static List<IHeroEffect> Get_Holding_Effects(string heroName)

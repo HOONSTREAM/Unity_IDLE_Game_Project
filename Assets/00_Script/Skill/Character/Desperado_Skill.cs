@@ -9,11 +9,14 @@ public class Desperado_Skill : Skill_Base
     private GameObject Player_Effect;
 
     private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 3.0f;
-
+    private float LifeTime = 3.0f;
+    private GameObject Desperado_Skill_Effect;
     public override void Set_Skill()
     {
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
+        Desperado_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Desperado_Skill_Effect"));
+        Destroy(Desperado_Skill_Effect, LifeTime);
         StartCoroutine(Set_Skill_Coroutine());
     }
 
@@ -33,29 +36,22 @@ public class Desperado_Skill : Skill_Base
             ReturnSkill();
             yield break;
         }
-
-        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/Desperado_Skill_Effect"));
-        Base_Manager.SOUND.Play(Sound.BGS, "Desperado_1");        
-        Base_Manager.SOUND.Play(Sound.BGS, "Desperado_2");
-        go.transform.position = Vector3.zero;
-
-        yield return new WaitForSecondsRealtime(0.8f);
-
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, go.transform.position) <= 4.0f)
+            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Desperado_Skill_Effect.transform.position) <= 4.0f)
             {
                 Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT);
             }
         }
 
-
+        Base_Manager.SOUND.Play(Sound.BGS, "Desperado_1");        
+        Base_Manager.SOUND.Play(Sound.BGS, "Desperado_2");
+        Desperado_Skill_Effect.transform.position = Vector3.zero;
+ 
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;      
         Player_Effect.gameObject.SetActive(false);
-        
-        Destroy(go, 5.0f);
-
+   
         ReturnSkill();
     }
 }

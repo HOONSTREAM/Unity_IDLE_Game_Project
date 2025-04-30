@@ -7,10 +7,15 @@ public class Elemental_B_Skill : Skill_Base
 {
     private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 2.25f;
 
+    private float LifeTime = 3.0f;
+    private GameObject Elemental_B_Skill_Effect;
+
     public override void Set_Skill()
     {
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
+        Elemental_B_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Elemental_B_Skill_Effect"));
+        Destroy(Elemental_B_Skill_Effect, LifeTime);
         StartCoroutine(Set_Skill_Coroutine());
     }
 
@@ -30,26 +35,19 @@ public class Elemental_B_Skill : Skill_Base
 
         Camera_Manager.instance.Camera_Shake();
 
-
-        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/Elemental_B_Skill_Effect"));
-        go.transform.position = Vector3.zero;
-
-        yield return new WaitForSecondsRealtime(0.8f);
-
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, go.transform.position) <= 4.0f)
+            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Elemental_B_Skill_Effect.transform.position) <= 4.0f)
             {
                 Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT);
             }
         }
 
+        Elemental_B_Skill_Effect.transform.position = Vector3.zero;
 
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;
         Skill_Effect.gameObject.SetActive(false);
-
-        Destroy(go, 2.0f);
 
         ReturnSkill();
     }

@@ -272,8 +272,15 @@ public class Player_Manager
 
         var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.ATK_SPEED, 0.0));
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.ATK_SPEED, 0.0));
-      
-        return (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK_SPEED) / 100) + (float)Value + (float)Relic_Value;
+
+        var total_Value = (Base_Manager.Data.Get_smelt_value(Smelt_Status.ATK_SPEED) / 100) + (float)Value + (float)Relic_Value;
+
+        if (Base_Manager.Item.Set_Item_Check("ATK_SPEED"))
+        {
+            total_Value *= 1.3f;
+        }
+
+        return total_Value;
     }
     public float Calculate_Gold_Drop_Percentage()
     {

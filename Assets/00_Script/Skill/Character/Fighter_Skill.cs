@@ -7,10 +7,15 @@ public class Fighter_Skill : Skill_Base
 {
     private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 1.2f;
 
+    private float LifeTime = 3.0f;
+    private GameObject Fighter_Skill_Effect;
     public override void Set_Skill()
     {
+        
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
+        Fighter_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Fighter_Skill_Effect"));
+        Destroy(Fighter_Skill_Effect, LifeTime);
         StartCoroutine(Set_Skill_Coroutine());
     }
 
@@ -27,25 +32,19 @@ public class Fighter_Skill : Skill_Base
             yield break;
         }
 
-        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/Fighter_Skill_Effect"));
-        go.transform.position = Vector3.zero;
-
-        yield return new WaitForSecondsRealtime(0.8f);
-
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, go.transform.position) <= 4.0f)
+            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Fighter_Skill_Effect.transform.position) <= 4.0f)
             {
                 Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT);
             }
         }
 
-
+        Fighter_Skill_Effect.transform.position = Vector3.zero;
+   
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;
-       
-
-        Destroy(go, 2.0f);
+    
         ReturnSkill();
     }
 }

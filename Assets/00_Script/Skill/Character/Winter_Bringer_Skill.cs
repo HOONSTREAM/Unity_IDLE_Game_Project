@@ -8,10 +8,17 @@ public class Winter_Bringer_Skill : Skill_Base
     private const float SKILL_DAMAGE_MIN = 1.5f;
     private const float SKILL_DAMAGE_MAX = 4.0f;
 
+    private float LifeTime = 3.0f;
+
+    private GameObject WinterBringer_Skill_Effect;
+
     public override void Set_Skill()
     {
+       
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
+        WinterBringer_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Winter_Bringer_Skill_Effect"));
+        Destroy(WinterBringer_Skill_Effect, LifeTime);
         StartCoroutine(Set_Skill_Coroutine());
     }
 
@@ -29,31 +36,22 @@ public class Winter_Bringer_Skill : Skill_Base
             yield break;
         }
 
-        Camera_Manager.instance.Camera_Shake();
-
-
-        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/Winter_Bringer_Skill_Effect"));
-        go.transform.position = Vector3.zero;
-
-        yield return new WaitForSecondsRealtime(0.8f);
-
         var Damage_Multiple = Random.Range(SKILL_DAMAGE_MIN, SKILL_DAMAGE_MAX);
 
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, go.transform.position) <= 4.0f)
+            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, WinterBringer_Skill_Effect.transform.position) <= 4.0f)
             {
                 Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * Damage_Multiple);
             }
         }
-
+     
+        Skill_Effect.transform.position = Vector3.zero;
 
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;
         
-
-        Destroy(go);
-
         ReturnSkill();
+      
     }
 }
