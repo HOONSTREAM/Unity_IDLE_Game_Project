@@ -28,7 +28,7 @@ namespace DM
             if (!control.onGround)
                 return;
 
-            control.rigid.drag = 0;
+            control.rigid.linearDamping = 0;
             float multiplier = 3f;
 
             dPosition = anim.deltaPosition;   //storing delta positin of active model's position.         
@@ -38,7 +38,7 @@ namespace DM
             vPosition = (dPosition * multiplier) / Time.fixedDeltaTime;     //defines the vector 3 value for the velocity.      
 
             
-            control.rigid.velocity = vPosition; //This will move the root gameObject for matching active model's position.
+            control.rigid.linearVelocity = vPosition; //This will move the root gameObject for matching active model's position.
             
 
         }

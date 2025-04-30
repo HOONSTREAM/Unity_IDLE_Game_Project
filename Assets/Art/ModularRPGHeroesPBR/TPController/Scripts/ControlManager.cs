@@ -143,7 +143,7 @@ namespace DM
             moveDir = ((v + h).normalized) * (targetSpeed * moveAmount);            
 
             //This is for isolating y velocity from the character control. 
-            moveDir.y = rigid.velocity.y;            
+            moveDir.y = rigid.linearVelocity.y;            
             
             //This is for limiting values from 0 to 1.
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
@@ -177,7 +177,7 @@ namespace DM
             {
                 if(canMove)
                 {
-                    rigid.velocity = moveDir;  //This controls the character movement.                  
+                    rigid.linearVelocity = moveDir;  //This controls the character movement.                  
                 }                 
             }            
 
