@@ -8,7 +8,7 @@ public class Desperado_Skill : Skill_Base
     [SerializeField]
     private GameObject Player_Effect;
 
-    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 3.0f;
+    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 4.0f;
     private float LifeTime = 3.0f;
     private GameObject Desperado_Skill_Effect;
     public override void Set_Skill()

@@ -92,6 +92,7 @@ public static class HeroEffectFactory
             { "Desperado", new List<IHeroEffect> { new Increase_CriticalDamage_Effect(), new Increase_Critical_Percentage_Effect() } },
             { "Winter_Bringer", new List<IHeroEffect> { new Increase_ATKSpeed_Effect(), new Increase_CriticalDamage_Effect() } },
             { "Druid", new List<IHeroEffect> { new Increase_GoldDrop_Effect(), new Increase_HP_Effect() } },
+            { "Magnus", new List<IHeroEffect> { new Increase_GoldDrop_Effect(), new Increase_ItemDrop_Effect() } },
 
         };
 

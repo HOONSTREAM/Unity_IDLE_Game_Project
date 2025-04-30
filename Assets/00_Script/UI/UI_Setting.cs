@@ -83,7 +83,7 @@ public class UI_Setting : UI_Base
     /// </summary>
     public void SignOutGoogleLogin()
     {
-        TheBackend.ToolKit.GoogleLogin.Android.GoogleSignOut(true,GoogleSignOutCallback);
+        TheBackend.ToolKit.GoogleLogin.Android.GoogleSignOut(GoogleSignOutCallback);
     }
     private void GoogleSignOutCallback(bool isSuccess, string error)
     {

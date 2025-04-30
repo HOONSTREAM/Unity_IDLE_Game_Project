@@ -6,7 +6,7 @@ using UnityEngine;
 public class Dual_Blader_Skill : Skill_Base
 {
 
-    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 3.0f;
+    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT = 4.0f;
 
     public override void Set_Skill()
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Winter_Bringer_Skill : Skill_Base
 {
     private const float SKILL_DAMAGE_MIN = 1.5f;
-    private const float SKILL_DAMAGE_MAX = 4.0f;
+    private const float SKILL_DAMAGE_MAX = 3.5f;
 
     private float LifeTime = 3.0f;
 

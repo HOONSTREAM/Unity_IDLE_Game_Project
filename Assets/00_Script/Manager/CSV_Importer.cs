@@ -23,6 +23,7 @@ public class CSV_Importer
     public static List<Dictionary<string, object>> RELIC_HPUP_Design = new List<Dictionary<string, object>>(CSVReader.Read("HP_UP"));
     public static List<Dictionary<string, object>> RELIC_ITEM_DROP_Design = new List<Dictionary<string, object>>(CSVReader.Read("ITEM_DROP"));
     public static List<Dictionary<string, object>> RELIC_ATK_SPEED_Design = new List<Dictionary<string, object>>(CSVReader.Read("ATK_SPEED"));
+    public static List<Dictionary<string, object>> RELIC_STAFF_Design = new List<Dictionary<string, object>>(CSVReader.Read("STAFF"));
     public static List<Dictionary<string, object>> RELIC_ATK_Design = new List<Dictionary<string, object>>(CSVReader.Read("ATK"));
     public static List<Dictionary<string, object>> RELIC_DICE_Design = new List<Dictionary<string, object>>(CSVReader.Read("DICE"));
     #endregion
@@ -37,6 +38,7 @@ public class CSV_Importer
         { "HP_UP", RELIC_HPUP_Design },
         { "ITEM_DROP", RELIC_ITEM_DROP_Design },
         { "ATK_SPEED", RELIC_ATK_SPEED_Design },
+        { "STAFF", RELIC_STAFF_Design },
     };
 
 }

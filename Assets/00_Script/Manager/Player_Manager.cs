@@ -134,6 +134,11 @@ public class Player_Manager
             baseATK *= 1.15f;          
         }
 
+        if (Base_Manager.Item.Set_Item_Check("STAFF"))
+        {
+            baseATK *= 1.5f;
+        }
+
         // 7. 티어 보정
         var tier = Data_Manager.Main_Players_Data.Player_Tier;
         double tierMultiplier = TierBonusTable.GetBonusMultiplier(tier);

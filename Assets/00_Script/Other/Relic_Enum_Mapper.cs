@@ -14,6 +14,7 @@ public static class Relic_Enum_Mapper
         { "HP_UP", 5 },
         { "ITEM_DROP", 6 },
         { "ATK_SPEED", 7 },
+        { "STAFF", 8 },
 
     };
     

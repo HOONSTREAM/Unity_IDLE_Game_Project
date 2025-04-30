@@ -7,7 +7,7 @@ public partial class BackEnd_Manager : MonoBehaviour
 {
     public void StartGoogleLogin()
     {
-        TheBackend.ToolKit.GoogleLogin.Android.GoogleLogin(true, GoogleLoginCallback);
+        TheBackend.ToolKit.GoogleLogin.Android.GoogleLogin(GoogleLoginCallback);
     }
 
     public void Test_Custom_Login()
