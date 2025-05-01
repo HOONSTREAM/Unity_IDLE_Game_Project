@@ -316,8 +316,15 @@ public class Player_Manager
 
         var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.CRITICAL_DAMAGE, 0.0) * 100);
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.CRITICAL_DAMAGE, 0.0) * 100);
-       
-        return 140.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_DAMAGE) +(float)Value + (float)Relic_Value;
+
+        var total_Value = 140.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_DAMAGE) + (float)Value + (float)Relic_Value;
+
+        if (Base_Manager.Item.Set_Item_Check("CRI_DMG"))
+        {
+            total_Value += 35.0f;
+        }
+
+        return total_Value;
     }
     #endregion
 
