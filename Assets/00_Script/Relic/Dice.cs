@@ -38,7 +38,7 @@ public class Dice : MonoBehaviour
     /// </summary>
     private void ApplyGoldBonus()
     {
-        // Dice 주사위 값 기반 보너스 비율 결정 (1:5%, 7:35%)
+        // Dice 주사위 값 기반 보너스 비율 결정 (1:5%, 6:30%)
         float bonusPercentage = GetGoldBonusPercentage(int.Parse(Gold_Text.text));
 
         // 현재 플레이어의 골드
@@ -61,6 +61,6 @@ public class Dice : MonoBehaviour
     /// </summary>
     private float GetGoldBonusPercentage(int diceValue)
     {
-        return diceValue * 5f; // 1 = 5%, 2 = 10%, ..., 7 = 35%
+        return diceValue * 5f; // 1 = 5%, 2 = 10%, ..., 6 = 30%
     }
 }

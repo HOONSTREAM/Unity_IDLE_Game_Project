@@ -44,11 +44,6 @@ public class Player_Manager
         }
     }
 
-    /// <summary>
-    /// 재접속을 하였을 때, 광고버프를 적용합니다.
-    /// </summary>
-   
-
     #endregion
 
     #region EXP 처리
@@ -131,7 +126,9 @@ public class Player_Manager
         
         if (Base_Manager.Item.Set_Item_Check("ATK"))
         {
-            baseATK *= 1.15f;          
+            var Value = "ATK";
+            var effect_value = float.Parse(CSV_Importer.RELIC_ATK_Design[Base_Manager.Data.Item_Holder[Value].Hero_Level]["effect_percent"].ToString());
+            baseATK *= effect_value;
         }
 
         if (Base_Manager.Item.Set_Item_Check("STAFF"))
@@ -178,8 +175,9 @@ public class Player_Manager
 
         if (Base_Manager.Item.Set_Item_Check("HP_UP"))
         {
-            baseHP *= 1.5f;
-            Debug.Log("HP 유물 장착으로 체력 1.5배 증가");
+            var Value = "HP_UP";
+            var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[Value].Hero_Level]["effect_percent"].ToString());
+            baseHP *= effect_value;           
         }
 
         var tier = Data_Manager.Main_Players_Data.Player_Tier;
@@ -265,7 +263,9 @@ public class Player_Manager
 
         if (Base_Manager.Item.Set_Item_Check("ITEM_DROP"))
         {
-            total_value *= 1.2f;          
+            var value = "ITEM_DROP";
+            var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
+            total_value *= effect_value;          
         }
       
         return total_value;
@@ -282,7 +282,9 @@ public class Player_Manager
 
         if (Base_Manager.Item.Set_Item_Check("ATK_SPEED"))
         {
-            total_Value *= 1.3f;
+            var value = "ATK_SPEED";
+            var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
+            total_Value *= effect_value;
         }
 
         return total_Value;
@@ -321,7 +323,9 @@ public class Player_Manager
 
         if (Base_Manager.Item.Set_Item_Check("CRI_DMG"))
         {
-            total_Value += 35.0f;
+            var value = "CRI_DMG";
+            var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
+            total_Value += effect_value;
         }
 
         return total_Value;
