@@ -40,7 +40,7 @@ public class Base_Manager : MonoBehaviour
 
  
     public static bool Get_MainGame_Start = false;
-    private float Save_Interval = 10.0f;
+    private float Save_Interval = 120.0f;
     private float Save_Time = 0.0f;
 
     private void Awake()
@@ -183,24 +183,28 @@ public class Base_Manager : MonoBehaviour
     /// <param name="pause"></param>
     private void OnApplicationPause(bool pause)
     {
-        if(pause == true)
+        if (pause)
         {
-            Data_Manager.Main_Players_Data.EndDate = Utils.Get_Server_Time();
+            if (Data_Manager.Main_Players_Data != null)
+                Data_Manager.Main_Players_Data.EndDate = Utils.Get_Server_Time();
         }
-
         else
         {
-            
-            Data_Manager.Main_Players_Data.StartDate = Utils.Get_Server_Time();
+            if (Data_Manager.Main_Players_Data != null)
+                Data_Manager.Main_Players_Data.StartDate = Utils.Get_Server_Time();
 
             if (Utils.Offline_Timer_Check() >= Utils.OFFLINE_TIME_CHECK)
             {
-                Base_Canvas.instance.Get_UI("OFFLINE_REWARD");
-                Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
+                if (Base_Canvas.instance != null)
+                    Base_Canvas.instance.Get_UI("OFFLINE_REWARD");
+
+                if (Base_Manager.SOUND != null)
+                    Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
             }
         }
 
-        _=Base_Manager.BACKEND.WriteData();
+        if (Base_Manager.BACKEND != null)
+            _ = Base_Manager.BACKEND.WriteData();
     }
 
     /// <summary>

@@ -93,7 +93,26 @@ public class Loading_Scene : MonoBehaviour
 
     public void LoadingMain()
     {
-        GameObject.Find("LOGO").gameObject.GetComponent<Logo_FadeOut>().StartFadeOut();
+        var logoObj = GameObject.Find("LOGO");
+
+        if (logoObj != null)
+        {
+            var fadeOut = logoObj.GetComponent<Logo_FadeOut>();
+
+            if (fadeOut != null)
+            {
+                fadeOut.StartFadeOut();
+            }
+            else
+            {
+                Debug.LogWarning("LOGO 오브젝트에는 Logo_FadeOut 컴포넌트가 없습니다.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("LOGO 오브젝트가 씬에 존재하지 않습니다.");
+        }
+
         StartCoroutine(LoadData_Coroutine());
     }
 
