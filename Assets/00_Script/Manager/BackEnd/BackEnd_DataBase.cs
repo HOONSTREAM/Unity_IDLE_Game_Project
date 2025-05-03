@@ -92,6 +92,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("Fast_Mode", data.isFastMode);
 
         var bro = Backend.GameData.Get("USER", new Where());
+        
         if (!bro.IsSuccess()) return;
 
         string inDate = bro.GetInDate();
@@ -210,7 +211,15 @@ public partial class BackEnd_Manager : MonoBehaviour
             if (callback.IsSuccess())
             {
                 Debug.Log("유물 배치 저장 성공");
-                Relic_Manager.instance.Initalize();
+
+                if (Relic_Manager.instance != null)
+                {
+                    Relic_Manager.instance.Initalize();
+                }
+                else
+                {
+                    Debug.LogWarning("Relic_Manager 인스턴스가 존재하지 않아 초기화 건너뜀");
+                }
             }
             else
             {

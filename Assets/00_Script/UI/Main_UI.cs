@@ -560,14 +560,14 @@ public class Main_UI : MonoBehaviour
 
         if(Value == 0)
         {
-            int Stage_Value = Stage_Manager.Dungeon_Level; // 0층에서 시작하므로 +1을 해줍니다.
-            Dungeon_Stage_Text.text = $"보물던전 {Stage_Value + 1} 층";
+            int Stage_Value = (Stage_Manager.Dungeon_Level + 1); // 0층에서 시작하므로 +1을 해줍니다.
+            Dungeon_Stage_Text.text = $"보물던전 {Stage_Value} 층";
         }
 
         else if (Value == 1)
         {
             int Stage_Value = (Stage_Manager.Dungeon_Level + 1); // 0층에서 시작하므로 +1을 해줍니다.
-            Dungeon_Stage_Text.text = $"골드던전 {Stage_Value + 1} 층";
+            Dungeon_Stage_Text.text = $"골드던전 {Stage_Value} 층";
         }
 
         else if (Value == 2)

@@ -94,6 +94,7 @@ public static class HeroEffectFactory
             { "Druid", new List<IHeroEffect> { new Increase_GoldDrop_Effect(), new Increase_HP_Effect() } },
             { "Magnus", new List<IHeroEffect> { new Increase_GoldDrop_Effect(), new Increase_ItemDrop_Effect() } },
             { "DarkHero", new List<IHeroEffect> { new Increase_CriticalDamage_Effect(), new Increase_Critical_Percentage_Effect() } },
+            { "Luminers", new List<IHeroEffect> { new Increase_ATKSpeed_Effect(), new Increase_GoldDrop_Effect() } },
 
         };
 

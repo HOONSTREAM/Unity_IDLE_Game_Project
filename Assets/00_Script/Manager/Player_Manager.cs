@@ -1,3 +1,4 @@
+using System.Buffers.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -309,7 +310,16 @@ public class Player_Manager
         var Value = (holding_effect.GetValueOrDefault(Holding_Effect_Type.CRITICAL_PERCENTAGE, 0.0) * 100);
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.CRITICAL_PERCENTAGE, 0.0) * 100);
 
-        return 20.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_PERCENTAGE) + (float)Value + (float)Relic_Value;
+        var Total_Value = 20.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_PERCENTAGE) + (float)Value + (float)Relic_Value;
+
+        if (Base_Manager.Item.Set_Item_Check("CRI_PER"))
+        {
+            var value = "CRI_PER";
+            var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
+            Total_Value += effect_value;
+        }
+
+        return Total_Value;
     }
     public float Calculate_Cri_Damage_Percentage()
     {

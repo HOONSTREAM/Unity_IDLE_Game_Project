@@ -90,6 +90,7 @@ public static class RelicEffectFactory
             { "ATK_SPEED", new List<IRelicEffect> { new Increase_ItemDrop_Effect_Relic(), new Increase_HP_Effect_Relic() } },
             { "STAFF", new List<IRelicEffect> { new Increase_ATK_Effect_Relic(), new Increase_ItemDrop_Effect_Relic() } },
             { "CRI_DMG", new List<IRelicEffect> { new Increase_HP_Effect_Relic(), new Increase_GoldDrop_Effect_Relic() } },
+            { "CRI_PER", new List<IRelicEffect> { new Increase_ATK_Effect_Relic(), new Increase_ItemDrop_Effect_Relic() } },
         };
 
 
