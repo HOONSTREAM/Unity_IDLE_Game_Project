@@ -17,6 +17,7 @@ public static class Relic_Enum_Mapper
         { "STAFF", 8 },
         { "CRI_DMG", 9 },
         { "CRI_PER", 10 },
+        { "GOLD_REWARD", 11 },
 
     };
     

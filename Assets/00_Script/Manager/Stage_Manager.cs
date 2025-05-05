@@ -81,10 +81,20 @@ public class Stage_Manager
                 M_BossPlayEvent?.Invoke();
                 break;
             case Stage_State.Clear:
+
                 Debug.Log("Stage : Clear");
                 Base_Manager.instance.StopAllPoolCoroutines(); 
                 Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
                 Data_Manager.Main_Players_Data.Player_Stage++;
+
+                if (Base_Manager.Item.Set_Item_Check("GOLD_REWARD"))
+                {
+                    var value = "GOLD_REWARD";
+                    var effect_value = float.Parse(CSV_Importer.RELIC_GOLD_REWARD_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
+                    Data_Manager.Main_Players_Data.Player_Money += effect_value;
+
+                    Debug.Log($"{StringMethod.ToCurrencyString(effect_value)}골드 만큼 GOLD_REWARD 유물을 장착하여 지급함.");
+                }
 
                 M_ClearEvent?.Invoke();
                 break;
