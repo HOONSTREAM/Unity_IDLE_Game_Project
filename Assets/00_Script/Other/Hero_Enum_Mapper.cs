@@ -20,6 +20,7 @@ public static class Hero_Enum_Mapper
         { "Magnus", 11 },
         { "DarkHero", 12 },
         { "Luminers", 13 },
+        { "Knight", 13 },
 
     };
 

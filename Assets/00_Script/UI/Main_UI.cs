@@ -632,7 +632,7 @@ public class Main_UI : MonoBehaviour
                 Player_Tier tier = Data_Manager.Main_Players_Data.Player_Tier;
                 Player_Tier next_tier = tier + 1;
                 Data_Manager.Main_Players_Data.Player_Tier = next_tier;
-
+                _ = Base_Manager.BACKEND.WriteData();
                 break;
         }
 
