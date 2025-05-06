@@ -444,8 +444,9 @@ public class Main_UI : MonoBehaviour
 
         if (Stage_Manager.isDead)
         {
-            Dead_Frame.gameObject.SetActive(true); 
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("충분히 강해진 뒤에, BOSS버튼을 누르세요!");          
+            Dead_Frame.gameObject.SetActive(true);
+            //Base_Canvas.instance.Get_TOP_Popup().Initialize("충분히 강해진 뒤에, BOSS버튼을 누르세요!");//TODO
+            Base_Canvas.instance.Get_UI("UI_Dead");
             return;
         }
 
@@ -689,7 +690,7 @@ public class Main_UI : MonoBehaviour
 
         _level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
         Main_Char_HP_Text.text = StringMethod.ToCurrencyString(Cleric_Component.HP);
-        _player_ability.text = ((int)Base_Manager.Player.Player_ALL_Ability_ATK_HP()).ToString();
+        _player_ability.text = StringMethod.ToCurrencyString((int)Base_Manager.Player.Player_ALL_Ability_ATK_HP());
 
         _levelup_money_text.text = StringMethod.ToCurrencyString((Levelup_money_Value));
         _levelup_money_text.color = Utils.Check_Levelup_Gold(Levelup_money_Value) ? Color.green : Color.red;
