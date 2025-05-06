@@ -137,6 +137,17 @@ public class Player_Manager
             baseATK *= 1.5f;
         }
 
+        if (Base_Manager.Item.Set_Item_Check("GOLD_PER_ATK"))
+        {
+            var Value = "GOLD_PER_ATK";
+            double Gold_Amount = Data_Manager.Main_Players_Data.Player_Money;
+            var effect_value = float.Parse(CSV_Importer.RELIC_GOLD_PER_ATK_Design[Base_Manager.Data.Item_Holder[Value].Hero_Level]["effect_percent"].ToString());
+            double atkBonus = (Gold_Amount / 1000000) * (effect_value * 0.01);
+
+            baseATK = baseATK + (baseATK * atkBonus);
+
+        }
+
         // 7. 티어 보정
         var tier = Data_Manager.Main_Players_Data.Player_Tier;
         double tierMultiplier = TierBonusTable.GetBonusMultiplier(tier);

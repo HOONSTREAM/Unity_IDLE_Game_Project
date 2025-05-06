@@ -278,9 +278,29 @@ public class UI_Relic : UI_Base
         Relic_Image.sprite = Utils.Get_Atlas(Data.name);
         Rarity_Image.sprite = Utils.Get_Atlas(Data.rarity.ToString());
 
-        //스킬
        
-        Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent, effect_percent);
+        #region 유물 별 특정 설명
+        if (Data.name == "GOLD_REWARD")
+        {
+            Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent,
+                StringMethod.ToCurrencyString(double.Parse(effect_percent)));
+        }
+
+        if (Data.name == "GOLD_PER_ATK")
+        {
+            double Gold_Amount = Data_Manager.Main_Players_Data.Player_Money;
+            double atkBonus = Gold_Amount / 1000000 * double.Parse(effect_percent);
+
+            Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent,
+                effect_percent, atkBonus.ToString("F2"));
+        }
+        #endregion
+
+        else
+        {
+            Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent, effect_percent);
+        }
+
         Skill_Image.sprite = Resources.Load<Sprite>(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_Image"].ToString());
         Skill_Name_Text.text = CSV_Importer.Relic_Skill_Design[RelicID]["Skill_Name"].ToString();
 

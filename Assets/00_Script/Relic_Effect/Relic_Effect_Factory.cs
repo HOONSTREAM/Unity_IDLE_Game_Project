@@ -92,6 +92,7 @@ public static class RelicEffectFactory
             { "CRI_DMG", new List<IRelicEffect> { new Increase_HP_Effect_Relic(), new Increase_GoldDrop_Effect_Relic() } },
             { "CRI_PER", new List<IRelicEffect> { new Increase_ATK_Effect_Relic(), new Increase_ItemDrop_Effect_Relic() } },
             { "GOLD_REWARD", new List<IRelicEffect> { new Increase_ATKSpeed_Effect_Relic(), new Increase_Critical_Percentage_Effect_Relic() } },
+            { "GOLD_PER_ATK", new List<IRelicEffect> { new Increase_GoldDrop_Effect_Relic(), new Increase_CriticalDamage_Effect_Relic() } },
         };
 
 
