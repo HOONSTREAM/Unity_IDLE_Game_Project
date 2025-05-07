@@ -300,6 +300,13 @@ public class Utils
         GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = text;
     }
 
+    public static void Get_LoadingCanvas_UpdateUI()
+    {
+        GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().UPDATE_UI.gameObject;
+        go.gameObject.SetActive(true);
+        go.transform.SetSiblingIndex(4);       
+    }
+
     public static string Set_Tier_Name()
     {
         string temp = default;
