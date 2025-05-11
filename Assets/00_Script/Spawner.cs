@@ -143,7 +143,7 @@ public class Spawner : MonoBehaviour
             var go = Base_Manager.Pool.Pooling_OBJ("Gold_Dungeon").Get((value) =>
             {
                 // 풀링이 생성될때의 기능을 구현한다.
-                value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * GOLD_DUNGEON_MULTIPLE_HARD); // TODO : 레벨디자인 필요
+                value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * GOLD_DUNGEON_MULTIPLE_HARD); 
             });
 
             monster = go.GetComponent<Monster>();
@@ -187,7 +187,7 @@ public class Spawner : MonoBehaviour
         var go = Base_Manager.Pool.Pooling_OBJ("Tier_Dungeon").Get((value) =>
         {
             // 풀링이 생성될때의 기능을 구현한다.
-            value.GetComponent<Monster>().Init(difficulty); // TODO : 레벨디자인 필요
+            value.GetComponent<Monster>().Init(difficulty); 
         });
 
         monster = go.GetComponent<Monster>();

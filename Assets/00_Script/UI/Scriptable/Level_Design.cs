@@ -114,8 +114,17 @@ public class Holding_Effect_Data
     public float Base_ITEM_DROP;
     public float Base_CRI_DMG;
     public float Base_CRI_PCT;
-    
 
+
+    public double Get_NONE_Effect(Character_Scriptable Data)
+    {
+        if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)
+        {
+            return 0.0; // 보유하지 않으면 효과 적용 안 함 (기본값 반환)
+        }
+
+        return 0.0;
+    }
     public double Get_ALL_ATK_Holding_Effect(Character_Scriptable Data)
     {
         if (Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount <= 0)

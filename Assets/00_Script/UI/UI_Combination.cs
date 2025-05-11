@@ -27,7 +27,8 @@ public class UI_Combination : UI_Base
 
 
     private bool is_Comb_Scroll = false;
-    private bool is_Legendary_Ring_Book = false;
+    private bool is_Chaos_DarkHero_Book = false;
+    private bool is_Summon_DarkHero = false;
 
     public override bool Init()
     {
@@ -37,7 +38,8 @@ public class UI_Combination : UI_Base
         Four_Comb_Parts.gameObject.SetActive(false);
         Selected_Item_Parts.gameObject.SetActive(false);
         is_Comb_Scroll = false;
-        is_Legendary_Ring_Book = false;
+        is_Chaos_DarkHero_Book = false;
+        is_Summon_DarkHero = false;
 
         return base.Init();
     }
@@ -67,19 +69,38 @@ public class UI_Combination : UI_Base
         Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
         Second_Parts_Count_Text.color = Utils.Item_Count("scroll", 1500) ? Color.green : Color.red;
     }
-    
     /// <summary>
-    /// 전설 : 인피니티 링 제작식을 노출시킵니다.
+    /// 다크히어로 소환 제작식
     /// </summary>
-    public void Set_Legendary_Ring_Book()
+    public void Set_Summon_DarkHero_Summon()
     {
         Init();
-        is_Legendary_Ring_Book = true;
+
+        is_Summon_DarkHero = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Summon_DarkHero", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);     
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Comb_Book_Summon_Hero", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Comb_Book_Summon_Hero"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Comb_Book_Summon_Hero", 1) ? Color.green : Color.red;
+    }
+    /// <summary>
+    /// 혼돈등급 다크히어로 영웅 소환서 제작식
+    /// </summary>
+    public void Set_Chaos_DarkHero_Book()
+    {
+        Init();
+        is_Chaos_DarkHero_Book = true;
 
         Selected_Item_Parts.gameObject.SetActive(true);
         Holder Select_holder = new Holder();
         Select_holder.Hero_Card_Amount = 1;
-        Selected_Item_Parts.Init("Comb_Book_Ring", Select_holder);
+        Selected_Item_Parts.Init("Comb_Book_Summon_Hero", Select_holder);
 
         First_Comb_Parts.gameObject.SetActive(true);
         Second_Comb_Parts.gameObject.SetActive(true);
@@ -130,7 +151,7 @@ public class UI_Combination : UI_Base
             }
         }
 
-        else if (is_Legendary_Ring_Book)
+        else if (is_Chaos_DarkHero_Book)
         {
             if (Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount >= 5000 && 
                 Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount >= 3500 &&
@@ -141,21 +162,42 @@ public class UI_Combination : UI_Base
                 Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount -= 3500;
                 Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 1000;
                 Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount -= 1000;
-                var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Ring"];
+                var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Summon_Hero"];
                 Base_Manager.Inventory.Get_Item(item);
-                Base_Canvas.instance.Get_Toast_Popup().Initialize("제작서 - 인피니티 링 제작 성공");
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 다크히어로 제작 성공");
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
-                Set_Legendary_Ring_Book();
+                Set_Chaos_DarkHero_Book();
             }
             else
             {
-                Base_Canvas.instance.Get_Toast_Popup().Initialize("제작서 - 인피니티 링 제작에 필요한 재료가 부족합니다.");
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 다크히어로 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+        }
+
+        else if (is_Summon_DarkHero)
+        {
+            if (Base_Manager.Data.Item_Holder["Comb_Book_Summon_Hero"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Comb_Book_Summon_Hero"].Hero_Card_Amount -= 1;
+
+                Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount++;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("다크히어로 제작 성공");
+
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Summon_DarkHero_Summon();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("다크히어로 제작에 필요한 재료가 부족합니다.");
                 return;
             }
         }
 
 
-        _=Base_Manager.BACKEND.WriteData(); // _= 는 Task 비동기메서드나 일반 메서드의 반환값이 필요없을 때,
+        _ =Base_Manager.BACKEND.WriteData(); // _= 는 Task 비동기메서드나 일반 메서드의 반환값이 필요없을 때,
                                             // 반환값 무시. 결과를 변수에 저장하지 않고 실행만 하는 것을 의미합니다.
     }
 

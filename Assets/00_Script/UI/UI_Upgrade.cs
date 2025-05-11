@@ -29,7 +29,7 @@ public class UI_Upgrade : UI_Base
                 var go = Instantiate(UpGrade_Panel, Content);
                 go.gameObject.SetActive(true);
 
-                int now_level = Character_Data.Value.holder.Hero_Level + 1; //TODO
+                int now_level = Character_Data.Value.holder.Hero_Level + 1; 
                 int value = 0;
                 Calculate_Upgrade_Level(Character_Data.Value, ref value);
 

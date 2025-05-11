@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class DarkHero_Skill : Skill_Base
 {
-    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT_MIN = 2.25f;
-    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT_MAX = 6.0f;
+    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT_MIN = 4.25f;
+    private const float SKILL_DAMAGE_MULTIPLE_CONSTATNT_MAX = 10.0f;
 
     private float LifeTime = 3.0f;
     private GameObject DarkHero_Skill_Effect;

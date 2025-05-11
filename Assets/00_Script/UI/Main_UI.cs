@@ -444,8 +444,7 @@ public class Main_UI : MonoBehaviour
 
         if (Stage_Manager.isDead)
         {
-            Dead_Frame.gameObject.SetActive(true);
-            //Base_Canvas.instance.Get_TOP_Popup().Initialize("충분히 강해진 뒤에, BOSS버튼을 누르세요!");//TODO
+            Dead_Frame.gameObject.SetActive(true);            
             Base_Canvas.instance.Get_UI("UI_Dead");
             return;
         }

@@ -54,9 +54,17 @@ public class UI_Rank : UI_Base
                 Nick_Name[i].text = string.IsNullOrEmpty(item.nickname) ? "-" : item.nickname;
 
             if (Stage[i] != null)
-                Stage[i].text = !string.IsNullOrEmpty(item.score) ? $"{item.score}Ãþ" : "- Ãþ";
-
-            Debug.Log($"{item.rank}À§ : {item.nickname}, {item.score}Ãþ");
+            {
+                if (int.TryParse(item.score, out int tierIndex))
+                {
+                    Stage[i].text = Utils.Set_Tier_Name();
+                }
+                else
+                {
+                    Stage[i].text = "-";
+                }
+            }
+ 
         }
 
         // ³²Àº UI ½½·Ô ÃÊ±âÈ­ (ºó Ä­À¸·Î Ã³¸®)

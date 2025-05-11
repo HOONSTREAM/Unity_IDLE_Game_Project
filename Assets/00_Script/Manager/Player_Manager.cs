@@ -432,13 +432,23 @@ public class Player_Manager
         public static readonly Dictionary<Player_Tier, double> TierBonus = new Dictionary<Player_Tier, double>
     {
         { Player_Tier.Tier_Beginner, 1.0 },
-        { Player_Tier.Tier_Bronze, 1.5 },     // +150%
-        { Player_Tier.Tier_Silver, 2.0 },     // +250%
-        { Player_Tier.Tier_Gold, 2.5 },       // +400%
-        { Player_Tier.Tier_Diamond, 3.0 },    // +600%
-        { Player_Tier.Tier_Master, 3.5 },     // +800%
-        { Player_Tier.Tier_GrandMaster, 4.0 },// +950%
-        { Player_Tier.Tier_Challenger, 5.0 } // +1200%
+        { Player_Tier.Tier_Bronze, 1.5 },    
+        { Player_Tier.Tier_Silver, 2.0 },    
+        { Player_Tier.Tier_Gold, 2.5 },      
+        { Player_Tier.Tier_Diamond, 3.0 },   
+        { Player_Tier.Tier_Master, 3.5 },     
+        { Player_Tier.Tier_GrandMaster, 4.0 },
+        { Player_Tier.Tier_Challenger, 5.0 },
+        { Player_Tier.Tier_Challenger_1, 5.0 },
+        { Player_Tier.Tier_Challenger_2, 6.0 },
+        { Player_Tier.Tier_Challenger_3, 6.5 },
+        { Player_Tier.Tier_Challenger_4, 7.0 },
+        { Player_Tier.Tier_Challenger_5, 7.5 },
+        { Player_Tier.Tier_Challenger_6, 8.0 },
+        { Player_Tier.Tier_Challenger_7, 9.0 },
+        { Player_Tier.Tier_Challenger_8, 10.0 },
+        { Player_Tier.Tier_Challenger_9, 11.0 },
+        { Player_Tier.Tier_Challenger_10, 12.0 },
     };
 
         public static double GetBonusMultiplier(Player_Tier tier)
@@ -455,7 +465,8 @@ public class Player_Manager
             { Rarity.UnCommon, 2.0 },
             { Rarity.Rare, 3.5 },
             { Rarity.Epic, 20.5 },
-            { Rarity.Legendary, 60.0 }
+            { Rarity.Legendary, 60.0 },
+            { Rarity.Chaos, 120.0 }
         };
 
     }

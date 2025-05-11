@@ -146,7 +146,7 @@ public class Relic_Manager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÁÖ»çÀ§ °ñµå È¹µæ , TODO : Ä«µå ·¹º§º°·Î È®·ü°ú È¹µæ°ñµå ¼öÁ¤ ÇÊ¿ä
+    /// ÁÖ»çÀ§ °ñµå È¹µæ
     /// </summary>
     /// <param name="monster"></param>
     public void DICE(Monster monster)

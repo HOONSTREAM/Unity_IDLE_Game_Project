@@ -45,9 +45,9 @@ public class UI_Dungeon : UI_Base
         // 레벨디자인 필요
         Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
         Clear_Assets[1].text = StringMethod.ToCurrencyString(value);
-        Clear_Assets[2].text = $"<color=##FFF00>{Utils.Set_Next_Tier_Name()}</color> 로 승급";
+        Clear_Assets[2].text = $"<color=##FFF00>{Utils.Set_Next_Tier_Name()}</color> 승급";
         Player_Tier next_tier = Data_Manager.Main_Players_Data.Player_Tier + 1;
-        if(next_tier >= Player_Tier.Tier_Challenger) { next_tier = Player_Tier.Tier_Challenger; }
+        if(next_tier >= Player_Tier.Tier_Challenger_10) { next_tier = Player_Tier.Tier_Challenger_10; }
         Clear_Tier_Image.sprite = Utils.Get_Atlas(next_tier.ToString());
 
         Key01ArrowButton[0].onClick.AddListener(() => ArrowButton(0, -1));
@@ -78,7 +78,7 @@ public class UI_Dungeon : UI_Base
         bool isTierDungeon = value == 2;
         bool isNormalDungeon = value != 2;
 
-        if (isTierDungeon && playerData.Player_Tier >= Player_Tier.Tier_Challenger)
+        if (isTierDungeon && playerData.Player_Tier >= Player_Tier.Tier_Challenger_10)
         {
             Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 티어에 도달하였습니다.");
             return;

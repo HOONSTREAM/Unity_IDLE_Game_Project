@@ -20,8 +20,7 @@ public class UI_Offline_Reward : UI_Base
     private double _money_reward_value;
 
     public override bool Init()
-    {
-        //TODO :  오프라인 보상 레벨디자인 필요, 오프라인 보상은 각인효과 적용 X
+    {        
         _money_reward_value = (Utils.Data.stageData.Get_DROP_MONEY() * Utils.Offline_Timer_Check()) / 3;
         money_reward_value.text = StringMethod.ToCurrencyString(_money_reward_value);
 

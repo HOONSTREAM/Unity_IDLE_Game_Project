@@ -76,11 +76,7 @@ public class Loading_Scene : MonoBehaviour
         #region Auto_Login
 
         if (bro.IsSuccess())
-        {
-            //TODO :자동토큰로그인 구현부
-
-            Debug.Log("로그인 성공");
-
+        {            
             Auto_Login_Success_Text_First.gameObject.SetActive(true);
             yield return new WaitForSecondsRealtime(1.0f);
             Auto_Login_Success_Text_First.gameObject.SetActive(false);
@@ -201,7 +197,9 @@ public class Loading_Scene : MonoBehaviour
         }
 
 
-        var check = Game_Vers_Update_Check();
+        //var check = Game_Vers_Update_Check();
+
+        var check = true; // TODO: (출시 진행 시) 주석해제
 
         if (check)
         {

@@ -44,9 +44,9 @@ public class UI_Heros : UI_Base
     [SerializeField]
     private TextMeshProUGUI Level_Text, Slider_Count_Text;
     [SerializeField]
-    private TextMeshProUGUI Holding_Effect_First, Holding_Effect_Second;
+    private TextMeshProUGUI Holding_Effect_First, Holding_Effect_Second, Holding_Effect_Third;
     [SerializeField]
-    private TextMeshProUGUI Holding_Effect_Amount_First, Holding_Effect_Amount_Second;
+    private TextMeshProUGUI Holding_Effect_Amount_First, Holding_Effect_Amount_Second, Holding_Effect_Amount_Third;
     [SerializeField]
     private TextMeshProUGUI Skill_Name_Text, Skill_Description; //CSV 이용
     [SerializeField]
@@ -205,7 +205,7 @@ public class UI_Heros : UI_Base
                 Main_Set_Panel_Hero_Image[i].color = new Color(255, 255, 255, 255);
                 Main_Set_Hero_Name[i].text = Base_Manager.Character.Set_Character[i].Data.M_Character_Name;
 
-                if (Base_Manager.Character.Set_Character[i].Data.Rarity == Rarity.Legendary)
+                if (Base_Manager.Character.Set_Character[i].Data.Rarity >= Rarity.Legendary)
                 {
                     Legendary_Particle[i].gameObject.SetActive(true);
                 }
@@ -234,12 +234,15 @@ public class UI_Heros : UI_Base
 
         Holding_Effect_Amount_First.text = (effects[0].ApplyEffect(Data) * 100).ToString("0.00"); // 직접 능력치 적용이 아닌, 퍼센트로 나타내기 위해 X100을 합니다.
         Holding_Effect_Amount_Second.text = (effects[1].ApplyEffect(Data) * 100).ToString("0.00"); //  직접 능력치 적용이 아닌, 퍼센트로 나타내기 위해 X100을 합니다.
+        Holding_Effect_Amount_Third.text = (effects[2].ApplyEffect(Data) * 100).ToString("0.00"); //  직접 능력치 적용이 아닌, 퍼센트로 나타내기 위해 X100을 합니다.
+
         Holding_Effect_First.text = effects[0].Get_Effect_Name();
         Holding_Effect_Second.text = effects[1].Get_Effect_Name();
+        Holding_Effect_Third.text = effects[2].Get_Effect_Name();
 
         Hero_Information.gameObject.SetActive(true);
 
-        Legendary_Image.gameObject.SetActive(Data.Rarity == Rarity.Legendary);
+        Legendary_Image.gameObject.SetActive(Data.Rarity >= Rarity.Legendary);
 
         int heroID = Hero_Enum_Mapper.GetHeroID(Data.name);
 
@@ -251,7 +254,7 @@ public class UI_Heros : UI_Base
 
         ATK.text = StringMethod.ToCurrencyString(atk);
         HP.text = StringMethod.ToCurrencyString(hp);
-        Ability.text = string.Format("{0:0}", ((int)atk + hp));
+        Ability.text = StringMethod.ToCurrencyString(atk+hp);
 
         Level_Text.text = "LV." + (Base_Manager.Data.character_Holder[Data.name].Hero_Level + 1).ToString();
         Slider_Count_Text.text = "(" + Base_Manager.Data.character_Holder[Data.name].Hero_Card_Amount + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name) + ")";

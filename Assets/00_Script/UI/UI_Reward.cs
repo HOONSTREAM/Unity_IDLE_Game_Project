@@ -15,6 +15,7 @@ public class UI_Reward : UI_Base
         {
             case IAP_Holder.remove_ads: GetRewardInit("PACKAGE_ADS", 1); break;
             case IAP_Holder.package_1: GetRewardInit("PACKAGE_TODAY", 1); break;
+            case IAP_Holder.package_2: GetRewardInit("PACKAGE_STRONG", 1); break;
             case IAP_Holder.steel_1000: GetRewardInit("Steel", 1000); break;
             case IAP_Holder.dia_19000: GetRewardInit("Dia", 19000); break;
             case IAP_Holder.dia_1400: GetRewardInit("Dia", 1400); break;
@@ -42,6 +43,13 @@ public class UI_Reward : UI_Base
                 Base_Canvas.instance.Destroy_ADS_Button();
                 Destroy(GameObject.Find("AD_REMOVE_PACKAGE").gameObject);
 
+                break;
+
+            case "PACKAGE_STRONG":
+                Data_Manager.Main_Players_Data.isBuySTRONGPackage = true;
+                Data_Manager.Main_Players_Data.DiaMond += 2500;                
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 600;
+                Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount += 2000;
                 break;
 
             case "PACKAGE_TODAY":

@@ -13,7 +13,7 @@ public class Utils
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
     public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
 
-    public static readonly string LEADERBOARD_UUID = "0195f6e0-a8cd-7d69-b421-10a1dc221fcf";
+    public static readonly string LEADERBOARD_UUID = "0196bd5d-5b0a-72ed-948b-61904ff08547";
     public static readonly double OFFLINE_TIME_CHECK = 300.0d;
     public static bool is_push_alarm_agree = false;
 
@@ -48,20 +48,17 @@ public class Utils
         switch (rarity)
         {
             case Rarity.Common:
-                return "<color=#FFFFFF>";
-                
+                return "<color=#FFFFFF>";            
             case Rarity.UnCommon:
                 return "<color=#00FF00>";
-
             case Rarity.Rare:
                 return "<color=#00D8FF>";
-
             case Rarity.Epic:
                 return "<color=#B750C3>";
-
-
             case Rarity.Legendary:
                 return "<color=#FF9000>";
+            case Rarity.Chaos:
+                return "<color=#FF5921>";
 
         }
 
@@ -145,8 +142,6 @@ public class Utils
             return 0.0d;
         }
 
-        //TODO: 로컬시간작업 X , 외부통신하여 시간작업필요. 유저 조작 가능성 높음
-
         DateTime startDate = Data_Manager.Main_Players_Data.StartDate;
         Debug.Log($"게임시작 시간 : {startDate}");
         DateTime endDate = Data_Manager.Main_Players_Data.EndDate;
@@ -167,8 +162,6 @@ public class Utils
         {
             return 0.0d;
         }
-
-        //TODO: 로컬시간작업 X , 외부통신하여 시간작업필요. 유저 조작 가능성 높음
 
         DateTime startDate = Data_Manager.Main_Players_Data.StartDate;
         Debug.Log($"게임시작 시간 : {startDate}");
@@ -329,6 +322,26 @@ public class Utils
                 return temp = "그랜드마스터";
             case Player_Tier.Tier_Challenger:
                 return temp = "챌린저";
+            case Player_Tier.Tier_Challenger_1:
+                return temp = "챌린저 1성";
+            case Player_Tier.Tier_Challenger_2:
+                return temp = "챌린저 2성";
+            case Player_Tier.Tier_Challenger_3:
+                return temp = "챌린저 3성";
+            case Player_Tier.Tier_Challenger_4:
+                return temp = "챌린저 4성";
+            case Player_Tier.Tier_Challenger_5:
+                return temp = "챌린저 5성";
+            case Player_Tier.Tier_Challenger_6:
+                return temp = "챌린저 6성";
+            case Player_Tier.Tier_Challenger_7:
+                return temp = "챌린저 7성";
+            case Player_Tier.Tier_Challenger_8:
+                return temp = "챌린저 8성";
+            case Player_Tier.Tier_Challenger_9:
+                return temp = "챌린저 9성";
+            case Player_Tier.Tier_Challenger_10:
+                return temp = "챌린저 마스터";
 
         }
 
@@ -357,7 +370,27 @@ public class Utils
             case Player_Tier.Tier_GrandMaster:
                 return temp = "챌린저";
             case Player_Tier.Tier_Challenger:
-                return temp = "챌린저";
+                return temp = "챌린저 1성";
+            case Player_Tier.Tier_Challenger_1:
+                return temp = "챌린저 2성";
+            case Player_Tier.Tier_Challenger_2:
+                return temp = "챌린저 3성";
+            case Player_Tier.Tier_Challenger_3:
+                return temp = "챌린저 4성";
+            case Player_Tier.Tier_Challenger_4:
+                return temp = "챌린저 5성";
+            case Player_Tier.Tier_Challenger_5:
+                return temp = "챌린저 6성";
+            case Player_Tier.Tier_Challenger_6:
+                return temp = "챌린저 7성";
+            case Player_Tier.Tier_Challenger_7:
+                return temp = "챌린저 8성";
+            case Player_Tier.Tier_Challenger_8:
+                return temp = "챌린저 9성";
+            case Player_Tier.Tier_Challenger_9:
+                return temp = "챌린저 마스터";
+            case Player_Tier.Tier_Challenger_10:
+                return temp = "챌린저 마스터";
 
         }
 

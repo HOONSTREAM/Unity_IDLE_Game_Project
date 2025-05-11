@@ -62,6 +62,8 @@ public class UI_Shop : UI_Base
     private TextMeshProUGUI ADS_Relic_Timer_Text;
     [SerializeField]
     private GameObject TODAY_PACKAGE_SOLD_OUT;
+    [SerializeField]
+    private GameObject TODAY_PACKAGE_SOLD_OUT_STRONG;
   
 
 
@@ -251,6 +253,7 @@ public class UI_Shop : UI_Base
     private void Get_Init()
     {
         TODAY_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
+        TODAY_PACKAGE_SOLD_OUT_STRONG.gameObject.SetActive(false);
 
         ADS_Hero_Count.text = "(" + Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count.ToString() + "/3)";
 
@@ -282,7 +285,12 @@ public class UI_Shop : UI_Base
         {
             TODAY_PACKAGE_SOLD_OUT.gameObject.SetActive(true);
         }
-       
+
+        if (Data_Manager.Main_Players_Data.isBuySTRONGPackage)
+        {
+            TODAY_PACKAGE_SOLD_OUT_STRONG.gameObject.SetActive(true);
+        }
+
     }
     private void Relic_Init()
     {

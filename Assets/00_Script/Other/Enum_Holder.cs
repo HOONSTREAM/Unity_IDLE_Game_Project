@@ -5,7 +5,8 @@ public enum Rarity
     UnCommon,
     Rare,
     Epic,
-    Legendary
+    Legendary,
+    Chaos
 }
 
 public enum IAP_Holder
@@ -18,7 +19,7 @@ public enum IAP_Holder
     remove_ads,
     steel_1000,
     package_1,
-
+    package_2,
 }
 
 public enum Sound
@@ -61,15 +62,27 @@ public enum Player_Tier
     Tier_Beginner = 0,
     Tier_Bronze = 1,
     Tier_Silver = 2,
-    Tier_Gold,    
-    Tier_Diamond,
-    Tier_Master,
-    Tier_GrandMaster,
-    Tier_Challenger
+    Tier_Gold = 3,    
+    Tier_Diamond = 4,
+    Tier_Master = 5,
+    Tier_GrandMaster = 6,
+    Tier_Challenger = 7,
+    Tier_Challenger_1 = 8,
+    Tier_Challenger_2 = 9,
+    Tier_Challenger_3 = 10,
+    Tier_Challenger_4 = 11,
+    Tier_Challenger_5 = 12,
+    Tier_Challenger_6 = 13,
+    Tier_Challenger_7 = 14,
+    Tier_Challenger_8 = 15,
+    Tier_Challenger_9 = 16,
+    Tier_Challenger_10 = 17,
+
 }
 
 public enum Holding_Effect_Type
 {
+    NONE,
     ATK,
     HP,
     ATK_SPEED,
