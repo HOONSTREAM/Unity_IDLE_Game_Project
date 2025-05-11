@@ -1,9 +1,11 @@
+using BackEnd.Functions;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static Player_Manager;
 
 public class UI_Dungeon : UI_Base
 {
@@ -16,6 +18,8 @@ public class UI_Dungeon : UI_Base
     private TextMeshProUGUI[] Dungeon_Enter_Request_Key;
     [SerializeField]
     private TextMeshProUGUI[] Clear_Assets; // 클리어 보상
+    [SerializeField]
+    private TextMeshProUGUI Tier_Bonus_Text;
     [SerializeField]
     private Image Clear_Tier_Image;
     [SerializeField]
@@ -46,6 +50,13 @@ public class UI_Dungeon : UI_Base
         Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
         Clear_Assets[1].text = StringMethod.ToCurrencyString(value);
         Clear_Assets[2].text = $"<color=##FFF00>{Utils.Set_Next_Tier_Name()}</color> 승급";
+
+        Player_Tier currentTier = Data_Manager.Main_Players_Data.Player_Tier;
+
+        double tierMultiplier = TierBonusTable.GetBonusMultiplier(currentTier);
+        Debug.Log($"{currentTier} 현재 티어 ");
+        Tier_Bonus_Text.text = $"티어 보상 : 공격력 <color=#FFFF00>{tierMultiplier}</color>배 버프 적용 중";
+       
         Player_Tier next_tier = Data_Manager.Main_Players_Data.Player_Tier + 1;
         if(next_tier >= Player_Tier.Tier_Challenger_10) { next_tier = Player_Tier.Tier_Challenger_10; }
         Clear_Tier_Image.sprite = Utils.Get_Atlas(next_tier.ToString());

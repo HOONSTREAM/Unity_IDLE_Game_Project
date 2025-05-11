@@ -79,7 +79,7 @@ public class UI_Combination : UI_Base
         is_Summon_DarkHero = true;
         Selected_Item_Parts.gameObject.SetActive(true);
         Holder Select_holder = new Holder();
-        Select_holder.Hero_Card_Amount = 1;
+        Select_holder.Hero_Card_Amount = 3;
         Selected_Item_Parts.Init("Summon_DarkHero", Select_holder);
 
         First_Comb_Parts.gameObject.SetActive(true);     
@@ -181,6 +181,8 @@ public class UI_Combination : UI_Base
             {
                 Base_Manager.Data.Item_Holder["Comb_Book_Summon_Hero"].Hero_Card_Amount -= 1;
 
+                Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount++;
+                Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount++;
                 Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount++;
 
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("다크히어로 제작 성공");

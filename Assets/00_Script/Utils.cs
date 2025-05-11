@@ -285,6 +285,10 @@ public class Utils
         return parsedDate;
     }
 
+    /// <summary>
+    /// 에러 UI를 노출시킵니다.
+    /// </summary>
+    /// <param name="text"></param>
     public static void Get_LoadingCanvas_ErrorUI(string text)
     {
         GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
@@ -293,6 +297,9 @@ public class Utils
         GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = text;
     }
 
+    /// <summary>
+    /// 뒤끝 콘솔의 버전을 확인하여, 업데이트 UI를 노출시킵니다.
+    /// </summary>
     public static void Get_LoadingCanvas_UpdateUI()
     {
         GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().UPDATE_UI.gameObject;
@@ -300,6 +307,10 @@ public class Utils
         go.transform.SetSiblingIndex(4);       
     }
 
+    /// <summary>
+    /// 플레이어 티어를 계산하여 텍스트로 반환합니다.
+    /// </summary>
+    /// <returns></returns>
     public static string Set_Tier_Name()
     {
         string temp = default;
@@ -348,10 +359,47 @@ public class Utils
         return temp;
 
     }
+    /// <summary>
+    /// 뒤끝 콘솔 리더보드에 있는 score를 인수로 받아서, 티어를 계산합니다.
+    /// </summary>
+    /// <param name="score"></param>
+    /// <returns></returns>
+    public static string Set_Rank_To_Tier(int score)
+    {       
+        if (score < 0 || score > (int)Player_Tier.Tier_Challenger_10)
+            return "UNRANK";
 
+        Player_Tier tier = (Player_Tier)score;
+
+
+        switch (tier)
+        {
+            case Player_Tier.Tier_Beginner: return "초보자";
+            case Player_Tier.Tier_Bronze: return "브론즈";
+            case Player_Tier.Tier_Silver: return "실버";
+            case Player_Tier.Tier_Gold: return "골드";
+            case Player_Tier.Tier_Diamond: return "다이아몬드";
+            case Player_Tier.Tier_Master: return "마스터";
+            case Player_Tier.Tier_GrandMaster: return "그랜드마스터";
+            case Player_Tier.Tier_Challenger: return "챌린저";
+            case Player_Tier.Tier_Challenger_1: return "챌린저 1성";
+            case Player_Tier.Tier_Challenger_2: return "챌린저 2성";
+            case Player_Tier.Tier_Challenger_3: return "챌린저 3성";
+            case Player_Tier.Tier_Challenger_4: return "챌린저 4성";
+            case Player_Tier.Tier_Challenger_5: return "챌린저 5성";
+            case Player_Tier.Tier_Challenger_6: return "챌린저 6성";
+            case Player_Tier.Tier_Challenger_7: return "챌린저 7성";
+            case Player_Tier.Tier_Challenger_8: return "챌린저 8성";
+            case Player_Tier.Tier_Challenger_9: return "챌린저 9성";
+            case Player_Tier.Tier_Challenger_10: return "챌린저 마스터";
+            default: return "UNRANK";
+        }
+
+    }
     public static string Set_Next_Tier_Name()
     {
         string temp = default;
+
 
         switch (Data_Manager.Main_Players_Data.Player_Tier)
         {
@@ -415,7 +463,6 @@ public class Utils
         //else
         //    return "Monster_Dragon"; // 400층 이상
     }
-
     /// <summary>
     /// 스테이지 별로, 보스를 다르게 소환 시킵니다.
     /// </summary>

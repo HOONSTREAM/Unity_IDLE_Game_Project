@@ -15,6 +15,7 @@ public class IAP_Manager : IStoreListener
     public readonly string Dungeon_Dia = "dungeon_dia_20";
     public readonly string Dungeon_Gold = "gold_30";
     public readonly string Today_Package_01 = "package_1";
+    public readonly string Strong_Package_02 = "package_2";
 
     private IStoreController Store_Controller; // 구매 과정을 제어하는 함수 제공자
     private IExtensionProvider Store_Extension_Provider; // 여러 플랫폼을 위한 확정 처리 제공자
@@ -31,6 +32,7 @@ public class IAP_Manager : IStoreListener
         builder.AddProduct(Dungeon_Dia, ProductType.Consumable, new IDs() { { Dungeon_Dia, GooglePlay.Name } });
         builder.AddProduct(Dungeon_Gold, ProductType.Consumable, new IDs() { { Dungeon_Gold, GooglePlay.Name } });
         builder.AddProduct(Today_Package_01, ProductType.Consumable, new IDs() { { Today_Package_01, GooglePlay.Name } });
+        builder.AddProduct(Strong_Package_02, ProductType.Consumable, new IDs() { { Strong_Package_02, GooglePlay.Name } });
 
         UnityPurchasing.Initialize(this, builder);
     }

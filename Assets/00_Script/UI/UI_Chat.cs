@@ -113,7 +113,7 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         {
             GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
             chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
-            chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[초보]";
+            chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[UnRank]";
             chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = Color.gray;
             chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
             chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas("Bronze"); // 랭크 이미지
