@@ -213,8 +213,7 @@ public class Base_Manager : MonoBehaviour
     private void OnApplicationQuit()
     {
         if (Base_Manager.Get_MainGame_Start)
-        {
-            Debug.Log("게임을 정상적으로 종료하고, 데이터를 저장합니다.");
+        {         
             _ = Base_Manager.BACKEND.WriteData();
         }
     }

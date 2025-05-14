@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -135,6 +136,10 @@ public class Utils
         return Summon_Percentage;
     }
 
+    /// <summary>
+    /// 오프라인 된 시간을 서버시간으로 부터 받아와서 계산합니다.
+    /// </summary>
+    /// <returns></returns>
     public static double Offline_Timer_Check()
     {
         if(Data_Manager.Main_Players_Data.StartDate == null || Data_Manager.Main_Players_Data.EndDate == null)
@@ -143,16 +148,15 @@ public class Utils
         }
 
         DateTime startDate = Data_Manager.Main_Players_Data.StartDate;
-        Debug.Log($"게임시작 시간 : {startDate}");
+       
         DateTime endDate = Data_Manager.Main_Players_Data.EndDate;
-        Debug.Log($"게임 종료 시간 : {endDate}");
-
+      
         TimeSpan timer = startDate - endDate;
 
         double Time_Count = timer.TotalSeconds;
 
-        Time_Count = Mathf.Min((float)Time_Count, 72000f);
-        
+        Time_Count = Mathf.Min((float)Time_Count, 72000f); 
+             
         return Time_Count;
     }
 
@@ -164,9 +168,9 @@ public class Utils
         }
 
         DateTime startDate = Data_Manager.Main_Players_Data.StartDate;
-        Debug.Log($"게임시작 시간 : {startDate}");
+       
         DateTime endDate = Data_Manager.Main_Players_Data.EndDate;
-        Debug.Log($"게임 종료 시간 : {endDate}");
+
 
         TimeSpan timer = startDate - endDate;
 
@@ -184,7 +188,7 @@ public class Utils
     {
         TimeSpan span = TimeSpan.FromSeconds(Utils.Offline_Timer_Check());
         double elapsedSeconds = span.TotalSeconds; // 총 경과된 초 단위
-        Debug.Log($"{elapsedSeconds}초가 지나서 그만큼 뺍니다.");
+      
 
         for (int i = 0; i < Data_Manager.Main_Players_Data.ADS_Timer.Length; i++)
         {
@@ -192,11 +196,9 @@ public class Utils
             {
                 // 남은 시간에서 경과된 시간 차감
                 float temp = Data_Manager.Main_Players_Data.ADS_Timer[i] -= (float)elapsedSeconds;
-                Debug.Log($"{temp}가 계산되었습니다. {Data_Manager.Main_Players_Data.ADS_Timer[i]}에서,{elapsedSeconds}를 뺐습니다.");
-
+               
                 if (Data_Manager.Main_Players_Data.ADS_Timer[i] < 0)
-                {
-                    Debug.Log("타이머가 0이합니다. 0으로 수정합니다.");
+                {                   
                     Data_Manager.Main_Players_Data.ADS_Timer[i] = 0; // 음수가 되지 않도록 보정
                 }
             }
@@ -208,8 +210,7 @@ public class Utils
     {
         TimeSpan span = TimeSpan.FromSeconds(Utils.Offline_Timer_Check());
         double elapsedSeconds = span.TotalSeconds; // 총 경과된 초 단위
-        Debug.Log($"{elapsedSeconds}초가 지나서 그만큼 뺍니다.");
-
+      
         for (int i = 0; i < Data_Manager.Main_Players_Data.Buff_Timers.Length; i++)
         {
             if (Data_Manager.Main_Players_Data.Buff_Timers[i] > 0.0f)
@@ -219,8 +220,7 @@ public class Utils
                
 
                 if (Data_Manager.Main_Players_Data.Buff_Timers[i] < 0)
-                {
-                    Debug.Log("타이머가 0이합니다. 0으로 수정합니다.");
+                {                   
                     Data_Manager.Main_Players_Data.Buff_Timers[i] = 0; // 음수가 되지 않도록 보정
                 }
             }
@@ -232,8 +232,7 @@ public class Utils
     {
         TimeSpan span = TimeSpan.FromSeconds(Utils.Offline_Timer_Check());
         double elapsedSeconds = span.TotalSeconds; // 총 경과된 초 단위
-        Debug.Log($"{elapsedSeconds}초가 지나서 그만큼 뺍니다.");
-
+      
         if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)
         {
             // 남은 시간에서 경과된 시간 차감
@@ -241,8 +240,7 @@ public class Utils
 
 
             if (Data_Manager.Main_Players_Data.buff_x2_speed < 0)
-            {
-                Debug.Log("타이머가 0이합니다. 0으로 수정합니다.");
+            {               
                 Data_Manager.Main_Players_Data.buff_x2_speed = 0; // 음수가 되지 않도록 보정
             }
         }
@@ -291,10 +289,7 @@ public class Utils
     /// <param name="text"></param>
     public static void Get_LoadingCanvas_ErrorUI(string text)
     {
-        GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_UI.gameObject;
-        go.gameObject.SetActive(true);
-        go.transform.SetSiblingIndex(4);
-        GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().ERROR_TEXT.text = text;
+        Loading_UI_Runner.Instance.ShowErrorUI(text);
     }
 
     /// <summary>
@@ -302,9 +297,7 @@ public class Utils
     /// </summary>
     public static void Get_LoadingCanvas_UpdateUI()
     {
-        GameObject go = GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().UPDATE_UI.gameObject;
-        go.gameObject.SetActive(true);
-        go.transform.SetSiblingIndex(4);       
+        Loading_UI_Runner.Instance.ShowUpdateUI();  
     }
 
     /// <summary>

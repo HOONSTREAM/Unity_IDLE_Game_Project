@@ -6,6 +6,7 @@ using UnityEngine.Purchasing;
 
 public class IAP_Manager : IStoreListener
 {
+    private Action onPurchaseSuccessCallback;
 
     public readonly string Removd_ADS = "remove_ads";
     public readonly string Steel_1000 = "steel_1000";
@@ -73,6 +74,9 @@ public class IAP_Manager : IStoreListener
 
         _ = Base_Manager.BACKEND.WriteData();
 
+        onPurchaseSuccessCallback?.Invoke();
+        onPurchaseSuccessCallback = null;
+
         return PurchaseProcessingResult.Complete;
     }
 
@@ -87,12 +91,13 @@ public class IAP_Manager : IStoreListener
     /// </summary>
     /// <param name="_productID"></param>
     /// <returns></returns>
-    public void Purchase(string _productID)
+    public void Purchase(string _productID, Action onSuccess = null)
     {
         Product product = Store_Controller.products.WithID(_productID);
 
         if(product != null && product.availableToPurchase)
         {
+            onPurchaseSuccessCallback = onSuccess;
             Store_Controller.InitiatePurchase(product);
         }
 

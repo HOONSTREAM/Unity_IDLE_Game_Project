@@ -54,7 +54,7 @@ public class UI_Dungeon : UI_Base
         Player_Tier currentTier = Data_Manager.Main_Players_Data.Player_Tier;
 
         double tierMultiplier = TierBonusTable.GetBonusMultiplier(currentTier);
-        Debug.Log($"{currentTier} 현재 티어 ");
+      
         Tier_Bonus_Text.text = $"티어 보상 : 공격력 <color=#FFFF00>{tierMultiplier}</color>배 버프 적용 중";
        
         Player_Tier next_tier = Data_Manager.Main_Players_Data.Player_Tier + 1;

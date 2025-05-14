@@ -29,7 +29,7 @@ public class UI_Status : UI_Base
 
     public override bool Init()
     {
-        Ability.text = Base_Manager.Player.Player_ALL_Ability_ATK_HP().ToString();
+        Ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
         Player_Level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
         BackendReturnObject bro = Backend.BMember.GetUserInfo();
         string temp = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();

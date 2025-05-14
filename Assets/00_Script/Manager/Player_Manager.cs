@@ -245,11 +245,11 @@ public class Player_Manager
     /// 플레이어의 최종 전투력을 리턴합니다.
     /// </summary>
     /// <returns></returns>
-    public int Player_ALL_Ability_ATK_HP()
+    public ulong Player_ALL_Ability_ATK_HP()
     {
-        double value = Calculate_Player_ATK() + Calculate_Player_HP();
+        var value = Calculate_Player_ATK() + Calculate_Player_HP();
 
-        return (int)value;
+        return (ulong)value;
     }
     #endregion
 

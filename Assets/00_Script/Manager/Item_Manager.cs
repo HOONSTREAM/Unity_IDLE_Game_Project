@@ -24,7 +24,7 @@ public class Item_Manager
             
         _cachedDropPool.Clear();
 
-        foreach (var data in Base_Manager.Data.Data_Item_Dictionary)
+        foreach (var data in Base_Manager.Data.Data_Drop_Item_Dictionary)
         {
             if (data.Value.Minimum_Drop_Stage <= currentStage)
             {

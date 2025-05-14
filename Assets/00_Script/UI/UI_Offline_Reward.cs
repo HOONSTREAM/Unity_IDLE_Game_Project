@@ -41,7 +41,7 @@ public class UI_Offline_Reward : UI_Base
         int index = 0;
         float delayBetweenItems = 0.05f;
 
-        int batchSize = 100; // 한번에 처리할 루프 수
+        int batchSize = 1000; // 한번에 처리할 루프 수
         int count = 0;
 
         for (int i = 0; i < TimeValue; i++)
@@ -83,7 +83,7 @@ public class UI_Offline_Reward : UI_Base
 
             index++;
 
-            yield return null;
+            yield return new WaitForSecondsRealtime(0.05f);
         }
     }
 

@@ -76,7 +76,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             else
             {
                 // 닉네임 없음 → 약관 동의 UI
-                ShowPolicyUI();
+                ShowPolicyUI_Delayed();
             }
         }
 
@@ -107,14 +107,33 @@ public partial class BackEnd_Manager : MonoBehaviour
         PlayerPrefs.SetFloat("BGS", 1.0f);
     }
 
-    private void ShowPolicyUI()
+    public void ShowPolicyUI_Delayed()
     {
-        GameObject go = Instantiate(Resources.Load<GameObject>("UI/LOGIN_UI_POLICY"));
+        StartCoroutine(DelayedPolicyUI());
+    }
+
+    private IEnumerator DelayedPolicyUI()
+    {
+        yield return null; // 또는 new WaitForEndOfFrame()
+
+        GameObject prefab = Resources.Load<GameObject>("UI/LOGIN_UI_POLICY");
+        if (prefab == null)
+        {
+            Debug.LogError("LOGIN_UI_POLICY 리소스를 찾을 수 없습니다.");
+            yield break;
+        }
+
+        GameObject go = Instantiate(prefab);
+
         var canvas = GameObject.Find("Loading_CANVAS");
         if (canvas != null)
+        {
             go.transform.SetParent(canvas.transform, false);
+        }
         else
+        {
             Debug.LogWarning("Loading_CANVAS가 존재하지 않습니다.");
+        }
     }
 
 

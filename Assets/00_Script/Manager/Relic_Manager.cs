@@ -113,7 +113,7 @@ public class Relic_Manager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("MANA 실행");
+        
         GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/MP"));
         go.transform.position = player.transform.position;
         player.Get_MP(int.Parse(CSV_Importer.RELIC_MANA_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString()));
@@ -131,12 +131,12 @@ public class Relic_Manager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("HP 실행");
+        
         GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/HP"));
         go.transform.position = player.transform.position;
 
         float effect = float.Parse(CSV_Importer.RELIC_HP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
-        Debug.Log($"{effect}만큼 체력회복");
+        
         player.GetComponent<Player>().HP += (double)effect;
         Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
         

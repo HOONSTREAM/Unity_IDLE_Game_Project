@@ -107,8 +107,10 @@ public class UI_Shop : UI_Base
 
     public void Get_IAP_Product(string purchase_name)
     {
-        Base_Manager.IAP.Purchase(purchase_name);
-        Init();
+        Base_Manager.IAP.Purchase(purchase_name, () =>
+        {
+            Init();
+        });        
     }
 
     #region Gacha_Button_Method

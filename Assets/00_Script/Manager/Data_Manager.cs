@@ -41,8 +41,6 @@ public class BackendGameData
             Data_Manager.Main_Players_Data = new Data();
         }
 
-        Debug.Log("데이터를 초기화합니다.");
-      
         Data_Manager.Main_Players_Data.ATK = default;
         Data_Manager.Main_Players_Data.HP = default;
         Data_Manager.Main_Players_Data.Player_Tier = Player_Tier.Tier_Beginner;
@@ -136,8 +134,6 @@ public class BackendGameData
         param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode);
 
 
-        Debug.Log("'USER' 테이블에 새로운 데이터 행을 추가합니다.");
-
         var bro = Backend.GameData.Insert("USER", param);
         string inDate = bro.GetInDate();
         var _bro = Backend.URank.User.UpdateUserScore(Utils.LEADERBOARD_UUID, "USER", inDate, param); // 리더보드에 유저데이터를 등록합니다.
@@ -164,9 +160,7 @@ public class BackendGameData
         Param character_param = new Param();
 
         character_param.Add("character", Base_Manager.Data.character_Holder);
-
-        Debug.Log("CHARACTER 테이블에 새로운 데이터 행을 추가합니다.");
-
+       
         var char_bro = Backend.GameData.Insert("CHARACTER",character_param);
 
         if (char_bro.IsSuccess())
@@ -182,8 +176,7 @@ public class BackendGameData
 
         item_param.Add("Item", Base_Manager.Data.Item_Holder);
 
-        Debug.Log("ITEM 테이블에 새로운 데이터 행을 추가합니다.");
-
+    
         var item_bro = Backend.GameData.Insert("ITEM", item_param);
 
         if (item_bro.IsSuccess())
@@ -198,9 +191,7 @@ public class BackendGameData
         Param smelt_param = new Param();
 
         smelt_param.Add("Smelt", Base_Manager.Data.User_Main_Data_Smelt_Array);
-
-        Debug.Log("SMELT 테이블에 새로운 데이터 행을 추가합니다.");
-
+      
         var smelt_bro = Backend.GameData.Insert("SMELT", smelt_param);
 
         if (smelt_bro.IsSuccess())
@@ -215,9 +206,7 @@ public class BackendGameData
         Param player_set_Hero_Param = new Param();
 
         player_set_Hero_Param.Add("Player_Set_Hero", Base_Manager.Character.Set_Character);
-
-        Debug.Log("Player_Set_Hero 테이블에 새로운 데이터 행을 추가합니다.");
-
+      
         var player_set_hero_bro = Backend.GameData.Insert("PLAYER_SET_HERO", player_set_Hero_Param);
 
         if (player_set_hero_bro.IsSuccess())
@@ -232,9 +221,7 @@ public class BackendGameData
         Param player_Set_Relic = new Param();
 
         player_Set_Relic.Add("Player_Set_Relic", Base_Manager.Data.Main_Set_Item);
-
-        Debug.Log("Player_Set_Relic 테이블에 새로운 데이터 행을 추가합니다.");
-
+       
         var player_set_relic_bro = Backend.GameData.Insert("PLAYER_SET_RELIC", player_Set_Relic);
 
         if (player_set_relic_bro.IsSuccess())
@@ -368,7 +355,8 @@ public class Data_Manager
     public Dictionary<string, Character_Holder> Data_Character_Dictionary = new Dictionary<string, Character_Holder>();
     public Dictionary<string, Holder> Item_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Holder> character_Holder = new Dictionary<string, Holder>();
-    public Dictionary<string, Item_Scriptable> Data_Item_Dictionary = new Dictionary<string, Item_Scriptable>();
+    public Dictionary<string, Item_Scriptable> Data_Item_Dictionary = new Dictionary<string, Item_Scriptable>(); // 장비를 포함한 모든 아이템 딕셔너리
+    public Dictionary<string, Item_Scriptable> Data_Drop_Item_Dictionary = new Dictionary<string, Item_Scriptable>(); // 장비를 미 포함한 드롭아이템 딕셔너리
     public Item_Scriptable[] Main_Set_Item = new Item_Scriptable[9]; // 유물 장착칸
     public List<Smelt_Holder> User_Main_Data_Smelt_Array = new List<Smelt_Holder>();
 
@@ -461,6 +449,14 @@ public class Data_Manager
             if (!Data_Item_Dictionary.ContainsKey(data.name))
             {
                 Data_Item_Dictionary.Add(data.name, item.Data);
+            }
+
+            if (!Data_Drop_Item_Dictionary.ContainsKey(data.name))
+            {
+                if(data.ItemType != ItemType.Equipment)
+                {
+                    Data_Drop_Item_Dictionary.Add(data.name, item.Data);
+                }             
             }
             
         }

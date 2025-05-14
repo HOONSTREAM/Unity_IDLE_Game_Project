@@ -90,8 +90,7 @@ public class ADS_Manager
         _rewardedCallback = rewardCallback;
 
         if(Data_Manager.Main_Players_Data.isBuyADPackage == true)
-        {
-            Debug.Log("광고제거");
+        {            
             Base_Canvas.instance.Get_TOP_Popup().Initialize("광고 제거 대상입니다.");
             _rewardedCallback?.Invoke();
             _rewardedCallback = null;
@@ -100,13 +99,12 @@ public class ADS_Manager
 
 
         if(_rewardad != null && _rewardad.CanShowAd())
-        {
-            Debug.Log("광고제거미대상");
+        {           
             _rewardad.Show((Reward reward) =>
             {
                 Debug.Log(String.Format(reward.Type + " : ", reward.Amount));
 
-                //// TODO : 해당코드는 악용유저 발생 시 제거, 광고를 전부 보지않아도 보상이 지급됨.
+                
                 if (_rewardedCallback != null)
                 {
                     _rewardedCallback?.Invoke();
@@ -116,8 +114,7 @@ public class ADS_Manager
         }
 
         else
-        {
-            Debug.Log("준비 된 광고가 존재하지 않습니다.");
+        {           
             PrePareADS();
         }
     }
