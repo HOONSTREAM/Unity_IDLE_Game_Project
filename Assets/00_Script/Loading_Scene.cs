@@ -198,7 +198,9 @@ public class Loading_Scene : MonoBehaviour
 
 
         var check = Game_Vers_Update_Check();
-      
+
+        
+        
         if (check)
         {
             StartCoroutine(LoadData_Coroutine());

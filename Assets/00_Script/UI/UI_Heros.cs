@@ -103,7 +103,7 @@ public class UI_Heros : UI_Base
             }
         }
 
-        User_Hero_Amount.text = value.ToString();
+        User_Hero_Amount.text = $"{value} / <color=#FFFF00>{Base_Manager.Data.Data_Character_Dictionary.Count - 1}</color>";
         return base.Init();
     }
     public override void DisableOBJ()

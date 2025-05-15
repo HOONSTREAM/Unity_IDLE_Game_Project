@@ -134,6 +134,11 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private Transform[] Button_Images;
 
+    [Space(20f)]
+    [Header("TUTORIAL")]
+    [SerializeField]
+    private GameObject Hand_Icon_Daily_Quest;
+
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
     private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
@@ -153,6 +158,11 @@ public class Main_UI : MonoBehaviour
     }
     private void Start()
     {
+        Show_Tutorial_First_Game_Start();
+
+        UI_Daily_Quest.OnDailyQuestUIOpened -= HandleDailyQuestUIOpened;
+        UI_Daily_Quest.OnDailyQuestUIOpened += HandleDailyQuestUIOpened;
+
         Cleric_Component = GameObject.Find("Cleric").gameObject.GetComponent<Character>();
 
         Main_UI_PlayerInfo_Text_Check();
@@ -178,7 +188,6 @@ public class Main_UI : MonoBehaviour
         Set_User_Nick_Name();
        
     }
-
     private void Update()
     {
         Check_ADS_Fast_Mode();
@@ -726,6 +735,18 @@ public class Main_UI : MonoBehaviour
         Legendary_Coroutine = StartCoroutine(Legendary_Popup_Coroutine());
     }
 
+    private void Show_Tutorial_First_Game_Start()
+    {
+        if (Data_Manager.Main_Players_Data.Player_Money == 0.0d && Data_Manager.Main_Players_Data.Player_Level == 0)
+        {
+            Debug.Log("처음 시작하는 유저");
+            StartCoroutine(Tutorial_Coroutine());
+        }
+    }
+    private void HandleDailyQuestUIOpened()
+    {
+        Hand_Icon_Daily_Quest.SetActive(false);
+    }
 
     #region Coroutine
     IEnumerator Dead_Delay()
@@ -811,7 +832,6 @@ public class Main_UI : MonoBehaviour
         rect.gameObject.SetActive(false);
         rect.anchoredPosition = new Vector2(0.0f, 792.0f);
     }
-
     IEnumerator Dungeon_Slider_Coroutine()
     {
         float time = 30.0f;
@@ -825,6 +845,14 @@ public class Main_UI : MonoBehaviour
         }
 
         Base_Manager.Stage.State_Change(Stage_State.Dungeon_Dead);
+    }
+    IEnumerator Tutorial_Coroutine()
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅 파티 키우기 세계에 오신것을 환영합니다!");
+        yield return new WaitForSecondsRealtime(3.0f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("일일퀘스트를 따라, 여정을 시작하세요!");
+        Hand_Icon_Daily_Quest.gameObject.SetActive(true);      
     }
     #endregion
 }

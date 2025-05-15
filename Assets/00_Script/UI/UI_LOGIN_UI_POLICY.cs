@@ -116,6 +116,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
 
             PlayerPrefs.SetFloat("BGM", 1.0f);
             PlayerPrefs.SetFloat("BGS", 1.0f);
+            
         }
         else
         {

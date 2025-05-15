@@ -114,6 +114,7 @@ public class BackendGameData
         param.Add("USER_KEY_ASSETS", Data_Manager.Main_Players_Data.User_Key_Assets);
         param.Add("DUNGEON_CLEAR_LEVEL", Data_Manager.Main_Players_Data.Dungeon_Clear_Level);
         param.Add("isBUY_AD_Package", Data_Manager.Main_Players_Data.isBuyADPackage);
+        param.Add("isBUY_LAUNCH_EVENT", Data_Manager.Main_Players_Data.isBuyLAUNCH_EVENT);
         param.Add("isBUY_TODAY_Package", Data_Manager.Main_Players_Data.isBuyTodayPackage);
         param.Add("isBUY_STRONG_Package", Data_Manager.Main_Players_Data.isBuySTRONGPackage);
         param.Add("Event_Push_Alarm_Agree", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree);
@@ -317,6 +318,7 @@ public class Data
 
     //광고구매 여부
     public bool isBuyADPackage = false;
+    public bool isBuyLAUNCH_EVENT = false;
     public bool isBuyTodayPackage = false;
     public bool isBuySTRONGPackage = false;
     public int ADS_Hero_Summon_Count = 0;

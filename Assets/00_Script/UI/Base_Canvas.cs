@@ -35,6 +35,8 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button AD_Package_Button;
     [SerializeField]
+    private Button LAUNCH_EVENT_Button;
+    [SerializeField]
     private Button Setting_Button;
     [SerializeField]
     private Button Daily_Quest_Button;
@@ -107,6 +109,7 @@ public class Base_Canvas : MonoBehaviour
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
         Status_Button.onClick.AddListener(() => Get_UI("@Status", false, false, true, 0));
         AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
+        LAUNCH_EVENT_Button.onClick.AddListener(() => Get_UI("LAUNCH_EVENT", false, false, true));
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
         Combination_Button.onClick.AddListener(() => Get_UI("UI_Combination", false, false, true));
@@ -215,7 +218,7 @@ public class Base_Canvas : MonoBehaviour
         }
 
         return item_tooltip;
-    }
+    } 
     public Skill_ToolTip Get_Skill_Tooltip()
     {
         if (skill_tooltip == null) // 기존 툴팁이 없을 때만 새로 생성
@@ -236,5 +239,9 @@ public class Base_Canvas : MonoBehaviour
     public void Destroy_ADS_Button()
     {
         AD_Package_Button.gameObject.SetActive(false);
+    }
+    public void Destroy_Launch_Event_Button()
+    {
+        LAUNCH_EVENT_Button.gameObject.SetActive(false);
     }
 }

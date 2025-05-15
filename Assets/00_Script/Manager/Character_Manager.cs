@@ -26,7 +26,7 @@ public class Character_Manager
 
         Set_Character[value] = newChar;
         
-        Base_Canvas.instance.Get_Toast_Popup().Initialize("영웅 배치가 완료되었습니다. 다음 스테이지부터 출전합니다!");
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅 배치 완료. 다음 스테이지부터 출전합니다!");
        
     }
 

@@ -57,7 +57,7 @@ public class UI_Heros_Parts : MonoBehaviour
         
         RectTransform rect = M_character_Image.GetComponent<RectTransform>();
         rect.sizeDelta = new Vector3(rect.sizeDelta.x / 2.5f, rect.sizeDelta.y / 2.5f);
-
+        
         Get_Character_Check();
     }
 

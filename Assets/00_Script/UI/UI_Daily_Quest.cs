@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,12 @@ public class UI_Daily_Quest : UI_Base
     List<GameObject> Garbage_Object = new List<GameObject>();
     List<Transform> InitPanels = new List<Transform>();
 
+    public static event Action OnDailyQuestUIOpened;
+
     public override bool Init()
     {
+        OnDailyQuestUIOpened?.Invoke();
+
         if (Garbage_Object.Count > 0)
         {
             for (int i = 0; i < Garbage_Object.Count; i++) Destroy(Garbage_Object[i]);
