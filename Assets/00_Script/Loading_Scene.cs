@@ -197,10 +197,8 @@ public class Loading_Scene : MonoBehaviour
         }
 
 
-        //var check = Game_Vers_Update_Check();
-
-        var check = true; // TODO: (출시 진행 시) 주석해제
-
+        var check = Game_Vers_Update_Check();
+      
         if (check)
         {
             StartCoroutine(LoadData_Coroutine());

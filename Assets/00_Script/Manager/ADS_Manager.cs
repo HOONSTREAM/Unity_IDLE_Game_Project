@@ -6,7 +6,7 @@ using System;
 
 public class ADS_Manager
 {
-    private bool TestMode = true; // TODO : (출시 진행 시 테스트 모드 해제)
+    private bool TestMode = false; //TODO
    
     public readonly string REWARD_ANDROID_ID = "ca-app-pub-7827703662920334/5684289752";
     public readonly string REWARD_TEST_ID = "ca-app-pub-3940256099942544/5224354917";
