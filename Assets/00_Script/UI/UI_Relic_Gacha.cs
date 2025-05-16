@@ -146,6 +146,12 @@ public class UI_Relic_Gacha : UI_Base
             Item_Scriptable item_scriptable_Data = Base_Manager.Data.Get_Rarity_Relic(rarity); // 소환 완료된 캐릭터의 데이터 결정 완료         
             Base_Manager.Data.Item_Holder[item_scriptable_Data.name].Hero_Card_Amount++; // 카드 갯수 증가
 
+            var tooltip = go.GetComponent<Relic_ToolTip_Controller>();
+            if (tooltip != null)
+            {
+                tooltip.Init(item_scriptable_Data);
+            }
+
             Base_Manager.BACKEND.Log_RelicSummon(item_scriptable_Data, Relic_Amount_Value);
 
             go.sprite = Utils.Get_Atlas(rarity.ToString());

@@ -147,6 +147,12 @@ public class UI_Gacha : UI_Base
             Character_Scriptable Ch_Scriptable_Data = Base_Manager.Data.Get_Rarity_Character(rarity); // 소환 완료된 캐릭터의 데이터 결정 완료         
             Base_Manager.Data.character_Holder[Ch_Scriptable_Data.name].Hero_Card_Amount++; // 카드 갯수 증가
 
+            var tooltip = go.GetComponent<Hero_ToolTip_Controller>();
+            if (tooltip != null)
+            {
+                tooltip.Init(Ch_Scriptable_Data);
+            }
+
             Base_Manager.BACKEND.Log_HeroSummon(Ch_Scriptable_Data, Hero_Amount_Value);
 
             go.sprite = Utils.Get_Atlas(rarity.ToString());

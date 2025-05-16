@@ -52,6 +52,10 @@ public class Base_Canvas : MonoBehaviour
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
     [HideInInspector]
+    public Hero_ToolTip hero_tooltip = null;
+    [HideInInspector]
+    public Relic_ToolTip relic_tooltip = null;
+    [HideInInspector]
     public Skill_ToolTip skill_tooltip = null;
     [HideInInspector]
     public UI_Base UI;
@@ -81,7 +85,12 @@ public class Base_Canvas : MonoBehaviour
         {
             AD_Package_Button.gameObject.SetActive(false);
         }
-        
+
+        if (Data_Manager.Main_Players_Data.isBuyLAUNCH_EVENT)
+        {
+            LAUNCH_EVENT_Button.gameObject.SetActive(false);
+        }
+
         if (Utils.Offline_Timer_Check() >= Utils.OFFLINE_TIME_CHECK)
         {
             Get_UI("OFFLINE_REWARD");
@@ -218,7 +227,28 @@ public class Base_Canvas : MonoBehaviour
         }
 
         return item_tooltip;
-    } 
+    }
+
+    public Hero_ToolTip Get_Hero_Tooltip()
+    {
+        if (hero_tooltip == null) // 기존 툴팁이 없을 때만 새로 생성
+        {
+            hero_tooltip = Instantiate(Resources.Load<Hero_ToolTip>("UI/Hero_ToolTip"), transform);
+        }
+
+        return hero_tooltip;
+    }
+
+    public Relic_ToolTip Get_Relic_Tooltip()
+    {
+        if (relic_tooltip == null) // 기존 툴팁이 없을 때만 새로 생성
+        {
+            relic_tooltip = Instantiate(Resources.Load<Relic_ToolTip>("UI/Relic_ToolTip"), transform);
+        }
+
+        return relic_tooltip;
+    }
+
     public Skill_ToolTip Get_Skill_Tooltip()
     {
         if (skill_tooltip == null) // 기존 툴팁이 없을 때만 새로 생성

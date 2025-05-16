@@ -44,7 +44,9 @@ public class UI_Heros_Parts : MonoBehaviour
     }
     public void Init(Character_Scriptable data, UI_Heros parentsBASE)
     {
-        parent = parentsBASE; 
+
+        parent = parentsBASE;
+               
         Character = data;
 
               
