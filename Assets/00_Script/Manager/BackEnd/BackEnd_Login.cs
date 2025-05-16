@@ -6,8 +6,17 @@ using UnityEngine;
 
 public partial class BackEnd_Manager : MonoBehaviour
 {
+    private bool isGoogleLoginRunning = false;
+
     public void StartGoogleLogin()
     {
+        if (isGoogleLoginRunning)
+        {           
+            return;
+        }
+
+        isGoogleLoginRunning = true;
+
         TheBackend.ToolKit.GoogleLogin.Android.GoogleLogin(GoogleLoginCallback);
     }
 
@@ -49,6 +58,8 @@ public partial class BackEnd_Manager : MonoBehaviour
 
     private void GoogleLoginCallback(bool isSuccess, string errorMessage, string token)
     {
+        isGoogleLoginRunning = false; 
+
         if (isSuccess == false)
         {
             Debug.LogError(errorMessage);

@@ -47,6 +47,8 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Chat_Button;
     [SerializeField]
+    private Button Heros_Dictionary_Button;
+    [SerializeField]
     private Button Rank_Button;
 
     [HideInInspector]
@@ -119,6 +121,7 @@ public class Base_Canvas : MonoBehaviour
         Status_Button.onClick.AddListener(() => Get_UI("@Status", false, false, true, 0));
         AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
         LAUNCH_EVENT_Button.onClick.AddListener(() => Get_UI("LAUNCH_EVENT", false, false, true));
+        Heros_Dictionary_Button.onClick.AddListener(() => Get_UI("Heros_Dictionary", false, false, true));
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
         Combination_Button.onClick.AddListener(() => Get_UI("UI_Combination", false, false, true));

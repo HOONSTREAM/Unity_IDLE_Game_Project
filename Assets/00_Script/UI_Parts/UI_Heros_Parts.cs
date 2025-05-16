@@ -24,6 +24,7 @@ public class UI_Heros_Parts : MonoBehaviour
     public GameObject Lock_OBJ;
     public Character_Scriptable Character;
     private UI_Heros parent;
+    private UI_Heros_Dictionary parent_dictionary_Heros;
     
     public void LockCheck(bool Lock)
     {
@@ -60,6 +61,27 @@ public class UI_Heros_Parts : MonoBehaviour
         RectTransform rect = M_character_Image.GetComponent<RectTransform>();
         rect.sizeDelta = new Vector3(rect.sizeDelta.x / 2.5f, rect.sizeDelta.y / 2.5f);
         
+        Get_Character_Check();
+    }
+
+    public void Init(Character_Scriptable data, UI_Heros_Dictionary parentsBASE)
+    {
+
+        parent_dictionary_Heros = parentsBASE;
+
+        Character = data;
+
+
+        M_Level.text = "LV." + (Base_Manager.Data.character_Holder[data.name].Hero_Level + 1).ToString();
+        M_Silder.fillAmount = (float)Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount / Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
+        M_Count.text = Base_Manager.Data.character_Holder[data.name].Hero_Card_Amount.ToString() + "/" + Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(data.name);
+        M_Rarity_Image.sprite = Utils.Get_Atlas(data.Rarity.ToString());
+        M_character_Image.sprite = Utils.Get_Atlas(data.Character_EN_Name);
+        M_character_Image.SetNativeSize();
+
+        RectTransform rect = M_character_Image.GetComponent<RectTransform>();
+        rect.sizeDelta = new Vector3(rect.sizeDelta.x / 2.5f, rect.sizeDelta.y / 2.5f);
+
         Get_Character_Check();
     }
 
