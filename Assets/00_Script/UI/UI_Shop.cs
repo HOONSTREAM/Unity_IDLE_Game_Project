@@ -64,6 +64,8 @@ public class UI_Shop : UI_Base
     private GameObject TODAY_PACKAGE_SOLD_OUT;
     [SerializeField]
     private GameObject TODAY_PACKAGE_SOLD_OUT_STRONG;
+    [SerializeField]
+    private GameObject ADS_PACKAGE_SOLD_OUT;
   
 
 
@@ -256,6 +258,7 @@ public class UI_Shop : UI_Base
     {
         TODAY_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
         TODAY_PACKAGE_SOLD_OUT_STRONG.gameObject.SetActive(false);
+        ADS_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
 
         ADS_Hero_Count.text = "(" + Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count.ToString() + "/3)";
 
@@ -282,6 +285,10 @@ public class UI_Shop : UI_Base
         Pickup_Text.text = "(" + valuePickUp.ToString() + "/110)";
         Pickup_Count_Slider.fillAmount = (float)valuePickUp / 110.0f;
 
+        if (Data_Manager.Main_Players_Data.isBuyADPackage)
+        {
+            ADS_PACKAGE_SOLD_OUT.gameObject.SetActive(true);
+        }
 
         if (Data_Manager.Main_Players_Data.isBuyTodayPackage)
         {

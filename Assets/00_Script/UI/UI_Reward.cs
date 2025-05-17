@@ -38,10 +38,8 @@ public class UI_Reward : UI_Base
             case "PACKAGE_ADS": 
                 Data_Manager.Main_Players_Data.isBuyADPackage = true;
                 Data_Manager.Main_Players_Data.DiaMond += 3000;
-                Base_Manager.Data.Item_Holder["SWORD"].Hero_Card_Amount += 3;
-                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 1000;
-                Base_Canvas.instance.Destroy_ADS_Button();
-                Destroy(GameObject.Find("AD_REMOVE_PACKAGE").gameObject);
+                Base_Manager.Data.Item_Holder["SWORD"].Hero_Card_Amount += 15;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 1000;                              
 
                 break;
 

@@ -54,6 +54,10 @@ public class Item_ToolTip : MonoBehaviour
  
     public void Show_Item_ToolTip(Item_Scriptable item, Vector2 pos)
     {
+        RectTransform canvasRect = Base_Canvas.instance.GetComponent<RectTransform>();
+        Vector2 tooltipSize = Rect.sizeDelta;
+        Vector2 canvasSize = canvasRect.rect.size;
+
 
         if (item.ItemType == ItemType.Equipment)
         {
@@ -94,6 +98,27 @@ public class Item_ToolTip : MonoBehaviour
 
         // 최종 위치 적용
         Rect.anchoredPosition = pos;
+
+        Vector2 clampedPos = pos;
+
+        // 좌우 클램핑
+        clampedPos.x = Mathf.Clamp(
+            clampedPos.x,
+            -canvasSize.x / 2 + tooltipSize.x / 2,
+            canvasSize.x / 2 - tooltipSize.x / 2
+        );
+
+        // 상하 클램핑
+        clampedPos.y = Mathf.Clamp(
+            clampedPos.y,
+            -canvasSize.y / 2 + tooltipSize.y / 2,
+            canvasSize.y / 2 - tooltipSize.y / 2
+        );
+
+        // 최종 위치 적용
+        Rect.anchoredPosition = clampedPos;
+
+
 
         Item_Image.sprite = Utils.Get_Atlas(item.name);
         Item_Name_Text.text = item.Item_Name;

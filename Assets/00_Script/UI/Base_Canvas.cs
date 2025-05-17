@@ -33,8 +33,6 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Smelt_Button;
     [SerializeField]
-    private Button AD_Package_Button;
-    [SerializeField]
     private Button LAUNCH_EVENT_Button;
     [SerializeField]
     private Button Setting_Button;
@@ -83,11 +81,7 @@ public class Base_Canvas : MonoBehaviour
     }
     private void Start()
     {
-        if (Data_Manager.Main_Players_Data.isBuyADPackage)
-        {
-            AD_Package_Button.gameObject.SetActive(false);
-        }
-
+        
         if (Data_Manager.Main_Players_Data.isBuyLAUNCH_EVENT)
         {
             LAUNCH_EVENT_Button.gameObject.SetActive(false);
@@ -118,8 +112,7 @@ public class Base_Canvas : MonoBehaviour
             }
         });
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
-        Status_Button.onClick.AddListener(() => Get_UI("@Status", false, false, true, 0));
-        AD_Package_Button.onClick.AddListener(() => Get_UI("AD_REMOVE_PACKAGE", false, false, true));
+        Status_Button.onClick.AddListener(() => Get_UI("@Status", false, false, true, 0));       
         LAUNCH_EVENT_Button.onClick.AddListener(() => Get_UI("LAUNCH_EVENT", false, false, true));
         Heros_Dictionary_Button.onClick.AddListener(() => Get_UI("Heros_Dictionary", false, false, true));
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
@@ -268,10 +261,6 @@ public class Base_Canvas : MonoBehaviour
     public UI_TOP_POPUP Get_TOP_Popup()
     {
         return Instantiate(Resources.Load<UI_TOP_POPUP>("UI/TOP_POPUP"), transform); //transform은 해당위치에 생성하라는 인자
-    }
-    public void Destroy_ADS_Button()
-    {
-        AD_Package_Button.gameObject.SetActive(false);
     }
     public void Destroy_Launch_Event_Button()
     {

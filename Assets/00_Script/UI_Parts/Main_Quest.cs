@@ -105,8 +105,8 @@ public class Main_Quest : MonoBehaviour
         switch (type)
         {
             case Quest_Type.Monster: return "몬스터 처치";
-            case Quest_Type.Gold_DG: return "골드 던전 클리어";
-            case Quest_Type.Dia_DG: return "보물 던전 클리어";
+            case Quest_Type.Gold_DG: return "골드 던전 돌파";
+            case Quest_Type.Dia_DG: return "보물 던전 돌파";
             case Quest_Type.Upgrade: return "경험치 획득하기";
             case Quest_Type.Hero: return "영웅 소환";
             case Quest_Type.Stage: return "스테이지 클리어";
