@@ -110,6 +110,7 @@ public static class HeroEffectFactory
             { "Sniper", new List<IHeroEffect> { new Increase_ItemDrop_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
             { "Light_Wizard", new List<IHeroEffect> { new Increase_GoldDrop_Effect(), new Increase_Critical_Percentage_Effect(), new NONE_Effect() } },
             { "Starlist", new List<IHeroEffect> { new Increase_HP_Effect(), new NONE_Effect(), new NONE_Effect() } },
+            { "Warlord", new List<IHeroEffect> { new Increase_CriticalDamage_Effect(), new Increase_ItemDrop_Effect(), new NONE_Effect() } },
 
         };
 

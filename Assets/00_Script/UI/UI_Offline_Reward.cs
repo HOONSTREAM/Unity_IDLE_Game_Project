@@ -22,8 +22,8 @@ public class UI_Offline_Reward : UI_Base
 
     public override bool Init()
     {
-        int TimeValue = (int)Utils.Offline_Timer_Check() / 3;
-        double TimeValue_Double = Utils.Offline_Timer_Check() / 3;
+        int TimeValue = (int)Utils.Offline_Timer_Check();
+        double TimeValue_Double = Utils.Offline_Timer_Check();
 
         _money_reward_value = (Utils.Data.stageData.Get_DROP_MONEY() * TimeValue_Double);
         money_reward_value.text = StringMethod.ToCurrencyString(_money_reward_value);

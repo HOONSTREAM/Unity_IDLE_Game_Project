@@ -84,42 +84,40 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
                 _rank = rankListJson["rows"][i]["rank"].ToString();
             }
 
-            GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
-            chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
-            chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[랭킹 {_rank.ToString()}위]";
-
             int parsedRank;
-
             if (int.TryParse(_rank, out parsedRank) && parsedRank >= 1 && parsedRank <= 10)
             {
+                // 랭킹 1~10위 유저
+                GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
+                chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
+                chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[랭킹 {_rank}위]";
                 chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+                chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
+                chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas(parsedRank.ToString());
             }
             else
             {
+                // 11위 이후는 UnRank 처리
+                GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
+                chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
+                chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[UnRank]";
                 chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = Color.gray;
-            }
-
-            chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
-            chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas(parsedRank.ToString()); // 랭크 이미지
-
-            if (int.Parse(_rank) >= 10)
-            {
+                chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
                 chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas("Tier_Bronze");
             }
-
         }
-
         else
         {
+            // 유저 정보 조회 실패 시도 동일하게 UnRank 처리
             GameObject chatItem = Instantiate(Resources.Load<GameObject>("PreFabs/ChatList_Panel"), ChatContent.transform);
             chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.Message}";
             chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[UnRank]";
             chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = Color.gray;
             chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"{messageInfo.GamerName}";
-            chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas("Tier_Bronze"); // 랭크 이미지
+            chatItem.transform.GetChild(4).GetComponent<Image>().sprite = Utils.Get_Atlas("Tier_Bronze");
         }
 
-            StartCoroutine(ScrollToBottom());
+        StartCoroutine(ScrollToBottom());
 
     }
 
