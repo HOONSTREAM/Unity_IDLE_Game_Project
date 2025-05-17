@@ -304,8 +304,17 @@ public class Player_Manager
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.GOLD_DROP, 0.0));
 
         var ADS_Buff_Value = ADS_Gold_Buff_Value;
-      
-        return 0.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.MONEY) / 100) + (float)Value + (float)Relic_Value + ADS_Buff_Value;
+
+        var Total_Value = 0.0f + (Base_Manager.Data.Get_smelt_value(Smelt_Status.MONEY) / 100) + (float)Value + (float)Relic_Value + ADS_Buff_Value;
+
+        if (Base_Manager.Item.Set_Item_Check("GOLD_DROP"))
+        {
+            var value = "GOLD_DROP";
+            var effect_value = float.Parse(CSV_Importer.RELIC_GOLD_DROP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
+            Total_Value += (effect_value / 100);
+        }
+
+        return Total_Value;
     }
     public float Calculate_Critical_Percentage()
     {

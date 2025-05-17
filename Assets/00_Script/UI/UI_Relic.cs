@@ -47,6 +47,8 @@ public class UI_Relic : UI_Base
     private ParticleImage Legendary_Image;
     [SerializeField]
     private Button Upgrade;
+    [SerializeField]
+    private TextMeshProUGUI Total_Relic_Text;
 
     private string start_percent;
     private string effect_percent = default;
@@ -67,6 +69,9 @@ public class UI_Relic : UI_Base
         var sort_dict = _dict.OrderByDescending(x => x.Value.rarity);
 
 
+        
+
+
         int value = 0;
 
 
@@ -81,6 +86,8 @@ public class UI_Relic : UI_Base
                 go.Init(data.Value, this);
             }
         }
+
+        Total_Relic_Text.text = $"{value} / <color=#FFFF00>{_dict.Count}</color>";
 
         for (int i = 0; i< Relic_Panel_Objects.Length; i++)
         {
@@ -102,7 +109,6 @@ public class UI_Relic : UI_Base
 
         return base.Init();
     }
-
     public void Initialize()
     {
 
@@ -179,7 +185,6 @@ public class UI_Relic : UI_Base
             }
         }
     }
-
     public void Set_Click(UI_Relic_Parts parts)
     {
 
@@ -224,7 +229,6 @@ public class UI_Relic : UI_Base
         }
 
     }
-
     public void Get_Relic_Information(Item_Scriptable Data, UI_Relic_Parts parts)
     {
 
@@ -312,8 +316,7 @@ public class UI_Relic : UI_Base
     {       
         Set_Click(Clicked_Relic_Parts);
         Relic_Information.gameObject.SetActive(false);
-    }
-   
+    }  
     public void UpGrade_Button(Holder holder, Item_Scriptable Data)
     {
         if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name))
@@ -334,14 +337,12 @@ public class UI_Relic : UI_Base
         }
 
     }
-
     public void Disable_Relic_Information()
     {
         Clicked_Relic_Parts = null;
         Item = null;
         Relic_Information.gameObject.SetActive(false);
     }
-
     public override void DisableOBJ()
     {
         Main_UI.Instance.Layer_Check(-1);

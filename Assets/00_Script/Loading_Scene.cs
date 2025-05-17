@@ -197,8 +197,8 @@ public class Loading_Scene : MonoBehaviour
         }
 
 
-        var check = Game_Vers_Update_Check();
-        
+        //var check = Game_Vers_Update_Check();
+        var check = true;
               
         if (check)
         {

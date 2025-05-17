@@ -20,6 +20,7 @@ public class UI_Setting : UI_Base
     [SerializeField]
     private TextMeshProUGUI user_nick_name;
 
+    private bool canSave = true; // 세이브 함수를 5초간격으로 호출할 수 있도록 규정 (함수 과다호출 및 과다 서버 비용 발생 방지)
 
     public override bool Init()
     {
@@ -74,8 +75,23 @@ public class UI_Setting : UI_Base
     /// </summary>
     public void Save_Button()
     {
+        if (!canSave)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("잠시 후 다시 시도해주세요.");
+            return;
+        }
+
         _ = Base_Manager.BACKEND.WriteData();
         Base_Canvas.instance.Get_Toast_Popup().Initialize("즉시 저장이 완료되었습니다.");
+
+        canSave = false;
+        StartCoroutine(SaveCooldown());
+    }
+
+    private IEnumerator SaveCooldown()
+    {
+        yield return new WaitForSecondsRealtime(5.0f);
+        canSave = true;
     }
 
     /// <summary>
