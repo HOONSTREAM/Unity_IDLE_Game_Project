@@ -20,8 +20,8 @@ public class UI_Reward : UI_Base
             case IAP_Holder.dia_19000: GetRewardInit("Dia", 19000); break;
             case IAP_Holder.dia_1400: GetRewardInit("Dia", 1400); break;
             case IAP_Holder.dia_4900: GetRewardInit("Dia", 4900); break;
-            case IAP_Holder.dungeon_dia_20: GetRewardInit("Dungeon_Dia", 20); break;
-            case IAP_Holder.gold_30: GetRewardInit("Dungeon_Gold", 30); break;
+            case IAP_Holder.dungeon_dia_20: GetRewardInit("Dungeon_Dia", 5); break;
+            case IAP_Holder.gold_30: GetRewardInit("Dungeon_Gold", 8); break;
         }
     }
 

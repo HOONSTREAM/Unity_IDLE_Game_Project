@@ -9,36 +9,25 @@ using TMPro;
 
 public class UI_Chat : UI_Base, BackndChat.IChatClientListener
 {
-    [SerializeField]
-    private GameObject ChatContent;
-    [SerializeField]
-    private GameObject ScrollView;
-    [SerializeField]
-    private TMP_InputField ChatInput;
-    [SerializeField]
-    private Button Send_Button;
-    [SerializeField]
-    private Button RePort_Button;
+    [SerializeField] private GameObject ChatContent;
+    [SerializeField] private GameObject ScrollView;
+    [SerializeField] private TMP_InputField ChatInput;
+    [SerializeField] private Button Send_Button;
+    [SerializeField] private Button RePort_Button;
 
-
-    private BackndChat.ChatClient ChatClient = null;
-
+    private ChatClient ChatClient;
     private const string SERVER_GROUP_NAME = "global";
     private const string CHANNEL_NAME = "server-1";
     private const int CHANNEL_NUMBER = 1;
 
     private GameObject chatPanelPrefab;
-
     private Queue<MessageInfo> messageQueue = new Queue<MessageInfo>();
+    private Queue<GameObject> chatItemPool = new Queue<GameObject>();
     private bool isProcessing = false;
 
     private void Start()
     {
-        ChatClient = new ChatClient(this, new ChatClientArguments
-        {
-            
-        });
-
+        ChatClient = new ChatClient(this, new ChatClientArguments());
         chatPanelPrefab = Resources.Load<GameObject>("PreFabs/ChatList_Panel");
     }
 
@@ -49,38 +38,57 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
 
     public void SendChatMessage()
     {
-
         if (ChatInput == null || ChatClient == null || string.IsNullOrEmpty(ChatInput.text)) return;
 
         string text = ChatInput.text;
         ChatInput.text = string.Empty;
-
         ChatClient.SendChatMessage(SERVER_GROUP_NAME, CHANNEL_NAME, CHANNEL_NUMBER, text);
     }
 
-    IEnumerator ScrollToBottom()
+    private GameObject GetChatItem()
     {
-        yield return null; // 한 프레임 대기 (레이아웃 정리 시간)
+        if (chatItemPool.Count > 0)
+            return chatItemPool.Dequeue();
+        else
+            return Instantiate(chatPanelPrefab);
+    }
+
+    private void ReturnChatItem(GameObject item)
+    {
+        item.SetActive(false);
+        item.transform.SetParent(null);
+        chatItemPool.Enqueue(item);
+    }
+
+    private IEnumerator ScrollToBottom()
+    {
+        yield return null;
+        yield return null;
+        Canvas.ForceUpdateCanvases();
         ScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
     }
+
     public void OnChatMessage(MessageInfo messageInfo)
     {
         messageQueue.Enqueue(messageInfo);
         if (!isProcessing)
-            StartCoroutine(ProcessMessages());
+            StartCoroutine(ProcessMessagesBatch());
     }
-    private IEnumerator ProcessMessages()
+
+    private IEnumerator ProcessMessagesBatch()
     {
         isProcessing = true;
 
         while (messageQueue.Count > 0)
         {
-            MessageInfo message = messageQueue.Dequeue();
-            yield return StartCoroutine(HandleChatMessage(message));
+            var msg = messageQueue.Dequeue();
+            yield return StartCoroutine(HandleChatMessage(msg));
         }
 
+        yield return StartCoroutine(ScrollToBottom());
         isProcessing = false;
     }
+
     private IEnumerator HandleChatMessage(MessageInfo messageInfo)
     {
         string _rank = "UnRank";
@@ -93,17 +101,14 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         Backend.Social.GetUserInfoByNickName(messageInfo.GamerName, (userCallback) =>
         {
             if (userCallback.IsSuccess())
-            {
                 inDate = userCallback.GetInDate();
-            }
             done = true;
         });
-
         yield return new WaitUntil(() => done);
-        done = false;
 
         if (!string.IsNullOrEmpty(inDate))
         {
+            done = false;
             Backend.URank.User.GetUserRank(Utils.LEADERBOARD_UUID, inDate, (rankCallback) =>
             {
                 if (rankCallback.IsSuccess())
@@ -112,39 +117,33 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
                     if (json["rows"].Count > 0)
                     {
                         string rawRank = json["rows"][0]["rank"].ToString();
-                        if (int.TryParse(rawRank, out int parsedRank))
+                        if (int.TryParse(rawRank, out int parsedRank) && parsedRank <= 10)
                         {
-                            if (parsedRank >= 1 && parsedRank <= 10)
-                            {
-                                _rank = parsedRank.ToString();
-                                rankColor = Color.yellow;
-                                tierSprite = Utils.Get_Atlas(parsedRank.ToString());
-                            }
-                            else
-                            {
-                                _rank = "UnRank"; // 11위 이상도 UnRank 처리
-                            }
+                            _rank = parsedRank.ToString();
+                            rankColor = Color.yellow;
+                            tierSprite = Utils.Get_Atlas(parsedRank.ToString());
                         }
                     }
                 }
                 done = true;
             });
-
             yield return new WaitUntil(() => done);
         }
 
         CreateChatItem(messageInfo, _rank, rankColor, tierSprite);
     }
+
     private void CreateChatItem(MessageInfo messageInfo, string rank, Color color, Sprite sprite)
     {
-        GameObject chatItem = Instantiate(chatPanelPrefab, ChatContent.transform);
+        GameObject chatItem = GetChatItem();
+        chatItem.transform.SetParent(ChatContent.transform, false);
+        chatItem.SetActive(true);
+
         chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = messageInfo.Message;
         chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = rank == "UnRank" ? "[UnRank]" : $"[랭킹 {rank}위]";
         chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = color;
         chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = messageInfo.GamerName;
         chatItem.transform.GetChild(4).GetComponent<Image>().sprite = sprite;
-
-        StartCoroutine(ScrollToBottom());
     }
 
     public override void DisableOBJ()
@@ -153,81 +152,28 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         base.DisableOBJ();
     }
 
-    public void OnChangeGamerName(string oldGamerName, string newGamerName)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnDeleteMessage(MessageInfo messageInfo)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnError(ERROR_MESSAGE error, object param)
-    {
-        Debug.LogError($"채팅 에러 발생: {error}");
-    }
-
-    public void OnHideMessage(MessageInfo messageInfo)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnJoinChannel(BackndChat.ChannelInfo channelInfo)
+    public void OnJoinChannel(ChannelInfo channelInfo)
     {
         Debug.Log($"채널 입장 완료: {channelInfo.ChannelGroup}/{channelInfo.ChannelName}");
 
         foreach (var msg in channelInfo.Messages)
-        {
             OnChatMessage(msg);
-            StartCoroutine(ScrollToBottom());
-        }
 
-        // 현재 접속중인 유저 확인
         foreach (var player in channelInfo.Players)
-        {
             Debug.Log($"접속중: {player.Value.GamerName}");
-        }
-
     }
 
-    public void OnJoinChannelPlayer(string channelGroup, string channelName, ulong channelNumber, PlayerInfo player)
-    {
-        Debug.Log($"[채널 입장] {player.GamerName} 이 {channelGroup}/{channelName} 채널에 입장했습니다.");
-    }
+    public void OnJoinChannelPlayer(string group, string name, ulong number, PlayerInfo player) => Debug.Log($"입장: {player.GamerName}");
+    public void OnLeaveChannel(ChannelInfo channelInfo) { }
+    public void OnLeaveChannelPlayer(string group, string name, ulong number, PlayerInfo player) { }
+    public void OnSuccess(SUCCESS_MESSAGE success, object param) { }
+    public void OnTranslateMessage(List<MessageInfo> messages) { }
+    public void OnUpdatePlayerInfo(string group, string name, ulong number, PlayerInfo player) { }
+    public void OnChangeGamerName(string oldName, string newName) { }
+    public void OnDeleteMessage(MessageInfo msg) { }
+    public void OnError(ERROR_MESSAGE error, object param) => Debug.LogError($"채팅 에러 발생: {error}");
+    public void OnHideMessage(MessageInfo msg) { }
+    public void OnWhisperMessage(WhisperMessageInfo msg) { }
 
-    public void OnLeaveChannel(ChannelInfo channelInfo)
-    {
-        
-    }
-
-    public void OnLeaveChannelPlayer(string channelGroup, string channelName, ulong channelNumber, PlayerInfo player)
-    {
-       
-    }
-
-    public void OnSuccess(SUCCESS_MESSAGE success, object param)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnTranslateMessage(List<MessageInfo> messages)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnUpdatePlayerInfo(string channelGroup, string channelName, ulong channelNumber, PlayerInfo player)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    private void OnApplicationQuit()
-    {
-        ChatClient?.Dispose();
-    }
-
-    public void OnWhisperMessage(WhisperMessageInfo messageInfo)
-    {
-        throw new NotImplementedException();
-    }
+    private void OnApplicationQuit() => ChatClient?.Dispose();
 }
