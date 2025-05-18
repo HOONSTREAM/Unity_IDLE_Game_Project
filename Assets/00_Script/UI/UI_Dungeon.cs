@@ -33,8 +33,17 @@ public class UI_Dungeon : UI_Base
 
     public override bool Init()
     {
+
         Main_UI.Instance.FadeInOut(true, true, null);
 
+        for(int i = 0; i < Data_Manager.Main_Players_Data.Dungeon_Clear_Level.Length; i++) // 최고난이도 적용
+        {
+            if (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] >= 99)
+            {
+                Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] = 99;
+            }
+        }
+  
         for(int i = 0; i< KeyTexts.Length; i++)
         {
             KeyTexts[i].text = "(" + (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]).ToString() + "/2)";
@@ -146,10 +155,24 @@ public class UI_Dungeon : UI_Base
     public void ArrowButton(int KeyValue, int value)
     {
         Level[KeyValue] += value;
+
+        
         if (Level[KeyValue] <= 0)
         {
             Level[KeyValue] = 0;
+            Dungeon_Levels[KeyValue].text = (Level[KeyValue] + 1).ToString();
         }
+
+        if (Level[KeyValue] >= 99)
+        {
+            Level[KeyValue] = 99;
+            Dungeon_Levels[KeyValue].text = (Level[KeyValue] + 1).ToString();
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 난이도에 도달하였습니다.");
+            Debug.Log(Dungeon_Levels[KeyValue]);
+        }
+
+        
+
         else if (Level[KeyValue] > Data_Manager.Main_Players_Data.Dungeon_Clear_Level[KeyValue])
         {
             Base_Canvas.instance.Get_TOP_Popup().Initialize("해당 난이도가 해금되지 않았습니다.");

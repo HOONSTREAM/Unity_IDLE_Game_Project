@@ -605,6 +605,12 @@ public class Main_UI : MonoBehaviour
             if (Stage_Manager.Dungeon_Level == Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]) // 클리어레벨이 최종클리어레벨과 동일할 때에만 레벨증가
             {
                 Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]++;
+
+                if (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value] >= 100)
+                {
+                    Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value] = 100;
+                    Base_Canvas.instance.Get_Toast_Popup().Initialize("던전 최고 레벨에 도달하였습니다.");
+                }
             }
 
 
