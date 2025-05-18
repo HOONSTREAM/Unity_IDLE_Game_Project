@@ -38,52 +38,48 @@ public class UI_Offline_Reward : UI_Base
    
     private IEnumerator Instantiate_Offline_Item_Coroutine(int TimeValue)
     {
-        int index = 0;
-        float delayBetweenItems = 0.05f;
+        int sampleInterval = 10;
+        int iterations = TimeValue / sampleInterval;
 
-        int batchSize = 500; // 한번에 처리할 루프 수
-        int count = 0;
-
-        for (int i = 0; i < TimeValue; i++)
+        for (int i = 0; i < iterations; i++)
         {
             var Drop_items = Base_Manager.Item.Get_Drop_Set();
             foreach (var drop in Drop_items)
             {
                 if (items.TryGetValue(drop.name, out var existing))
                 {
-                    existing.holder.Hero_Card_Amount++;
+                    existing.holder.Hero_Card_Amount += sampleInterval;
                 }
                 else
                 {
-                    Item_Holder newItem = new Item_Holder
+                    items.Add(drop.name, new Item_Holder
                     {
                         Data = drop,
-                        holder = new Holder { Hero_Card_Amount = 1 }
-                    };
-                    items.Add(drop.name, newItem);
+                        holder = new Holder { Hero_Card_Amount = sampleInterval }
+                    });
                 }
             }
 
-            count++;
-            if (count >= batchSize)
-            {
-                count = 0;
-                yield return null; // 한 프레임 대기
-            }
+            if (i % 100 == 0)
+                yield return null;
         }
 
-        // 완료 후 UI 표시
-        foreach (var item in items)
+        int index = 0;
+        int perFrameInstantiate = 5;
+        List<Item_Holder> itemList = new List<Item_Holder>(items.Values);
+
+        for (int i = 0; i < itemList.Count; i++)
         {
             var go = Instantiate(UI_INVENTORY_PARTS_Item, Content);
-            go.Init(item.Key, item.Value.holder);
+            go.Init(itemList[i].Data.name, itemList[i].holder);
 
-
-            go.PlayAppearAnimation(index * delayBetweenItems);
+            if (index < 10) // 처음 10개만 애니메이션
+                go.PlayAppearAnimation(index * 0.05f);
 
             index++;
 
-            yield return new WaitForSecondsRealtime(0.02f);
+            if (index % perFrameInstantiate == 0)
+                yield return null; // 5개 단위로 1프레임 쉬기
         }
     }
 
