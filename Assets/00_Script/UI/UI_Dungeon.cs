@@ -167,8 +167,7 @@ public class UI_Dungeon : UI_Base
         {
             Level[KeyValue] = 99;
             Dungeon_Levels[KeyValue].text = (Level[KeyValue] + 1).ToString();
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 난이도에 도달하였습니다.");
-            Debug.Log(Dungeon_Levels[KeyValue]);
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 난이도에 도달하였습니다.");           
         }
 
         
