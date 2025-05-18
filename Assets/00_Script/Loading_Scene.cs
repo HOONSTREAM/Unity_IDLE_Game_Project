@@ -197,11 +197,7 @@ public class Loading_Scene : MonoBehaviour
         }
 
 
-#if UNITY_EDITOR
-        var check = true;
-#else
-    var check = Game_Vers_Update_Check();
-#endif
+        var check = Game_Vers_Update_Check();
 
         if (check)
         {
