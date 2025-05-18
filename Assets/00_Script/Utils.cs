@@ -157,7 +157,7 @@ public class Utils
 
         Time_Count = Mathf.Min((float)Time_Count, 72000f); 
              
-        return Time_Count;
+        return 72000f;
     }
 
     public static double BackGround_Timer_Check()
