@@ -140,7 +140,7 @@ public class Player_Manager
         {
             var goldLevel = Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level;
             float effectValue = float.Parse(CSV_Importer.RELIC_GOLD_PER_ATK_Design[goldLevel]["effect_percent"].ToString());
-            double atkBonus = (playerData.Player_Money / 1000000.0) * (effectValue * 0.01);
+            double atkBonus = (playerData.Player_Money / 10000000.0) * (effectValue * 0.01);
             baseATK *= 1.0 + atkBonus;
         }
 
