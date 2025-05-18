@@ -11,6 +11,7 @@ public class Spawner : MonoBehaviour
 
     private const int GOLD_DUNGEON_MULTIPLE_HARD = 60;
     private const int TIER_DUNGEON_FIRST_HARD = 25;
+    private const int DIA_DUNGEON_MULTIPLE_HARD = 100;
 
     //Spawner 에 손쉽게 접근하기 위해, static으로 설계
     public static List<Monster> m_monsters = new List<Monster>();
@@ -96,7 +97,7 @@ public class Spawner : MonoBehaviour
         {
             Stop_Coroutine_And_Delete_Monster();
             Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
-            coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Stage_Manager.Dungeon_Level + 1) * 30));
+            coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Stage_Manager.Dungeon_Level + 1) * DIA_DUNGEON_MULTIPLE_HARD));
 
         }
 
