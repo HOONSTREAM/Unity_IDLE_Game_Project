@@ -49,14 +49,17 @@ public class UI_Dungeon : UI_Base
         for(int i = 0; i< KeyTexts.Length; i++)
         {
             KeyTexts[i].text = "(" + (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]).ToString() + "/2)";
-            Dungeon_Enter_Request_Key[i].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]) <= 0 ? Color.red : Color.green;
+            Dungeon_Enter_Request_Key[i].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + 
+                Data_Manager.Main_Players_Data.User_Key_Assets[i]) <= 0 ? Color.red : Color.green;
             Dungeon_Levels[i].text = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] + 1).ToString();           
             Level[i] = Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i];
+
+            Dungeon_Level_Guide_Text[i].text = i == 0
+                ? $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도"
+                : $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
         }
 
-        Dungeon_Level_Guide_Text[0].text = $"스테이지 <color=#FFFF00>{((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0]+1) * Utils.DIA_DUNGEON_MULTIPLE_HARD).ToString()}</color>층 수준의 난이도";
-        Dungeon_Level_Guide_Text[1].text = $"스테이지 <color=#FFFF00>{((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD).ToString()}</color>층 수준의 난이도";
-
+        
         int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1); 
         var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
 
@@ -83,18 +86,15 @@ public class UI_Dungeon : UI_Base
 
         return base.Init();
     }
-
     private void Update()
     {
         Daily_Reset_Timer.text = Utils.NextDayTimer();
     }
-
     public override void DisableOBJ()
     {
         Main_UI.Instance.Layer_Check(-1);
         base.DisableOBJ();
     }
-
     public void Get_Dungeon(int value)
     {
         var playerData = Data_Manager.Main_Players_Data;
@@ -156,7 +156,6 @@ public class UI_Dungeon : UI_Base
 
         Utils.CloseAllPopupUI();
     }
-
     public void ArrowButton(int KeyValue, int value)
     {
         Level[KeyValue] += value;
@@ -198,6 +197,11 @@ public class UI_Dungeon : UI_Base
             Clear_Assets[1].text = StringMethod.ToCurrencyString(Gold_Value);
         }
 
+        Dungeon_Level_Guide_Text[KeyValue].text = KeyValue == 0
+           ? $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도"
+           : $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
     }
 
 }
+
+
