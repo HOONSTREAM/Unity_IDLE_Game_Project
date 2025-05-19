@@ -197,9 +197,14 @@ public class Loading_Scene : MonoBehaviour
         }
 
 
-        var check = Game_Vers_Update_Check();
-       
-        
+        bool check;
+
+#if UNITY_EDITOR
+        check = true;
+#else
+    check = Game_Vers_Update_Check();
+#endif
+
         if (check)
         {
             StartCoroutine(LoadData_Coroutine());

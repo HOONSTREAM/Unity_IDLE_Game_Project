@@ -38,8 +38,7 @@ public class Skill_Base : MonoBehaviour
 
     public virtual void ReturnSkill()
     {
-        m_Player.GetComponent<Player>().Use_Skill = false;
-        m_Player.AnimatorChange("isIDLE");
+        m_Player.GetComponent<Player>().Use_Skill = false;        
     }
 
     public Character HP_Check()

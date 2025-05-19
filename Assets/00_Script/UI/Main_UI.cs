@@ -377,11 +377,13 @@ public class Main_UI : MonoBehaviour
         }
 
     }
+
     public void Set_Boss_State()
     {
         Stage_Manager.isDead = false;
         Base_Manager.Stage.State_Change(Stage_State.Boss);
     }
+
     public void Monster_Slider_Count()
     {
         float value = (float)Stage_Manager.Count / (float)Stage_Manager.MaxCount;
@@ -546,6 +548,13 @@ public class Main_UI : MonoBehaviour
     /// </summary>
     public void Character_State_Check(Player player)
     {
+        Main_UI_PlayerInfo_Text_Check();
+
+        if(player.gameObject.GetComponent<Player>().CH_Name == "Cleric")
+        {
+            return;
+        }
+
         Main_Parts_Dict[player].State_Check(player);
     }
     private void OnBoss()
@@ -703,6 +712,12 @@ public class Main_UI : MonoBehaviour
         Tier_Image.sprite = Utils.Get_Atlas(Data_Manager.Main_Players_Data.Player_Tier.ToString());
 
         _level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
+
+        if(Cleric_Component.HP <= 0)
+        {
+            Cleric_Component.HP = 0;
+        }
+
         Main_Char_HP_Text.text = StringMethod.ToCurrencyString(Cleric_Component.HP);
         _player_ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
 

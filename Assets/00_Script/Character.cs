@@ -38,6 +38,15 @@ public class Character : MonoBehaviour
     {
         if (animator != null)
         {
+            if(temp == "isDEAD")
+            {
+                animator.SetBool("isIDLE", false);
+                animator.SetBool("isMOVE", false);
+                animator.SetTrigger(temp);
+
+                return;
+            }
+
             if (Skill_none_Attack && Use_Skill)
             {
                 return;

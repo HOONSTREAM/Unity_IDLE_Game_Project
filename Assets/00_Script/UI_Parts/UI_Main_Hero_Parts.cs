@@ -58,9 +58,17 @@ public class UI_Main_Hero_Parts : MonoBehaviour
     }
 
     public void State_Check(Player player)
-    {        
+    {   
+        
+        
         FillImage.fillAmount = (float)player.MP / (float)Main_Data.MAX_MP;
-        HP.text = StringMethod.ToCurrencyString(player.HP);
+
+        if (player.HP <= 0)
+        {
+            player.HP = 0;
+        }
+
+        HP.text = StringMethod.ToCurrencyString(player.HP);      
         MP.text = player.MP.ToString() + "/" + Main_Data.MAX_MP;
     }
 

@@ -25,6 +25,7 @@ public class UI_LAUNCH_EVENT : UI_Base
         Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit("Dia", 20000); // 보상지급
         Destroy(this.gameObject);
         Base_Canvas.instance.Destroy_Launch_Event_Button();
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
     }
    
 }

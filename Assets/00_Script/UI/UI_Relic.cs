@@ -293,8 +293,7 @@ public class UI_Relic : UI_Base
         if (Data.name == "GOLD_PER_ATK")
         {
             double Gold_Amount = Data_Manager.Main_Players_Data.Player_Money;
-            double atkBonus = Gold_Amount / 1000000 * double.Parse(effect_percent);
-
+            double atkBonus = Gold_Amount / 10000000 * double.Parse(effect_percent);            
             Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent,
                 effect_percent, atkBonus.ToString("F2"));
         }

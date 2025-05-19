@@ -10,6 +10,11 @@ public class Dual_Blader_Skill : Skill_Base
 
     public override void Set_Skill()
     {
+        if (this.gameObject.GetComponent<Player>().isDead)
+        {           
+            return;
+        }
+
         gameObject.GetComponent<Speech_Character>().Init();
         m_Player.AnimatorChange("isSKILL");
         Skill_Effect.gameObject.SetActive(true);
@@ -19,7 +24,7 @@ public class Dual_Blader_Skill : Skill_Base
     }
 
     public override void ReturnSkill()
-    {
+    {       
         Skill_Effect.gameObject.SetActive(false);
         base.ReturnSkill();
     }

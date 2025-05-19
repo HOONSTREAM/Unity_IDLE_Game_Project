@@ -13,6 +13,11 @@ public class Main_Character : Skill_Base
 
     public override void Set_Skill()
     {
+        if (this.gameObject.GetComponent<Player>().isDead)
+        {
+            return;
+        }
+
         gameObject.GetComponent<Speech_Character>().Init();
         m_Player.Use_Skill = true;
         m_Player.AnimatorChange("isSKILL");

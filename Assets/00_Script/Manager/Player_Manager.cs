@@ -99,6 +99,7 @@ public class Player_Manager
     /// <returns></returns>
     public double Get_ATK(Rarity rarity, Holder holder, string Hero_name)
     {
+        
         var holdingEffect = Check_Player_Holding_Effects();
         var holdingEffectRelic = Check_Relic_Holding_Effects();
         var adsBuffValue = ADS_Atk_Buff_Value;

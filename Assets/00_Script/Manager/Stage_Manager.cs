@@ -60,7 +60,7 @@ public class Stage_Manager
                     MaxCount = FULL_MAX_COUNT;
                 }
 
-                GameObject.Find("@Character_Spawner").gameObject.GetComponent<Character_Spawner>().Set_Hero_Main_Game();
+                GameObject.Find("@Character_Spawner").gameObject.GetComponent<Character_Spawner>().Set_Hero_Main_Game();               
                 Base_Manager.Data.Set_Player_ATK_HP();
                 Spawner.m_players.RemoveAll(player => player == null || !player.gameObject.activeInHierarchy); // 레디상태마다, m_players를 정리합니다.        
                 M_ReadyEvent?.Invoke();                
