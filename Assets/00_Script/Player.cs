@@ -111,7 +111,7 @@ public class Player : Character
                 Spawner.m_players.Add(this);
             }
 
-            AnimatorChange("isIDLE");
+            //AnimatorChange("isIDLE");
 
             Set_ATK_HP_Sub_Hero();
             transform.position = startPos;

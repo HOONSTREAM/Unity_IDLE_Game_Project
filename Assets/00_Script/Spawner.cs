@@ -9,10 +9,6 @@ public class Spawner : MonoBehaviour
     private float M_SpawnTime; // 몇 초마다 스폰이 될 것인지 결정.
     // 1. 몬스터는 여러마리가 몇 초 마다 수시로 여러번 스폰 되어야 한다.
 
-    private const int GOLD_DUNGEON_MULTIPLE_HARD = 60;
-    private const int TIER_DUNGEON_FIRST_HARD = 25;
-    private const int DIA_DUNGEON_MULTIPLE_HARD = 100;
-
     //Spawner 에 손쉽게 접근하기 위해, static으로 설계
     public static List<Monster> m_monsters = new List<Monster>();
     public static List<Player> m_players = new List<Player>();
@@ -97,7 +93,7 @@ public class Spawner : MonoBehaviour
         {
             Stop_Coroutine_And_Delete_Monster();
             Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
-            coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Stage_Manager.Dungeon_Level + 1) * DIA_DUNGEON_MULTIPLE_HARD));
+            coroutine = StartCoroutine(SpawnCoroutine(30, -1, (Stage_Manager.Dungeon_Level + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD));
 
         }
 
@@ -144,7 +140,7 @@ public class Spawner : MonoBehaviour
             var go = Base_Manager.Pool.Pooling_OBJ("Gold_Dungeon").Get((value) =>
             {
                 // 풀링이 생성될때의 기능을 구현한다.
-                value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * GOLD_DUNGEON_MULTIPLE_HARD); 
+                value.GetComponent<Monster>().Init((Stage_Manager.Dungeon_Level + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD); 
             });
 
             monster = go.GetComponent<Monster>();
@@ -176,11 +172,11 @@ public class Spawner : MonoBehaviour
         Monster monster = null;
 
         int dungeon_level = (int)Data_Manager.Main_Players_Data.Player_Tier + 1;
-        int difficulty = Mathf.RoundToInt(Mathf.Pow(dungeon_level, 3.0f) * TIER_DUNGEON_FIRST_HARD);
+        int difficulty = Mathf.RoundToInt(Mathf.Pow(dungeon_level, 3.0f) * Utils.TIER_DUNGEON_FIRST_HARD);
 
         if(difficulty == 0)
         {
-            difficulty = TIER_DUNGEON_FIRST_HARD;
+            difficulty = Utils.TIER_DUNGEON_FIRST_HARD;
         }
 
         Debug.Log($"{difficulty}의 티어던전 난이도 설정");

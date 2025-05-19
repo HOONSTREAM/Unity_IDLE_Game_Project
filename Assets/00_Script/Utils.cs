@@ -9,6 +9,12 @@ using UnityEngine.U2D;
 
 public class Utils 
 {
+
+    public static readonly int GOLD_DUNGEON_MULTIPLE_HARD = 40;
+    public static readonly int TIER_DUNGEON_FIRST_HARD = 25;
+    public static readonly int DIA_DUNGEON_MULTIPLE_HARD = 50;
+
+
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");
     public static int[] summon_level = { 10, 45, 110, 250, 300, 500, 750, 1000, 1240 };
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();

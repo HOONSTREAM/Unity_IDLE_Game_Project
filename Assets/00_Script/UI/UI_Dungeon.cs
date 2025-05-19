@@ -24,6 +24,8 @@ public class UI_Dungeon : UI_Base
     private Image Clear_Tier_Image;
     [SerializeField]
     private TextMeshProUGUI[] Dungeon_Levels; // 난이도
+    [SerializeField]
+    private TextMeshProUGUI[] Dungeon_Level_Guide_Text;
 
     [SerializeField] 
     private Button[] Key01ArrowButton, Key02ArrowButton;
@@ -48,9 +50,12 @@ public class UI_Dungeon : UI_Base
         {
             KeyTexts[i].text = "(" + (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]).ToString() + "/2)";
             Dungeon_Enter_Request_Key[i].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]) <= 0 ? Color.red : Color.green;
-            Dungeon_Levels[i].text = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] + 1).ToString();
+            Dungeon_Levels[i].text = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] + 1).ToString();           
             Level[i] = Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i];
         }
+
+        Dungeon_Level_Guide_Text[0].text = $"스테이지 <color=#FFFF00>{((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0]+1) * Utils.DIA_DUNGEON_MULTIPLE_HARD).ToString()}</color>층 수준의 난이도";
+        Dungeon_Level_Guide_Text[1].text = $"스테이지 <color=#FFFF00>{((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD).ToString()}</color>층 수준의 난이도";
 
         int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1); 
         var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
