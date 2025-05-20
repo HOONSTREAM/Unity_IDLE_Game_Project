@@ -40,6 +40,8 @@ public class Main_UI : MonoBehaviour
     private TextMeshProUGUI _boss_stage_text;
     [SerializeField]
     private TextMeshProUGUI _char_nick_name;
+    [SerializeField]
+    private Button Mode_Change_Button;
 
     private Character Cleric_Component;
 
@@ -219,7 +221,6 @@ public class Main_UI : MonoBehaviour
         string temp = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();
         _char_nick_name.text = temp;
     }
-
     public void Layer_Check(int value)
     {
         if(value != -1)
@@ -384,6 +385,21 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.State_Change(Stage_State.Boss);
     }
 
+    /// <summary>
+    /// 즉시 방치형모드로 전환합니다.
+    /// </summary>
+    public void Set_Mode_Change_Idle_Mode()
+    {
+
+        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+        Stage_Manager.isDead = true;
+        Base_Manager.Stage.State_Change(Stage_State.Ready);
+        Slider_Object_Check(Slider_Type.Default);
+        Mode_Change_Button.gameObject.SetActive(false);
+        //Dead_Frame.gameObject.SetActive(true);
+
+    }
+
     public void Monster_Slider_Count()
     {
         float value = (float)Stage_Manager.Count / (float)Stage_Manager.MaxCount;
@@ -485,7 +501,13 @@ public class Main_UI : MonoBehaviour
     private void OnReady()
     {
         FadeInOut(true);
-        Monster_Slider_Count();        
+        Monster_Slider_Count();
+
+        if (!Stage_Manager.isDead)
+        {
+            Mode_Change_Button.gameObject.SetActive(true);
+        }
+        
         Parts_Initialize();        
     }
 
@@ -560,16 +582,19 @@ public class Main_UI : MonoBehaviour
     private void OnBoss()
     {
         Main_UI_PlayerInfo_Text_Check();
+        Mode_Change_Button.gameObject.SetActive(false);
         Slider_Object_Check(Slider_Type.Boss);
     }
     private void OnClear()
     {
-        Slider_Object_Check(Slider_Type.Default);
+        Slider_Object_Check(Slider_Type.Default);        
         StartCoroutine(Clear_Delay());
     }
     private void OnDungeon(int Value)
     {
-        for(int i = 0; i< Dungeon_Addtional_Sliders.Length; i++)
+        Mode_Change_Button.gameObject.SetActive(false);
+
+        for (int i = 0; i< Dungeon_Addtional_Sliders.Length; i++)
         {
             Dungeon_Addtional_Sliders[i].gameObject.SetActive(false);
         }
@@ -601,6 +626,8 @@ public class Main_UI : MonoBehaviour
     }
     private void OnDungeonClear(int Value)
     {
+        Mode_Change_Button.gameObject.SetActive(false);
+
         if (Dungeon_Coroutine != null)
         {
             StopCoroutine(Dungeon_Coroutine);
@@ -664,6 +691,7 @@ public class Main_UI : MonoBehaviour
 
 
         Base_Canvas.instance.Get_TOP_Popup().Initialize("던전 클리어에 성공하였습니다!");
+        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
         
         OnClear();
     }
@@ -676,6 +704,8 @@ public class Main_UI : MonoBehaviour
 
     private void OnDungeonDead()
     {
+        Mode_Change_Button.gameObject.SetActive(false);
+
         if (Dungeon_Coroutine != null)
         {
             StopCoroutine(Dungeon_Coroutine);

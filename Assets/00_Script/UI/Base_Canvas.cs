@@ -93,7 +93,7 @@ public class Base_Canvas : MonoBehaviour
             Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
         }
 
-        Base_Manager.SOUND.Play(Sound.BGM, "Main");
+        Base_Manager.SOUND.Play(Sound.BGM, "Main2");
 
         Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, false, true, 1));
         Relic_Button.onClick.AddListener(() => Get_UI("UI_RELIC", false, false, true, 2));

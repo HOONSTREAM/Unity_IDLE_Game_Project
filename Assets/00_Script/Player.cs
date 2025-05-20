@@ -124,8 +124,7 @@ public class Player : Character
 
     private void OnBoss()
     {     
-        AnimatorChange("isIDLE");
-
+       
         if (Provocation_Effect != null) //유효성검사
         {
             Provocation_Effect.Play();

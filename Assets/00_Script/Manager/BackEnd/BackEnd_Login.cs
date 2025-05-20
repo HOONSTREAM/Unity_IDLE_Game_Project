@@ -6,6 +6,7 @@ using UnityEngine;
 
 public partial class BackEnd_Manager : MonoBehaviour
 {
+
     private bool isGoogleLoginRunning = false;
 
     public void StartGoogleLogin()
@@ -65,6 +66,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             Debug.LogError(errorMessage);
             Utils.Get_LoadingCanvas_ErrorUI($"로그인에 실패하였습니다 : {errorMessage}.");
             GameObject.Find("Loading_CANVAS").gameObject.GetComponent<Loading_Scene>().TapToStart_Object.gameObject.SetActive(true);
+
             return;
         }
 

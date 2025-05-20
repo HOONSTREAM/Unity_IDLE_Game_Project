@@ -35,7 +35,11 @@ public class Loading_Scene : MonoBehaviour
     [Space(20f)]
     [Header("UPDATE_UI")]
     public GameObject UPDATE_UI;
-    
+
+    [Space(20f)]
+    [Header("EDITOR")]
+    public GameObject TEST_LOGIN_UI;
+
 
     private void Awake()
     {
@@ -45,7 +49,7 @@ public class Loading_Scene : MonoBehaviour
         }
     }
     private void Start()
-    {        
+    {
         version_text.text = "Version : " + Application.version;
         sliderParent = slider.transform.parent.gameObject;        
     }

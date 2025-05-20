@@ -64,7 +64,7 @@ public class Skill_ToolTip : MonoBehaviour
         // 조정된 위치 적용
         Rect.anchoredPosition = new Vector2(clampedX, clampedY);
     
-        Heal_Amount.text = StringMethod.ToCurrencyString((GameObject.Find("Cleric").gameObject.GetComponent<Character>().ATK * (110.0f / 100.0f)));
+        Heal_Amount.text = StringMethod.ToCurrencyString((GameObject.Find("Cleric").gameObject.GetComponent<Character>().ATK * (500.0f / 100.0f)));
     }
 
         
