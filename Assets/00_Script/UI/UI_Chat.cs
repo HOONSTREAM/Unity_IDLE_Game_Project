@@ -29,6 +29,9 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
     private void Start()
     {
         ChatClient = new ChatClient(this, new ChatClientArguments());
+
+        ChatClient.SendJoinOpenChannel(SERVER_GROUP_NAME, CHANNEL_NAME);
+
         chatPanelPrefab = Resources.Load<GameObject>("PreFabs/ChatList_Panel");
     }
     private void Update()
@@ -150,6 +153,7 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         ChatClient?.Dispose();
         base.DisableOBJ();
     }
+
     public void OnJoinChannel(ChannelInfo channelInfo)
     {
         Debug.Log($"채널 입장 완료: {channelInfo.ChannelGroup}/{channelInfo.ChannelName}");
