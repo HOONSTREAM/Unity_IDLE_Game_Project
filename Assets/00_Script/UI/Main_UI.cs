@@ -469,9 +469,10 @@ public class Main_UI : MonoBehaviour
         Boss_Slider_GameObject.gameObject.SetActive(false);
         Dungeon_Slider_GameObject.gameObject.SetActive(false);
 
-        if (Stage_Manager.isDead)
+        if (Stage_Manager.isDead) // 데드프레임 생성 및 방치모드 버튼 해제
         {
-            Dead_Frame.gameObject.SetActive(true);            
+            Dead_Frame.gameObject.SetActive(true);
+            Mode_Change_Button.gameObject.SetActive(false);
             Base_Canvas.instance.Get_UI("UI_Dead");
             return;
         }
