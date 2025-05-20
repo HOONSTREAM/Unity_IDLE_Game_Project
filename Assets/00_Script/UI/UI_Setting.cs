@@ -19,6 +19,8 @@ public class UI_Setting : UI_Base
     private TextMeshProUGUI Gamer_id;
     [SerializeField]
     private TextMeshProUGUI user_nick_name;
+    [SerializeField]
+    private GameObject Announcement_Text_UI;
 
     private bool canSave = true; // 세이브 함수를 5초간격으로 호출할 수 있도록 규정 (함수 과다호출 및 과다 서버 비용 발생 방지)
 
@@ -149,8 +151,6 @@ public class UI_Setting : UI_Base
         });
 #endif
     }
-
-
     public void Get_Policy_URL(string url)
     {
         Application.OpenURL(url);
@@ -170,6 +170,10 @@ public class UI_Setting : UI_Base
         {
             PlayerPrefs.SetInt("CAM", 0);
         }
+    }
+    public void Get_Announcement_UI()
+    {
+        Announcement_Text_UI.gameObject.SetActive(true);
     }
     public override void DisableOBJ()
     {
