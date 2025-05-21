@@ -284,7 +284,7 @@ public class UI_Heros : UI_Base
 
         if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name))
         {
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("영웅 강화를 성공하였습니다.");
+            
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Card_Amount(Data.name);
 
             if (holder.Hero_Card_Amount == 0)
@@ -294,6 +294,8 @@ public class UI_Heros : UI_Base
 
             holder.Hero_Level++;
             Base_Manager.BACKEND.Log_Hero_Upgrade(Data, holder);
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+            Base_Manager.SOUND.Play(Sound.BGS, "Victory");
         }
         else
         {
@@ -307,8 +309,8 @@ public class UI_Heros : UI_Base
             hero_parts[i].Initialize();
         }
 
-        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+       
+        
 
         _ = Base_Manager.BACKEND.WriteData();
     

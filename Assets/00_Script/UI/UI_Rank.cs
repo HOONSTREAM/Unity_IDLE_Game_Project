@@ -12,13 +12,19 @@ public class UI_Rank : UI_Base
     private TextMeshProUGUI[] Stage;
     [SerializeField]
     private GameObject Fix_UI; // 랭크페이지 점검중 오브젝트
+    [SerializeField]
+    private TextMeshProUGUI Tier_Reset_Time_Text;
 
     
 
     private void Start()
     {
-        Set_User_Rank();
-        
+        Set_User_Rank();        
+    }
+
+    private void Update()
+    {
+        Tier_Reset_Time_Text.text = Utils.GetNextResetTimer_14Days();
     }
 
     private void Set_User_Rank()

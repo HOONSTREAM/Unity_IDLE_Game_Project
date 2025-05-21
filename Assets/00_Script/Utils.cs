@@ -262,6 +262,35 @@ public class Utils
         return timer.Hours + " : " + timer.Minutes + " : " + timer.Seconds;
     }
 
+    /// <summary>
+    /// 14일을 기준으로 시간을 계산합니다.
+    /// </summary>
+    /// <returns></returns>
+    public static string GetNextResetTimer_14Days()
+    {
+        DateTime now = Utils.Get_Server_Time();
+        DateTime launchDate = new DateTime(2025, 5, 15, 0, 0, 0); // 기준일
+
+        if (now < launchDate)
+            return "00 : 00 : 00"; // 아직 시작 전
+
+        // 경과 일수 (정확히 소수점 포함해서 계산)
+        double totalDaysPassed = (now - launchDate).TotalDays;
+
+        // 다음 리셋 주기 (버림 아님!)
+        int nextCycle = (int)Math.Floor(totalDaysPassed / 14) + 1;
+
+        DateTime nextReset = launchDate.AddDays(nextCycle * 14);
+
+        TimeSpan timeLeft = nextReset - now;
+
+        int totalHours = (int)timeLeft.TotalHours;
+        int minutes = timeLeft.Minutes;
+        int seconds = timeLeft.Seconds;
+
+        return $"{totalHours:D2} : {minutes:D2} : {seconds:D2}";
+    }
+
     public static bool Item_Count(string itemName, int value)
     {
         if (Base_Manager.Data.Item_Holder[itemName].Hero_Card_Amount >= value)

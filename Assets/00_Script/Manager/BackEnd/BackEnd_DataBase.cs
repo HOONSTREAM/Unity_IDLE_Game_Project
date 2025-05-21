@@ -609,6 +609,26 @@ public partial class BackEnd_Manager : MonoBehaviour
         }
     }
 
+    private bool Get_Date_14Days_for_Tier_Reset(DateTime lastSavedTime, DateTime currentTime)
+    {
+        DateTime resetStartDate = new DateTime(2025, 5, 15, 0, 0, 0); // 기준일
+
+        // 기준일 이전이면 기준일로 시작
+        if (lastSavedTime < resetStartDate)
+            lastSavedTime = resetStartDate;
+
+        // 기준일 이전이면 현재도 비교 불가
+        if (currentTime < resetStartDate)
+            return false;
+
+        // 14일 주기로 몇 번째 리셋 주기인지 계산
+        int startCycle = (int)((lastSavedTime - resetStartDate).TotalDays / 14);
+        int currentCycle = (int)((currentTime - resetStartDate).TotalDays / 14);
+
+        // 사이클이 바뀌었으면 true
+        return currentCycle > startCycle;
+    }
+
     /// <summary>
     /// 로드된 Character_Holder를 이용하여, Data_Character_Dictionary에 매핑합니다.
     /// </summary>

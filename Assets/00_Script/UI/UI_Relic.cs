@@ -342,6 +342,9 @@ public class UI_Relic : UI_Base
             {
                 holder.Hero_Card_Amount += 1;
             }
+
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+            Base_Manager.SOUND.Play(Sound.BGS, "Victory");
         }
         Get_Relic_Information(Data, Clicked_Relic_Parts);
 
@@ -350,8 +353,8 @@ public class UI_Relic : UI_Base
             relic_parts[i].Initialize();
         }
 
-        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+       
+       
 
         _ = Base_Manager.BACKEND.WriteData();
 
