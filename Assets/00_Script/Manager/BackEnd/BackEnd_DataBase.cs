@@ -40,7 +40,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         {
             Debug.LogError($"[ERROR] WriteData 실행 중 예외 발생: {e.Message}");
         }
-    }
+    } 
     private async Task SaveDefaultData(bool skipLeaderboard)
     {
         Param param = new Param();
@@ -93,12 +93,17 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("Daily_Dungeon_Dia_Clear", data.Dungeon_Dia_Clear);
         param.Add("Fast_Mode", data.isFastMode);
 
+        data.Season = Utils.TIER_SEASON;
+
+        param.Add("SEASON", data.Season);
+        
         var bro = Backend.GameData.Get("USER", new Where());
         
         if (!bro.IsSuccess()) return;
 
         string inDate = bro.GetInDate();
 
+        
         if (skipLeaderboard)
         {
             Backend.GameData.Update("USER", new Where(), param, callback =>
@@ -256,7 +261,55 @@ public partial class BackEnd_Manager : MonoBehaviour
             else
             {
                 Data data = new Data();
-             
+
+                #region 신규 칼럼 데이터
+               
+                if (!gameDataJson[0].ContainsKey("SEASON"))
+                {
+                    Debug.Log("SEASON 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("SEASON", data.Season);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }                   
+                }
+                else
+                {
+                    Debug.Log("SEASON 컬럼이 존재합니다.");
+                    data.Season = int.Parse(gameDataJson[0]["SEASON"].ToString());
+                }
+
+                #endregion
+
                 data.ATK = double.Parse(gameDataJson[0]["ATK"].ToString());
                 data.HP = double.Parse(gameDataJson[0]["HP"].ToString());
                 int tier_number = int.Parse(gameDataJson[0]["PLAYER_TIER"].ToString());
@@ -321,8 +374,8 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.ADS_Hero_Summon_Count = int.Parse(gameDataJson[0]["ADS_HERO_SUMMON_COUNT"].ToString());
                 data.ADS_Relic_Summon_Count = int.Parse(gameDataJson[0]["ADS_RELIC_SUMMON_COUNT"].ToString());
                 data.isFastMode = bool.Parse(gameDataJson[0]["Fast_Mode"].ToString());
+                
 
-               
 
                 if (Get_Date_Dungeon_Item(startDate, endDate))
                 {
@@ -355,6 +408,14 @@ public partial class BackEnd_Manager : MonoBehaviour
 
                 Data_Manager.Main_Players_Data = data;
                 Data_Manager.Main_Players_Data.Player_Tier = (Player_Tier)tier_number;
+
+                #region 시즌제 적용 티어 초기화
+                if (Utils.TIER_SEASON >= data.Season)
+                {
+                    data.Player_Tier = Player_Tier.Tier_Beginner;
+                    data.Season = Utils.TIER_SEASON;
+                }
+                #endregion
 
                 Utils.Calculate_ADS_Timer(); // 오프라인 시간만큼 광고 락 시간 차감
                 Utils.Calculate_ADS_Buff_Timer(); // 오프라인 시간만큼 광고버프 시간 차감
@@ -608,27 +669,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             return false;
         }
     }
-
-    private bool Get_Date_14Days_for_Tier_Reset(DateTime lastSavedTime, DateTime currentTime)
-    {
-        DateTime resetStartDate = new DateTime(2025, 5, 15, 0, 0, 0); // 기준일
-
-        // 기준일 이전이면 기준일로 시작
-        if (lastSavedTime < resetStartDate)
-            lastSavedTime = resetStartDate;
-
-        // 기준일 이전이면 현재도 비교 불가
-        if (currentTime < resetStartDate)
-            return false;
-
-        // 14일 주기로 몇 번째 리셋 주기인지 계산
-        int startCycle = (int)((lastSavedTime - resetStartDate).TotalDays / 14);
-        int currentCycle = (int)((currentTime - resetStartDate).TotalDays / 14);
-
-        // 사이클이 바뀌었으면 true
-        return currentCycle > startCycle;
-    }
-
+ 
     /// <summary>
     /// 로드된 Character_Holder를 이용하여, Data_Character_Dictionary에 매핑합니다.
     /// </summary>

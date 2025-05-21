@@ -87,6 +87,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Dungeon_Dia_Clear = false;
         Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count = 0;
         Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count = 0;
+        Data_Manager.Main_Players_Data.Season = 0;
 
 
 
@@ -117,7 +118,7 @@ public class BackendGameData
         param.Add("isBUY_LAUNCH_EVENT", Data_Manager.Main_Players_Data.isBuyLAUNCH_EVENT);
         param.Add("isBUY_TODAY_Package", Data_Manager.Main_Players_Data.isBuyTodayPackage);
         param.Add("isBUY_STRONG_Package", Data_Manager.Main_Players_Data.isBuySTRONGPackage);
-        param.Add("Event_Push_Alarm_Agree", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree);
+        param.Add("EVENT_PUSH_ALARM", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree);
         param.Add("Daily_Attendance", Data_Manager.Main_Players_Data.Daily_Attendance);
         param.Add("Level_up_Daily_Quest_Count", Data_Manager.Main_Players_Data.Levelup);
         param.Add("Summon_Daily_Quest_Count", Data_Manager.Main_Players_Data.Summon);
@@ -133,6 +134,7 @@ public class BackendGameData
         param.Add("ADS_HERO_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count);
         param.Add("ADS_RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count);
         param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode);
+        param.Add("SEASON", Data_Manager.Main_Players_Data.Season);
 
 
         var bro = Backend.GameData.Insert("USER", param);
@@ -285,6 +287,7 @@ public class Data
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
     public float buff_x2_speed;   
     public int Quest_Count;
+    public int Season = 0; // ·©Å©½ÃÁð
 
     
     /// <summary>
