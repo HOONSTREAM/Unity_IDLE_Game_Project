@@ -34,7 +34,7 @@ public class UI_Reward : UI_Base
         switch (ItemName)
         {
             case "Dia": Data_Manager.Main_Players_Data.DiaMond += Count;
-                Base_Manager.BACKEND.Log_Get_Dia($"Get_Shop_Dia_{Count}");
+                Base_Manager.BACKEND.Log_Get_Dia($"Get_Shop_or_DailyQuest_Dia_{Count}");
                 break;
 
             case "PACKAGE_ADS": 
