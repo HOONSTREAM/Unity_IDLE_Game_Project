@@ -35,7 +35,7 @@ public class Stage_Manager
 
     public const int MULTIPLE_REWARD_GOLD_DUNGEON = 500000;
     public const int MULTIPLE_REWARD_DIAMOND_DUNGEON = 20;
-
+    public const int MAX_STAGE = 20000;
 
     public void State_Change(Stage_State state, int Value = 0)
     {
@@ -97,6 +97,14 @@ public class Stage_Manager
                 }
 
                 M_ClearEvent?.Invoke();
+
+                if (Data_Manager.Main_Players_Data.Player_Stage >= MAX_STAGE)
+                {
+                    Data_Manager.Main_Players_Data.Player_Stage = MAX_STAGE;
+                    Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 층에 도달하였습니다.");
+                    break;
+                }
+
                 break;
             case Stage_State.Dead:
                 Debug.Log("Stage : Dead");

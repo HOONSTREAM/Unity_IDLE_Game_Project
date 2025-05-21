@@ -72,6 +72,19 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         });
     }
+    public void Log_Get_Dia(string Action)
+    {
+        Param param = new Param();
+
+        param.Add("Action", Action);
+        param.Add("DIAMOND", Data_Manager.Main_Players_Data.DiaMond);
+        param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
+
+        Backend.GameLog.InsertLogV2("User_Get_Dia_Log", param, (callback) =>
+        {
+
+        });
+    }
     public void Log_Clear_Dungeon(int Dungeon_Type)
     {
         Param param = new Param();

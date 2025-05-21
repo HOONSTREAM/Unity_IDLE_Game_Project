@@ -50,7 +50,8 @@ public class Coin_Parent : MonoBehaviour
                 Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY() * (1 + Base_Manager.Player.Calculate_Gold_Drop_Percentage());               
                 break;
             case Coin_Type.Dia:
-                Data_Manager.Main_Players_Data.DiaMond += reward_value;          
+                Data_Manager.Main_Players_Data.DiaMond += reward_value;
+                Base_Manager.BACKEND.Log_Get_Dia("Coin_Parent");
                 break;
 
         }

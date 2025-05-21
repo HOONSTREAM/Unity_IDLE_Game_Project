@@ -379,6 +379,11 @@ public class Utils
             case Player_Tier.Tier_Gold: return "골드";
             case Player_Tier.Tier_Diamond: return "다이아몬드";
             case Player_Tier.Tier_Master: return "마스터";
+            case Player_Tier.Tier_Master_1: return "마스터 1성";
+            case Player_Tier.Tier_Master_2: return "마스터 2성";
+            case Player_Tier.Tier_Master_3: return "마스터 3성";
+            case Player_Tier.Tier_Master_4: return "마스터 4성";
+            case Player_Tier.Tier_Master_5: return "마스터 5성";
             case Player_Tier.Tier_GrandMaster: return "그랜드마스터";
             case Player_Tier.Tier_Challenger: return "챌린저";
             case Player_Tier.Tier_Challenger_1: return "챌린저 1성";
@@ -413,6 +418,16 @@ public class Utils
             case Player_Tier.Tier_Diamond:
                 return temp = "마스터";
             case Player_Tier.Tier_Master:
+                return temp = "마스터 1성";
+            case Player_Tier.Tier_Master_1:
+                return temp = "마스터 2성";
+            case Player_Tier.Tier_Master_2:
+                return temp = "마스터 3성";
+            case Player_Tier.Tier_Master_3:
+                return temp = "마스터 4성";
+            case Player_Tier.Tier_Master_4:
+                return temp = "마스터 5성";
+            case Player_Tier.Tier_Master_5:
                 return temp = "그랜드마스터";
             case Player_Tier.Tier_GrandMaster:
                 return temp = "챌린저";

@@ -216,6 +216,7 @@ public class BackEnd_PostSystem : MonoBehaviour
                     if (itemName.Equals("Dia"))
                     {
                         Data_Manager.Main_Players_Data.DiaMond += itemCount;
+                        Base_Manager.BACKEND.Log_Get_Dia("Post");
                     }
                 }
 

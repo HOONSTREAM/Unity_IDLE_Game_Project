@@ -15,7 +15,9 @@ public class UI_Relic : UI_Base
     private Dictionary<string, Item_Scriptable> _dict = new Dictionary<string, Item_Scriptable>(); // 유물장비 저장 딕셔너리
     private Item_Scriptable Item;
     private const int RELIC_SLOT_NUMBER = 9;
+    private const int MAX_RELIC_LEVEL = 149;
     public GameObject[] Relic_Panel_Objects;
+
 
     private UI_Relic_Parts Clicked_Relic_Parts;
 
@@ -244,6 +246,11 @@ public class UI_Relic : UI_Base
 
         int heroLevel = Base_Manager.Data.Item_Holder[Data.name].Hero_Level;
 
+        if(heroLevel >= MAX_RELIC_LEVEL) // 최종레벨 점검
+        {
+            Base_Manager.Data.Item_Holder[Data.name].Hero_Level = MAX_RELIC_LEVEL;
+        }
+
         if (heroLevel < csvData.Count) // CSV 데이터 존재 여부 확인
         {
             start_percent = csvData[heroLevel]["start_percent"].ToString();
@@ -286,8 +293,10 @@ public class UI_Relic : UI_Base
         #region 유물 별 특정 설명
         if (Data.name == "GOLD_REWARD")
         {
+            var String_Value = StringMethod.ToCurrencyString(double.Parse(effect_percent));
+
             Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent,
-                StringMethod.ToCurrencyString(double.Parse(effect_percent)));
+                String_Value);
         }
 
         if (Data.name == "GOLD_PER_ATK")
@@ -318,6 +327,12 @@ public class UI_Relic : UI_Base
     }  
     public void UpGrade_Button(Holder holder, Item_Scriptable Data)
     {
+        if(holder.Hero_Level >= MAX_RELIC_LEVEL)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 레벨입니다.");
+            return;
+        }
+
         if (holder.Hero_Card_Amount >= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name))
         {
             holder.Hero_Card_Amount -= Utils.Data.heroCardData.Get_LEVELUP_Relic_Card_Amount(Data.name);
@@ -334,6 +349,11 @@ public class UI_Relic : UI_Base
         {
             relic_parts[i].Initialize();
         }
+
+        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+
+        _ = Base_Manager.BACKEND.WriteData();
 
     }
     public void Disable_Relic_Information()

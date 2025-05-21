@@ -306,6 +306,11 @@ public class UI_Heros : UI_Base
         {
             hero_parts[i].Initialize();
         }
+
+        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+
+        _ = Base_Manager.BACKEND.WriteData();
     
     }
     
@@ -323,6 +328,11 @@ public class UI_Heros : UI_Base
 
         Base_Canvas.instance.Get_UI("UpGrade_Panel");
         Utils.UI_Holder.Peek().GetComponent<UI_Upgrade>().Initialize(this);
+
+        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+
+        _ = Base_Manager.BACKEND.WriteData();
     }
 
     public void Guide_Button()

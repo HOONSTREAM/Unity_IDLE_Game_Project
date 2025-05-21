@@ -65,6 +65,7 @@ public class UI_Gacha : UI_Base
                 if (ADS == false)
                 {
                     Data_Manager.Main_Players_Data.DiaMond -= GACHA_RESUMMON_PRICE_11;
+                    Base_Manager.BACKEND.Log_Get_Dia("Gacha_11_Hero");
                 }
                 ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Hero_Amount_Value));
                 break;
@@ -72,6 +73,7 @@ public class UI_Gacha : UI_Base
                 GaCha_ReSummon_Text.text = "55È¸ ¼ÒÈ¯";
                 GaCha_ReSummon_Price.text = (GACHA_RESUMMON_PRICE_55).ToString();
                 Data_Manager.Main_Players_Data.DiaMond -= (GACHA_RESUMMON_PRICE_55);
+                Base_Manager.BACKEND.Log_Get_Dia("Gacha_55_Hero");
                 ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Hero_Amount_Value));
                 break;
         }
@@ -153,7 +155,7 @@ public class UI_Gacha : UI_Base
                 tooltip.Init(Ch_Scriptable_Data);
             }
 
-            Base_Manager.BACKEND.Log_HeroSummon(Ch_Scriptable_Data, Hero_Amount_Value);
+            //Base_Manager.BACKEND.Log_HeroSummon(Ch_Scriptable_Data, Hero_Amount_Value);
 
             go.sprite = Utils.Get_Atlas(rarity.ToString());
             go.transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Ch_Scriptable_Data.name);

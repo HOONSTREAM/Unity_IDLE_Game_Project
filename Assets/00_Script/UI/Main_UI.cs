@@ -667,6 +667,7 @@ public class Main_UI : MonoBehaviour
             case 0:
 
                 Data_Manager.Main_Players_Data.DiaMond += ((clear_Level + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON);
+                Base_Manager.BACKEND.Log_Get_Dia("Dia_Dungeon");
                 _ = Base_Manager.BACKEND.WriteData();
                 break;
 

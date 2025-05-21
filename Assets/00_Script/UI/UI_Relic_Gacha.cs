@@ -62,6 +62,7 @@ public class UI_Relic_Gacha : UI_Base
                 if(ADS == false)
                 {
                     Data_Manager.Main_Players_Data.DiaMond -= GACHA_RESUMMON_PRICE_11;
+                    Base_Manager.BACKEND.Log_Get_Dia("Gacha_Relic_11");
                 }            
                 ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Relic_Amount_Value));
                 break;
@@ -69,6 +70,7 @@ public class UI_Relic_Gacha : UI_Base
                 GaCha_ReSummon_Text.text = "55È¸ ¼ÒÈ¯";
                 GaCha_ReSummon_Price.text = (GACHA_RESUMMON_PRICE_55).ToString();
                 Data_Manager.Main_Players_Data.DiaMond -= (GACHA_RESUMMON_PRICE_55);
+                Base_Manager.BACKEND.Log_Get_Dia("Gacha_Relic_55");
                 ReGacha_Button.onClick.AddListener(() => OnClick_ReGaCha(Relic_Amount_Value));
                 break;
         }
@@ -152,7 +154,7 @@ public class UI_Relic_Gacha : UI_Base
                 tooltip.Init(item_scriptable_Data);
             }
 
-            Base_Manager.BACKEND.Log_RelicSummon(item_scriptable_Data, Relic_Amount_Value);
+            //Base_Manager.BACKEND.Log_RelicSummon(item_scriptable_Data, Relic_Amount_Value);
 
             go.sprite = Utils.Get_Atlas(rarity.ToString());
             go.transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(item_scriptable_Data.name);

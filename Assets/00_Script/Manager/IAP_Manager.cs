@@ -1,8 +1,10 @@
+using BackEnd;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using UnityEngine.SceneManagement;
 
 public class IAP_Manager : IStoreListener
 {
@@ -77,13 +79,70 @@ public class IAP_Manager : IStoreListener
         onPurchaseSuccessCallback?.Invoke();
         onPurchaseSuccessCallback = null;
 
+        #region 뒤끝 콘솔 영수증 검증
+
+        GetCheckGoogleReceiptWithPrice(purchaseEvent);
+
+        string receiptJson = purchaseEvent.purchasedProduct.receipt;
+        /*
+        뒤끝 영수증 검증 처리
+        */
+        BackendReturnObject validation = Backend.Receipt.IsValidateGooglePurchase(receiptJson, "receiptDescription", false);
+
+
+        // 금액을 콘솔에서 표시하고자 할 경우
+        decimal iapPrice = purchaseEvent.purchasedProduct.metadata.localizedPrice;
+        string iapCurrency = purchaseEvent.purchasedProduct.metadata.isoCurrencyCode;
+        BackendReturnObject _validation = Backend.Receipt.IsValidateGooglePurchase(receiptJson, "receiptDescription", iapPrice, iapCurrency);
+
+        // 영수증 검증에 성공한 경우
+        if (validation.IsSuccess())
+        {
+            // 구매 성공한 제품에 대한 id 체크하여 그에 맞는 보상
+            // A consumable product has been purchased by this user.  
+            if (string.Equals(purchaseEvent.purchasedProduct.definition.id, purchase_EventName, StringComparison.Ordinal))
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", purchaseEvent.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.  
+                
+            }
+            // Or ... a non-consumable product has been purchased by this user.  
+            else if (string.Equals(purchaseEvent.purchasedProduct.definition.id, purchase_EventName, StringComparison.Ordinal))
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", purchaseEvent.purchasedProduct.definition.id));
+                // TODO: The non-consumable item has been successfully purchased, grant this item to the player.  
+            }
+           
+        }
+        // 영수증 검증에 실패한 경우
+        else
+        {
+            // Or ... an unknown product has been purchased by this user. Fill in additional products here....  
+            Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", purchaseEvent.purchasedProduct.definition.id));
+        }
+
+        #endregion
+
         return PurchaseProcessingResult.Complete;
     }
-
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
         Debug.LogError($"구매에 실패하였습니다. : {failureReason.ToString()} ");
 
+    }
+    /// <summary>
+    /// 뒤끝 콘솔에 영수증 검증을 진행하는 메서드 입니다.
+    /// </summary>
+    /// <param name="purchaseEvent"></param>
+    private void GetCheckGoogleReceiptWithPrice(PurchaseEventArgs purchaseEvent)
+    {
+        string receiptToken = purchaseEvent.purchasedProduct.receipt;
+        var bro = Backend.Receipt.IsValidateGooglePurchase(
+                json: receiptToken,
+                receiptDescription: "구매 했습니다",
+                isSubscription: false,
+                iapPrice: purchaseEvent.purchasedProduct.metadata.localizedPrice,
+                iapCurrency: purchaseEvent.purchasedProduct.metadata.isoCurrencyCode);
     }
 
     /// <summary>

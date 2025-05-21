@@ -10,16 +10,21 @@ public class UI_Rank : UI_Base
     private TextMeshProUGUI[] Nick_Name;
     [SerializeField]
     private TextMeshProUGUI[] Stage;
+    [SerializeField]
+    private GameObject Fix_UI; // 랭크페이지 점검중 오브젝트
 
     
 
     private void Start()
     {
         Set_User_Rank();
+        
     }
 
     private void Set_User_Rank()
     {
+        Fix_UI.gameObject.SetActive(true);
+
         var bro = Backend.Leaderboard.User.GetLeaderboard(Utils.LEADERBOARD_UUID);
 
         if (bro.IsSuccess() == false)
@@ -73,6 +78,8 @@ public class UI_Rank : UI_Base
             if (Nick_Name[i] != null) Nick_Name[i].text = "-";
             if (Stage[i] != null) Stage[i].text = "-";
         }
+
+        Fix_UI.gameObject.SetActive(false); // 여기까지 로직이 진행 됐으면, 랭크페이지 정상이므로, 해제
     }
     public override void DisableOBJ()
     {
