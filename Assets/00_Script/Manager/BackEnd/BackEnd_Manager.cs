@@ -97,15 +97,51 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         });
     }
+    public void Log_Try_Combination_DarkHero()
+    {
+        Param param = new Param();
+
+        param.Add("Action", "Combination_DarkHero");     
+        param.Add("Hondon_Potion", Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount);
+        param.Add("Steel", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount);
+        param.Add("DarkHero_Card_Amount", Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount);
+        param.Add("DarkHero_Card_Level", Base_Manager.Data.character_Holder["DarkHero"].Hero_Level);
+        param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
+
+        Backend.GameLog.InsertLogV2("User_Combination_DarkHero_Log", param, (callback) =>
+        {
+
+        });
+    }
     public void Log_Get_Dia(string Action)
     {
         Param param = new Param();
 
         param.Add("Action", Action);
         param.Add("DIAMOND", Data_Manager.Main_Players_Data.DiaMond);
+
+        if (Action == "Combination_Dia")
+        {
+            param.Add("Meat", Base_Manager.Data.Item_Holder["Meat"].Hero_Card_Amount);
+        }
+        
         param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
 
         Backend.GameLog.InsertLogV2("User_Get_Dia_Log", param, (callback) =>
+        {
+
+        });
+    }
+    public void Log_Get_Combination_Hondon_Ball(string Action)
+    {
+        Param param = new Param();
+
+        param.Add("Action", Action);
+        param.Add("Hondon_Potion", Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount);
+        param.Add("Hondon_Ball", Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount);
+        param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
+
+        Backend.GameLog.InsertLogV2("User_Hondon_Ball_Comb", param, (callback) =>
         {
 
         });
