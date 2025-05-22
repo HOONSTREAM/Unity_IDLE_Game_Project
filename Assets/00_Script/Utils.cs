@@ -22,7 +22,7 @@ public class Utils
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
     public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
 
-    public static readonly string LEADERBOARD_UUID = "0196bd5d-5b0a-72ed-948b-61904ff08547";
+    public static readonly string LEADERBOARD_UUID = "0196f55c-84dc-7040-80c1-6635f7a1d349";
     public static readonly double OFFLINE_TIME_CHECK = 300.0d;
     public static bool is_push_alarm_agree = false;
 

@@ -15,7 +15,8 @@ public class Main_Quest : MonoBehaviour
     private TextMeshProUGUI Title_Text, Explain_Text, Count_Text, Reward_Text;
     [SerializeField]
     private GameObject HandObj;
-
+    [SerializeField]
+    private GameObject All_Quest_Complete_OBJ;
     Quest_Type m_State;
     public static bool GetEnemy = false;
     bool reward = false;
@@ -24,6 +25,14 @@ public class Main_Quest : MonoBehaviour
     private void Start()
     {
         Data = CSV_Importer.Quest_Design;
+
+        if (Data_Manager.Main_Players_Data.Quest_Count >= 3000)
+        {
+            All_Quest_Complete_OBJ.gameObject.SetActive(true);
+            HandObj.gameObject.SetActive(false);
+            return;
+        }
+
         Get_NextQuest();
     }
 
@@ -67,6 +76,13 @@ public class Main_Quest : MonoBehaviour
 
     public void GetQuestButton()
     {
+        if(Data_Manager.Main_Players_Data.Quest_Count >= 3000)
+        {
+            All_Quest_Complete_OBJ.gameObject.SetActive(true);
+            HandObj.gameObject.SetActive(false);
+            return;
+        }
+
         if (reward == false) return;
 
         Base_Manager.Pool.Pooling_OBJ("COIN_PARENT").Get((value) =>
