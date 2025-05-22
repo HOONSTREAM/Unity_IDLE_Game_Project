@@ -25,8 +25,33 @@ public partial class BackEnd_Manager : MonoBehaviour
 
     private void Start()
     {     
-        Loading_Scene.instance.LoadingMain();  
+        Loading_Scene.instance.LoadingMain();
+
+        #region 에러 핸들러
+        if (Backend.IsInitialized)
+        {
+            Backend.ErrorHandler.OnMaintenanceError = () => {
+                Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("서버 점검을 진행합니다. 게임을 종료합니다.");
+                Application.Quit();
+            };
+            Backend.ErrorHandler.OnTooManyRequestError = () => {
+                
+                
+            };
+            Backend.ErrorHandler.OnTooManyRequestByLocalError = () => {
+                
+                
+            };
+            Backend.ErrorHandler.OnOtherDeviceLoginDetectedError = () => {
+                Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("동시접속이 감지되었습니다. 게임을 종료합니다.");
+                Log_Try_Multi_Connection("기기 동시접속 시도");
+                Application.Quit();
+            };
+        }
+        #endregion
     }
+
+
 
     #region Log 기록
     public void Log_HeroSummon(Character_Scriptable hero, int Pickup_Count)
@@ -81,6 +106,18 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
 
         Backend.GameLog.InsertLogV2("User_Get_Dia_Log", param, (callback) =>
+        {
+
+        });
+    }
+    public void Log_Try_Multi_Connection(string Action)
+    {
+        Param param = new Param();
+
+        param.Add("Action", Action);       
+        param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
+
+        Backend.GameLog.InsertLogV2("User_Try_Multi_Connection", param, (callback) =>
         {
 
         });

@@ -262,6 +262,10 @@ public class Base_Canvas : MonoBehaviour
     {
         return Instantiate(Resources.Load<UI_TOP_POPUP>("UI/TOP_POPUP"), transform); //transform은 해당위치에 생성하라는 인자
     }
+    public MainGame_Error_UI Get_MainGame_Error_UI()
+    {
+        return Instantiate(Resources.Load<MainGame_Error_UI>("UI/MainGame_Error_UI"), transform); //transform은 해당위치에 생성하라는 인자
+    }
     public void Destroy_Launch_Event_Button()
     {
         LAUNCH_EVENT_Button.gameObject.SetActive(false);

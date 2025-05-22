@@ -15,7 +15,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         {           
             return;
         }
-
+      
         isGoogleLoginRunning = true;
 
         TheBackend.ToolKit.GoogleLogin.Android.GoogleLogin(true, GoogleLoginCallback);

@@ -38,7 +38,10 @@ public class Main_Quest : MonoBehaviour
 
     private void Update()
     {
-        GetQuest();
+        if(Data_Manager.Main_Players_Data.Quest_Count <= 3000)
+        {
+            GetQuest();
+        }    
     }
 
     /// <summary>
