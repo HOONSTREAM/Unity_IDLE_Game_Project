@@ -410,8 +410,9 @@ public partial class BackEnd_Manager : MonoBehaviour
                 Data_Manager.Main_Players_Data.Player_Tier = (Player_Tier)tier_number;
 
                 #region 시즌제 적용 티어 초기화
-                if (Utils.TIER_SEASON >= data.Season)
+                if (Utils.TIER_SEASON > data.Season)
                 {
+                    Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("시즌이 새롭게 시작됩니다!");
                     data.Player_Tier = Player_Tier.Tier_Beginner;
                     data.Season = Utils.TIER_SEASON;
                 }
