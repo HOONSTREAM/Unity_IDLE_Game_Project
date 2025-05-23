@@ -84,27 +84,55 @@ public class IAP_Manager : IStoreListener
 
         if (validation.IsSuccess())
         {
-
-            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.  
-            Debug.Log($"[결제 검증 성공] - {productId}");
-            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증 성공 : {productId}");
-
-            if (Enum.TryParse(productId, out IAP_Holder holder))
+            if (String.Equals(args.purchasedProduct.definition.id, Removd_ADS, StringComparison.Ordinal))
             {
-                Base_Canvas.instance.Get_UI("UI_Reward");
-                Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetIAPReward(holder);
-
-                _ = Base_Manager.BACKEND.WriteData();
-
-                onPurchaseSuccessCallback?.Invoke();
-                onPurchaseSuccessCallback = null;
-            }
-            else
-            {
-                Debug.LogError($"[ERROR] IAP_Holder Enum에 없는 productId: {productId}");
+                Success_Purchase(args, productId);
             }
 
+            else if (String.Equals(args.purchasedProduct.definition.id, Steel_1000, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
+
+            else if (String.Equals(args.purchasedProduct.definition.id, Dia_19000, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
+
+            else if (String.Equals(args.purchasedProduct.definition.id, Dia_1400, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
+
+            else if (String.Equals(args.purchasedProduct.definition.id, Dia_4900, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
+
+            else if (String.Equals(args.purchasedProduct.definition.id, Dungeon_Dia, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
+
+            else if (String.Equals(args.purchasedProduct.definition.id, Dungeon_Gold, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
+
+            else if (String.Equals(args.purchasedProduct.definition.id, Today_Package_01, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
+
+            else if (String.Equals(args.purchasedProduct.definition.id, Strong_Package_02, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
+
+            else if (String.Equals(args.purchasedProduct.definition.id, Dia_68000, StringComparison.Ordinal))
+            {
+                Success_Purchase(args, productId);
+            }
         }
 
         else
@@ -115,6 +143,29 @@ public class IAP_Manager : IStoreListener
         }
 
         return PurchaseProcessingResult.Complete;
+    }
+
+    private void Success_Purchase(PurchaseEventArgs args, string productId)
+    {      
+        Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+
+        Debug.Log($"[결제 검증 성공] - {productId}");
+        Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증 성공 : {productId}");
+
+        if (Enum.TryParse(productId, out IAP_Holder holder))
+        {
+            Base_Canvas.instance.Get_UI("UI_Reward");
+            Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetIAPReward(holder);
+
+            _ = Base_Manager.BACKEND.WriteData();
+
+            onPurchaseSuccessCallback?.Invoke();
+            onPurchaseSuccessCallback = null;
+        }
+        else
+        {
+            Debug.LogError($"[ERROR] IAP_Holder Enum에 없는 productId: {productId}");
+        }
     }
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
