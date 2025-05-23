@@ -70,26 +70,26 @@ public class IAP_Manager : IStoreListener
         Debug.Log(args.purchasedProduct.definition.id); // 구매한 아이템 ID
 
         string productId = args.purchasedProduct.definition.id;
-        string receipt = args.purchasedProduct.receipt;
+        string receipt_Json = args.purchasedProduct.receipt;
 
         decimal price = args.purchasedProduct.metadata.localizedPrice;
         string currency = args.purchasedProduct.metadata.isoCurrencyCode;
 
         // 영수증 검증
-        var result = Backend.Receipt.IsValidateGooglePurchase(
-            json: receipt,
-            receiptDescription: "구매 검증",
-            isSubscription: false,
-            iapPrice: price,
-            iapCurrency: currency
-        );
+        decimal iapPrice = args.purchasedProduct.metadata.localizedPrice;
+        string iapCurrency = args.purchasedProduct.metadata.isoCurrencyCode;
 
-        if (result.IsSuccess())
+        BackendReturnObject validation = Backend.Receipt.IsValidateGooglePurchase(receipt_Json, "receiptDescription", iapPrice, iapCurrency);
+
+
+        if (validation.IsSuccess())
         {
+
+            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.  
             Debug.Log($"[결제 검증 성공] - {productId}");
             Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증 성공 : {productId}");
 
-            // 보상 처리
             if (Enum.TryParse(productId, out IAP_Holder holder))
             {
                 Base_Canvas.instance.Get_UI("UI_Reward");
@@ -104,12 +104,14 @@ public class IAP_Manager : IStoreListener
             {
                 Debug.LogError($"[ERROR] IAP_Holder Enum에 없는 productId: {productId}");
             }
+
         }
+
         else
         {
-            Debug.LogError($"[결제 검증 실패] - {productId}, Error: {result.GetMessage()}");
-            Base_Manager.BACKEND.Log_Try_Crack_IAP(productId, result.GetMessage());
-            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증에 실패하였습니다 : {result.GetMessage()}");
+            Debug.LogError($"[결제 검증 실패] - {productId}, Error: {validation.GetMessage()}");
+            Base_Manager.BACKEND.Log_Try_Crack_IAP(productId, validation.GetMessage());
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증에 실패하였습니다 : {validation.GetMessage()}");
         }
 
         return PurchaseProcessingResult.Complete;
