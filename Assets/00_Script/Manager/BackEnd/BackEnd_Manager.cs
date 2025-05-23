@@ -97,6 +97,20 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         });
     }
+    public void Log_Try_Crack_IAP(string id, string result)
+    {
+        Param param = new Param();
+
+        param.Add("Action", "Try_IAP_Fail_Check_CRACK_OR_NOT");
+        param.Add("ProductID", id);
+        param.Add("Result", result);
+        param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
+
+        Backend.GameLog.InsertLogV2("User_Fail_IAP", param, (callback) =>
+        {
+
+        });
+    }
     public void Log_Try_Combination_DarkHero()
     {
         Param param = new Param();

@@ -60,70 +60,57 @@ public class IAP_Manager : IStoreListener
         Debug.Log($"IAP 초기화에 실패하였습니다. : {error.ToString()}");
     }
 
-    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
+    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        Debug.Log(purchaseEvent.purchasedProduct.transactionID); // 고유한 영수증 ID
-        Debug.Log(purchaseEvent.purchasedProduct.definition.id); // 구매한 아이템 ID
-
-        string purchase_EventName = purchaseEvent.purchasedProduct.definition.id;
-
         //Enum.Parse는 Type정보를 필요로한다. typeof(IAP_Holder),로 파싱할거다. 를 알려줘야함.
         //IAP_Holder : 타입 이름 그 자체(변수 선언, 형변환, 값 비교 등에 사용)
         //typeof(IAP_Holder) : 리플렉션, enum 파싱, 타입비교 등에 사용
 
-        IAP_Holder holder = (IAP_Holder)Enum.Parse(typeof(IAP_Holder), purchase_EventName);
+        Debug.Log(args.purchasedProduct.transactionID); // 고유한 영수증 ID
+        Debug.Log(args.purchasedProduct.definition.id); // 구매한 아이템 ID
 
-        Base_Canvas.instance.Get_UI("UI_Reward");
-        Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetIAPReward(holder);
+        string productId = args.purchasedProduct.definition.id;
+        string receipt = args.purchasedProduct.receipt;
 
-        _ = Base_Manager.BACKEND.WriteData();
+        decimal price = args.purchasedProduct.metadata.localizedPrice;
+        string currency = args.purchasedProduct.metadata.isoCurrencyCode;
 
-        onPurchaseSuccessCallback?.Invoke();
-        onPurchaseSuccessCallback = null;
+        // 영수증 검증
+        var result = Backend.Receipt.IsValidateGooglePurchase(
+            json: receipt,
+            receiptDescription: "구매 검증",
+            isSubscription: false,
+            iapPrice: price,
+            iapCurrency: currency
+        );
 
-        #region 뒤끝 콘솔 영수증 검증
-
-        GetCheckGoogleReceiptWithPrice(purchaseEvent);
-
-        string receiptJson = purchaseEvent.purchasedProduct.receipt;
-        /*
-        뒤끝 영수증 검증 처리
-        */
-        BackendReturnObject validation = Backend.Receipt.IsValidateGooglePurchase(receiptJson, "receiptDescription", false);
-
-
-        // 금액을 콘솔에서 표시하고자 할 경우
-        decimal iapPrice = purchaseEvent.purchasedProduct.metadata.localizedPrice;
-        string iapCurrency = purchaseEvent.purchasedProduct.metadata.isoCurrencyCode;
-        BackendReturnObject _validation = Backend.Receipt.IsValidateGooglePurchase(receiptJson, "receiptDescription", iapPrice, iapCurrency);
-
-        // 영수증 검증에 성공한 경우
-        if (validation.IsSuccess())
+        if (result.IsSuccess())
         {
-            // 구매 성공한 제품에 대한 id 체크하여 그에 맞는 보상
-            // A consumable product has been purchased by this user.  
-            if (string.Equals(purchaseEvent.purchasedProduct.definition.id, purchase_EventName, StringComparison.Ordinal))
+            Debug.Log($"[결제 검증 성공] - {productId}");
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증 성공 : {productId}");
+
+            // 보상 처리
+            if (Enum.TryParse(productId, out IAP_Holder holder))
             {
-                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", purchaseEvent.purchasedProduct.definition.id));
-                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.  
-                
+                Base_Canvas.instance.Get_UI("UI_Reward");
+                Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetIAPReward(holder);
+
+                _ = Base_Manager.BACKEND.WriteData();
+
+                onPurchaseSuccessCallback?.Invoke();
+                onPurchaseSuccessCallback = null;
             }
-            // Or ... a non-consumable product has been purchased by this user.  
-            else if (string.Equals(purchaseEvent.purchasedProduct.definition.id, purchase_EventName, StringComparison.Ordinal))
+            else
             {
-                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", purchaseEvent.purchasedProduct.definition.id));
-                // TODO: The non-consumable item has been successfully purchased, grant this item to the player.  
+                Debug.LogError($"[ERROR] IAP_Holder Enum에 없는 productId: {productId}");
             }
-           
         }
-        // 영수증 검증에 실패한 경우
         else
         {
-            // Or ... an unknown product has been purchased by this user. Fill in additional products here....  
-            Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", purchaseEvent.purchasedProduct.definition.id));
+            Debug.LogError($"[결제 검증 실패] - {productId}, Error: {result.GetMessage()}");
+            Base_Manager.BACKEND.Log_Try_Crack_IAP(productId, result.GetMessage());
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증에 실패하였습니다 : {result.GetMessage()}");
         }
-
-        #endregion
 
         return PurchaseProcessingResult.Complete;
     }
