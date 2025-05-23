@@ -113,6 +113,22 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         });
     }
+    public void Log_Try_Combination_Chaos_Caster()
+    {
+        Param param = new Param();
+
+        param.Add("Action", "Combination_Chaos_Caster");
+        param.Add("Hondon_Ball", Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount);
+        param.Add("Steel", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount);
+        param.Add("DarkHero_Card_Amount", Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Card_Amount);
+        param.Add("DarkHero_Card_Level", Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Level);
+        param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
+
+        Backend.GameLog.InsertLogV2("User_Combination_ChaosCaster_Log", param, (callback) =>
+        {
+
+        });
+    }
     public void Log_Get_Dia(string Action)
     {
         Param param = new Param();

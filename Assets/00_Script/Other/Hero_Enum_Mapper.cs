@@ -26,6 +26,7 @@ public static class Hero_Enum_Mapper
         { "Starlist", 17 },
         { "Warlord", 18 },
         { "Hammer_Knight", 19 },
+        { "Chaos_Caster", 20 },
 
     };
 

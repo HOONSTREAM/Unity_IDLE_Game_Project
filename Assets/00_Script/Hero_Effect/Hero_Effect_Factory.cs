@@ -112,6 +112,7 @@ public static class HeroEffectFactory
             { "Starlist", new List<IHeroEffect> { new Increase_HP_Effect(), new NONE_Effect(), new NONE_Effect() } },
             { "Warlord", new List<IHeroEffect> { new Increase_CriticalDamage_Effect(), new Increase_ItemDrop_Effect(), new NONE_Effect() } },
             { "Hammer_Knight", new List<IHeroEffect> { new Increase_Critical_Percentage_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
+            { "Chaos_Caster", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect(), new Increase_GoldDrop_Effect() } },
 
         };
 

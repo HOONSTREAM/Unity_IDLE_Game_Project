@@ -14,6 +14,7 @@ public enum IAP_Holder
     dia_1400,
     dia_19000,
     dia_4900,
+    dia_68000,
     dungeon_dia_20,
     gold_30,
     remove_ads,

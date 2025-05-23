@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 public partial class BackEnd_Manager : MonoBehaviour
 {
+
+
+
     /// <summary>
     /// 유저 데이터를 저장합니다. 00시~01시 사이는 서버시간 체크하여, 리더보드 순위 등록을 생략합니다.
     /// </summary>
@@ -23,10 +26,21 @@ public partial class BackEnd_Manager : MonoBehaviour
             Debug.LogError("데이터가 존재하지 않습니다. Initialize 통해 데이터를 생성해주세요.");
             return;
         }
+       
+        DateTime now = Utils.Get_Server_Time();
+        Data_Manager.Main_Players_Data.EndDate = now;
+
+        // 여기서 자정 비교 후 일일 초기화
+        if (Get_Date_Dungeon_Item(Data_Manager.Main_Players_Data.StartDate, now))
+        {
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("일일 컨텐츠가 초기화 되었습니다.");
+            Get_Daily_Contents_Reset();
+            Data_Manager.Main_Players_Data.StartDate = now;
+        }
 
         try
         {
-            DateTime now = Utils.Get_Server_Time();
+            
             bool isMidnightRange = now.Hour == 0;
 
             await SaveDefaultData(isMidnightRange);
@@ -653,12 +667,52 @@ public partial class BackEnd_Manager : MonoBehaviour
         #endregion
     }
     /// <summary>
+    /// 데일리 컨텐츠 초기화를 진행합니다.
+    /// </summary>
+    public void Get_Daily_Contents_Reset()
+    {
+        var data = Data_Manager.Main_Players_Data;
+
+        DateTime startDate = data.StartDate;
+        DateTime endDate = data.EndDate;
+
+        if (Base_Manager.BACKEND.Get_Date_Dungeon_Item(startDate, endDate))
+        {
+            //던전 일일 입장권 초기화
+            data.Daily_Enter_Key[0] = 2;
+            data.Daily_Enter_Key[1] = 2;
+
+            //일일 퀘스트 초기화
+            data.Daily_Attendance = 1;
+            data.Levelup = 0;
+            data.Summon = 0;
+            data.Dungeon_Dia = 0;
+            data.Dungeon_Gold = 0;
+            data.Relic = 0;
+
+            data.Daily_Attendance_Clear = false;
+            data.Level_up_Clear = false;
+            data.Summon_Clear = false;
+            data.Dungeon_Dia_Clear = false;
+            data.Dungeon_Gold_Clear = false;
+            data.Relic_Clear = false;
+
+            data.ADS_Hero_Summon_Count = 0;
+            data.ADS_Relic_Summon_Count = 0;
+
+            data.isBuyTodayPackage = false;
+            data.isBuySTRONGPackage = false;
+
+        }
+    }
+
+    /// <summary>
     /// 날짜가 자정이 지났는지 확인하고, 데일리 입장권을 지급할 지 판단합니다.
     /// </summary>
     /// <param name="startdate"></param>
     /// <param name="enddate"></param>
     /// <returns></returns>
-    private bool Get_Date_Dungeon_Item(DateTime startdate, DateTime enddate)
+    public bool Get_Date_Dungeon_Item(DateTime startdate, DateTime enddate)
     {
         if (startdate.Day != enddate.Day)
         {
@@ -670,7 +724,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             return false;
         }
     }
- 
+
     /// <summary>
     /// 로드된 Character_Holder를 이용하여, Data_Character_Dictionary에 매핑합니다.
     /// </summary>

@@ -29,6 +29,8 @@ public class UI_Combination : UI_Base
     private bool is_Comb_Scroll = false;
     private bool is_Chaos_DarkHero_Book = false;
     private bool is_Summon_DarkHero = false;
+    private bool is_Chaos_Caster_Book = false;
+    private bool is_Summon_Chaos_Caster = false;
     private bool is_Meat_To_Dia = false;
     private bool is_Potion_To_Ball = false;
 
@@ -44,6 +46,8 @@ public class UI_Combination : UI_Base
         is_Summon_DarkHero = false;
         is_Meat_To_Dia = false;
         is_Potion_To_Ball = false;
+        is_Chaos_Caster_Book = false;
+        is_Summon_Chaos_Caster = false;
 
         _ = Base_Manager.BACKEND.WriteData();
 
@@ -59,21 +63,21 @@ public class UI_Combination : UI_Base
         is_Comb_Scroll = true;
         Selected_Item_Parts.gameObject.SetActive(true);
         Holder Select_holder = new Holder();
-        Select_holder.Hero_Card_Amount = 1;
+        Select_holder.Hero_Card_Amount = 100;
         Selected_Item_Parts.Init("Scroll_Comb", Select_holder);
         
         First_Comb_Parts.gameObject.SetActive(true);
         Second_Comb_Parts.gameObject.SetActive(true);
         Holder holder = new Holder();
-        holder.Hero_Card_Amount = 1000;      
+        holder.Hero_Card_Amount = 10000;      
         First_Comb_Parts.Init("Potion", holder);
         First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount, holder.Hero_Card_Amount);
-        First_Parts_Count_Text.color = Utils.Item_Count("Potion", 1000) ? Color.green : Color.red;
+        First_Parts_Count_Text.color = Utils.Item_Count("Potion", 10000) ? Color.green : Color.red;
         Holder holder_2 = new Holder();
-        holder_2.Hero_Card_Amount = 1500;
+        holder_2.Hero_Card_Amount = 15000;
         Second_Comb_Parts.Init("scroll", holder_2);
         Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
-        Second_Parts_Count_Text.color = Utils.Item_Count("scroll", 1500) ? Color.green : Color.red;
+        Second_Parts_Count_Text.color = Utils.Item_Count("scroll", 15000) ? Color.green : Color.red;
     }
     /// <summary>
     /// 다이아몬드 수급 제작식을 노출시킵니다.
@@ -85,16 +89,16 @@ public class UI_Combination : UI_Base
         is_Meat_To_Dia = true;
         Selected_Item_Parts.gameObject.SetActive(true);
         Holder Select_holder = new Holder();
-        Select_holder.Hero_Card_Amount = 50;
+        Select_holder.Hero_Card_Amount = 500;
         Selected_Item_Parts.Init("Combination_Dia", Select_holder);
 
         First_Comb_Parts.gameObject.SetActive(true);
         
         Holder holder = new Holder();
-        holder.Hero_Card_Amount = 1000;
+        holder.Hero_Card_Amount = 10000;
         First_Comb_Parts.Init("Meat", holder);
         First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Meat"].Hero_Card_Amount, holder.Hero_Card_Amount);
-        First_Parts_Count_Text.color = Utils.Item_Count("Meat", 1000) ? Color.green : Color.red;
+        First_Parts_Count_Text.color = Utils.Item_Count("Meat", 10000) ? Color.green : Color.red;
         
     }
     /// <summary>
@@ -177,7 +181,61 @@ public class UI_Combination : UI_Base
         Four_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount, holder_4.Hero_Card_Amount);
         Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 1000) ? Color.green : Color.red;
     }
+    public void Set_Chaos_Chaos_Caster_Book()
+    {
+        Init();
+        is_Chaos_Caster_Book = true;
 
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Comb_Book_Summon_Chaos_Caster", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+        Second_Comb_Parts.gameObject.SetActive(true);
+        Third_Comb_Parts.gameObject.SetActive(true);
+        Four_Comb_Parts.gameObject.SetActive(true);
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 5000;
+        First_Comb_Parts.Init("Book", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Book", 5000) ? Color.green : Color.red;
+        Holder holder_2 = new Holder();
+        holder_2.Hero_Card_Amount = 3500;
+        Second_Comb_Parts.Init("Hondon_Ball", holder_2);
+        Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
+        Second_Parts_Count_Text.color = Utils.Item_Count("Hondon_Ball", 3500) ? Color.green : Color.red;
+        Holder holder_3 = new Holder();
+        holder_3.Hero_Card_Amount = 1000;
+        Third_Comb_Parts.Init("Steel", holder_3);
+        Third_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, holder_3.Hero_Card_Amount);
+        Third_Parts_Count_Text.color = Utils.Item_Count("Steel", 1000) ? Color.green : Color.red;
+        Holder holder_4 = new Holder();
+        holder_4.Hero_Card_Amount = 1000;
+        Four_Comb_Parts.Init("Scroll_Comb", holder_4);
+        Four_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount, holder_4.Hero_Card_Amount);
+        Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 1000) ? Color.green : Color.red;
+    }
+    /// <summary>
+    /// 혼돈등급 카오스캐스터 소환
+    /// </summary>
+    public void Set_Summon_Chaos_Caster_Summon()
+    {
+        Init();
+
+        is_Summon_Chaos_Caster = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 3;
+        Selected_Item_Parts.Init("Summon_Chaos_Caster", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Comb_Book_Summon_Chaos_Caster", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Comb_Book_Summon_Chaos_Caster"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Comb_Book_Summon_Chaos_Caster", 1) ? Color.green : Color.red;
+    }
 
     public void Combination()
     {
@@ -185,12 +243,12 @@ public class UI_Combination : UI_Base
 
         if (is_Comb_Scroll)
         {
-            if(Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount >= 1000 && Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount >= 1500)
+            if(Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount >= 10000 && Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount >= 15000)
             {
-                Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount -= 1000;
-                Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount -= 1500;
+                Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount -= 10000;
+                Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount -= 15000;
                 var item = Base_Manager.Data.Data_Item_Dictionary["Scroll_Comb"];
-                Base_Manager.Inventory.Get_Item(item);
+                Base_Manager.Inventory.Get_Item(item , 100);
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("조합 스크롤 제작 성공");
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
                 Set_Comb_Scroll();
@@ -230,6 +288,32 @@ public class UI_Combination : UI_Base
             
         }
 
+        else if (is_Chaos_Caster_Book)
+        {
+            if (Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount >= 5000 &&
+                Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount >= 3500 &&
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount >= 1000 &&
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount >= 1000)
+            {
+                Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount -= 5000;
+                Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount -= 3500;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 1000;
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount -= 1000;
+                var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Summon_Chaos_Caster"];
+                Base_Manager.Inventory.Get_Item(item);
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 카오스캐스터 제작 성공");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+                Set_Chaos_Chaos_Caster_Book();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 카오스캐스터 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+
+        }
+
         else if (is_Summon_DarkHero)
         {
             if (Base_Manager.Data.Item_Holder["Comb_Book_Summon_Hero"].Hero_Card_Amount >= 1)
@@ -254,13 +338,37 @@ public class UI_Combination : UI_Base
            
         }
 
+        else if (is_Summon_Chaos_Caster)
+        {
+            if (Base_Manager.Data.Item_Holder["Comb_Book_Summon_Chaos_Caster"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Comb_Book_Summon_Chaos_Caster"].Hero_Card_Amount -= 1;
+
+                Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Card_Amount++;
+                Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Card_Amount++;
+                Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Card_Amount++;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("카오스캐스터 제작 성공");
+                Base_Manager.BACKEND.Log_Try_Combination_Chaos_Caster();
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Summon_Chaos_Caster_Summon();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("카오스캐스터 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
         else if (is_Meat_To_Dia)
         {
-            if (Base_Manager.Data.Item_Holder["Meat"].Hero_Card_Amount >= 1000)
+            if (Base_Manager.Data.Item_Holder["Meat"].Hero_Card_Amount >= 10000)
             {
-                Base_Manager.Data.Item_Holder["Meat"].Hero_Card_Amount -= 1000;
+                Base_Manager.Data.Item_Holder["Meat"].Hero_Card_Amount -= 10000;
 
-                Data_Manager.Main_Players_Data.DiaMond += 50;
+                Data_Manager.Main_Players_Data.DiaMond += 500;
                 Base_Manager.BACKEND.Log_Get_Dia("Combination_Dia");
                 
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드 제작 성공");

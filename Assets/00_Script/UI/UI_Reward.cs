@@ -19,6 +19,7 @@ public class UI_Reward : UI_Base
             case IAP_Holder.steel_1000: GetRewardInit("Steel", 1000); break;
             case IAP_Holder.dia_19000: GetRewardInit("Dia", 19000); break;
             case IAP_Holder.dia_1400: GetRewardInit("Dia", 1400); break;
+            case IAP_Holder.dia_68000: GetRewardInit("Dia", 68000);break;
             case IAP_Holder.dia_4900: GetRewardInit("Dia", 4900); break;
             case IAP_Holder.dungeon_dia_20: GetRewardInit("Dungeon_Dia", 5); break;
             case IAP_Holder.gold_30: GetRewardInit("Dungeon_Gold", 8); break;
@@ -34,7 +35,7 @@ public class UI_Reward : UI_Base
         switch (ItemName)
         {
             case "Dia": Data_Manager.Main_Players_Data.DiaMond += Count;
-                Base_Manager.BACKEND.Log_Get_Dia($"Get_Shop_or_DailyQuest_Dia_{Count}");
+                Base_Manager.BACKEND.Log_Get_Dia($"{ItemName}Dia_{Count}");
                 break;
 
             case "PACKAGE_ADS": 

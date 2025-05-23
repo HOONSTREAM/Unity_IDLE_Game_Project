@@ -170,6 +170,8 @@ public class Player_Manager
 
         int cardLevel = holder.Hero_Level + 1;
         double rarityMultiplier = RarityBonusTable.RarityMultiplier.TryGetValue(rarity, out double rarityValue) ? rarityValue : 1.0;
+        
+
 
         // 레벨 기반 HP 계산 (정수 곱셈 사용)
         double levelFactor = cardLevel * cardLevel;
@@ -457,13 +459,13 @@ public class Player_Manager
         { Player_Tier.Tier_Challenger_1, 7.0 },
         { Player_Tier.Tier_Challenger_2, 8.5 },
         { Player_Tier.Tier_Challenger_3, 9.5 },
-        { Player_Tier.Tier_Challenger_4, 10.0 },
-        { Player_Tier.Tier_Challenger_5, 30.0 },
-        { Player_Tier.Tier_Challenger_6, 32.0 },
-        { Player_Tier.Tier_Challenger_7, 34.0 },
-        { Player_Tier.Tier_Challenger_8, 36.0 },
+        { Player_Tier.Tier_Challenger_4, 11.0 },
+        { Player_Tier.Tier_Challenger_5, 15.0 },
+        { Player_Tier.Tier_Challenger_6, 20.0 },
+        { Player_Tier.Tier_Challenger_7, 25.0 },
+        { Player_Tier.Tier_Challenger_8, 30.0 },
         { Player_Tier.Tier_Challenger_9, 38.0 },
-        { Player_Tier.Tier_Challenger_10, 40.0 },
+        { Player_Tier.Tier_Challenger_10, 50.0 },
     };
 
         public static double GetBonusMultiplier(Player_Tier tier)

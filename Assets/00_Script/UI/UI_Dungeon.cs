@@ -1,7 +1,9 @@
 using BackEnd.Functions;
+using Google.Protobuf.WellKnownTypes;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,15 +50,24 @@ public class UI_Dungeon : UI_Base
   
         for(int i = 0; i< KeyTexts.Length; i++)
         {
-            KeyTexts[i].text = "(" + (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]).ToString() + "/2)";
-            Dungeon_Enter_Request_Key[i].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + 
-                Data_Manager.Main_Players_Data.User_Key_Assets[i]) <= 0 ? Color.red : Color.green;
+            KeyTexts[i].text = "(" + (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]).ToString() + "/2)";            
             Dungeon_Levels[i].text = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] + 1).ToString();           
             Level[i] = Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i];
+
+            Dungeon_Enter_Request_Key[i].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] +
+                Data_Manager.Main_Players_Data.User_Key_Assets[i]) <= 0 ? Color.red : Color.green;
 
             Dungeon_Level_Guide_Text[i].text = i == 0
                 ? $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도"
                 : $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
+        }
+
+        for(int i = 0; i < 2; i++)
+        {
+            Dungeon_Enter_Request_Key[2].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[0] +
+                Data_Manager.Main_Players_Data.User_Key_Assets[0]) <= 0 ? Color.red : Color.green;
+            Dungeon_Enter_Request_Key[3].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[1] +
+                Data_Manager.Main_Players_Data.User_Key_Assets[1]) <= 0 ? Color.red : Color.green;
         }
 
         
@@ -155,6 +166,101 @@ public class UI_Dungeon : UI_Base
         }
 
         Utils.CloseAllPopupUI();
+    }
+
+    /// <summary>
+    /// 클리어한 최고난이도로, 던전을 소탕처리합니다.
+    /// </summary>
+    /// <param name="value"></param>
+    public void Dungeon_Sweep_Button(int value)
+    {
+        var playerData = Data_Manager.Main_Players_Data;
+        var Dungeon_Clear_Level = playerData.Dungeon_Clear_Level[value];
+
+        if (playerData.Daily_Enter_Key[value] + playerData.User_Key_Assets[value] <= 0)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("소탕 할 재화가 부족합니다.");
+            return;
+        }
+        if (Stage_Manager.M_State == Stage_State.Clear || Stage_Manager.isDungeon || Stage_Manager.isDungeon_Map_Change)
+        {
+            if (Stage_Manager.isDungeon)
+            {
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("현재 던전공략이 진행 중 입니다.");
+            }
+            return;
+        }
+
+        switch (value)
+        {
+            case 0:
+
+                if (Dungeon_Clear_Level== 0)
+                {
+                    Base_Canvas.instance.Get_TOP_Popup().Initialize("클리어 한 난이도가 없습니다.");
+                    return;
+                }
+
+                if (Data_Manager.Main_Players_Data.User_Key_Assets[value] > 0)
+                {
+                    Data_Manager.Main_Players_Data.User_Key_Assets[value]--;
+                }
+                else
+                {
+                    Data_Manager.Main_Players_Data.Daily_Enter_Key[value]--;
+                }
+
+
+                playerData.Dungeon_Dia++;
+
+                Data_Manager.Main_Players_Data.DiaMond += ((Dungeon_Clear_Level + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON);
+                Base_Manager.BACKEND.Log_Get_Dia("Dia_Dungeon_Sweep");
+                _ = Base_Manager.BACKEND.WriteData();
+
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("보물창고 소탕이 완료되었습니다 !");
+                Init();
+
+                Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+
+                break;
+
+            case 1:
+
+                if (Dungeon_Clear_Level == 0)
+                {
+                    Base_Canvas.instance.Get_TOP_Popup().Initialize("클리어 한 난이도가 없습니다.");
+                    return;
+                }
+
+                playerData.Dungeon_Gold++;
+
+
+                if (Data_Manager.Main_Players_Data.User_Key_Assets[value] > 0)
+                {
+                    Data_Manager.Main_Players_Data.User_Key_Assets[value]--;
+                }
+                else
+                {
+                    Data_Manager.Main_Players_Data.Daily_Enter_Key[value]--;
+                }
+
+
+                var Gold_Value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, 
+                    (Dungeon_Clear_Level + 1), Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
+
+                Data_Manager.Main_Players_Data.Player_Money += Gold_Value;
+
+                _ = Base_Manager.BACKEND.WriteData();
+
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("골드창고 소탕이 완료되었습니다 !");
+                Init();
+                Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+
+                break;
+           
+        }
+        
+
     }
     public void ArrowButton(int KeyValue, int value)
     {
