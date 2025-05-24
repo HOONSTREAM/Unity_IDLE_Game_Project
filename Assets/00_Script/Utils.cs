@@ -47,7 +47,8 @@ public class Utils
     public static string GetTimer(float Time)
     {
         TimeSpan timespan = TimeSpan.FromSeconds(Time);
-        string timer = string.Format("{0:00}:{1:00}", timespan.Minutes, timespan.Seconds);
+        int totalMinutes = (int)timespan.TotalMinutes;
+        string timer = string.Format("{0:000}:{1:00}", totalMinutes, timespan.Seconds);
 
         return timer;
     }

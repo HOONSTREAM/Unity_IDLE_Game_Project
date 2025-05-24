@@ -288,8 +288,18 @@ public class Main_UI : MonoBehaviour
             {
                 Base_Manager.ADS.ShowRewardedAds(() =>
                 {
-                    Data_Manager.Main_Players_Data.buff_x2_speed = 1800.0f;
-                    Data_Manager.Main_Players_Data.isFastMode = true;                                                                      
+                    if(Data_Manager.Main_Players_Data.isBuyADPackage == false)
+                    {
+                        Data_Manager.Main_Players_Data.buff_x2_speed = 1800.0f;
+                        Data_Manager.Main_Players_Data.isFastMode = true;
+                    }
+
+                    else
+                    {
+                        Data_Manager.Main_Players_Data.buff_x2_speed = 21600.0f;
+                        Data_Manager.Main_Players_Data.isFastMode = true;
+                    }
+                                                                                          
                 });
             }
 
