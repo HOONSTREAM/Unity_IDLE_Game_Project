@@ -28,7 +28,9 @@ public partial class BackEnd_Manager : MonoBehaviour
         }
        
         DateTime now = Utils.Get_Server_Time();
+        
         Data_Manager.Main_Players_Data.EndDate = now;
+        
 
         // 여기서 자정 비교 후 일일 초기화
         if (Get_Date_Dungeon_Item(Data_Manager.Main_Players_Data.StartDate, now))

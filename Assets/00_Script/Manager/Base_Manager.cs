@@ -40,7 +40,7 @@ public class Base_Manager : MonoBehaviour
 
  
     public static bool Get_MainGame_Start = false;
-    private float Save_Interval = 120.0f;
+    private float Save_Interval = 30.0f;
     private float Save_Time = 0.0f;
 
     private void Awake()

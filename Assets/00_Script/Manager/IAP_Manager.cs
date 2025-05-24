@@ -60,87 +60,22 @@ public class IAP_Manager : IStoreListener
         Debug.Log($"IAP 초기화에 실패하였습니다. : {error.ToString()}");
     }
 
-    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
+    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
-        //Enum.Parse는 Type정보를 필요로한다. typeof(IAP_Holder),로 파싱할거다. 를 알려줘야함.
-        //IAP_Holder : 타입 이름 그 자체(변수 선언, 형변환, 값 비교 등에 사용)
-        //typeof(IAP_Holder) : 리플렉션, enum 파싱, 타입비교 등에 사용
+        Debug.Log(purchaseEvent.purchasedProduct.transactionID); 
+        Debug.Log(purchaseEvent.purchasedProduct.definition.id); 
 
-        Debug.Log(args.purchasedProduct.transactionID); // 고유한 영수증 ID
-        Debug.Log(args.purchasedProduct.definition.id); // 구매한 아이템 ID
+        string purchase_EventName = purchaseEvent.purchasedProduct.definition.id;
 
-        string productId = args.purchasedProduct.definition.id;
-        string receipt_Json = args.purchasedProduct.receipt;
+        IAP_Holder holder = (IAP_Holder)Enum.Parse(typeof(IAP_Holder), purchase_EventName);
 
-        decimal price = args.purchasedProduct.metadata.localizedPrice;
-        string currency = args.purchasedProduct.metadata.isoCurrencyCode;
+        Base_Canvas.instance.Get_UI("UI_Reward");
+        Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetIAPReward(holder);
 
-        // 영수증 검증
-        decimal iapPrice = args.purchasedProduct.metadata.localizedPrice;
-        string iapCurrency = args.purchasedProduct.metadata.isoCurrencyCode;
+        _ = Base_Manager.BACKEND.WriteData();
 
-        BackendReturnObject validation = Backend.Receipt.IsValidateGooglePurchase(receipt_Json, "receiptDescription", iapPrice, iapCurrency);
-
-
-        if (validation.IsSuccess())
-        {
-            if (String.Equals(args.purchasedProduct.definition.id, Removd_ADS, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Steel_1000, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Dia_19000, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Dia_1400, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Dia_4900, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Dungeon_Dia, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Dungeon_Gold, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Today_Package_01, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Strong_Package_02, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-
-            else if (String.Equals(args.purchasedProduct.definition.id, Dia_68000, StringComparison.Ordinal))
-            {
-                Success_Purchase(args, productId);
-            }
-        }
-
-        else
-        {
-            Debug.LogError($"[결제 검증 실패] - {productId}, Error: {validation.GetMessage()}");
-            Base_Manager.BACKEND.Log_Try_Crack_IAP(productId, validation.GetMessage());
-            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증에 실패하였습니다 : {validation.GetMessage()}");
-        }
+        onPurchaseSuccessCallback?.Invoke();
+        onPurchaseSuccessCallback = null;
 
         return PurchaseProcessingResult.Complete;
     }

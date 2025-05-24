@@ -72,6 +72,7 @@ public class Stage_Manager
                 break;
             case Stage_State.Boss:
                 Debug.Log("Stage : Boss");
+                
                 Spawner.m_players.RemoveAll(player => player == null || !player.gameObject.activeInHierarchy);
                 Count = 0; // 카운트초기화
                 M_BossEvent?.Invoke();  
