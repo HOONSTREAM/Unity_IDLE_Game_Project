@@ -62,20 +62,24 @@ public class IAP_Manager : IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
-        Debug.Log(purchaseEvent.purchasedProduct.transactionID); 
-        Debug.Log(purchaseEvent.purchasedProduct.definition.id); 
+        string receipt = purchaseEvent.purchasedProduct.receipt;
+        string productId = purchaseEvent.purchasedProduct.definition.id;
 
-        string purchase_EventName = purchaseEvent.purchasedProduct.definition.id;
+        // 올바른 영수증 검증 호출
+        BackendReturnObject bro = Backend.Receipt.IsValidateGooglePurchase(receipt, productId);
 
-        IAP_Holder holder = (IAP_Holder)Enum.Parse(typeof(IAP_Holder), purchase_EventName);
+        if (bro.IsSuccess())
+        {
+            Debug.Log($"[결제 검증 성공] - {productId}");
 
-        Base_Canvas.instance.Get_UI("UI_Reward");
-        Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetIAPReward(holder);
-
-        _ = Base_Manager.BACKEND.WriteData();
-
-        onPurchaseSuccessCallback?.Invoke();
-        onPurchaseSuccessCallback = null;
+            Success_Purchase(purchaseEvent, productId);
+        }
+        else
+        {
+            Debug.LogError($"[결제 검증 실패] - {productId}, 에러: {bro.GetMessage()}");
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증 실패 : {bro.GetMessage()}");
+            Base_Manager.BACKEND.Log_Try_Crack_IAP(productId,bro.GetMessage());
+        }
 
         return PurchaseProcessingResult.Complete;
     }
