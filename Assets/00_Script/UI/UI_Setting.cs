@@ -16,6 +16,8 @@ public class UI_Setting : UI_Base
     [SerializeField]
     private Toggle Camera_Shake_Toggle;
     [SerializeField]
+    private Toggle Effect_Remove_Toggle;
+    [SerializeField]
     private TextMeshProUGUI Gamer_id;
     [SerializeField]
     private TextMeshProUGUI user_nick_name;
@@ -29,6 +31,11 @@ public class UI_Setting : UI_Base
         if (PlayerPrefs.GetInt("CAM") == 1)
         {
             Camera_Shake_Toggle.isOn = true;
+        }
+
+        if(PlayerPrefs.GetInt("EFFECT") == 1)
+        {
+            Effect_Remove_Toggle.isOn = true;
         }
 
         BackendReturnObject bro = Backend.BMember.GetUserInfo();
@@ -169,6 +176,20 @@ public class UI_Setting : UI_Base
         else
         {
             PlayerPrefs.SetInt("CAM", 0);
+        }
+    }
+    public void Effect_Remove_Button()
+    {
+        if (Effect_Remove_Toggle.isOn)
+        {
+            PlayerPrefs.SetInt("EFFECT", 1);
+            Utils.is_Skill_Effect_Save_Mode = true;
+        }
+
+        else
+        {
+            PlayerPrefs.SetInt("EFFECT", 0);
+            Utils.is_Skill_Effect_Save_Mode = false;
         }
     }
     public void Get_Announcement_UI()

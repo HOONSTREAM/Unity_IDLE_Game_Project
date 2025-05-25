@@ -193,7 +193,17 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.State_Change(Stage_State.Ready);
 
         Set_User_Nick_Name();
-       
+
+        if (PlayerPrefs.GetInt("EFFECT") == 1)
+        {
+            Utils.is_Skill_Effect_Save_Mode = true;
+        }
+
+        if (PlayerPrefs.GetInt("EFFECT") == 0)
+        {
+            Utils.is_Skill_Effect_Save_Mode = false;
+        }
+
     }
     private void Update()
     {
