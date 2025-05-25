@@ -227,7 +227,7 @@ public class UI_Relic : UI_Base
 
             parts.Lock_OBJ.SetActive(false);
             parts.GetComponent<Outline>().enabled = true;
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("빈 칸을 눌러 유물을 장착하세요.");
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("빈 칸을 눌러 유물을 장착하세요.");
         }
 
     }

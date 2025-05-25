@@ -14,6 +14,8 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
     [SerializeField] private TMP_InputField ChatInput;
     [SerializeField] private Button Send_Button;
     [SerializeField] private Button RePort_Button;
+    [SerializeField] private GameObject Loading_Chat_Obj;
+
 
     private ChatClient ChatClient;
     private const string SERVER_GROUP_NAME = "global";
@@ -25,6 +27,7 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
     private Queue<GameObject> chatItemPool = new Queue<GameObject>();
     private Dictionary<string, List<GameObject>> userChatItems = new Dictionary<string, List<GameObject>>();
     private bool isProcessing = false;
+    
 
     private void Start()
     {
@@ -33,6 +36,8 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         ChatClient.SendJoinOpenChannel(SERVER_GROUP_NAME, CHANNEL_NAME);
 
         chatPanelPrefab = Resources.Load<GameObject>("PreFabs/ChatList_Panel");
+
+        StartCoroutine(Loading_Chat_Obj_Coroutine());
     }
     private void Update()
     {
@@ -65,6 +70,11 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         Canvas.ForceUpdateCanvases();
         ScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
         yield return null;
+    }
+    private IEnumerator Loading_Chat_Obj_Coroutine()
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+        Loading_Chat_Obj.SetActive(false);
     }
     public void OnChatMessage(MessageInfo messageInfo)
     {
