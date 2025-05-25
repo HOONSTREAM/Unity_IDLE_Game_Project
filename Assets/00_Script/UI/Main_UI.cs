@@ -231,7 +231,7 @@ public class Main_UI : MonoBehaviour
             X2_Speed_Fill.gameObject.SetActive(false);
             X2_Time_Text.text = default;
             Fast_Mode_Lock_Image.gameObject.SetActive(!Data_Manager.Main_Players_Data.isFastMode);
-            Time.timeScale = Data_Manager.Main_Players_Data.isFastMode ? 1.6f : 1.0f;
+            Time.timeScale = Data_Manager.Main_Players_Data.isFastMode ? 1.5f : 1.0f;
         }
     }
     private void Set_User_Nick_Name()

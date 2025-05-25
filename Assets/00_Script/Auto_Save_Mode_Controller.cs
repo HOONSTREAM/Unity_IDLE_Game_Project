@@ -9,6 +9,9 @@ public class Auto_Save_Mode_Controller : MonoBehaviour
 
     private void Update()
     {
+        if (Base_Canvas.isSavingMode)
+            return; // 세이브 모드일 땐 유저 입력 무시
+
         if (IsUserActive())
         {
             isSleepMode = false;

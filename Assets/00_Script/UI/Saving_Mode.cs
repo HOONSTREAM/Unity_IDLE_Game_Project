@@ -67,6 +67,8 @@ public class Saving_Mode : UI_Base
 
         if (Input.GetMouseButton(0))
         {
+            if (Off_Saving_Mode_Start_Pos == Vector2.zero) return;
+
             Off_Saving_Mode_End_Pos = Input.mousePosition;
             float distance = Vector2.Distance(Off_Saving_Mode_End_Pos, Off_Saving_Mode_Start_Pos);
 
