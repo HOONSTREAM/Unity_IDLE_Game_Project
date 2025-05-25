@@ -148,6 +148,11 @@ public class Main_UI : MonoBehaviour
     private bool isPopup = false;
     private Coroutine Legendary_Coroutine;
 
+
+    private float clearPoolTimer = 0f;
+    
+
+
     #endregion
 
     private void Awake()
@@ -193,6 +198,20 @@ public class Main_UI : MonoBehaviour
     private void Update()
     {
         Check_ADS_Fast_Mode();
+
+        if (Stage_Manager.isDead)
+        {
+            clearPoolTimer += Time.unscaledDeltaTime;
+            if (clearPoolTimer >= 30f)
+            {
+                Base_Manager.Pool.Clear_Pool();
+                clearPoolTimer = 0f; // 다음 30초를 위해 초기화
+            }
+        }
+        else
+        {
+            clearPoolTimer = 0f; // isDead가 아니면 타이머 초기화
+        }
     }
   
     private void Check_ADS_Fast_Mode()

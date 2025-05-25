@@ -3,7 +3,7 @@ using UnityEngine;
 public class Auto_Save_Mode_Controller : MonoBehaviour
 {
     private float idleTimer = 0f;
-    private float idleThreshold = 120f; // 2Ка
+    private float idleThreshold = 60f; // 1Ка
 
     private bool isSleepMode = false;
 

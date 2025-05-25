@@ -360,6 +360,16 @@ public class Utils
                 return temp = "다이아몬드";
             case Player_Tier.Tier_Master:
                 return temp = "마스터";
+            case Player_Tier.Tier_Master_1:
+                return temp = "마스터 1성";
+            case Player_Tier.Tier_Master_2:
+                return temp = "마스터 2성";
+            case Player_Tier.Tier_Master_3:
+                return temp = "마스터 3성";
+            case Player_Tier.Tier_Master_4:
+                return temp = "마스터 4성";
+            case Player_Tier.Tier_Master_5:
+                return temp = "마스터 5성";
             case Player_Tier.Tier_GrandMaster:
                 return temp = "그랜드마스터";
             case Player_Tier.Tier_Challenger:
