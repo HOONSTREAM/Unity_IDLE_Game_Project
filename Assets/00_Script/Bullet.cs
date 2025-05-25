@@ -57,7 +57,12 @@ public class Bullet : MonoBehaviour
         m_DMG = dmg;
 
         m_Character_Name = character_Name;
-        m_projectiles[m_Character_Name].gameObject.SetActive(true);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            m_projectiles[m_Character_Name].gameObject.SetActive(true);
+        }
+        
     }
 
 
@@ -67,22 +72,23 @@ public class Bullet : MonoBehaviour
         {
             return;
         }
+
         m_TargetPos.y = 0.5f; // 투사체의 y축을 올려줌.
 
         transform.position = Vector3.MoveTowards(transform.position, m_TargetPos, Time.deltaTime * m_Speed);
 
-        if(Vector3.Distance(transform.position, m_TargetPos) <= 0.1f)
+        if (Vector3.Distance(transform.position, m_TargetPos) <= 0.1f)
         {
             if (m_Target != null)
             {
-                GetHit = true; 
+                GetHit = true;
                 m_Target.GetComponent<Character>().GetDamage(m_DMG);
                 m_projectiles[m_Character_Name].gameObject.SetActive(false);
                 m_Muzzles[m_Character_Name].Play();
-
                 StartCoroutine(ReturnObject(m_Muzzles[m_Character_Name].duration));
             }
         }
+       
     }
 
     IEnumerator ReturnObject(float timer)

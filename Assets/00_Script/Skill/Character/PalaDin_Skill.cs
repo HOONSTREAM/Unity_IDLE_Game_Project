@@ -17,8 +17,12 @@ public class PalaDin_Skill : Skill_Base
     }
 
     IEnumerator Set_Skill_Coroutine()
-    {        
-        Skill_Effect.gameObject.SetActive(true);
+    {
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Skill_Effect.gameObject.SetActive(true);
+        }
+        
         Base_Manager.SOUND.Play(Sound.BGS, PALADIN_NAME);
         double temp = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[PALADIN_NAME]);
         gameObject.GetComponent<Player>().HP *= 2.0d;

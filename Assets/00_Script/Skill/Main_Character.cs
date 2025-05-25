@@ -20,7 +20,7 @@ public class Main_Character : Skill_Base
 
         gameObject.GetComponent<Speech_Character>().Init();
         m_Player.Use_Skill = true;
-        m_Player.AnimatorChange("isSKILL");
+        
 
         var character = HP_Check();
         m_Player.transform.LookAt(character.transform.position);  

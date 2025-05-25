@@ -15,8 +15,13 @@ public class Light_Wizard_Skill : Skill_Base
     {
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
-        Light_Wizard_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Light_Wizard_Skill_Effect"));
-        Destroy(Light_Wizard_Skill_Effect, LifeTime);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Light_Wizard_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Light_Wizard_Skill_Effect"));
+            Destroy(Light_Wizard_Skill_Effect, LifeTime);
+        }
+
         StartCoroutine(Set_Skill_Coroutine());
     }
 
@@ -37,15 +42,20 @@ public class Light_Wizard_Skill : Skill_Base
         var Damage_Multiple = Random.Range(SKILL_DAMAGE_MULTIPLE_CONSTATNT_MIN, SKILL_DAMAGE_MULTIPLE_CONSTATNT_MAX);
 
         yield return new WaitForSecondsRealtime(2.0f);
+
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Light_Wizard_Skill_Effect.transform.position) <= 4.0f)
+            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Vector3.zero) <= 4.0f)
             {
                 Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * Damage_Multiple);
             }
         }
 
-        Light_Wizard_Skill_Effect.transform.position = Vector3.zero;
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Light_Wizard_Skill_Effect.transform.position = Vector3.zero;
+
+        }
 
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;

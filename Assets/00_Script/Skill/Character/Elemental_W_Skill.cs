@@ -47,6 +47,7 @@ public class Elemental_W_Skill : Skill_Base
             Magic_Circle.gameObject.SetActive(true);
             Magic_Circle.gameObject.GetComponent<ParticleSystem>().Play();
 
+            
             Meteor.gameObject.SetActive(true);          
             Camera_Manager.instance.Camera_Shake();
             Vector3 Attack_pos = localMonsters[Random.Range(0, localMonsters.Length)].transform.position +

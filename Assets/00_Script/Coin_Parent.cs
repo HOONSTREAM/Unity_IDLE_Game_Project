@@ -35,19 +35,30 @@ public class Coin_Parent : MonoBehaviour
             return;
         }
 
-
-        target = pos;
-        transform.position = cam.WorldToScreenPoint(pos);
-        for (int i = 0; i < childs.Length; i++)
+        if (!Utils.is_Skill_Effect_Save_Mode)
         {
-            childs[i].GetComponent<Image>().sprite = Utils.Get_Atlas(type.ToString());
-            childs[i].anchoredPosition = Vector2.zero;
+            target = pos;
+            transform.position = cam.WorldToScreenPoint(pos);
+
+            for (int i = 0; i < childs.Length; i++)
+            {
+                childs[i].GetComponent<Image>().sprite = Utils.Get_Atlas(type.ToString());
+                childs[i].anchoredPosition = Vector2.zero;
+            }
+
+
+
+            transform.parent = Base_Canvas.instance.Holder_Layer(0);
+
+
+            StartCoroutine(Coin_Effect());
+
         }
 
         switch (type)
         {
             case Coin_Type.Gold:
-                Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY() * (1 + Base_Manager.Player.Calculate_Gold_Drop_Percentage());               
+                Data_Manager.Main_Players_Data.Player_Money += Utils.Data.stageData.Get_DROP_MONEY() * (1 + Base_Manager.Player.Calculate_Gold_Drop_Percentage());
                 break;
             case Coin_Type.Dia:
                 Data_Manager.Main_Players_Data.DiaMond += reward_value;
@@ -56,10 +67,8 @@ public class Coin_Parent : MonoBehaviour
 
         }
 
-        transform.parent = Base_Canvas.instance.Holder_Layer(0);
+        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
 
-
-        StartCoroutine(Coin_Effect());
     }
 
     private void OnSave()
@@ -121,7 +130,7 @@ public class Coin_Parent : MonoBehaviour
             yield return null;
         }
 
-        Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
+        
     }
 
     private bool Distance_Boolean(Vector2[] end, float range)

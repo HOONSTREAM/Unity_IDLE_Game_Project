@@ -26,6 +26,8 @@ public class Utils
     public static readonly double OFFLINE_TIME_CHECK = 300.0d;
     public static bool is_push_alarm_agree = false;
 
+    public static bool is_Skill_Effect_Save_Mode = true;
+
     public static void CloseAllPopupUI()
     {
         while(UI_Holder.Count > 0)

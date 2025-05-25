@@ -89,6 +89,9 @@ public class Base_Manager : MonoBehaviour
             SOUND.Init();
             DAILY.Init();
             IAP.Init_Unity_IAP();
+
+            Screen.sleepTimeout = SleepTimeout.NeverSleep; 
+
             DontDestroyOnLoad(this.gameObject);
         }
 

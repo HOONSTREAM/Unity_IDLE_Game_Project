@@ -56,8 +56,14 @@ public class Relic_Manager : MonoBehaviour
         }
 
         Vector3 RealPos = monster.transform.position;
-        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/Burst"));
-        go.transform.position = RealPos;
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/Burst"));
+            go.transform.position = RealPos;
+            Destroy(go, 2.0f);
+        }
+
 
         var effect_value = float.Parse(CSV_Importer.RELIC_SWORD_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
 
@@ -68,8 +74,7 @@ public class Relic_Manager : MonoBehaviour
                 Spawner.m_monsters[i].GetDamage(player.ATK * effect_value);
             }
         }
-
-        Destroy(go , 2.0f);
+             
     }
 
     public void STAFF(Player player, Monster monster)
@@ -83,9 +88,14 @@ public class Relic_Manager : MonoBehaviour
         }
 
         Vector3 RealPos = monster.transform.position;
-        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/STAFF"));
-        go.transform.position = RealPos;
 
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/STAFF"));
+            go.transform.position = RealPos;
+            Destroy(go, 2.0f);
+        }
+              
         var effect_value = float.Parse(CSV_Importer.RELIC_STAFF_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
 
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
@@ -96,7 +106,7 @@ public class Relic_Manager : MonoBehaviour
             }
         }
 
-        Destroy(go, 2.0f);
+        
     }
 
 

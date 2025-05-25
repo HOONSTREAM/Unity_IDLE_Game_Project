@@ -18,17 +18,20 @@ public class Luminers_Skill : Skill_Base
 
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
-        Luminers_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Luminers_Skill_Effect"));
-        Luminers_Skill_Effect.transform.position = Vector3.zero;
-        Destroy(Luminers_Skill_Effect, LifeTime);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Luminers_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Luminers_Skill_Effect"));
+            Luminers_Skill_Effect.transform.position = Vector3.zero;
+            Destroy(Luminers_Skill_Effect, LifeTime);
+        }
+       
         StartCoroutine(Set_Skill_Coroutine());
     }
 
     IEnumerator Set_Skill_Coroutine()
     {        
-
-        //Base_Manager.SOUND.Play(Sound.BGS, LUMINERS_NAME);
- 
+        
         foreach(var players in players)
         {
             originalAtkList.Add(players.ATK);

@@ -16,9 +16,13 @@ public class Dragon_Knight_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        Skill_Effect.gameObject.SetActive(true);
-        Base_Manager.SOUND.Play(Sound.BGS, "Dragon_Knight");
-        Skill_Effect.GetComponent<ParticleSystem>().Play();
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Skill_Effect.gameObject.SetActive(true);
+            Base_Manager.SOUND.Play(Sound.BGS, "Dragon_Knight");
+            Skill_Effect.GetComponent<ParticleSystem>().Play();
+        }
+        
 
         for (int i = 0; i < 3; i++)
         {

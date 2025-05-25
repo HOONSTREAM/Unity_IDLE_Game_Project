@@ -38,16 +38,7 @@ public class Hit_Text : MonoBehaviour
 
         m_critical.gameObject.SetActive(Critical);
 
-        //if (Critical)
-        //{
-        //    m_Text.colorGradient = new VertexGradient(Color.yellow, Color.yellow, Color.white, Color.white);
-        //}
-        //else
-        //{
-        //    m_Text.colorGradient = new VertexGradient(Color.white, Color.white, Color.white, Color.white);
-        //}
-
-
+       
         Base_Manager.instance.Return_Pool(2.0f, this.gameObject, "HIT_TEXT");
     }
 

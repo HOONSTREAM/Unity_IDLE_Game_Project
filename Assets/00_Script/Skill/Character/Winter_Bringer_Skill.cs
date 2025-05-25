@@ -17,8 +17,13 @@ public class Winter_Bringer_Skill : Skill_Base
        
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
-        WinterBringer_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Winter_Bringer_Skill_Effect"));
-        Destroy(WinterBringer_Skill_Effect, LifeTime);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            WinterBringer_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Winter_Bringer_Skill_Effect"));
+            Destroy(WinterBringer_Skill_Effect, LifeTime);
+        }
+       
         StartCoroutine(Set_Skill_Coroutine());
     }
 
@@ -40,14 +45,18 @@ public class Winter_Bringer_Skill : Skill_Base
 
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, WinterBringer_Skill_Effect.transform.position) <= 4.0f)
+            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Vector3.zero) <= 4.0f)
             {
                 Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * Damage_Multiple);
             }
         }
-     
-        Skill_Effect.transform.position = Vector3.zero;
 
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Skill_Effect.transform.position = Vector3.zero;
+        }
+        
+       
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;
         

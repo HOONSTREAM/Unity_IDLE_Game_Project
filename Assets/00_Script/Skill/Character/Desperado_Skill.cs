@@ -15,8 +15,14 @@ public class Desperado_Skill : Skill_Base
     {
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
-        Desperado_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Desperado_Skill_Effect"));
-        Destroy(Desperado_Skill_Effect, LifeTime);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Desperado_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Desperado_Skill_Effect"));
+            Destroy(Desperado_Skill_Effect, LifeTime);
+        }
+        
+        
         StartCoroutine(Set_Skill_Coroutine());
     }
 
@@ -38,7 +44,7 @@ public class Desperado_Skill : Skill_Base
         }
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Desperado_Skill_Effect.transform.position) <= 4.0f)
+            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Vector3.zero) <= 4.0f)
             {
                 Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT);
             }
@@ -46,7 +52,12 @@ public class Desperado_Skill : Skill_Base
 
         Base_Manager.SOUND.Play(Sound.BGS, "Desperado_1");        
         Base_Manager.SOUND.Play(Sound.BGS, "Desperado_2");
-        Desperado_Skill_Effect.transform.position = Vector3.zero;
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Desperado_Skill_Effect.transform.position = Vector3.zero;
+        }
+        
  
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;      

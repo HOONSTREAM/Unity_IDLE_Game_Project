@@ -145,10 +145,15 @@ public class Monster : Character
 
         bool critical = Critical_Damage(ref dmg);
 
-        Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
         {
-            value.GetComponent<Hit_Text>().Init(transform.position, dmg, Color.white, false, critical);
-        });
+            Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
+            {
+                value.GetComponent<Hit_Text>().Init(transform.position, dmg, Color.white, false, critical);
+            });
+        }
+        
 
         HP -= dmg;
 
@@ -241,7 +246,7 @@ public class Monster : Character
             Data_Manager.Main_Players_Data.Player_Money += reward;
         }
         else
-        {
+        {           
             Base_Manager.Pool.Pooling_OBJ("COIN_PARENT").Get((value) =>
             {
                 value.GetComponent<Coin_Parent>().Init(transform.position);

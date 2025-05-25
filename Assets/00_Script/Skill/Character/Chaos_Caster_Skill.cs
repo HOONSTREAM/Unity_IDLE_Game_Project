@@ -17,10 +17,13 @@ public class Chaos_Caster_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        Skill_Effect.gameObject.SetActive(true);
-        Base_Manager.SOUND.Play(Sound.BGS, "Chaos_Caster");
-        Skill_Effect.GetComponent<ParticleSystem>().Play();
-
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Skill_Effect.gameObject.SetActive(true);
+            Base_Manager.SOUND.Play(Sound.BGS, "Chaos_Caster");
+            Skill_Effect.GetComponent<ParticleSystem>().Play();
+        }
+        
         var Damage_Multiple = Random.Range(SKILL_DAMAGE_MIN, SKILL_DAMAGE_MAX);
 
         for (int i = 0; i < 3; i++)
@@ -37,6 +40,7 @@ public class Chaos_Caster_Skill : Skill_Base
 
         }
 
+        Skill_Effect.gameObject.SetActive(false);
         ReturnSkill();
     }
 }

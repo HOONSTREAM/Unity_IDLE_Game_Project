@@ -14,8 +14,13 @@ public class Starlist_Skill : Skill_Base
     {
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
-        Starlist_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Starlist_Skill_Effect"));
-        Destroy(Starlist_Skill_Effect, LifeTime);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Starlist_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Starlist_Skill_Effect"));
+            Destroy(Starlist_Skill_Effect, LifeTime);
+        }
+        
         StartCoroutine(Set_Skill_Coroutine());
     }
 
@@ -36,13 +41,17 @@ public class Starlist_Skill : Skill_Base
 
         for (int i = 0; i < Spawner.m_monsters.Count; i++)
         {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Starlist_Skill_Effect.transform.position) <= 4.0f)
+            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Vector3.zero) <= 4.0f)
             {
                 Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT);
             }
         }
 
-        Starlist_Skill_Effect.transform.position = Vector3.zero;
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Starlist_Skill_Effect.transform.position = Vector3.zero;
+        }
+        
 
         yield return new WaitForSecondsRealtime(2.0f);
         this.gameObject.GetComponent<Player>().Use_Skill = false;

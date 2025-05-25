@@ -15,9 +15,13 @@ public class Druid_Skill : Skill_Base
     }
 
     IEnumerator Set_Skill_Coroutine()
-    {        
-        Skill_Effect.gameObject.SetActive(true);
-        Base_Manager.SOUND.Play(Sound.BGS, "PalaDin");
+    {
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Skill_Effect.gameObject.SetActive(true);
+            Base_Manager.SOUND.Play(Sound.BGS, "PalaDin");
+        }
+       
         double temp = Base_Manager.Player.Get_ATK(Rarity.UnCommon, Base_Manager.Data.character_Holder[DRUID_NAME], DRUID_NAME);
         gameObject.GetComponent<Player>().ATK *= 4.0d;
         yield return new WaitForSeconds(Druid_SKILL_DURATION_TIME);       

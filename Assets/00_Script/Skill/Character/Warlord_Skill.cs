@@ -15,8 +15,13 @@ public class Warlord_Skill : Skill_Base
     public override void Set_Skill()
     {
         gameObject.GetComponent<Speech_Character>().Init();
-        Warlord_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Warlord_Skill_Effect"));
-        Destroy(Warlord_Skill_Effect, LifeTime);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Warlord_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Warlord_Skill_Effect"));
+            Destroy(Warlord_Skill_Effect, LifeTime);
+        }
+        
         StartCoroutine(Set_Skill_Coroutine());
         base.Set_Skill();
     }
@@ -33,7 +38,11 @@ public class Warlord_Skill : Skill_Base
 
         Base_Manager.SOUND.Play(Sound.BGS, "Warlord");
 
-        Warlord_Skill_Effect.transform.position = Vector3.zero;
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Warlord_Skill_Effect.transform.position = Vector3.zero;
+        }
+        
 
         for (int i = 0; i<5; i++)
         {

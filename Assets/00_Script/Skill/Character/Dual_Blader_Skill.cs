@@ -17,7 +17,12 @@ public class Dual_Blader_Skill : Skill_Base
 
         gameObject.GetComponent<Speech_Character>().Init();
         m_Player.AnimatorChange("isSKILL");
-        Skill_Effect.gameObject.SetActive(true);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Skill_Effect.gameObject.SetActive(true);
+        }
+       
         StartCoroutine(Set_Skill_Coroutine());
         base.Set_Skill();
 

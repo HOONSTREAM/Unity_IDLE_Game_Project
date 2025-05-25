@@ -20,9 +20,13 @@ public class Knight_Skill : Skill_Base
         m_Player.ATK_Speed *= 1.5f;
         double temp = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[KNIGHT_NAME]);
         gameObject.GetComponent<Player>().HP *= 1.5d;
-        Skill_Effect.gameObject.SetActive(true);
-        Skill_Effect.gameObject.GetComponent<ParticleSystem>().Play();
 
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Skill_Effect.gameObject.SetActive(true);
+            Skill_Effect.gameObject.GetComponent<ParticleSystem>().Play();
+        }
+        
         yield return new WaitForSeconds(KNIGHT_SKILL_DURATION_TIME);
         m_Player.ATK_Speed = data;
         gameObject.GetComponent<Player>().HP = temp;

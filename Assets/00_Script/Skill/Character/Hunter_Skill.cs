@@ -17,7 +17,12 @@ public class Hunter_Skill : Skill_Base
     {
         var data = m_Player.ATK_Speed;
         m_Player.ATK_Speed *= 2.0f;
-        Skill_Effect.gameObject.SetActive(true);
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            Skill_Effect.gameObject.SetActive(true);
+        }
+       
 
         yield return new WaitForSeconds(HUNTER_SKILL_DURATION_TIME);
         m_Player.ATK_Speed = data;
