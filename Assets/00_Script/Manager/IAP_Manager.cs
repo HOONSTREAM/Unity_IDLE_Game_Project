@@ -60,20 +60,35 @@ public class IAP_Manager : IStoreListener
         Debug.Log($"IAP 초기화에 실패하였습니다. : {error.ToString()}");
     }
 
-    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
+    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        string purchase_EventName = purchaseEvent.purchasedProduct.definition.id;
+        string productId = args.purchasedProduct.definition.id;
+        string receipt_Json = args.purchasedProduct.receipt;
 
-        IAP_Holder holder = (IAP_Holder)Enum.Parse(typeof(IAP_Holder), purchase_EventName);
+        decimal price = args.purchasedProduct.metadata.localizedPrice;
+        string currency = args.purchasedProduct.metadata.isoCurrencyCode;
 
-        Base_Canvas.instance.Get_UI("UI_Reward");
-        Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetIAPReward(holder);
+        // 영수증 검증
+        decimal iapPrice = args.purchasedProduct.metadata.localizedPrice;
+        string iapCurrency = args.purchasedProduct.metadata.isoCurrencyCode;
 
-        _ = Base_Manager.BACKEND.WriteData();
+        BackendReturnObject validation = Backend.Receipt.IsValidateGooglePurchase(receipt_Json, "receiptDescription", iapPrice, iapCurrency);
 
-        onPurchaseSuccessCallback?.Invoke();
-        onPurchaseSuccessCallback = null;
 
+        if (validation.IsSuccess())
+        {
+
+            Success_Purchase(args, productId);
+
+        }
+
+        else
+        {
+            Debug.LogError($"[결제 검증 실패] - {productId}, Error: {validation.GetMessage()}");
+            Base_Manager.BACKEND.Log_Try_Crack_IAP(productId, validation.GetMessage());
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증에 실패하였습니다 : {validation.GetMessage()}");
+        }
+       
         return PurchaseProcessingResult.Complete;
     }
 
@@ -82,7 +97,7 @@ public class IAP_Manager : IStoreListener
         Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
         Debug.Log($"[결제 검증 성공] - {productId}");
-        Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증 성공 : {productId}");
+        Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"결제 검증 성공");
 
         if (Enum.TryParse(productId, out IAP_Holder holder))
         {

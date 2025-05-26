@@ -123,13 +123,18 @@ public class Relic_Manager : MonoBehaviour
         {
             return;
         }
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/MP"));
+            go.transform.position = player.transform.position;
+            Destroy(go, 2.0f);
+        }
         
-        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/MP"));
-        go.transform.position = player.transform.position;
         player.Get_MP(int.Parse(CSV_Importer.RELIC_MANA_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString()));
 
 
-        Destroy(go, 2.0f);
+       
     }
 
     public void HP(Player player)
@@ -141,9 +146,14 @@ public class Relic_Manager : MonoBehaviour
         {
             return;
         }
+
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/HP"));
+            go.transform.position = player.transform.position;
+            Destroy(go, 2.0f);
+        }
         
-        GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/HP"));
-        go.transform.position = player.transform.position;
 
         float effect = float.Parse(CSV_Importer.RELIC_HP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
         
@@ -152,7 +162,7 @@ public class Relic_Manager : MonoBehaviour
         
 
 
-        Destroy(go, 2.0f);
+       
     }
 
     /// <summary>
