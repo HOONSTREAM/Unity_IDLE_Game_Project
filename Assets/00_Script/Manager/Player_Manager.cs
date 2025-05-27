@@ -142,7 +142,17 @@ public class Player_Manager
             var goldLevel = Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level;
             float effectValue = float.Parse(CSV_Importer.RELIC_GOLD_PER_ATK_Design[goldLevel]["effect_percent"].ToString());
             double atkBonus = (playerData.Player_Money / 10000000.0) * (effectValue * 0.01);
-            baseATK *= 1.0 + atkBonus;
+
+            if (atkBonus >= (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1))
+            {
+                atkBonus = (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1);
+            }
+
+            Debug.Log($"{baseATK}");
+
+            baseATK *= atkBonus;
+
+            Debug.Log($"{baseATK}가 , {atkBonus}가 곱해져 {baseATK*atkBonus} 가 됩니다.");
         }
 
         // 티어 보너스

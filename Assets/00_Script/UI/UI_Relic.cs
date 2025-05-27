@@ -302,9 +302,15 @@ public class UI_Relic : UI_Base
         if (Data.name == "GOLD_PER_ATK")
         {
             double Gold_Amount = Data_Manager.Main_Players_Data.Player_Money;
-            double atkBonus = Gold_Amount / 10000000 * double.Parse(effect_percent);            
+            double atkBonus = Gold_Amount / 10000000 * double.Parse(effect_percent);
+
+            if(atkBonus >= (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1))
+            {
+                atkBonus = (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1);
+            }
+
             Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent,
-                effect_percent, atkBonus.ToString("F2"));
+                effect_percent, (atkBonus * 100).ToString("F2"));
         }
         #endregion
 
