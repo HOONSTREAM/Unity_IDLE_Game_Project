@@ -13,6 +13,17 @@ public class Relic_Manager : MonoBehaviour
 {
     public static Relic_Manager instance;
 
+    #region 유물 이펙트 효과
+    [SerializeField]
+    private GameObject SWORD_Burst_Prefab;
+    [SerializeField]
+    private GameObject STAFF_Burst_Prefab;
+    [SerializeField]
+    private GameObject HP_Burst_Prefab;
+    [SerializeField]
+    private GameObject MANA_Burst_Prefab;
+    #endregion
+
     private void Awake()
     {
         if (instance == null)
@@ -26,6 +37,21 @@ public class Relic_Manager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SWORD_Burst_Prefab = Instantiate(Resources.Load<GameObject>("PreFabs/Burst"));
+        SWORD_Burst_Prefab.gameObject.SetActive(false);
+
+        STAFF_Burst_Prefab = Instantiate(Resources.Load<GameObject>("PreFabs/STAFF"));
+        STAFF_Burst_Prefab.gameObject.SetActive(false);
+
+        HP_Burst_Prefab = Instantiate(Resources.Load<GameObject>("PreFabs/HP"));
+        HP_Burst_Prefab.gameObject.SetActive(false);
+
+        MANA_Burst_Prefab = Instantiate(Resources.Load<GameObject>("PreFabs/MP"));
+        MANA_Burst_Prefab.gameObject.SetActive(false);
+
+    }
     public void Initalize()
     {
         if (Base_Manager.Item.Set_Item_Check("DICE")) Delegate_Holder.Monster_Dead_Event -= DICE;
@@ -59,9 +85,12 @@ public class Relic_Manager : MonoBehaviour
 
         if (!Utils.is_Skill_Effect_Save_Mode)
         {
-            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/Burst"));
-            go.transform.position = RealPos;
-            Destroy(go, 2.0f);
+            GameObject go = SWORD_Burst_Prefab;
+            SWORD_Burst_Prefab.gameObject.SetActive(true);
+            SWORD_Burst_Prefab.gameObject.GetComponent<ParticleSystem>().Play();
+            go.transform.position = Vector3.zero;
+            StartCoroutine(DisableAfter(go, 3.0f));
+            
         }
 
 
@@ -91,9 +120,11 @@ public class Relic_Manager : MonoBehaviour
 
         if (!Utils.is_Skill_Effect_Save_Mode)
         {
-            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/STAFF"));
-            go.transform.position = RealPos;
-            Destroy(go, 2.0f);
+            GameObject go = STAFF_Burst_Prefab;
+            STAFF_Burst_Prefab.gameObject.SetActive(true);
+            STAFF_Burst_Prefab.gameObject.GetComponent<ParticleSystem>().Play();
+            go.transform.position = Vector3.zero;
+            StartCoroutine(DisableAfter(go, 3.0f));
         }
               
         var effect_value = float.Parse(CSV_Importer.RELIC_STAFF_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
@@ -126,9 +157,10 @@ public class Relic_Manager : MonoBehaviour
 
         if (!Utils.is_Skill_Effect_Save_Mode)
         {
-            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/MP"));
+            GameObject go = MANA_Burst_Prefab;
             go.transform.position = player.transform.position;
-            Destroy(go, 2.0f);
+            go.GetComponent<ParticleSystem>().Play();
+            StartCoroutine(DisableAfter(go, 3.0f));
         }
         
         player.Get_MP(int.Parse(CSV_Importer.RELIC_MANA_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString()));
@@ -149,9 +181,10 @@ public class Relic_Manager : MonoBehaviour
 
         if (!Utils.is_Skill_Effect_Save_Mode)
         {
-            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/HP"));
+            GameObject go = HP_Burst_Prefab;
             go.transform.position = player.transform.position;
-            Destroy(go, 2.0f);
+            go.GetComponent<ParticleSystem>().Play();
+            StartCoroutine(DisableAfter(go, 3.0f));
         }
         
 
@@ -193,6 +226,12 @@ public class Relic_Manager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    IEnumerator DisableAfter(GameObject obj, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        obj.SetActive(false);
     }
 
 }

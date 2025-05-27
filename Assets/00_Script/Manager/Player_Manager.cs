@@ -148,11 +148,7 @@ public class Player_Manager
                 atkBonus = (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1);
             }
 
-            Debug.Log($"{baseATK}");
-
-            baseATK *= atkBonus;
-
-            Debug.Log($"{baseATK}가 , {atkBonus}가 곱해져 {baseATK*atkBonus} 가 됩니다.");
+            baseATK *= atkBonus;         
         }
 
         // 티어 보너스
