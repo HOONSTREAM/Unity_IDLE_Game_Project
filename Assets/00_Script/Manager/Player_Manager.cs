@@ -134,7 +134,7 @@ public class Player_Manager
 
         if (Base_Manager.Item.Set_Item_Check("STAFF"))
         {
-            baseATK *= 1.5;
+            baseATK *= 1.5d;
         }
 
         if (Base_Manager.Item.Set_Item_Check("GOLD_PER_ATK"))

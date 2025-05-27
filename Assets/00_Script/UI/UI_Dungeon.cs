@@ -128,7 +128,7 @@ public class UI_Dungeon : UI_Base
 
         if (Stage_Manager.isDead)
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("훈련 중엔, 던전에 진입할 수 없습니다.");
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("방치모드 중엔, 던전에 진입할 수 없습니다.");
             return;
         }
 
