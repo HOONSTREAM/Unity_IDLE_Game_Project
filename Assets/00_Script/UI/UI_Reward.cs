@@ -23,6 +23,7 @@ public class UI_Reward : UI_Base
             case IAP_Holder.dia_4900: GetRewardInit("Dia", 4900); break;
             case IAP_Holder.dungeon_dia_20: GetRewardInit("Dungeon_Dia", 5); break;
             case IAP_Holder.gold_30: GetRewardInit("Dungeon_Gold", 8); break;
+            case IAP_Holder.start: GetRewardInit("START_Package", 1); break;
         }
     }
 
@@ -72,6 +73,13 @@ public class UI_Reward : UI_Base
                 break;
             case "Dungeon_Gold":
                 Data_Manager.Main_Players_Data.User_Key_Assets[1] += Count;
+                break;
+            case "START_Package":
+                Data_Manager.Main_Players_Data.isBuySTARTPackage = true;
+                Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount += 1;
+                Base_Manager.Data.Item_Holder["STAFF"].Hero_Card_Amount += 10;
+                Data_Manager.Main_Players_Data.DiaMond += 2500;
+
                 break;
         }
 

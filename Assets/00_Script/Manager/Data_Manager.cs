@@ -72,6 +72,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.isBuyADPackage = false;
         Data_Manager.Main_Players_Data.isBuyTodayPackage = false;
         Data_Manager.Main_Players_Data.isBuySTRONGPackage = false;
+        Data_Manager.Main_Players_Data.isBuySTARTPackage = false;
         Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree = false;
         Data_Manager.Main_Players_Data.Daily_Attendance = 1;
         Data_Manager.Main_Players_Data.Levelup = 0;
@@ -118,6 +119,7 @@ public class BackendGameData
         param.Add("isBUY_LAUNCH_EVENT", Data_Manager.Main_Players_Data.isBuyLAUNCH_EVENT);
         param.Add("isBUY_TODAY_Package", Data_Manager.Main_Players_Data.isBuyTodayPackage);
         param.Add("isBUY_STRONG_Package", Data_Manager.Main_Players_Data.isBuySTRONGPackage);
+        param.Add("isBUY_START_Package", Data_Manager.Main_Players_Data.isBuySTARTPackage);
         param.Add("EVENT_PUSH_ALARM", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree);
         param.Add("Daily_Attendance", Data_Manager.Main_Players_Data.Daily_Attendance);
         param.Add("Level_up_Daily_Quest_Count", Data_Manager.Main_Players_Data.Levelup);
@@ -324,6 +326,7 @@ public class Data
     public bool isBuyLAUNCH_EVENT = false;
     public bool isBuyTodayPackage = false;
     public bool isBuySTRONGPackage = false;
+    public bool isBuySTARTPackage = false;
     public int ADS_Hero_Summon_Count = 0;
     public int ADS_Relic_Summon_Count = 0;
     public float[] ADS_Timer = { 0.0f, 0.0f };

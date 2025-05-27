@@ -148,6 +148,11 @@ public class Player_Manager
                 atkBonus = (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1);
             }
 
+            if(atkBonus <= 1.0d)
+            {
+                atkBonus = 1.0d;
+            }
+
             baseATK *= atkBonus;         
         }
 

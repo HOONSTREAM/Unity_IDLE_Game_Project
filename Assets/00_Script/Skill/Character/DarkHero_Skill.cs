@@ -16,7 +16,7 @@ public class DarkHero_Skill : Skill_Base
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
 
-        if (Utils.is_Skill_Effect_Save_Mode)
+        if (!Utils.is_Skill_Effect_Save_Mode)
         {
             DarkHero_Skill_Effect = Instantiate(Resources.Load<GameObject>("Prefabs/Dark_Hero_Skill_Effect"));
             Destroy(DarkHero_Skill_Effect, LifeTime);
@@ -51,7 +51,7 @@ public class DarkHero_Skill : Skill_Base
 
         if (!Utils.is_Skill_Effect_Save_Mode)
         {
-            DarkHero_Skill_Effect.transform.position = new Vector3(0.0f, 10.0f, 0.0f);
+            DarkHero_Skill_Effect.transform.position = new Vector3(0.0f, 15.0f, 0.0f);
         }
        
 
