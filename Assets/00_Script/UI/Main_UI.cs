@@ -610,14 +610,21 @@ public class Main_UI : MonoBehaviour
     /// </summary>
     public void Character_State_Check(Player player)
     {
-        Main_UI_PlayerInfo_Text_Check();
-
-        if(player.gameObject.GetComponent<Player>().CH_Name == "Cleric")
+        if (!Main_Parts_Dict.ContainsKey(player))
         {
+            Debug.LogWarning($"플레이어 {player.name}에 대한 UI 요소가 존재하지 않습니다.");
             return;
         }
 
-        Main_Parts_Dict[player].State_Check(player);
+        var part = Main_Parts_Dict[player];
+
+        // HP 또는 MP 변화가 있는 경우에만 UI 갱신
+        if (part.LastKnownHP != player.HP || part.LastKnownMP != player.MP)
+        {
+            part.State_Check(player); // 내부에서 HP, MP UI 반영
+            part.LastKnownHP = player.HP;
+            part.LastKnownMP = player.MP;
+        }
     }
     private void OnBoss()
     {

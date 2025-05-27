@@ -21,7 +21,8 @@ public class UI_Main_Hero_Parts : MonoBehaviour
 
     private Character_Scriptable Main_Data = null;
 
-
+    public double LastKnownHP { get; set; } = -1;
+    public int LastKnownMP { get; set; } = -1;
     public void Initialize()
     {
         Reset_Main_Hero_Parts();
