@@ -14,6 +14,7 @@ public class Player_Manager
     private float ADS_Item_Buff_Value = 0.0f;
     private float ADS_Atk_Buff_Value = 1.0f; // 곱셈으로 들어가므로.
 
+    public bool isAutoLeveling = false; // 자동 레벨업 중 여부
 
     public void Init()
     {       
@@ -54,8 +55,12 @@ public class Player_Manager
        
         if(Data_Manager.Main_Players_Data.EXP >= Utils.Data.levelData.Get_MAXEXP()) // 레벨업 조건 달성 시
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨이 올라 더욱 강해졌습니다!");
-            Base_Manager.SOUND.Play(Sound.BGS, "Level_Up");
+            if (!isAutoLeveling)
+            {
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨이 올라 더욱 강해졌습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Level_Up");
+            }
+           
             Data_Manager.Main_Players_Data.Player_Level++;
             Data_Manager.Main_Players_Data.EXP = 0;
 

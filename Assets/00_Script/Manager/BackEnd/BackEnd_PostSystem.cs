@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class BackEnd_PostSystem : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class BackEnd_PostSystem : MonoBehaviour
     private void Start()
     {       
         PostListGet(PostType.Admin);
+        DontDestroyOnLoad(this);
     }
 
     public void All_ReCeive_Button()

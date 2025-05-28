@@ -10,7 +10,7 @@ using UnityEngine.U2D;
 public class Utils 
 {
 
-    public static readonly int TIER_SEASON = 0;
+    public static readonly int TIER_SEASON = 1;
 
     public static readonly int GOLD_DUNGEON_MULTIPLE_HARD = 40;
     public static readonly int TIER_DUNGEON_FIRST_HARD = 25;
@@ -274,6 +274,7 @@ public class Utils
     public static string GetNextResetTimer_14Days()
     {
         DateTime now = Utils.Get_Server_Time();
+        
         DateTime launchDate = new DateTime(2025, 5, 15, 0, 0, 0); // ±‚¡ÿ¿œ
 
         if (now < launchDate)
