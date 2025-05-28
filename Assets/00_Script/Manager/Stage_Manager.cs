@@ -116,7 +116,7 @@ public class Stage_Manager
             case Stage_State.Dungeon:
                 Dungeon_Enter_Type = Value;
                 Debug.Log("Stage : Dungeon");
-                Base_Manager.SOUND.Play(Sound.BGM, "Dungeon");
+                Base_Manager.SOUND.Play(Sound.BGM, "Tier_Dungeon");
                 isDungeon = true;
                 DungeonCount = FULL_MAX_COUNT;
                 M_DungeonEvent?.Invoke(Value);
