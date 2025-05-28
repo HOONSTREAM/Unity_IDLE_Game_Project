@@ -52,16 +52,48 @@ public class Item_ToolTip : MonoBehaviour
     }
 
  
-    public void Show_Item_ToolTip(Item_Scriptable item, Vector2 pos)
+    public void Show_Item_ToolTip(Item_Scriptable item, Vector2 screenPos)
     {
         RectTransform canvasRect = Base_Canvas.instance.GetComponent<RectTransform>();
+        Canvas canvas = canvasRect.GetComponent<Canvas>();
+
+        Vector2 localPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            screenPos,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
+            out localPos);
+
         Vector2 tooltipSize = Rect.sizeDelta;
         Vector2 canvasSize = canvasRect.rect.size;
 
+        // 툴팁 오른쪽에 표시
+        localPos += new Vector2(20f, 0);
+
+        // 오른쪽 넘치면 왼쪽에 표시
+        if (localPos.x + tooltipSize.x > canvasSize.x / 2)
+        {
+            Rect.pivot = new Vector2(1, 0); // 오른쪽 하단 기준으로 변경
+            localPos.x -= 40f;
+        }
+        else
+        {
+            Rect.pivot = new Vector2(0, 0); // 왼쪽 하단 기준
+        }
+
+        // 수직 클램핑
+        localPos.y = Mathf.Clamp(
+            localPos.y,
+            -canvasSize.y / 2 + tooltipSize.y,
+            canvasSize.y / 2 - tooltipSize.y);
+
+        Rect.localPosition = localPos;
+
+        // ---- 이하 기존 데이터 표시 로직 유지 ----
 
         if (item.ItemType == ItemType.Equipment)
         {
-            var effects = RelicEffectFactory.Get_Holding_Effects_Relic(item.name); // 유물 팩토리에서 보유효과를 가져옵니다.
+            var effects = RelicEffectFactory.Get_Holding_Effects_Relic(item.name);
 
             if (!CSV_Importer.Relic_CSV_DATA_AUTO_Map.TryGetValue(item.name.ToUpper(), out var csvData))
             {
@@ -71,7 +103,7 @@ public class Item_ToolTip : MonoBehaviour
 
             int heroLevel = Base_Manager.Data.Item_Holder[item.name].Hero_Level;
 
-            if (heroLevel < csvData.Count) // CSV 데이터 존재 여부 확인
+            if (heroLevel < csvData.Count)
             {
                 start_percent = csvData[heroLevel]["start_percent"].ToString();
 
@@ -81,50 +113,23 @@ public class Item_ToolTip : MonoBehaviour
                 }
                 else
                 {
-                    effect_percent = default;  // 기본값 처리
+                    effect_percent = default;
                 }
             }
             else
             {
                 Debug.LogWarning($"유물 {item.name}의 {heroLevel} 레벨 데이터가 없습니다.");
             }
-
         }
-
 
         string coloredStartPercent = $"<color=#FFFF00>{start_percent}</color>";
         string coloredEffectPercent = $"<color=#FFFF00>{effect_percent}</color>";
-
-
-        // 최종 위치 적용
-        Rect.anchoredPosition = pos;
-
-        Vector2 clampedPos = pos;
-
-        // 좌우 클램핑
-        clampedPos.x = Mathf.Clamp(
-            clampedPos.x,
-            -canvasSize.x / 2 + tooltipSize.x / 2,
-            canvasSize.x / 2 - tooltipSize.x / 2
-        );
-
-        // 상하 클램핑
-        clampedPos.y = Mathf.Clamp(
-            clampedPos.y,
-            -canvasSize.y / 2 + tooltipSize.y / 2,
-            canvasSize.y / 2 - tooltipSize.y / 2
-        );
-
-        // 최종 위치 적용
-        Rect.anchoredPosition = clampedPos;
-
-
 
         Item_Image.sprite = Utils.Get_Atlas(item.name);
         Item_Name_Text.text = item.Item_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(item.rarity) + item.KO_rarity.ToString();
 
-        if(item.ItemType == ItemType.Equipment)
+        if (item.ItemType == ItemType.Equipment)
         {
             Description_Text.text = string.Format(item.Item_Description, coloredStartPercent, coloredEffectPercent);
         }
@@ -133,16 +138,10 @@ public class Item_ToolTip : MonoBehaviour
             Description_Text.text = string.Format(item.Item_Description);
         }
 
-
-        if (item.rarity == Rarity.Legendary)
-        {
-            Legendary_Particle.gameObject.SetActive(true);
-        }
-        else
-        {
-            Legendary_Particle.gameObject.SetActive(false);
-        }
+        Legendary_Particle.gameObject.SetActive(item.rarity == Rarity.Legendary);
     }
 
-  
 }
+
+  
+
