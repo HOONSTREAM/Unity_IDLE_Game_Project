@@ -47,7 +47,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Player_Money = default;
         Data_Manager.Main_Players_Data.DiaMond = default;
         Data_Manager.Main_Players_Data.Player_Level = default;
-        Data_Manager.Main_Players_Data.Last_Daily_Reset_Time = default;
+        Data_Manager.Main_Players_Data.Last_Daily_Reset_Time = Utils.Get_Server_Time().ToString("yyyy-MM-dd");
         Data_Manager.Main_Players_Data.EXP = default;
         Data_Manager.Main_Players_Data.Player_Stage = 1;
         Data_Manager.Main_Players_Data.EXP_Upgrade_Count = 0;
