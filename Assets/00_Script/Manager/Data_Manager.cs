@@ -47,6 +47,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Player_Money = default;
         Data_Manager.Main_Players_Data.DiaMond = default;
         Data_Manager.Main_Players_Data.Player_Level = default;
+        Data_Manager.Main_Players_Data.Last_Daily_Reset_Time = default;
         Data_Manager.Main_Players_Data.EXP = default;
         Data_Manager.Main_Players_Data.Player_Stage = 1;
         Data_Manager.Main_Players_Data.EXP_Upgrade_Count = 0;
@@ -137,6 +138,7 @@ public class BackendGameData
         param.Add("ADS_RELIC_SUMMON_COUNT", Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count);
         param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode);
         param.Add("SEASON", Data_Manager.Main_Players_Data.Season);
+        param.Add("LAST_DAILY_RESET", Data_Manager.Main_Players_Data.Last_Daily_Reset_Time);
 
 
         var bro = Backend.GameData.Insert("USER", param);
@@ -315,6 +317,8 @@ public class Data
     /// </summary>
     public DateTime StartDate;
     public DateTime EndDate;
+
+    public string Last_Daily_Reset_Time;
 
     //Dungeon
     public int[] Daily_Enter_Key = { 3, 3 }; // 일일마다 초기화 되는 키

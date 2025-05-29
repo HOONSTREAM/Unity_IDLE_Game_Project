@@ -324,6 +324,15 @@ public class Utils
         return parsedDate;
     }
 
+    public static string Get_LastDailyResetTime()
+    {
+        DateTime serverNow = Get_Server_Time();
+        string todayDate = serverNow.ToString("yyyy-MM-dd");
+
+        return todayDate;
+    }
+
+
     /// <summary>
     /// 에러 UI를 노출시킵니다.
     /// </summary>

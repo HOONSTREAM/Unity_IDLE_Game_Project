@@ -30,14 +30,16 @@ public partial class BackEnd_Manager : MonoBehaviour
         DateTime now = Utils.Get_Server_Time();
         
         Data_Manager.Main_Players_Data.EndDate = now;
-        
+
+        string now_date_string = now.ToString("yyyy-MM-dd");
 
         // 여기서 자정 비교 후 일일 초기화
-        if (Get_Date_Dungeon_Item(Data_Manager.Main_Players_Data.StartDate, now))
+        if (Get_Date_Dungeon_Item(Data_Manager.Main_Players_Data.Last_Daily_Reset_Time, now_date_string))
         {
             Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("일일 컨텐츠가 초기화 되었습니다.");
             Get_Daily_Contents_Reset();
             Data_Manager.Main_Players_Data.StartDate = now;
+            Data_Manager.Main_Players_Data.Last_Daily_Reset_Time = now_date_string;
         }
 
         try
@@ -113,6 +115,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         data.Season = Utils.TIER_SEASON;
 
         param.Add("SEASON", data.Season);
+        param.Add("LAST_DAILY_RESET", data.Last_Daily_Reset_Time);
         
         var bro = Backend.GameData.Get("USER", new Where());
         
@@ -324,7 +327,6 @@ public partial class BackEnd_Manager : MonoBehaviour
                     Debug.Log("SEASON 컬럼이 존재합니다.");
                     data.Season = int.Parse(gameDataJson[0]["SEASON"].ToString());
                 }
-
                 if (!gameDataJson[0].ContainsKey("isBUY_START_Package"))
                 {
                     Debug.Log("isBUY_START_Package 컬럼이 없어 새로 추가합니다.");
@@ -367,6 +369,50 @@ public partial class BackEnd_Manager : MonoBehaviour
                 {
                     Debug.Log("isBUY_START_Package 컬럼이 존재합니다.");
                     data.isBuySTARTPackage = bool.Parse(gameDataJson[0]["isBUY_START_Package"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("LAST_DAILY_RESET"))
+                {
+                    Debug.Log("LAST_DAILY_RESET 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("LAST_DAILY_RESET", data.Last_Daily_Reset_Time);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("LAST_DAILY_RESET 컬럼이 존재합니다.");
+                    data.Last_Daily_Reset_Time = (gameDataJson[0]["LAST_DAILY_RESET"].ToString());
                 }
                 #endregion
 
@@ -434,35 +480,49 @@ public partial class BackEnd_Manager : MonoBehaviour
                 data.ADS_Hero_Summon_Count = int.Parse(gameDataJson[0]["ADS_HERO_SUMMON_COUNT"].ToString());
                 data.ADS_Relic_Summon_Count = int.Parse(gameDataJson[0]["ADS_RELIC_SUMMON_COUNT"].ToString());
                 data.isFastMode = bool.Parse(gameDataJson[0]["Fast_Mode"].ToString());
+
+
+                DateTime serverNow = Utils.Get_Server_Time();
+                string today = serverNow.ToString("yyyy-MM-dd");
                 
-
-
-                if (Get_Date_Dungeon_Item(startDate, endDate))
+                if(data.Last_Daily_Reset_Time != today)
                 {
-                    //던전 일일 입장권 초기화
-                    data.Daily_Enter_Key[0] = 2;
-                    data.Daily_Enter_Key[1] = 2;
+                    Get_Daily_Contents_Reset();
 
-                    //일일 퀘스트 초기화
-                    data.Daily_Attendance = 1;
-                    data.Levelup = 0;
-                    data.Summon = 0;
-                    data.Dungeon_Dia = 0;
-                    data.Dungeon_Gold = 0;
-                    data.Relic = 0;
+                    Param param = new Param();
+                    param.Add("LAST_DAILY_RESET", today);
 
-                    data.Daily_Attendance_Clear = false;
-                    data.Level_up_Clear = false;
-                    data.Summon_Clear = false;
-                    data.Dungeon_Dia_Clear = false;
-                    data.Dungeon_Gold_Clear = false;
-                    data.Relic_Clear = false;
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
 
-                    data.ADS_Hero_Summon_Count = 0;
-                    data.ADS_Relic_Summon_Count = 0;
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
 
-                    data.isBuyTodayPackage = false;
-                    data.isBuySTRONGPackage = false;
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
 
                 }
 
@@ -718,37 +778,30 @@ public partial class BackEnd_Manager : MonoBehaviour
     {
         var data = Data_Manager.Main_Players_Data;
 
-        DateTime startDate = data.StartDate;
-        DateTime endDate = data.EndDate;
+        //던전 일일 입장권 초기화
+        data.Daily_Enter_Key[0] = 2;
+        data.Daily_Enter_Key[1] = 2;
 
-        if (Base_Manager.BACKEND.Get_Date_Dungeon_Item(startDate, endDate))
-        {
-            //던전 일일 입장권 초기화
-            data.Daily_Enter_Key[0] = 2;
-            data.Daily_Enter_Key[1] = 2;
+        //일일 퀘스트 초기화
+        data.Daily_Attendance = 1;
+        data.Levelup = 0;
+        data.Summon = 0;
+        data.Dungeon_Dia = 0;
+        data.Dungeon_Gold = 0;
+        data.Relic = 0;
 
-            //일일 퀘스트 초기화
-            data.Daily_Attendance = 1;
-            data.Levelup = 0;
-            data.Summon = 0;
-            data.Dungeon_Dia = 0;
-            data.Dungeon_Gold = 0;
-            data.Relic = 0;
+        data.Daily_Attendance_Clear = false;
+        data.Level_up_Clear = false;
+        data.Summon_Clear = false;
+        data.Dungeon_Dia_Clear = false;
+        data.Dungeon_Gold_Clear = false;
+        data.Relic_Clear = false;
 
-            data.Daily_Attendance_Clear = false;
-            data.Level_up_Clear = false;
-            data.Summon_Clear = false;
-            data.Dungeon_Dia_Clear = false;
-            data.Dungeon_Gold_Clear = false;
-            data.Relic_Clear = false;
+        data.ADS_Hero_Summon_Count = 0;
+        data.ADS_Relic_Summon_Count = 0;
 
-            data.ADS_Hero_Summon_Count = 0;
-            data.ADS_Relic_Summon_Count = 0;
-
-            data.isBuyTodayPackage = false;
-            data.isBuySTRONGPackage = false;
-
-        }
+        data.isBuyTodayPackage = false;
+        data.isBuySTRONGPackage = false;
     }
 
     /// <summary>
@@ -757,9 +810,9 @@ public partial class BackEnd_Manager : MonoBehaviour
     /// <param name="startdate"></param>
     /// <param name="enddate"></param>
     /// <returns></returns>
-    public bool Get_Date_Dungeon_Item(DateTime startdate, DateTime enddate)
+    public bool Get_Date_Dungeon_Item(string startdate, string enddate)
     {
-        if (startdate.Day != enddate.Day)
+        if (startdate != enddate)
         {
             return true;
         }
