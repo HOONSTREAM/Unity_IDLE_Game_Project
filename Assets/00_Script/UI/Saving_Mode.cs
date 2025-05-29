@@ -81,8 +81,8 @@ public class Saving_Mode : UI_Base
 
                 DisableOBJ();
 
-                Base_Manager.SOUND._audioSource[0].volume = 1.0f;
-                Base_Manager.SOUND._audioSource[1].volume = 1.0f;
+                Base_Manager.SOUND._audioSource[0].volume = Base_Manager.SOUND.BGMValue;
+                Base_Manager.SOUND._audioSource[1].volume = Base_Manager.SOUND.BGSValue;
             }
         }
 
