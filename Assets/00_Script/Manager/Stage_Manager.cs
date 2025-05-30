@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class Stage_Manager
 {
 
-   
+    private Coroutine bossTimerCoroutine;
+    private const float BOSS_TIME_LIMIT = 30.0f;
 
     public static Stage_State M_State;
     public static int MaxCount = 3;
@@ -35,7 +36,7 @@ public class Stage_Manager
 
     public const int MULTIPLE_REWARD_GOLD_DUNGEON = 500000;
     public const int MULTIPLE_REWARD_DIAMOND_DUNGEON = 20;
-    public const int MAX_STAGE = 49999;
+    public const int MAX_STAGE = 599999;
 
     public void State_Change(Stage_State state, int Value = 0)
     {
@@ -79,14 +80,28 @@ public class Stage_Manager
                 break;
             case Stage_State.BossPlay:
                 Debug.Log("Stage : BossPlay");
+
                 M_BossPlayEvent?.Invoke();
+
+                if (bossTimerCoroutine != null)
+                    Base_Manager.instance.StopCoroutine(bossTimerCoroutine);
+
+                // 새 코루틴 시작
+                bossTimerCoroutine = Base_Manager.instance.StartCoroutine(BossTimer());
                 break;
+
             case Stage_State.Clear:
 
                 Debug.Log("Stage : Clear");
                 Base_Manager.instance.StopAllPoolCoroutines(); 
                 Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
                 Data_Manager.Main_Players_Data.Player_Stage++;
+
+                if (bossTimerCoroutine != null)
+                {
+                    Base_Manager.instance.StopCoroutine(bossTimerCoroutine);
+                    bossTimerCoroutine = null;
+                }
 
                 if (Base_Manager.Item.Set_Item_Check("GOLD_REWARD"))
                 {
@@ -111,6 +126,14 @@ public class Stage_Manager
                 Debug.Log("Stage : Dead");
                 isDead = true;
                 Base_Manager.Pool.Clear_Pool();
+
+                if (bossTimerCoroutine != null)
+                {
+                    Base_Manager.instance.StopCoroutine(bossTimerCoroutine);
+                    bossTimerCoroutine = null;
+                }
+
+
                 M_DeadEvent?.Invoke();
                 break;
             case Stage_State.Dungeon:
@@ -139,6 +162,17 @@ public class Stage_Manager
                 M_DungeonDeadEvent?.Invoke();
                 isDungeon = false;
                 break;
+        }
+    }
+
+    private IEnumerator BossTimer()
+    {
+        yield return new WaitForSecondsRealtime(BOSS_TIME_LIMIT);
+
+        if (M_State == Stage_State.BossPlay)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("제한시간 30초 경과 ! 보스를 물리치기엔 전투력이 낮습니다.");
+            State_Change(Stage_State.Dead);
         }
     }
 }

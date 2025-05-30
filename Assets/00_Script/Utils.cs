@@ -12,9 +12,9 @@ public class Utils
 
     public static readonly int TIER_SEASON = 1;
 
-    public static readonly int GOLD_DUNGEON_MULTIPLE_HARD = 40;
-    public static readonly int TIER_DUNGEON_FIRST_HARD = 25;
-    public static readonly int DIA_DUNGEON_MULTIPLE_HARD = 50;
+    public static readonly int GOLD_DUNGEON_MULTIPLE_HARD = 10;
+    public static readonly int TIER_DUNGEON_FIRST_HARD = 22;
+    public static readonly int DIA_DUNGEON_MULTIPLE_HARD = 20;
 
 
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");
@@ -22,7 +22,7 @@ public class Utils
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
     public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
 
-    public static readonly string LEADERBOARD_UUID = "0196f55c-84dc-7040-80c1-6635f7a1d349";
+    public static readonly string LEADERBOARD_UUID = "01971c05-b816-7bf7-a29b-2ee8da6dfb17";
     public static readonly double OFFLINE_TIME_CHECK = 300.0d;
     public static bool is_push_alarm_agree = false;
 

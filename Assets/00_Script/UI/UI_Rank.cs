@@ -68,7 +68,7 @@ public class UI_Rank : UI_Base
             {
                 if (int.TryParse(item.score, out int tierIndex))
                 {
-                    Stage[i].text = Utils.Set_Rank_To_Tier(int.Parse(item.score));
+                    Stage[i].text = $"{item.score}Ãþ";
                 }
                 else
                 {

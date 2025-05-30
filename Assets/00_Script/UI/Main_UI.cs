@@ -150,7 +150,7 @@ public class Main_UI : MonoBehaviour
 
 
     private float clearPoolTimer = 0f;
-    
+    private bool Can_Boss_Try = false;
 
 
     #endregion
@@ -420,8 +420,21 @@ public class Main_UI : MonoBehaviour
 
     public void Set_Boss_State()
     {
+        if (!Can_Boss_Try)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("최소 10초 후에 도전 가능 합니다.");
+            return;
+        }
+
+        Can_Boss_Try = false;
         Stage_Manager.isDead = false;
         Base_Manager.Stage.State_Change(Stage_State.Boss);
+    }
+
+    IEnumerator Set_Boss_Coroutine_Timer()
+    {
+        yield return new WaitForSecondsRealtime(10.0f);
+        Can_Boss_Try = true;
     }
 
     /// <summary>
@@ -435,7 +448,7 @@ public class Main_UI : MonoBehaviour
         Base_Manager.Stage.State_Change(Stage_State.Ready);
         Slider_Object_Check(Slider_Type.Default);
         Mode_Change_Button.gameObject.SetActive(false);
-        //Dead_Frame.gameObject.SetActive(true);
+        
 
     }
 
@@ -511,6 +524,7 @@ public class Main_UI : MonoBehaviour
         if (Stage_Manager.isDead) // 데드프레임 생성 및 방치모드 버튼 해제
         {
             Dead_Frame.gameObject.SetActive(true);
+            StartCoroutine(Set_Boss_Coroutine_Timer());
             Mode_Change_Button.gameObject.SetActive(false);
             Base_Canvas.instance.Get_UI("UI_Dead");
             return;
