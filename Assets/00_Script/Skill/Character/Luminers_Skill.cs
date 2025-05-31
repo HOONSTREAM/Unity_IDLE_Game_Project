@@ -1,3 +1,4 @@
+using BackndChat.Message;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,13 @@ public class Luminers_Skill : Skill_Base
     private List<double> originalHpList = new List<double>();
     private float LifeTime = 6.0f;
     private GameObject Luminers_Skill_Effect;
-    
+
+    private static bool isSkillApplied = false;
+
     public override void Set_Skill()
-    {
+    {        
+        if (isSkillApplied) return; // 이미 적용 중이면 중복 실행 막기
+        isSkillApplied = true;
 
         gameObject.GetComponent<Speech_Character>().Init();
         base.Set_Skill();
@@ -30,25 +35,31 @@ public class Luminers_Skill : Skill_Base
     }
 
     IEnumerator Set_Skill_Coroutine()
-    {        
-        
-        foreach(var players in players)
-        {
-            originalAtkList.Add(players.ATK);
-            originalHpList.Add(players.HP);
+    {       
+        var cachedPlayers = players
+       .GroupBy(p => p.GetInstanceID())
+       .Select(g => g.First())
+       .ToArray();
 
-            players.ATK *= 2.0f;
-            players.HP *= 2.0f;
+
+        foreach (var p in cachedPlayers)
+        {
+            originalAtkList.Add(p.ATK);
+            originalHpList.Add(p.HP);
+            
+            p.ATK *= 1.45f;           
+            p.HP *= 1.45f;
         }
     
         yield return new WaitForSeconds(LUMINERS_SKILL_DURATION_TIME);
              
-        for (int i = 0; i < players.Length; i++)
+        for (int i = 0; i < cachedPlayers.Length; i++)
         {
-            players[i].ATK = originalAtkList[i];
-            players[i].HP = originalHpList[i];
+            cachedPlayers[i].ATK = originalAtkList[i];           
+            cachedPlayers[i].HP = originalHpList[i];            
         }
 
+        isSkillApplied = false;
         ReturnSkill();
     }
 }
