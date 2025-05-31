@@ -10,6 +10,7 @@ public class Monster : Character
     public float  R_ATTACK_RANGE;
     private bool isSpawn = false;
     public bool isBoss = false;
+    public bool isDPSBoss = false;
     public bool isDungeon = false;
     private Vector3 Original_Scale;
     private double MaxHP;  
@@ -162,6 +163,11 @@ public class Monster : Character
             Main_UI.Instance.Boss_Slider_Count(HP, MaxHP); 
         }
 
+        if (isDPSBoss)
+        {           
+            Main_UI.Instance.Boss_Slider_Count(0,0,dmg);
+        }
+
         if(HP <= 0)
         {
             isDead = true;
@@ -205,6 +211,13 @@ public class Monster : Character
                 else if (Stage_Manager.Dungeon_Enter_Type == 2)
                 {
                     Base_Manager.Pool.m_pool_Dictionary["Tier_Dungeon"].Return(this.gameObject);
+                    Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
+                    Base_Manager.BACKEND.Log_Clear_Dungeon(Stage_Manager.Dungeon_Enter_Type);
+                }
+
+                else if (Stage_Manager.Dungeon_Enter_Type == 3)
+                {
+                    Base_Manager.Pool.m_pool_Dictionary["DPS_Dungeon"].Return(this.gameObject);
                     Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
                     Base_Manager.BACKEND.Log_Clear_Dungeon(Stage_Manager.Dungeon_Enter_Type);
                 }

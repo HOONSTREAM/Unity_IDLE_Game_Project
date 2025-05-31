@@ -90,6 +90,8 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count = 0;
         Data_Manager.Main_Players_Data.ADS_Relic_Summon_Count = 0;
         Data_Manager.Main_Players_Data.Season = 0;
+        Data_Manager.Main_Players_Data.USER_DPS = 0;
+
 
 
 
@@ -139,6 +141,7 @@ public class BackendGameData
         param.Add("Fast_Mode", Data_Manager.Main_Players_Data.isFastMode);
         param.Add("SEASON", Data_Manager.Main_Players_Data.Season);
         param.Add("LAST_DAILY_RESET", Data_Manager.Main_Players_Data.Last_Daily_Reset_Time);
+        param.Add("USER_DPS", Data_Manager.Main_Players_Data.USER_DPS);
 
 
         var bro = Backend.GameData.Insert("USER", param);
@@ -292,6 +295,7 @@ public class Data
     public float buff_x2_speed;   
     public int Quest_Count;
     public int Season = 0; // ·©Å©½ÃÁð
+    public double USER_DPS = 0;
 
     
     /// <summary>

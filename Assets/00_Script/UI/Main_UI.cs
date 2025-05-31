@@ -94,6 +94,9 @@ public class Main_UI : MonoBehaviour
     private Image Tier_Dungeon_Slider_Fill;
     [SerializeField]
     private TextMeshProUGUI Tier_Dungeon_Hp_Text;
+    [SerializeField]
+    private TextMeshProUGUI DPS_Dungeon_Hp_Text;
+
     private Coroutine Dungeon_Coroutine = null;
 
     [Space(20f)]
@@ -151,7 +154,7 @@ public class Main_UI : MonoBehaviour
 
     private float clearPoolTimer = 0f;
     private bool Can_Boss_Try = false;
-
+    double Accmulate_DMG = default;
 
     #endregion
 
@@ -456,8 +459,6 @@ public class Main_UI : MonoBehaviour
     {
         float value = (float)Stage_Manager.Count / (float)Stage_Manager.MaxCount;
 
-
-
         if(value >= 1.0f)
         {
             value = 1.0f;
@@ -484,14 +485,16 @@ public class Main_UI : MonoBehaviour
     }
 
 
-    public void Boss_Slider_Count(double hp, double MaxHp)
+    public void Boss_Slider_Count(double hp = default, double MaxHp = default, double dmg = default)
     {
-        float value = (float)hp / (float)MaxHp;
+        float value = (float)hp / (float)MaxHp;       
+        Accmulate_DMG += dmg;
 
         if (value <= 0.0f)
         {
             value = 0.0f;
         }
+
 
         if(Stage_Manager.isDungeon == false)
         {
@@ -510,6 +513,10 @@ public class Main_UI : MonoBehaviour
                     Tier_Dungeon_Slider_Fill.fillAmount = value;
                     Tier_Dungeon_Hp_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
                     break;
+                case 3:                   
+                    DPS_Dungeon_Hp_Text.text = StringMethod.ToCurrencyString(Accmulate_DMG);
+                    break;
+
             }
             
         }
@@ -679,6 +686,11 @@ public class Main_UI : MonoBehaviour
             Dungeon_Stage_Text.text = $"승급던전 도전 중";
         }
 
+        else if (Value == 3)
+        {
+            Dungeon_Stage_Text.text = $"시험의탑 도전 중";
+        }
+
         FadeInOut(true, true);
         Parts_Initialize();
         Dungeon_Addtional_Sliders[Value].gameObject.SetActive(true);
@@ -686,7 +698,7 @@ public class Main_UI : MonoBehaviour
         Slider_Object_Check(Slider_Type.Dungeon);     
     }
     private void OnDungeonClear(int Value)
-    {
+    {       
         Mode_Change_Button.gameObject.SetActive(false);
 
         if (Dungeon_Coroutine != null)
@@ -696,7 +708,7 @@ public class Main_UI : MonoBehaviour
         }
         int clear_Level = Stage_Manager.Dungeon_Level;
 
-        if (Value != 2)
+        if (Value == 0 || Value == 1)
         {
             
             if (Stage_Manager.Dungeon_Level == Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]) // 클리어레벨이 최종클리어레벨과 동일할 때에만 레벨증가
@@ -747,6 +759,15 @@ public class Main_UI : MonoBehaviour
                 Data_Manager.Main_Players_Data.Player_Tier = next_tier;
                 _ = Base_Manager.BACKEND.WriteData();
                 break;
+
+            case 3:
+
+                Debug.Log($"{StringMethod.ToCurrencyString(Accmulate_DMG)}가 저장될 예정입니다.");
+                Data_Manager.Main_Players_Data.USER_DPS = Accmulate_DMG;
+                Accmulate_DMG = 0;
+                _ = Base_Manager.BACKEND.WriteData();
+                break;
+                
         }
 
         Main_UI_PlayerInfo_Text_Check();
@@ -945,7 +966,7 @@ public class Main_UI : MonoBehaviour
         rect.gameObject.SetActive(false);
         rect.anchoredPosition = new Vector2(0.0f, 792.0f);
     }
-    IEnumerator Dungeon_Slider_Coroutine()
+    IEnumerator Dungeon_Slider_Coroutine(int Value = default)
     {
         float time = 30.0f;
 
@@ -957,7 +978,16 @@ public class Main_UI : MonoBehaviour
             yield return null;
         }
 
-        Base_Manager.Stage.State_Change(Stage_State.Dungeon_Dead);
+        if(Stage_Manager.Dungeon_Enter_Type == 3)
+        {
+            Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
+        }
+
+        else
+        {
+            Base_Manager.Stage.State_Change(Stage_State.Dungeon_Dead);
+        }
+        
     }
     IEnumerator Tutorial_Coroutine()
     {

@@ -293,13 +293,16 @@ public class UI_Relic : UI_Base
         #region 유물 별 특정 설명
         if (Data.name == "GOLD_REWARD")
         {
-            var String_Value = StringMethod.ToCurrencyString(double.Parse(effect_percent));
+            var String_Value = double.Parse(effect_percent);
+            Debug.Log(String_Value);
+            var FormattedValue = StringMethod.ToCurrencyString(String_Value);
+            Debug.Log(FormattedValue);
 
-            Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent,
-                String_Value);
+            Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(),
+                start_percent, FormattedValue.ToString());
         }
 
-        if (Data.name == "GOLD_PER_ATK")
+        else if (Data.name == "GOLD_PER_ATK")
         {
             double Gold_Amount = Data_Manager.Main_Players_Data.Player_Money;
             double atkBonus = Gold_Amount / 10000000 * double.Parse(effect_percent);

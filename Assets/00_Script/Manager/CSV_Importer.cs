@@ -14,7 +14,7 @@ public class CSV_Importer
     public static List<Dictionary<string, object>> Quest_Design = new List<Dictionary<string, object>>(CSVReader.Read("Quest"));
     public static List<Dictionary<string, object>> Localization_Design = new List<Dictionary<string, object>>(CSVReader.Read("Localization"));
     public static List<Dictionary<string, object>> Daily_Quest_Design = new List<Dictionary<string, object>>(CSVReader.Read("Daily_Quest"));
-
+    public static List<Dictionary<string, object>> DPS_Design = new List<Dictionary<string, object>>(CSVReader.Read("DPS"));
 
     #region 유물 아이템 발동확률, 효과퍼센트
     public static List<Dictionary<string, object>> RELIC_SWORD_Design = new List<Dictionary<string, object>>(CSVReader.Read("SWORD"));
@@ -49,6 +49,7 @@ public class CSV_Importer
         { "GOLD_REWARD", RELIC_GOLD_REWARD_Design },
         { "GOLD_PER_ATK", RELIC_GOLD_PER_ATK_Design },
         { "GOLD_DROP", RELIC_GOLD_DROP_Design },
+        { "DPS", DPS_Design },
     };
 
 }

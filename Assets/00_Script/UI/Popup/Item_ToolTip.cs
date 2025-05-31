@@ -132,6 +132,14 @@ public class Item_ToolTip : MonoBehaviour
         if (item.ItemType == ItemType.Equipment)
         {
             Description_Text.text = string.Format(item.Item_Description, coloredStartPercent, coloredEffectPercent);
+
+            if (item.name == "GOLD_REWARD")
+            {
+                var String_Value = double.Parse(effect_percent);
+                var FormattedValue = $"<color=#FFFF00>{StringMethod.ToCurrencyString(String_Value)}</color>";
+
+                Description_Text.text = string.Format(item.Item_Description, coloredStartPercent, FormattedValue);
+            }
         }
         else
         {

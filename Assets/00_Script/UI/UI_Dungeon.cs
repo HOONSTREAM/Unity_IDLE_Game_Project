@@ -28,7 +28,10 @@ public class UI_Dungeon : UI_Base
     private TextMeshProUGUI[] Dungeon_Levels; // 난이도
     [SerializeField]
     private TextMeshProUGUI[] Dungeon_Level_Guide_Text;
-
+    [SerializeField]
+    private TextMeshProUGUI Now_User_DPS;
+    [SerializeField]
+    private TextMeshProUGUI Next_Goal_DPS;
     [SerializeField] 
     private Button[] Key01ArrowButton, Key02ArrowButton;
 
@@ -94,6 +97,8 @@ public class UI_Dungeon : UI_Base
         Key02ArrowButton[0].onClick.AddListener(() => ArrowButton(1, -1));
         Key02ArrowButton[1].onClick.AddListener(() => ArrowButton(1, 1));
 
+        Now_User_DPS.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.USER_DPS);
+        Next_Goal_DPS.text = StringMethod.ToCurrencyString(double.Parse(CSV_Importer.DPS_Design[2]["DPS_DMG"].ToString()));
 
         return base.Init();
     }
@@ -113,18 +118,27 @@ public class UI_Dungeon : UI_Base
 
         bool isTierDungeon = value == 2;
         bool isNormalDungeon = value != 2;
-
-        if (isTierDungeon && playerData.Player_Tier >= Player_Tier.Tier_Challenger_10)
+            
+        if(value != 3)
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 티어에 도달하였습니다.");
-            return;
-        }
+            if (isTierDungeon && playerData.Player_Tier >= Player_Tier.Tier_Challenger_10)
+            {
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 티어에 도달하였습니다.");
+                return;
+            }
 
-        if (isNormalDungeon && playerData.Daily_Enter_Key[value] + playerData.User_Key_Assets[value] <= 0)
-        {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("입장할 수 있는 재화가 부족합니다.");
-            return;
+            if (isNormalDungeon && playerData.Daily_Enter_Key[value] + playerData.User_Key_Assets[value] <= 0)
+            {
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("입장할 수 있는 재화가 부족합니다.");
+                return;
+            }
+
+            if (isNormalDungeon)
+            {
+                Stage_Manager.Dungeon_Level = Level[value];
+            }
         }
+      
 
         if (Stage_Manager.isDead)
         {
@@ -140,12 +154,7 @@ public class UI_Dungeon : UI_Base
             }
             return;
         }
-
-        if (isNormalDungeon)
-        {
-            Stage_Manager.Dungeon_Level = Level[value];
-        }
-
+       
         Base_Manager.Stage.State_Change(Stage_State.Dungeon, value);
 
         switch (value)
@@ -162,6 +171,9 @@ public class UI_Dungeon : UI_Base
 
             case 2:
                 Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 처치하고 승급하세요!");
+                break;
+            case 3:
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 최대한 높은 데미지를 가하세요!");
                 break;
         }
 
