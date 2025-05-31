@@ -116,6 +116,7 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         param.Add("SEASON", data.Season);
         param.Add("USER_DPS", data.USER_DPS);
+        param.Add("USER_DPS_LEVEL", data.USER_DPS_LEVEL);
         param.Add("LAST_DAILY_RESET", data.Last_Daily_Reset_Time);
         
         var bro = Backend.GameData.Get("USER", new Where());
@@ -458,6 +459,50 @@ public partial class BackEnd_Manager : MonoBehaviour
                 {
                     Debug.Log("USER_DPS 컬럼이 존재합니다.");
                     data.USER_DPS = double.Parse(gameDataJson[0]["USER_DPS"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("USER_DPS_LEVEL"))
+                {
+                    Debug.Log("USER_DPS_LEVEL 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("USER_DPS_LEVEL", data.USER_DPS_LEVEL);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("USER_DPS_LEVEL 컬럼이 존재합니다.");
+                    data.USER_DPS_LEVEL = int.Parse(gameDataJson[0]["USER_DPS_LEVEL"].ToString());
                 }
                 #endregion
 

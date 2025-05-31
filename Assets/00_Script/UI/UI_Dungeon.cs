@@ -32,6 +32,8 @@ public class UI_Dungeon : UI_Base
     private TextMeshProUGUI Now_User_DPS;
     [SerializeField]
     private TextMeshProUGUI Next_Goal_DPS;
+    [SerializeField]
+    private TextMeshProUGUI NOW_USER_DPS_LEVEL;
     [SerializeField] 
     private Button[] Key01ArrowButton, Key02ArrowButton;
 
@@ -53,7 +55,8 @@ public class UI_Dungeon : UI_Base
   
         for(int i = 0; i< KeyTexts.Length; i++)
         {
-            KeyTexts[i].text = "(" + (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + Data_Manager.Main_Players_Data.User_Key_Assets[i]).ToString() + "/2)";            
+            KeyTexts[i].text = "(" + (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] + 
+                Data_Manager.Main_Players_Data.User_Key_Assets[i]).ToString() + "/2)";            
             Dungeon_Levels[i].text = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] + 1).ToString();           
             Level[i] = Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i];
 
@@ -75,10 +78,12 @@ public class UI_Dungeon : UI_Base
 
         
         int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1); 
-        var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
+        var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * 
+            Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
 
         // 레벨디자인 필요
-        Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
+        Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 
+            Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
         Clear_Assets[1].text = StringMethod.ToCurrencyString(value);
         Clear_Assets[2].text = $"<color=##FFF00>{Utils.Set_Next_Tier_Name()}</color> 승급";
 
@@ -97,8 +102,30 @@ public class UI_Dungeon : UI_Base
         Key02ArrowButton[0].onClick.AddListener(() => ArrowButton(1, -1));
         Key02ArrowButton[1].onClick.AddListener(() => ArrowButton(1, 1));
 
+
+        foreach (var row in CSV_Importer.DPS_Design)
+        {
+            double requiredDPS = double.Parse(row["DPS_DMG"].ToString());
+
+            if (Data_Manager.Main_Players_Data.USER_DPS < requiredDPS)
+            {
+                break;
+            }
+            int temp = Data_Manager.Main_Players_Data.USER_DPS_LEVEL;
+
+            Data_Manager.Main_Players_Data.USER_DPS_LEVEL = int.Parse(row["DPS_LEVEL"].ToString());
+
+            if(temp >= Data_Manager.Main_Players_Data.USER_DPS_LEVEL)
+            {
+                Data_Manager.Main_Players_Data.USER_DPS_LEVEL = temp;
+            }
+        }
+
+        NOW_USER_DPS_LEVEL.text = $"<color=#FFFF00>{Data_Manager.Main_Players_Data.USER_DPS_LEVEL}</color>단계";
         Now_User_DPS.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.USER_DPS);
-        Next_Goal_DPS.text = StringMethod.ToCurrencyString(double.Parse(CSV_Importer.DPS_Design[2]["DPS_DMG"].ToString()));
+        Next_Goal_DPS.text = StringMethod.ToCurrencyString(double.Parse(
+            CSV_Importer.DPS_Design[Data_Manager.Main_Players_Data.USER_DPS_LEVEL + 1]
+            ["DPS_DMG"].ToString()));
 
         return base.Init();
     }

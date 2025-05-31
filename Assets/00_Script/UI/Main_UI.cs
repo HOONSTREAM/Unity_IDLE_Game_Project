@@ -763,9 +763,15 @@ public class Main_UI : MonoBehaviour
             case 3:
 
                 Debug.Log($"{StringMethod.ToCurrencyString(Accmulate_DMG)}가 저장될 예정입니다.");
-                Data_Manager.Main_Players_Data.USER_DPS = Accmulate_DMG;
+
+                if(Accmulate_DMG >= Data_Manager.Main_Players_Data.USER_DPS) 
+                {
+                    Data_Manager.Main_Players_Data.USER_DPS = Accmulate_DMG;
+                }
+               
                 Accmulate_DMG = 0;
                 _ = Base_Manager.BACKEND.WriteData();
+
                 break;
                 
         }
