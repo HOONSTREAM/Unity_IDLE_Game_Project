@@ -34,32 +34,36 @@ public class Warlord_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        var Damage_Multiple = Random.Range(SKILL_DAMAGE_MULTIPLE_CONSTATNT_MIN, SKILL_DAMAGE_MULTIPLE_CONSTATNT_MAX);
-
-        Base_Manager.SOUND.Play(Sound.BGS, "Warlord");
-
-        if (!Utils.is_Skill_Effect_Save_Mode)
+        try
         {
-            Warlord_Skill_Effect.transform.position = Vector3.zero;
-        }
-        
+            float damageMultiple = Random.Range(SKILL_DAMAGE_MULTIPLE_CONSTATNT_MIN, SKILL_DAMAGE_MULTIPLE_CONSTATNT_MAX);
 
-        for (int i = 0; i<5; i++)
-        {
-            for(int j = 0; j < monsters.Count(); j++)
+            Base_Manager.SOUND.Play(Sound.BGS, "Warlord");
+
+            if (!Utils.is_Skill_Effect_Save_Mode && Warlord_Skill_Effect != null)
             {
-               if(Distance(transform.position, monsters[j].transform.position, 4.0f))
-                {
-                    monsters[j].GetDamage(gameObject.GetComponent<Player>().ATK * Damage_Multiple); 
-                }
+                Warlord_Skill_Effect.transform.position = Vector3.zero;
             }
 
-            yield return new WaitForSeconds(0.5f);
-            
-        }
+            for (int i = 0; i < 5; i++)
+            {
+                var monsterSnapshot = monsters?.Where(m => m != null).ToList();
 
-       
-        ReturnSkill();
-        
+                foreach (var monster in monsterSnapshot)
+                {
+                    if (Distance(transform.position, monster.transform.position, 4.0f))
+                    {
+                        monster.GetDamage(gameObject.GetComponent<Player>().ATK * damageMultiple);
+                    }
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+        finally
+        {
+            Debug.Log("[Warlord_Skill] ReturnSkill ½ÇÇàµÊ");
+            ReturnSkill();
+        }
     }
 }

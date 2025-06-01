@@ -16,30 +16,44 @@ public class Dragon_Knight_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        if (!Utils.is_Skill_Effect_Save_Mode)
+        try
         {
-            Skill_Effect.gameObject.SetActive(true);
-            Base_Manager.SOUND.Play(Sound.BGS, "Dragon_Knight");
-            Skill_Effect.GetComponent<ParticleSystem>().Play();
-        }
-        
-
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < monsters.Count(); j++)
+            if (!Utils.is_Skill_Effect_Save_Mode && Skill_Effect != null)
             {
-                if (Distance(transform.position, monsters[j].transform.position, 2.0f))
-                {
-                    monsters[j].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT); // 120% 의 데미지를 가한다.
-                }
+                Skill_Effect.gameObject.SetActive(true);
+                Base_Manager.SOUND.Play(Sound.BGS, "Dragon_Knight");
+
+                var ps = Skill_Effect.GetComponent<ParticleSystem>();
+                if (ps != null) ps.Play();
             }
 
-            yield return new WaitForSeconds(0.5f);
+            double skillATK = gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT;
 
+            for (int i = 0; i < 3; i++)
+            {
+                var monsterSnapshot = monsters?.Where(m => m != null).ToList();
+
+                foreach (var monster in monsterSnapshot)
+                {
+                    if (Distance(transform.position, monster.transform.position, 2.0f))
+                    {
+                        monster.GetDamage(skillATK); // 240% 데미지
+                    }
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
         }
+        finally
+        {
+            if (!Utils.is_Skill_Effect_Save_Mode && Skill_Effect != null)
+            {
+                Skill_Effect.gameObject.SetActive(false);
+            }
 
-        ReturnSkill();
-        Skill_Effect.gameObject.SetActive(false);
+            Debug.Log("[Dragon_Knight_Skill] ReturnSkill 실행됨");
+            ReturnSkill();
+        }
 
     }
 }

@@ -35,31 +35,52 @@ public class Luminers_Skill : Skill_Base
     }
 
     IEnumerator Set_Skill_Coroutine()
-    {       
+    {
         var cachedPlayers = players
-       .GroupBy(p => p.GetInstanceID())
-       .Select(g => g.First())
-       .ToArray();
+           ?.Where(p => p != null)
+           .GroupBy(p => p.GetInstanceID())
+           .Select(g => g.First())
+           .ToArray();
 
-
-        foreach (var p in cachedPlayers)
+        if (cachedPlayers == null || cachedPlayers.Length == 0)
         {
-            originalAtkList.Add(p.ATK);
-            originalHpList.Add(p.HP);
-            
-            p.ATK *= 1.45f;           
-            p.HP *= 1.45f;
-        }
-    
-        yield return new WaitForSeconds(LUMINERS_SKILL_DURATION_TIME);
-             
-        for (int i = 0; i < cachedPlayers.Length; i++)
-        {
-            cachedPlayers[i].ATK = originalAtkList[i];           
-            cachedPlayers[i].HP = originalHpList[i];            
+            Debug.LogWarning("[Luminers_Skill] 유효한 플레이어가 없습니다.");
+            isSkillApplied = false;
+            ReturnSkill();
+            yield break;
         }
 
-        isSkillApplied = false;
-        ReturnSkill();
+        try
+        {
+            foreach (var p in cachedPlayers)
+            {
+                originalAtkList.Add(p.ATK);
+                originalHpList.Add(p.HP);
+
+                p.ATK *= 1.45f;
+                p.HP *= 1.45f;
+            }
+
+            yield return new WaitForSeconds(LUMINERS_SKILL_DURATION_TIME);
+        }
+        finally
+        {
+            for (int i = 0; i < cachedPlayers.Length; i++)
+            {
+                if (cachedPlayers[i] != null)
+                {
+                    cachedPlayers[i].ATK = originalAtkList[i];
+                    cachedPlayers[i].HP = originalHpList[i];
+                }
+            }
+
+            isSkillApplied = false;
+
+            Debug.Log("[Luminers_Skill] 버프 해제 및 ReturnSkill 호출");
+            ReturnSkill();
+
+            originalAtkList.Clear();
+            originalHpList.Clear();
+        }
     }
 }

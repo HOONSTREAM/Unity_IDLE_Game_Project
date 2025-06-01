@@ -139,8 +139,9 @@ public class Monster : Character
     }
     public override void GetDamage(double dmg)
     {
-        if(isDead)
+        if (isDead || this == null || gameObject == null)
         {
+            Debug.LogWarning("[Monster] GetDamage È£ÃâµÇ¾úÁö¸¸ ÀÌ¹Ì »ç¸Á ¶Ç´Â ÆÄ±«µÊ");
             return;
         }
 
@@ -151,7 +152,13 @@ public class Monster : Character
         {
             Base_Manager.Pool.Pooling_OBJ("HIT_TEXT").Get((value) =>
             {
-                value.GetComponent<Hit_Text>().Init(transform.position, dmg, Color.white, false, critical);
+                if (value == null) return;
+
+                var hitText = value.GetComponent<Hit_Text>();
+                if (hitText != null && this != null && transform != null)
+                {
+                    hitText.Init(transform.position, dmg, Color.white, false, critical);
+                }
             });
         }
         

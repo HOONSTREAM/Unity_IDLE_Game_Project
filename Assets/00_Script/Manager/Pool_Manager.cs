@@ -30,16 +30,22 @@ public class Object_Pool : IPool
     /// <returns></returns>
     public GameObject Get(Action<GameObject> action = null)
     {
-        GameObject obj = pool.Dequeue();
+        GameObject obj = null;
 
-        obj.gameObject.SetActive(true);
-
-        if(action != null)
+        while (pool.Count > 0)
         {
-            action?.Invoke(obj); // Get 메서드에서 action.Invoke(obj)가 호출되며, obj는 풀에서 꺼낸 오브젝트입니다.
+            obj = pool.Dequeue();
+
+            if (obj == null || obj.Equals(null)) continue; // Destroy된 객체는 무시
+
+            obj.SetActive(true);
+
+            action?.Invoke(obj);
+            return obj;
         }
 
-        return obj;
+        Debug.LogWarning("[Object_Pool] 풀에 유효한 오브젝트가 없습니다.");
+        return null;
     }
 
     /// <summary>
@@ -49,15 +55,24 @@ public class Object_Pool : IPool
     /// <param name="action"></param>
     public void Return(GameObject obj, Action<GameObject> action = null)
     {
-        pool.Enqueue(obj);
-        obj.transform.parent = parentTransform;
-        obj.gameObject.SetActive(false);
-
-        if(action != null) 
+        if (obj == null || obj.Equals(null))
         {
+            Debug.LogWarning("[Object_Pool] Return 시도된 오브젝트가 null 또는 파괴된 상태입니다.");
+            return;
+        }
+
+        try
+        {
+            obj.transform.parent = parentTransform;
+            obj.SetActive(false);
+            pool.Enqueue(obj);
             action?.Invoke(obj);
         }
-        
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[Object_Pool] Return 중 예외 발생: {ex.Message}\n{ex.StackTrace}");
+        }
+
     }
 
 }
@@ -122,8 +137,14 @@ public class Pool_Manager
     private void Add_Queue(string path)
     {
         var go = Base_Manager.instance.Instantiate_Path(path);
-        go.transform.parent = m_pool_Dictionary[path].parentTransform;
 
+        if (go == null)
+        {
+            Debug.LogError($"[Pool_Manager] {path} 경로의 오브젝트 생성 실패");
+            return;
+        }
+
+        go.transform.parent = m_pool_Dictionary[path].parentTransform;
         m_pool_Dictionary[path].Return(go);
     }
 
@@ -131,16 +152,18 @@ public class Pool_Manager
     {
         foreach (var poolEntry in m_pool_Dictionary)
         {
-            
             var pool = poolEntry.Value;
 
             while (pool.pool.Count > 0)
             {
                 var obj = pool.pool.Dequeue();
-                UnityEngine.Object.Destroy(obj);
+                if (obj != null && !obj.Equals(null))
+                {
+                    UnityEngine.Object.Destroy(obj);
+                }
             }
 
-            if (pool.parentTransform != null)
+            if (pool.parentTransform != null && !pool.parentTransform.Equals(null))
             {
                 UnityEngine.Object.Destroy(pool.parentTransform.gameObject);
             }

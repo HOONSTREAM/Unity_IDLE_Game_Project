@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 
@@ -26,34 +27,38 @@ public class Fighter_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-      
-        Base_Manager.SOUND.Play(Sound.BGS, "Fighter");
-        var localMonsters = (monsters != null) ? (Monster[])monsters.Clone() : null;
-
-        if (localMonsters == null || localMonsters.Length == 0)
+        try
         {
-            Debug.LogError("Monsters array is null or empty!");
-            ReturnSkill();
-            yield break;
-        }
+            Base_Manager.SOUND.Play(Sound.BGS, "Fighter");
 
-        for (int i = 0; i < Spawner.m_monsters.Count; i++)
-        {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Vector3.zero) <= 4.0f)
+            double skillATK = gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT;
+            var monstersSnapshot = Spawner.m_monsters?.Where(m => m != null).ToList();
+
+            foreach (var monster in monstersSnapshot)
             {
-                Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT);
+                if (Vector3.Distance(monster.transform.position, Vector3.zero) <= 4.0f)
+                {
+                    monster.GetDamage(skillATK);
+                }
             }
-        }
 
-        if (!Utils.is_Skill_Effect_Save_Mode)
-        {
-            Fighter_Skill_Effect.transform.position = Vector3.zero;
+            if (!Utils.is_Skill_Effect_Save_Mode && Fighter_Skill_Effect != null)
+            {
+                Fighter_Skill_Effect.transform.position = Vector3.zero;
+            }
+
+            yield return new WaitForSecondsRealtime(2.0f);
         }
-        
-   
-        yield return new WaitForSecondsRealtime(2.0f);
-        this.gameObject.GetComponent<Player>().Use_Skill = false;
-    
-        ReturnSkill();
+        finally
+        {
+            var player = gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Use_Skill = false;
+            }
+
+            Debug.Log("[Fighter_Skill] ReturnSkill ½ÇÇàµÊ");
+            ReturnSkill();
+        }
     }
 }

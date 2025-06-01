@@ -16,21 +16,46 @@ public class Knight_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        var data = m_Player.ATK_Speed;
-        m_Player.ATK_Speed *= 1.5f;
-        double temp = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[KNIGHT_NAME]);
-        gameObject.GetComponent<Player>().HP *= 1.5d;
+        float originalAtkSpeed = m_Player.ATK_Speed;
+        double originalHP = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[KNIGHT_NAME]);
 
-        if (!Utils.is_Skill_Effect_Save_Mode)
+        try
         {
-            Skill_Effect.gameObject.SetActive(true);
-            Skill_Effect.gameObject.GetComponent<ParticleSystem>().Play();
+            m_Player.ATK_Speed *= 1.5f;
+
+            var player = gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.HP *= 1.5d;
+            }
+
+            if (!Utils.is_Skill_Effect_Save_Mode && Skill_Effect != null)
+            {
+                Skill_Effect.gameObject.SetActive(true);
+
+                var ps = Skill_Effect.GetComponent<ParticleSystem>();
+                if (ps != null) ps.Play();
+            }
+
+            yield return new WaitForSeconds(KNIGHT_SKILL_DURATION_TIME);
         }
-        
-        yield return new WaitForSeconds(KNIGHT_SKILL_DURATION_TIME);
-        m_Player.ATK_Speed = data;
-        gameObject.GetComponent<Player>().HP = temp;
-        Skill_Effect.gameObject.SetActive(false);
-        ReturnSkill();
+        finally
+        {
+            m_Player.ATK_Speed = originalAtkSpeed;
+
+            var player = gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.HP = originalHP;
+            }
+
+            if (Skill_Effect != null)
+            {
+                Skill_Effect.gameObject.SetActive(false);
+            }
+
+            Debug.Log("[Knight_Skill] ATK_Speed 및 HP 복구, ReturnSkill 실행됨");
+            ReturnSkill();
+        }
     }
 }

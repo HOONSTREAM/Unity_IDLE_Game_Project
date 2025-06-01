@@ -18,18 +18,40 @@ public class PalaDin_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        if (!Utils.is_Skill_Effect_Save_Mode)
-        {
-            Skill_Effect.gameObject.SetActive(true);
-        }
-        
-        Base_Manager.SOUND.Play(Sound.BGS, PALADIN_NAME);
-        double temp = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[PALADIN_NAME]);
-        gameObject.GetComponent<Player>().HP *= 2.0d;
-        yield return new WaitForSeconds(PalaDin_SKILL_DURATION_TIME);       
-        Skill_Effect.gameObject.SetActive(false);
-        gameObject.GetComponent<Player>().HP = temp;
+        double originalHP = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[PALADIN_NAME]);
 
-        ReturnSkill();
+        try
+        {
+            if (!Utils.is_Skill_Effect_Save_Mode && Skill_Effect != null)
+            {
+                Skill_Effect.gameObject.SetActive(true);
+            }
+
+            Base_Manager.SOUND.Play(Sound.BGS, PALADIN_NAME);
+
+            var player = gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.HP *= 2.0d;
+            }
+
+            yield return new WaitForSeconds(PalaDin_SKILL_DURATION_TIME);
+        }
+        finally
+        {
+            var player = gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.HP = originalHP;
+            }
+
+            if (Skill_Effect != null)
+            {
+                Skill_Effect.gameObject.SetActive(false);
+            }
+
+            Debug.Log("[PalaDin_Skill] HP 복구 및 ReturnSkill 실행됨");
+            ReturnSkill();
+        }
     }
 }

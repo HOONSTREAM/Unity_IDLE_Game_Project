@@ -29,29 +29,40 @@ public class Dual_Blader_Skill : Skill_Base
     }
 
     public override void ReturnSkill()
-    {       
-        Skill_Effect.gameObject.SetActive(false);
+    {
+        if (Skill_Effect != null)
+        {
+            Skill_Effect.gameObject.SetActive(false);
+        }
         base.ReturnSkill();
     }
 
     IEnumerator Set_Skill_Coroutine()
     {
-        for(int i = 0; i<5; i++)
+        try
         {
-            for(int j = 0; j < monsters.Count(); j++)
-            {
-               if(Distance(transform.position, monsters[j].transform.position, 1.5f))
-                {
-                    monsters[j].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT); // 150% 의 데미지를 가한다.
-                }
-            }
+            double skillATK = gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT;
 
-            yield return new WaitForSeconds(0.5f);
-            
+            for (int i = 0; i < 5; i++)
+            {
+                var monsterSnapshot = monsters?.Where(m => m != null).ToList();
+
+                foreach (var monster in monsterSnapshot)
+                {
+                    if (Distance(transform.position, monster.transform.position, 1.5f))
+                    {
+                        monster.GetDamage(skillATK); // 400% 데미지
+                    }
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+        finally
+        {
+            Debug.Log("[Dual_Blader_Skill] ReturnSkill 실행됨");
+            ReturnSkill();
         }
 
-       
-        ReturnSkill();
-        
     }
 }

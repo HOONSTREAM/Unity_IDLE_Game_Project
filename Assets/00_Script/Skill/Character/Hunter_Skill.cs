@@ -15,18 +15,30 @@ public class Hunter_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        var data = m_Player.ATK_Speed;
-        m_Player.ATK_Speed *= 2.0f;
+        var originalAtkSpeed = m_Player.ATK_Speed;
 
-        if (!Utils.is_Skill_Effect_Save_Mode)
+        try
         {
-            Skill_Effect.gameObject.SetActive(true);
-        }
-       
+            m_Player.ATK_Speed *= 2.0f;
 
-        yield return new WaitForSeconds(HUNTER_SKILL_DURATION_TIME);
-        m_Player.ATK_Speed = data;
-        Skill_Effect.gameObject.SetActive(false);
-        ReturnSkill();
+            if (!Utils.is_Skill_Effect_Save_Mode && Skill_Effect != null)
+            {
+                Skill_Effect.gameObject.SetActive(true);
+            }
+
+            yield return new WaitForSeconds(HUNTER_SKILL_DURATION_TIME);
+        }
+        finally
+        {
+            m_Player.ATK_Speed = originalAtkSpeed;
+
+            if (Skill_Effect != null)
+            {
+                Skill_Effect.gameObject.SetActive(false);
+            }
+
+            Debug.Log("[Hunter_Skill] ATK_Speed 복구 및 ReturnSkill 실행됨");
+            ReturnSkill();
+        }
     }
 }

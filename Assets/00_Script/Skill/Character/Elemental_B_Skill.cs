@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 
@@ -26,38 +27,52 @@ public class Elemental_B_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-      
-        Skill_Effect.gameObject.SetActive(true);
-        Base_Manager.SOUND.Play(Sound.BGS, "Ele_Black");
-        var localMonsters = (monsters != null) ? (Monster[])monsters.Clone() : null;
 
-        if (localMonsters == null || localMonsters.Length == 0)
+        try
         {
-            Debug.LogError("Monsters array is null or empty!");
-            ReturnSkill();
-            yield break;
-        }
-
-        Camera_Manager.instance.Camera_Shake();
-
-        for (int i = 0; i < Spawner.m_monsters.Count; i++)
-        {
-            if (Vector3.Distance(Spawner.m_monsters[i].transform.position, Vector3.zero) <= 4.0f)
+            if (Skill_Effect != null)
             {
-                Spawner.m_monsters[i].GetDamage(gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT);
+                Skill_Effect.gameObject.SetActive(true);
             }
-        }
 
-        if (!Utils.is_Skill_Effect_Save_Mode)
+            Base_Manager.SOUND.Play(Sound.BGS, "Ele_Black");
+
+            Camera_Manager.instance?.Camera_Shake();
+
+            double skillATK = gameObject.GetComponent<Player>().ATK * SKILL_DAMAGE_MULTIPLE_CONSTATNT;
+
+            var monstersSnapshot = Spawner.m_monsters?.Where(m => m != null).ToList();
+
+            foreach (var monster in monstersSnapshot)
+            {
+                if (Vector3.Distance(monster.transform.position, Vector3.zero) <= 4.0f)
+                {
+                    monster.GetDamage(skillATK);
+                }
+            }
+
+            if (!Utils.is_Skill_Effect_Save_Mode && Elemental_B_Skill_Effect != null)
+            {
+                Elemental_B_Skill_Effect.transform.position = Vector3.zero;
+            }
+
+            yield return new WaitForSecondsRealtime(2.0f);
+        }
+        finally
         {
-            Elemental_B_Skill_Effect.transform.position = Vector3.zero;
+            var player = gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Use_Skill = false;
+            }
+
+            if (Skill_Effect != null)
+            {
+                Skill_Effect.gameObject.SetActive(false);
+            }
+
+            Debug.Log("[Elemental_B_Skill] ReturnSkill ½ÇÇàµÊ");
+            ReturnSkill();
         }
-        
-
-        yield return new WaitForSecondsRealtime(2.0f);
-        this.gameObject.GetComponent<Player>().Use_Skill = false;
-        Skill_Effect.gameObject.SetActive(false);
-
-        ReturnSkill();
     }
 }
