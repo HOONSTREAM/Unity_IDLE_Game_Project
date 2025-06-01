@@ -154,6 +154,11 @@ public partial class BackEnd_Manager : MonoBehaviour
         {
             param.Add("Meat", Base_Manager.Data.Item_Holder["Meat"].Hero_Card_Amount);
         }
+
+        if(Action == "DPS_Dungeon")
+        {
+            param.Add("DPS_LEVEL", Data_Manager.Main_Players_Data.USER_DPS_LEVEL);
+        }
         
         param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
 

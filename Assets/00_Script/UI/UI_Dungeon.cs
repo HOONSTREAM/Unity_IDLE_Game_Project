@@ -2,6 +2,7 @@ using BackEnd.Functions;
 using Google.Protobuf.WellKnownTypes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
@@ -34,8 +35,12 @@ public class UI_Dungeon : UI_Base
     private TextMeshProUGUI Next_Goal_DPS;
     [SerializeField]
     private TextMeshProUGUI NOW_USER_DPS_LEVEL;
+    [SerializeField]
+    private TextMeshProUGUI DPS_REWARD_TEXT;
     [SerializeField] 
     private Button[] Key01ArrowButton, Key02ArrowButton;
+    [SerializeField]
+    private TextMeshProUGUI User_Dia_Amount, User_Coin_Amount;
 
     private int[] Level = new int[2];
     
@@ -44,6 +49,10 @@ public class UI_Dungeon : UI_Base
     {
 
         Main_UI.Instance.FadeInOut(true, true, null);
+
+
+        User_Dia_Amount.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
+        User_Coin_Amount.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money);
 
         for(int i = 0; i < Data_Manager.Main_Players_Data.Dungeon_Clear_Level.Length; i++) // 최고난이도 적용
         {
@@ -102,30 +111,7 @@ public class UI_Dungeon : UI_Base
         Key02ArrowButton[0].onClick.AddListener(() => ArrowButton(1, -1));
         Key02ArrowButton[1].onClick.AddListener(() => ArrowButton(1, 1));
 
-
-        foreach (var row in CSV_Importer.DPS_Design)
-        {
-            double requiredDPS = double.Parse(row["DPS_DMG"].ToString());
-
-            if (Data_Manager.Main_Players_Data.USER_DPS < requiredDPS)
-            {
-                break;
-            }
-            int temp = Data_Manager.Main_Players_Data.USER_DPS_LEVEL;
-
-            Data_Manager.Main_Players_Data.USER_DPS_LEVEL = int.Parse(row["DPS_LEVEL"].ToString());
-
-            if(temp >= Data_Manager.Main_Players_Data.USER_DPS_LEVEL)
-            {
-                Data_Manager.Main_Players_Data.USER_DPS_LEVEL = temp;
-            }
-        }
-
-        NOW_USER_DPS_LEVEL.text = $"<color=#FFFF00>{Data_Manager.Main_Players_Data.USER_DPS_LEVEL}</color>단계";
-        Now_User_DPS.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.USER_DPS);
-        Next_Goal_DPS.text = StringMethod.ToCurrencyString(double.Parse(
-            CSV_Importer.DPS_Design[Data_Manager.Main_Players_Data.USER_DPS_LEVEL + 1]
-            ["DPS_DMG"].ToString()));
+        DPS_Init();
 
         return base.Init();
     }
@@ -137,6 +123,91 @@ public class UI_Dungeon : UI_Base
     {
         Main_UI.Instance.Layer_Check(-1);
         base.DisableOBJ();
+    }
+    private void DPS_Init()
+    {
+
+        foreach (var row in CSV_Importer.DPS_Design)
+        {
+            double requiredDPS = double.Parse(row["DPS_DMG"].ToString());
+
+            if (Data_Manager.Main_Players_Data.USER_DPS < requiredDPS)
+            {
+                break;
+            }
+
+            int temp = Data_Manager.Main_Players_Data.USER_DPS_LEVEL;
+
+            Data_Manager.Main_Players_Data.USER_DPS_LEVEL = int.Parse(row["DPS_LEVEL"].ToString());
+
+            if (temp >= Data_Manager.Main_Players_Data.USER_DPS_LEVEL)
+            {
+                Data_Manager.Main_Players_Data.USER_DPS_LEVEL = temp;
+            }
+
+            if (Data_Manager.Main_Players_Data.USER_DPS_LEVEL >= 199)
+            {
+                Data_Manager.Main_Players_Data.USER_DPS_LEVEL = 199;
+            }
+        }
+
+        if(Data_Manager.Main_Players_Data.USER_DPS_LEVEL < 199)
+        {
+            NOW_USER_DPS_LEVEL.text = $"<color=#FFFF00>{Data_Manager.Main_Players_Data.USER_DPS_LEVEL}</color>단계";
+            Now_User_DPS.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.USER_DPS);
+            Next_Goal_DPS.text = StringMethod.ToCurrencyString(double.Parse(
+                CSV_Importer.DPS_Design[Data_Manager.Main_Players_Data.USER_DPS_LEVEL + 1]
+                ["DPS_DMG"].ToString()));
+
+            var playerData = Data_Manager.Main_Players_Data;
+            int currentLevel = playerData.USER_DPS_LEVEL;
+
+            var claimedSet = new HashSet<int>();
+
+            if (!string.IsNullOrEmpty(playerData.DPS_REWARD))
+            {
+                string[] tokens = playerData.DPS_REWARD.Split(',');
+                foreach (var t in tokens)
+                {
+                    if (int.TryParse(t, out int claimed))
+                        claimedSet.Add(claimed);
+                }
+            }
+
+            int totalReward = 0;
+            List<int> newlyClaimed = new List<int>();
+
+            foreach (var row in CSV_Importer.DPS_REWARD_Design)
+            {
+                int level = int.Parse(row["DPS_LEVEL"].ToString());
+                if (level > currentLevel) break;
+                if (claimedSet.Contains(level)) continue;
+
+                // 다이아 보상 값 읽기
+                int reward = 0;
+                if (int.TryParse(row["DIAMOND"].ToString(), out reward))
+                {
+                    totalReward += reward;
+                    newlyClaimed.Add(level);
+                }
+            }
+
+            if (newlyClaimed.Count == 0)
+            {
+                DPS_REWARD_TEXT.text = "0";
+            }
+
+            DPS_REWARD_TEXT.text = totalReward.ToString();
+        }
+
+        else
+        {
+            NOW_USER_DPS_LEVEL.text = "최고단계";
+            DPS_REWARD_TEXT.text = "0";
+            Now_User_DPS.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.USER_DPS);
+            Next_Goal_DPS.text = "최고 전투력 달성";
+        }
+        
     }
     public void Get_Dungeon(int value)
     {
@@ -345,6 +416,73 @@ public class UI_Dungeon : UI_Base
         Dungeon_Level_Guide_Text[KeyValue].text = KeyValue == 0
            ? $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도"
            : $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
+    }
+    /// <summary>
+    /// DPS던전의 보상단계를 체크하고, 보상합니다.
+    /// </summary>
+    public void Get_All_DPS_Rewards()
+    {
+        var playerData = Data_Manager.Main_Players_Data;
+        int currentLevel = playerData.USER_DPS_LEVEL;
+
+        if(playerData.USER_DPS_LEVEL >= 199)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 전투력에 달성하였습니다.");
+            return;
+        }
+
+        // 수령 이력 파싱
+        var claimedSet = new HashSet<int>();
+        if (!string.IsNullOrEmpty(playerData.DPS_REWARD))
+        {
+            string[] tokens = playerData.DPS_REWARD.Split(',');
+            foreach (var t in tokens)
+            {
+                if (int.TryParse(t, out int claimed))
+                    claimedSet.Add(claimed);
+            }
+        }
+
+        int totalReward = 0;
+        List<int> newlyClaimed = new List<int>();
+
+        foreach (var row in CSV_Importer.DPS_REWARD_Design)
+        {
+            int level = int.Parse(row["DPS_LEVEL"].ToString());
+            if (level > currentLevel) break;
+            if (claimedSet.Contains(level)) continue;
+
+            // 다이아 보상 값 읽기
+            int reward = 0;
+            if (int.TryParse(row["DIAMOND"].ToString(), out reward))
+            {
+                totalReward += reward;
+                newlyClaimed.Add(level);
+            }
+        }
+
+        if (newlyClaimed.Count == 0)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("수령할 수 있는 보상이 없습니다.");
+            return;
+        }
+
+        // 다이아 지급
+        playerData.DiaMond += totalReward;
+
+        // 이력 업데이트
+        claimedSet.UnionWith(newlyClaimed);
+        playerData.DPS_REWARD = string.Join(",", claimedSet.OrderBy(x => x));
+
+        // 서버 저장
+
+        Base_Manager.BACKEND.Log_Get_Dia("DPS_Dungeon");
+        _ = Base_Manager.BACKEND.WriteData();
+
+        // 알림 및 효과
+        Base_Canvas.instance.Get_TOP_Popup().Initialize($"총 {newlyClaimed.Count}개의 구간 보상 수령 완료! (+ <color=#FFFF00>{totalReward}</color> 다이아)");
+        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+        Init();
     }
 
 }

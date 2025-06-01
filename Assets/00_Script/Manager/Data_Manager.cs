@@ -74,6 +74,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.isBuyTodayPackage = false;
         Data_Manager.Main_Players_Data.isBuySTRONGPackage = false;
         Data_Manager.Main_Players_Data.isBuySTARTPackage = false;
+        Data_Manager.Main_Players_Data.isBuyDIAMONDPackage = false;
         Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree = false;
         Data_Manager.Main_Players_Data.Daily_Attendance = 1;
         Data_Manager.Main_Players_Data.Levelup = 0;
@@ -92,6 +93,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Season = 0;
         Data_Manager.Main_Players_Data.USER_DPS = 0;
         Data_Manager.Main_Players_Data.USER_DPS_LEVEL = 0;
+        Data_Manager.Main_Players_Data.DPS_REWARD = default;
 
 
 
@@ -123,6 +125,7 @@ public class BackendGameData
         param.Add("isBUY_TODAY_Package", Data_Manager.Main_Players_Data.isBuyTodayPackage);
         param.Add("isBUY_STRONG_Package", Data_Manager.Main_Players_Data.isBuySTRONGPackage);
         param.Add("isBUY_START_Package", Data_Manager.Main_Players_Data.isBuySTARTPackage);
+        param.Add("isBUY_DIAMOND_Package", Data_Manager.Main_Players_Data.isBuyDIAMONDPackage);
         param.Add("EVENT_PUSH_ALARM", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree);
         param.Add("Daily_Attendance", Data_Manager.Main_Players_Data.Daily_Attendance);
         param.Add("Level_up_Daily_Quest_Count", Data_Manager.Main_Players_Data.Levelup);
@@ -143,6 +146,7 @@ public class BackendGameData
         param.Add("LAST_DAILY_RESET", Data_Manager.Main_Players_Data.Last_Daily_Reset_Time);
         param.Add("USER_DPS", Data_Manager.Main_Players_Data.USER_DPS);
         param.Add("USER_DPS_LEVEL", Data_Manager.Main_Players_Data.USER_DPS_LEVEL);
+        param.Add("USER_DPS_REWARD", Data_Manager.Main_Players_Data.DPS_REWARD);
 
 
         var bro = Backend.GameData.Insert("USER", param);
@@ -298,7 +302,7 @@ public class Data
     public int Season = 0; // 랭크시즌
     public double USER_DPS = 0;
     public int USER_DPS_LEVEL = 0;
-
+    public string DPS_REWARD = default;
     
     /// <summary>
     /// 플레이어 유저의 소환 레벨 변수
@@ -337,6 +341,7 @@ public class Data
     public bool isBuyTodayPackage = false;
     public bool isBuySTRONGPackage = false;
     public bool isBuySTARTPackage = false;
+    public bool isBuyDIAMONDPackage = false;
     public int ADS_Hero_Summon_Count = 0;
     public int ADS_Relic_Summon_Count = 0;
     public float[] ADS_Timer = { 0.0f, 0.0f };
