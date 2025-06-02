@@ -144,16 +144,26 @@ public class Player_Manager
 
         if (Base_Manager.Item.Set_Item_Check("GOLD_PER_ATK"))
         {
-            var goldLevel = Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level;
+            int goldLevel = (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1);
+
+            // CSV에서 효과 퍼센트 값 가져오기 (이미 비율로 저장되어 있으므로 *0.01 하지 않음)
             float effectValue = float.Parse(CSV_Importer.RELIC_GOLD_PER_ATK_Design[goldLevel]["effect_percent"].ToString());
-            double atkBonus = (playerData.Player_Money / 10000000.0) * (effectValue * 0.01);
 
-            if (atkBonus >= (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1))
+            // 골드 1천만 단위당 effectValue 만큼 증가
+            double atkBonus = (playerData.Player_Money / 10000000.0) * effectValue;
+
+            // 최대 증가량은 유물 레벨 * 1.0 (레벨당 최대 100% 증가)
+            double maxBonus = goldLevel * 1.0;
+
+            // 보너스 제한
+            if (atkBonus > maxBonus)
             {
-                atkBonus = (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1);
+                atkBonus = maxBonus;
             }
-
-            baseATK *= (1.0d + atkBonus);         
+           
+            // 공격력에 보너스 적용
+            baseATK *= (1.0d + atkBonus);
+           
         }
 
         // 티어 보너스

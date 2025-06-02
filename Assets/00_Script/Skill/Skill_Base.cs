@@ -16,9 +16,10 @@ public class Skill_Base : MonoBehaviour
     {
         Base_Manager.Stage.M_DeadEvent += OnDead;
     }
+
     public virtual void Set_Skill()
     {
-
+       
     }
 
     protected double Skill_Damage(double value)
@@ -37,7 +38,7 @@ public class Skill_Base : MonoBehaviour
     }
 
     public virtual void ReturnSkill()
-    {
+    {       
         m_Player.GetComponent<Player>().Use_Skill = false;        
     }
 

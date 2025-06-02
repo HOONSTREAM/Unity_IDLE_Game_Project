@@ -314,6 +314,7 @@ public class UI_Relic : UI_Base
 
             Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent,
                 effect_percent, (atkBonus * 100).ToString("F2"));
+            
         }
         #endregion
 

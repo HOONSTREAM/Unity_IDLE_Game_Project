@@ -14,7 +14,8 @@ public class Player : Character
     [SerializeField]
     private ParticleSystem Provocation_Effect; // 보스가 출현할 때, 머리 상단에 느낌표를 나타냅니다.
     public bool isMainCharacter = false;
-    
+
+    private int mpBlockedCount = 0; // Use_Skill 상태에서 막힌 횟수 카운트 
     protected override void Start()
     {
         base.Start();
@@ -194,7 +195,18 @@ public class Player : Character
     {
         if (Use_Skill)
         {
-            return;
+            mpBlockedCount++;
+
+            if (mpBlockedCount >= 10)
+            {
+                Debug.LogWarning($"[Player: {CH_Name}] 스킬 비정상 종료 감지. Use_Skill 강제 false 처리 후 MP 정상 획득 진행");
+                Use_Skill = false;
+                mpBlockedCount = 0; // 초기화 후 진행
+            }
+            else
+            {
+                return; // 아직 한계치 도달 전이면 리턴
+            }
         }
 
         if (isMainCharacter)
