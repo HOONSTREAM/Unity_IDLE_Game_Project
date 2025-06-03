@@ -28,6 +28,23 @@ public class Utils
 
     public static bool is_Skill_Effect_Save_Mode = true;
 
+
+    public static int GetRandomDiamond()
+    {
+        float rand = UnityEngine.Random.Range(0f, 100f);
+
+        if (rand < 51.00f) return 1000;
+        else if (rand < 76.00f) return 2000;
+        else if (rand < 86.00f) return 3000;
+        else if (rand < 89.00f) return 4000;
+        else if (rand < 91.75f) return 5000;
+        else if (rand < 94.25f) return 6000;
+        else if (rand < 96.25f) return 7000;
+        else if (rand < 97.75f) return 8000;
+        else if (rand < 99.00f) return 9000;
+        else return 10000;
+    }
+
     public static void CloseAllPopupUI()
     {
         while(UI_Holder.Count > 0)

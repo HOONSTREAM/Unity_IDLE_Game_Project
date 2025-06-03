@@ -61,7 +61,7 @@ public class UI_Combination : UI_Base
         is_Comb_Scroll = true;
         Selected_Item_Parts.gameObject.SetActive(true);
         Holder Select_holder = new Holder();
-        Select_holder.Hero_Card_Amount = 100;
+        Select_holder.Hero_Card_Amount = 5000;
         Selected_Item_Parts.Init("Scroll_Comb", Select_holder);
         
         First_Comb_Parts.gameObject.SetActive(true);
@@ -245,7 +245,7 @@ public class UI_Combination : UI_Base
                 Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount -= 10000;
                 Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount -= 15000;
                 var item = Base_Manager.Data.Data_Item_Dictionary["Scroll_Comb"];
-                Base_Manager.Inventory.Get_Item(item , 100);
+                Base_Manager.Inventory.Get_Item(item , 5000);
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("조합 스크롤 제작 성공");
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
                 Set_Comb_Scroll();

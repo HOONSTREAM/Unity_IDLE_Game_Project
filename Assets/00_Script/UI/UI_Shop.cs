@@ -12,6 +12,8 @@ public class UI_Shop : UI_Base
     [SerializeField]
     private GameObject Infomation_Panel;
     [SerializeField]
+    private GameObject Dia_Gacha_Infomation_Panel;
+    [SerializeField]
     private TextMeshProUGUI[] Percentage_Text;
     [SerializeField]
     private TextMeshProUGUI Summon_Level_Text;
@@ -65,13 +67,17 @@ public class UI_Shop : UI_Base
     [SerializeField]
     private GameObject TODAY_PACKAGE_SOLD_OUT_STRONG;
     [SerializeField]
-    private GameObject ADS_PACKAGE_SOLD_OUT;
+    private GameObject ADS_PACKAGE_OBJ;
     [SerializeField]
-    private GameObject START_PACKAGE_SOLD_OUT;
+    private GameObject START_PACKAGE_OBJ;
     [SerializeField]
     private GameObject DIAMOND_PACKAGE_SOLD_OUT;
     [SerializeField]
     private GameObject DIAMOND_PURCHASE_NOT_OBJ; // 다이아몬드 티어 이하일 때, 구매 불가
+    [SerializeField]
+    private GameObject DIAMOND_GACHA_SOLD_OUT_OBJ;
+    [SerializeField]
+    private TextMeshProUGUI DIAMOND_GACHA_COUNT_TEXT;
 
 
 
@@ -188,6 +194,77 @@ public class UI_Shop : UI_Base
 
         Init();
     }
+    public void ADS_Free_Dia_Button()
+    {
+        if (Data_Manager.Main_Players_Data.ADS_FREE_DIA == true)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("금일 최대 횟수를 이용하였습니다. 자정이후 초기화됩니다.");
+            return;
+        }
+
+        Data_Manager.Main_Players_Data.ADS_FREE_DIA = true;
+
+        Base_Manager.ADS.ShowRewardedAds(() =>
+        {
+            Base_Canvas.instance.Get_UI("UI_Reward");
+            Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit("Dia", 800); // 보상지급
+        });
+
+        Base_Manager.BACKEND.Log_Get_Dia("ADS_FREE_DIA_SHOP");
+
+        Init();
+    }
+    public void ADS_Free_Steel_Button()
+    {
+        if (Data_Manager.Main_Players_Data.ADS_FREE_STEEL == true)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("금일 최대 횟수를 이용하였습니다. 자정이후 초기화됩니다.");
+            return;
+        }
+
+        Data_Manager.Main_Players_Data.ADS_FREE_STEEL = true;
+        Base_Manager.ADS.ShowRewardedAds(() =>
+        {
+            Base_Canvas.instance.Get_UI("UI_Reward");
+            Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit("Steel", 150); // 보상지급
+        });
+        
+
+        Init();
+    }
+    public void Get_Free_Scroll_Comb_Button()
+    {
+        if (Data_Manager.Main_Players_Data.FREE_COMB_SCROLL == true)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("금일 최대 횟수를 이용하였습니다. 자정이후 초기화됩니다.");
+            return;
+        }
+
+        Data_Manager.Main_Players_Data.FREE_COMB_SCROLL = true;
+        Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount += 2000;
+
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("보상 획득 완료!");
+
+        Init();
+    }
+
+    public void Get_Free_Dia_Button()
+    {
+        if (Data_Manager.Main_Players_Data.FREE_DIA == true)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("금일 최대 횟수를 이용하였습니다. 자정이후 초기화됩니다.");
+            return;
+        }
+
+        Data_Manager.Main_Players_Data.FREE_DIA = true;
+        Data_Manager.Main_Players_Data.DiaMond += 500;
+        Base_Manager.BACKEND.Log_Get_Dia("FREE_DIA_SHOP");
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("보상 획득 완료!");
+
+        Init();
+    }
+
+
     public void GachaButton_Relic(int value, bool ADS = false)
     {
         StartCoroutine(Relic_Gacha_Delay_Coroutine(value,ADS));
@@ -264,10 +341,12 @@ public class UI_Shop : UI_Base
     {
         TODAY_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
         TODAY_PACKAGE_SOLD_OUT_STRONG.gameObject.SetActive(false);
-        ADS_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
-        START_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
+        ADS_PACKAGE_OBJ.gameObject.SetActive(true);
+        START_PACKAGE_OBJ.gameObject.SetActive(true);
         DIAMOND_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
         DIAMOND_PURCHASE_NOT_OBJ.gameObject.SetActive(false);
+
+        DIAMOND_GACHA_COUNT_TEXT.text = $"({Data_Manager.Main_Players_Data.DIA_GACHA_COUNT} / 3 )";
 
         ADS_Hero_Count.text = "(" + Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count.ToString() + "/3)";
 
@@ -296,7 +375,7 @@ public class UI_Shop : UI_Base
 
         if (Data_Manager.Main_Players_Data.isBuyADPackage)
         {
-            ADS_PACKAGE_SOLD_OUT.gameObject.SetActive(true);
+            ADS_PACKAGE_OBJ.gameObject.SetActive(false);
         }
 
         if (Data_Manager.Main_Players_Data.isBuyTodayPackage)
@@ -311,7 +390,7 @@ public class UI_Shop : UI_Base
 
         if (Data_Manager.Main_Players_Data.isBuySTARTPackage)
         {
-            START_PACKAGE_SOLD_OUT.gameObject.SetActive(true);
+            START_PACKAGE_OBJ.gameObject.SetActive(false);
         }
 
         if (Data_Manager.Main_Players_Data.isBuyDIAMONDPackage)
@@ -323,6 +402,11 @@ public class UI_Shop : UI_Base
         {
             DIAMOND_PURCHASE_NOT_OBJ.gameObject.SetActive(true);
             DIAMOND_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
+        }
+
+        if(Data_Manager.Main_Players_Data.DIA_GACHA_COUNT >= 3)
+        {
+            DIAMOND_GACHA_SOLD_OUT_OBJ.gameObject.SetActive(true);
         }
 
     }
@@ -362,6 +446,11 @@ public class UI_Shop : UI_Base
 
         Percentage_Check(Utils.Calculate_Summon_Level(Data_Manager.Main_Players_Data.Hero_Summon_Count));
     }
+    public void Get_Dia_Gacha_Information_Panel()
+    {
+        Dia_Gacha_Infomation_Panel.gameObject.SetActive(true);
+    }
+
     /// <summary>
     /// 화살표 방향에 따른 레벨에 따라, 소환 확률을 계산하여 나타내줍니다.
     /// </summary>
@@ -397,10 +486,15 @@ public class UI_Shop : UI_Base
     public void Disable_Information_Panel()
     {
         Infomation_Panel.gameObject.SetActive(false);
-    }  
+    }
+    public void Disable_Dia_Gacha_Infomation_Panel()
+    {
+        Dia_Gacha_Infomation_Panel.gameObject.SetActive(false);
+    }
     public override void DisableOBJ()
     {
         Main_UI.Instance.Layer_Check(-1);
+        _ = Base_Manager.BACKEND.WriteData();
         base.DisableOBJ();
     }
 }

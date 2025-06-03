@@ -26,6 +26,8 @@ public class UI_Reward : UI_Base
             case IAP_Holder.start: GetRewardInit("START_Package", 1); break;
             case IAP_Holder.package_3: GetRewardInit("PACKAGE_DIAMOND", 1); break;
             case IAP_Holder.hondon_2000: GetRewardInit("Hondon_Potion", 2000); break;
+            case IAP_Holder.dia_gacha: GetRewardInit("Dia", Utils.GetRandomDiamond()); break;
+
 
         }
     }

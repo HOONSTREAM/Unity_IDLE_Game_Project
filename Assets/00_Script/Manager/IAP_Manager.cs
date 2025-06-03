@@ -23,6 +23,7 @@ public class IAP_Manager : IStoreListener
     public readonly string Dia_68000 = "dia_68000";
     public readonly string Start_Package = "start";
     public readonly string Hondon_2000 = "hondon_2000";
+    public readonly string Dia_Gacha = "dia_gacha";
 
     private IStoreController Store_Controller; // 구매 과정을 제어하는 함수 제공자
     private IExtensionProvider Store_Extension_Provider; // 여러 플랫폼을 위한 확정 처리 제공자
@@ -44,6 +45,7 @@ public class IAP_Manager : IStoreListener
         builder.AddProduct(Start_Package, ProductType.Consumable, new IDs() { { Start_Package, GooglePlay.Name } });
         builder.AddProduct(Today_Package_03, ProductType.Consumable, new IDs() { { Today_Package_03, GooglePlay.Name } });
         builder.AddProduct(Hondon_2000, ProductType.Consumable, new IDs() { { Hondon_2000, GooglePlay.Name } });
+        builder.AddProduct(Dia_Gacha, ProductType.Consumable, new IDs() { { Dia_Gacha, GooglePlay.Name } });
 
         UnityPurchasing.Initialize(this, builder);
     }

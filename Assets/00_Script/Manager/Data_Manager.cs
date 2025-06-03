@@ -94,6 +94,11 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.USER_DPS = 0;
         Data_Manager.Main_Players_Data.USER_DPS_LEVEL = 0;
         Data_Manager.Main_Players_Data.DPS_REWARD = default;
+        Data_Manager.Main_Players_Data.ADS_FREE_DIA = false;
+        Data_Manager.Main_Players_Data.ADS_FREE_STEEL = false;
+        Data_Manager.Main_Players_Data.FREE_DIA = false;
+        Data_Manager.Main_Players_Data.FREE_COMB_SCROLL = false;
+        Data_Manager.Main_Players_Data.DIA_GACHA_COUNT = 0;
 
 
 
@@ -147,6 +152,11 @@ public class BackendGameData
         param.Add("USER_DPS", Data_Manager.Main_Players_Data.USER_DPS);
         param.Add("USER_DPS_LEVEL", Data_Manager.Main_Players_Data.USER_DPS_LEVEL);
         param.Add("USER_DPS_REWARD", Data_Manager.Main_Players_Data.DPS_REWARD);
+        param.Add("ADS_FREE_DIA", Data_Manager.Main_Players_Data.ADS_FREE_DIA);
+        param.Add("ADS_FREE_STEEL", Data_Manager.Main_Players_Data.ADS_FREE_STEEL);
+        param.Add("FREE_DIA", Data_Manager.Main_Players_Data.FREE_DIA);
+        param.Add("FREE_COMB_SCROLL", Data_Manager.Main_Players_Data.FREE_COMB_SCROLL);
+        param.Add("DIA_GACHA_COUNT", Data_Manager.Main_Players_Data.DIA_GACHA_COUNT);
 
 
         var bro = Backend.GameData.Insert("USER", param);
@@ -343,6 +353,13 @@ public class Data
     public bool isBuySTARTPackage = false;
     public bool isBuyDIAMONDPackage = false;
     public int ADS_Hero_Summon_Count = 0;
+
+    public bool ADS_FREE_DIA = false;
+    public bool ADS_FREE_STEEL = false;
+    public bool FREE_DIA = false;
+    public bool FREE_COMB_SCROLL = false;
+    public int DIA_GACHA_COUNT = 0;
+
     public int ADS_Relic_Summon_Count = 0;
     public float[] ADS_Timer = { 0.0f, 0.0f };
 

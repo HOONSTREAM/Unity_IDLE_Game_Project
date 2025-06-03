@@ -120,7 +120,13 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("USER_DPS_LEVEL", data.USER_DPS_LEVEL);
         param.Add("LAST_DAILY_RESET", data.Last_Daily_Reset_Time);
         param.Add("USER_DPS_REWARD", data.DPS_REWARD);
-        
+
+        param.Add("ADS_FREE_DIA", data.ADS_FREE_DIA);
+        param.Add("ADS_FREE_STEEL", data.ADS_FREE_STEEL);
+        param.Add("FREE_DIA", data.ADS_FREE_DIA);
+        param.Add("FREE_COMB_SCROLL", data.FREE_COMB_SCROLL);
+        param.Add("DIA_GACHA_COUNT", data.DIA_GACHA_COUNT);
+
         var bro = Backend.GameData.Get("USER", new Where());
         
         if (!bro.IsSuccess()) return;
@@ -593,6 +599,226 @@ public partial class BackEnd_Manager : MonoBehaviour
                     Debug.Log("USER_DPS_REWARD 컬럼이 존재합니다.");
                     data.DPS_REWARD = (gameDataJson[0]["USER_DPS_REWARD"].ToString());
                 }
+                if (!gameDataJson[0].ContainsKey("ADS_FREE_DIA"))
+                {
+                    Debug.Log("ADS_FREE_DIA 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("ADS_FREE_DIA", data.ADS_FREE_DIA);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("ADS_FREE_DIA 컬럼이 존재합니다.");
+                    data.ADS_FREE_DIA = bool.Parse(gameDataJson[0]["ADS_FREE_DIA"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("ADS_FREE_STEEL"))
+                {
+                    Debug.Log("ADS_FREE_STEEL 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("ADS_FREE_STEEL", data.ADS_FREE_STEEL);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("ADS_FREE_STEEL 컬럼이 존재합니다.");
+                    data.ADS_FREE_STEEL = bool.Parse(gameDataJson[0]["ADS_FREE_STEEL"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("FREE_DIA"))
+                {
+                    Debug.Log("FREE_DIA 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("FREE_DIA", data.FREE_DIA);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("FREE_DIA 컬럼이 존재합니다.");
+                    data.FREE_DIA = bool.Parse(gameDataJson[0]["FREE_DIA"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("FREE_COMB_SCROLL"))
+                {
+                    Debug.Log("FREE_COMB_SCROLL 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("FREE_COMB_SCROLL", data.FREE_COMB_SCROLL);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("FREE_COMB_SCROLL 컬럼이 존재합니다.");
+                    data.FREE_COMB_SCROLL = bool.Parse(gameDataJson[0]["FREE_COMB_SCROLL"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("DIA_GACHA_COUNT"))
+                {
+                    Debug.Log("DIA_GACHA_COUNT 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("DIA_GACHA_COUNT", data.DIA_GACHA_COUNT);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("DIA_GACHA_COUNT 컬럼이 존재합니다.");
+                    data.DIA_GACHA_COUNT = int.Parse(gameDataJson[0]["DIA_GACHA_COUNT"].ToString());
+                }
                 #endregion
 
                 data.ATK = double.Parse(gameDataJson[0]["ATK"].ToString());
@@ -982,6 +1208,12 @@ public partial class BackEnd_Manager : MonoBehaviour
         data.isBuyTodayPackage = false;
         data.isBuySTRONGPackage = false;
         data.isBuyDIAMONDPackage = false;
+
+        data.ADS_FREE_DIA = false;
+        data.ADS_FREE_STEEL = false;
+        data.FREE_DIA = false;
+        data.FREE_COMB_SCROLL = false;
+        data.DIA_GACHA_COUNT = 0;
     }
 
     /// <summary>

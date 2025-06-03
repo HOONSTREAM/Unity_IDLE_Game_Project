@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class UI_Rank : UI_Base
 {
@@ -12,19 +13,18 @@ public class UI_Rank : UI_Base
     private TextMeshProUGUI[] Stage;
     [SerializeField]
     private GameObject Fix_UI; // 랭크페이지 점검중 오브젝트
+ 
     [SerializeField]
-    private TextMeshProUGUI Tier_Reset_Time_Text;
+    private TextMeshProUGUI My_Nick_Name;
+    [SerializeField]
+    private TextMeshProUGUI My_Stage;
+    [SerializeField]
+    private TextMeshProUGUI My_Rank;
 
-    
 
     private void Start()
     {
         Set_User_Rank();        
-    }
-
-    private void Update()
-    {
-        Tier_Reset_Time_Text.text = Utils.GetNextResetTimer_14Days();
     }
 
     private void Set_User_Rank()
@@ -53,6 +53,7 @@ public class UI_Rank : UI_Base
             Debug.LogError("Nick_Name 또는 Stage 배열이 초기화되지 않았습니다.");
             return;
         }
+
 
         int count = Mathf.Min(Nick_Name.Length, Stage.Length, list.Count);
 
@@ -86,6 +87,7 @@ public class UI_Rank : UI_Base
         }
 
         Fix_UI.gameObject.SetActive(false); // 여기까지 로직이 진행 됐으면, 랭크페이지 정상이므로, 해제
+      
     }
     public override void DisableOBJ()
     {
