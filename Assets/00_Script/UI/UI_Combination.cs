@@ -49,8 +49,6 @@ public class UI_Combination : UI_Base
         is_Chaos_Caster_Book = false;
         is_Summon_Chaos_Caster = false;
 
-        _ = Base_Manager.BACKEND.WriteData();
-
         return base.Init();
     }
     /// <summary>
@@ -133,7 +131,7 @@ public class UI_Combination : UI_Base
         is_Summon_DarkHero = true;
         Selected_Item_Parts.gameObject.SetActive(true);
         Holder Select_holder = new Holder();
-        Select_holder.Hero_Card_Amount = 3;
+        Select_holder.Hero_Card_Amount = 1;
         Selected_Item_Parts.Init("Summon_DarkHero", Select_holder);
 
         First_Comb_Parts.gameObject.SetActive(true);     
@@ -226,7 +224,7 @@ public class UI_Combination : UI_Base
         is_Summon_Chaos_Caster = true;
         Selected_Item_Parts.gameObject.SetActive(true);
         Holder Select_holder = new Holder();
-        Select_holder.Hero_Card_Amount = 3;
+        Select_holder.Hero_Card_Amount = 1;
         Selected_Item_Parts.Init("Summon_Chaos_Caster", Select_holder);
 
         First_Comb_Parts.gameObject.SetActive(true);
@@ -239,8 +237,7 @@ public class UI_Combination : UI_Base
 
     public void Combination()
     {
-        _ = Base_Manager.BACKEND.WriteData();
-
+        
         if (is_Comb_Scroll)
         {
             if(Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount >= 10000 && Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount >= 15000)
@@ -321,9 +318,7 @@ public class UI_Combination : UI_Base
                 Base_Manager.Data.Item_Holder["Comb_Book_Summon_Hero"].Hero_Card_Amount -= 1;
 
                 Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount++;
-                Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount++;
-                Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount++;
-
+                
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("다크히어로 제작 성공");
                 Base_Manager.BACKEND.Log_Try_Combination_DarkHero();
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
@@ -345,9 +340,7 @@ public class UI_Combination : UI_Base
                 Base_Manager.Data.Item_Holder["Comb_Book_Summon_Chaos_Caster"].Hero_Card_Amount -= 1;
 
                 Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Card_Amount++;
-                Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Card_Amount++;
-                Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Card_Amount++;
-
+                
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("카오스캐스터 제작 성공");
                 Base_Manager.BACKEND.Log_Try_Combination_Chaos_Caster();
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
@@ -406,14 +399,13 @@ public class UI_Combination : UI_Base
             }
 
         }
-
-        _ =Base_Manager.BACKEND.WriteData(); // _= 는 Task 비동기메서드나 일반 메서드의 반환값이 필요없을 때,
-                                            // 반환값 무시. 결과를 변수에 저장하지 않고 실행만 하는 것을 의미합니다.
+        
     }
 
 
     public override void DisableOBJ()
     {
+        _ = Base_Manager.BACKEND.WriteData();
         base.DisableOBJ();
     }
 }
