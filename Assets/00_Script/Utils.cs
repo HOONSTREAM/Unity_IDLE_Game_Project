@@ -33,6 +33,8 @@ public class Utils
     {
         float rand = UnityEngine.Random.Range(0f, 100f);
 
+        Data_Manager.Main_Players_Data.DIA_GACHA_COUNT++;
+
         if (rand < 51.00f) return 1000;
         else if (rand < 76.00f) return 2000;
         else if (rand < 86.00f) return 3000;

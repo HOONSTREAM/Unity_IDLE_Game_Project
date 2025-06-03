@@ -14,8 +14,6 @@ public class UI_Dungeon : UI_Base
 {
 
     [SerializeField]
-    private TextMeshProUGUI Daily_Reset_Timer;
-    [SerializeField]
     private TextMeshProUGUI[] KeyTexts;
     [SerializeField]
     private TextMeshProUGUI[] Dungeon_Enter_Request_Key;
@@ -115,10 +113,7 @@ public class UI_Dungeon : UI_Base
 
         return base.Init();
     }
-    private void Update()
-    {
-        Daily_Reset_Timer.text = Utils.NextDayTimer();
-    }
+
     public override void DisableOBJ()
     {
         Main_UI.Instance.Layer_Check(-1);

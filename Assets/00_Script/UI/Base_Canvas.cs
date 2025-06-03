@@ -39,6 +39,8 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Daily_Quest_Button;
     [SerializeField]
+    private Button Attendance_Button;
+    [SerializeField]
     private Button Combination_Button;
     [SerializeField]
     private Button Post_Box_Button;
@@ -117,6 +119,7 @@ public class Base_Canvas : MonoBehaviour
         Heros_Dictionary_Button.onClick.AddListener(() => Get_UI("Heros_Dictionary", false, false, true));
         Setting_Button.onClick.AddListener(() => Get_UI("UI_Setting", false, false, true));
         Daily_Quest_Button.onClick.AddListener(() => Get_UI("UI_Daliy_Quest", false, false, true));
+        Attendance_Button.onClick.AddListener(() => Get_UI("UI_Attendance", false, false, true));
         Combination_Button.onClick.AddListener(() => Get_UI("UI_Combination", false, false, true));
         Post_Box_Button.onClick.AddListener(() => Get_UI("UI_PostBox", false, false, true));
         Chat_Button.onClick.AddListener(() => Get_UI("@Chat", false, false, true));

@@ -346,7 +346,7 @@ public class UI_Shop : UI_Base
         DIAMOND_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
         DIAMOND_PURCHASE_NOT_OBJ.gameObject.SetActive(false);
 
-        DIAMOND_GACHA_COUNT_TEXT.text = $"({Data_Manager.Main_Players_Data.DIA_GACHA_COUNT} / 3 )";
+        DIAMOND_GACHA_COUNT_TEXT.text = $"( {Data_Manager.Main_Players_Data.DIA_GACHA_COUNT} / 3 )";
 
         ADS_Hero_Count.text = "(" + Data_Manager.Main_Players_Data.ADS_Hero_Summon_Count.ToString() + "/3)";
 

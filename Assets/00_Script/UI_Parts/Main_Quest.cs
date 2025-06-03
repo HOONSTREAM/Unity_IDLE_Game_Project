@@ -66,6 +66,11 @@ public class Main_Quest : MonoBehaviour
     /// </summary>
     void GetQuest()
     {
+        if(Data_Manager.Main_Players_Data.Quest_Count >= 3000)
+        {
+            return;
+        }
+
         Color color = Counting(m_State) >= Convert.ToInt32(now_quest["Value"]) ? Color.green : Color.red;
 
         Count_Text.text = "(" + Counting(m_State).ToString() + "/" + Convert.ToInt32(now_quest["Value"]) + ")";

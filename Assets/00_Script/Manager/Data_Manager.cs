@@ -157,7 +157,9 @@ public class BackendGameData
         param.Add("FREE_DIA", Data_Manager.Main_Players_Data.FREE_DIA);
         param.Add("FREE_COMB_SCROLL", Data_Manager.Main_Players_Data.FREE_COMB_SCROLL);
         param.Add("DIA_GACHA_COUNT", Data_Manager.Main_Players_Data.DIA_GACHA_COUNT);
-
+        param.Add("Attendance_Day", Data_Manager.Main_Players_Data.Attendance_Day);
+        param.Add("Get_Attendance_Reward", Data_Manager.Main_Players_Data.Get_Attendance_Reward);
+        param.Add("Attendance_Date", Data_Manager.Main_Players_Data.Attendance_Last_Date);
 
         var bro = Backend.GameData.Insert("USER", param);
         string inDate = bro.GetInDate();
@@ -382,6 +384,11 @@ public class Data
     public bool Dungeon_Gold_Clear = false;
     public bool Dungeon_Dia_Clear = false;
     public bool isFastMode = false;
+
+    //√‚ºÆ
+    public int Attendance_Day = 0;
+    public bool Get_Attendance_Reward = false;
+    public string Attendance_Last_Date = default;
 
 }
 
