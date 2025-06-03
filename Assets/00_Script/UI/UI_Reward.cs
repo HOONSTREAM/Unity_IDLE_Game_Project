@@ -25,6 +25,7 @@ public class UI_Reward : UI_Base
             case IAP_Holder.gold_30: GetRewardInit("Dungeon_Gold", 8); break;
             case IAP_Holder.start: GetRewardInit("START_Package", 1); break;
             case IAP_Holder.package_3: GetRewardInit("PACKAGE_DIAMOND", 1); break;
+            case IAP_Holder.hondon_2000: GetRewardInit("Hondon_Potion", 2000); break;
 
         }
     }
@@ -39,6 +40,10 @@ public class UI_Reward : UI_Base
         {
             case "Dia": Data_Manager.Main_Players_Data.DiaMond += Count;
                 Base_Manager.BACKEND.Log_Get_Dia($"{ItemName}Dia_{Count}");
+                break;
+
+            case "Hondon_Potion":
+                Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount += 2000;                
                 break;
 
             case "PACKAGE_ADS": 

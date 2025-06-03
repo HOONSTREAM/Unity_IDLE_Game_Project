@@ -159,25 +159,25 @@ public class UI_Combination : UI_Base
         Third_Comb_Parts.gameObject.SetActive(true);
         Four_Comb_Parts.gameObject.SetActive(true);
         Holder holder = new Holder();
-        holder.Hero_Card_Amount = 5000;
+        holder.Hero_Card_Amount = 50000;
         First_Comb_Parts.Init("Book", holder);
         First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount, holder.Hero_Card_Amount);
-        First_Parts_Count_Text.color = Utils.Item_Count("Book", 5000) ? Color.green : Color.red;
+        First_Parts_Count_Text.color = Utils.Item_Count("Book", 50000) ? Color.green : Color.red;
         Holder holder_2 = new Holder();
         holder_2.Hero_Card_Amount = 3500;
         Second_Comb_Parts.Init("Hondon_Potion", holder_2);
         Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
         Second_Parts_Count_Text.color = Utils.Item_Count("Hondon_Potion", 3500) ? Color.green : Color.red;
         Holder holder_3 = new Holder();
-        holder_3.Hero_Card_Amount = 1000;
+        holder_3.Hero_Card_Amount = 2000;
         Third_Comb_Parts.Init("Steel", holder_3);
         Third_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, holder_3.Hero_Card_Amount);
-        Third_Parts_Count_Text.color = Utils.Item_Count("Steel", 1000) ? Color.green : Color.red;
+        Third_Parts_Count_Text.color = Utils.Item_Count("Steel", 2000) ? Color.green : Color.red;
         Holder holder_4 = new Holder();
-        holder_4.Hero_Card_Amount = 1000;
+        holder_4.Hero_Card_Amount = 50000;
         Four_Comb_Parts.Init("Scroll_Comb", holder_4);
         Four_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount, holder_4.Hero_Card_Amount);
-        Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 1000) ? Color.green : Color.red;
+        Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 50000) ? Color.green : Color.red;
     }
     public void Set_Chaos_Chaos_Caster_Book()
     {
@@ -194,25 +194,25 @@ public class UI_Combination : UI_Base
         Third_Comb_Parts.gameObject.SetActive(true);
         Four_Comb_Parts.gameObject.SetActive(true);
         Holder holder = new Holder();
-        holder.Hero_Card_Amount = 5000;
+        holder.Hero_Card_Amount = 50000;
         First_Comb_Parts.Init("Book", holder);
         First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount, holder.Hero_Card_Amount);
-        First_Parts_Count_Text.color = Utils.Item_Count("Book", 5000) ? Color.green : Color.red;
+        First_Parts_Count_Text.color = Utils.Item_Count("Book", 50000) ? Color.green : Color.red;
         Holder holder_2 = new Holder();
         holder_2.Hero_Card_Amount = 3500;
         Second_Comb_Parts.Init("Hondon_Ball", holder_2);
         Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
         Second_Parts_Count_Text.color = Utils.Item_Count("Hondon_Ball", 3500) ? Color.green : Color.red;
         Holder holder_3 = new Holder();
-        holder_3.Hero_Card_Amount = 1000;
+        holder_3.Hero_Card_Amount = 2000;
         Third_Comb_Parts.Init("Steel", holder_3);
         Third_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, holder_3.Hero_Card_Amount);
-        Third_Parts_Count_Text.color = Utils.Item_Count("Steel", 1000) ? Color.green : Color.red;
+        Third_Parts_Count_Text.color = Utils.Item_Count("Steel", 2000) ? Color.green : Color.red;
         Holder holder_4 = new Holder();
-        holder_4.Hero_Card_Amount = 1000;
+        holder_4.Hero_Card_Amount = 50000;
         Four_Comb_Parts.Init("Scroll_Comb", holder_4);
         Four_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount, holder_4.Hero_Card_Amount);
-        Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 1000) ? Color.green : Color.red;
+        Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 50000) ? Color.green : Color.red;
     }
     /// <summary>
     /// 혼돈등급 카오스캐스터 소환
@@ -261,15 +261,15 @@ public class UI_Combination : UI_Base
 
         else if (is_Chaos_DarkHero_Book)
         {
-            if (Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount >= 5000 && 
+            if (Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount >= 50000 && 
                 Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount >= 3500 &&
-                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount >= 1000 &&
-                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount >= 1000)
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount >= 2000 &&
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount >= 50000)
             {
-                Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount -= 5000;
+                Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount -= 50000;
                 Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount -= 3500;
-                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 1000;
-                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount -= 1000;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 2000;
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount -= 50000;
                 var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Summon_Hero"];
                 Base_Manager.Inventory.Get_Item(item);
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 다크히어로 제작 성공");
@@ -287,15 +287,15 @@ public class UI_Combination : UI_Base
 
         else if (is_Chaos_Caster_Book)
         {
-            if (Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount >= 5000 &&
+            if (Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount >= 50000 &&
                 Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount >= 3500 &&
-                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount >= 1000 &&
-                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount >= 1000)
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount >= 2000 &&
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount >= 50000)
             {
                 Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount -= 5000;
                 Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount -= 3500;
-                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 1000;
-                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount -= 1000;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 2000;
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount -= 50000;
                 var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Summon_Chaos_Caster"];
                 Base_Manager.Inventory.Get_Item(item);
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 카오스캐스터 제작 성공");
