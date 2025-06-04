@@ -63,7 +63,8 @@ public class Base_Canvas : MonoBehaviour
     public UI_Base UI;
     public static bool isSavingMode = false;
 
-
+    [SerializeField]
+    private GameObject Tutorial_Panel;
 
 
     
@@ -83,7 +84,11 @@ public class Base_Canvas : MonoBehaviour
     }
     private void Start()
     {
-        
+        UI_Daily_Quest.OnDailyQuestUIOpened -= Tutorial_Daily_Quest;
+        UI_Daily_Quest.OnDailyQuestUIOpened += Tutorial_Daily_Quest;
+        Daily_Quest_Parts.Pressed_Daily_Quest_Parts_Reward -= Tutorial_Daily_Close_And_Goto_Shop;
+        Daily_Quest_Parts.Pressed_Daily_Quest_Parts_Reward += Tutorial_Daily_Close_And_Goto_Shop;
+
         if (Data_Manager.Main_Players_Data.isBuyLAUNCH_EVENT)
         {
             LAUNCH_EVENT_Button.gameObject.SetActive(false);
@@ -105,7 +110,13 @@ public class Base_Canvas : MonoBehaviour
             isSavingMode = true;
         });
         ADS_Buff_Button.onClick.AddListener(() => { Get_UI("ADS_Buff"); });
-        Shop_Button.onClick.AddListener(() => Get_UI("Shop", false, true, true, 5));
+
+        Shop_Button.onClick.AddListener(() => {
+
+            Get_UI("Shop", false, true, true, 5);
+            UI_Shop.UI_Shop_First_Opened?.Invoke();
+            }); 
+
         Dungeon_Button.onClick.AddListener(() =>
         {
             if (!Stage_Manager.isDungeon) 
@@ -136,6 +147,8 @@ public class Base_Canvas : MonoBehaviour
 
             Get_UI("UI_Rank", false, false, true);
         });
+
+        StartCoroutine(Delay_Start_Tutorial_Coroutine());
 
     }
     private void Update()
@@ -273,4 +286,65 @@ public class Base_Canvas : MonoBehaviour
     {
         LAUNCH_EVENT_Button.gameObject.SetActive(false);
     }
+    public void Start_Tutorial(Button original_Button)
+    {
+        Tutorial_Panel.gameObject.SetActive(true);
+
+        GameObject copy = Instantiate(original_Button.gameObject);
+        RectTransform copyRect = copy.GetComponent<RectTransform>();
+        RectTransform original_Rect = original_Button.GetComponent<RectTransform>();
+
+        copy.transform.SetParent(Tutorial_Panel.transform);
+
+        copyRect.anchorMin = new Vector2(0.5f, 0.5f);
+        copyRect.anchorMax = new Vector2(0.5f, 0.5f);
+        copyRect.pivot = new Vector2(0.5f, 0.5f);
+        copyRect.sizeDelta = original_Rect.sizeDelta;
+
+        copyRect.position = original_Rect.position;
+        copyRect.localScale = Vector3.one;
+
+        Button copy_Button = copy.GetComponent<Button>();
+        copy_Button.onClick = original_Button.onClick;
+        copy_Button.onClick.AddListener(() => End_Tutorial());
+    }
+
+    private void End_Tutorial()
+    {
+        for(int i = 0; i<Tutorial_Panel.transform.childCount; i++)
+        {
+            Destroy(Tutorial_Panel.transform.GetChild(i).gameObject);
+
+        }
+
+        Tutorial_Panel.gameObject.SetActive(false);
+    }
+
+    IEnumerator Delay_Start_Tutorial_Coroutine()
+    {
+        yield return new WaitForSecondsRealtime(2.0f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅 파티 키우기 세계에 오신 것을 환영합니다!");
+        yield return new WaitForSecondsRealtime(1.5f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("일일 퀘스트를 통하여, 기본 조작을 익혀봅니다.");
+        yield return new WaitForSecondsRealtime(1.0f);
+        Start_Tutorial(Daily_Quest_Button);
+    }
+
+    private void Tutorial_Daily_Quest()
+    {
+        if (Data_Manager.Main_Players_Data.DiaMond < 500) // 다이아가 500개 미만이면, 튜토리얼 진행중으로 간주
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("출석 보상을 수령해봅니다.");
+        }
+        else
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("일일 퀘스트 창을 닫고, 상점으로 향해볼까요?");
+        }
+    }
+
+   private void Tutorial_Daily_Close_And_Goto_Shop()
+    {
+        Start_Tutorial(Shop_Button);
+    }
+
 }

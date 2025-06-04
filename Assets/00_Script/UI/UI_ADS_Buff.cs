@@ -73,7 +73,7 @@ public class UI_ADS_Buff : UI_Base
             {
                 if (Data_Manager.Main_Players_Data.Buff_Timers[i] > 0.0f)
                 {
-                    Buttons_Fill[i].fillAmount = 1 - (Data_Manager.Main_Players_Data.Buff_Timers[i] / 21600.0f);
+                    Buttons_Fill[i].fillAmount = 1 - (Data_Manager.Main_Players_Data.Buff_Timers[i] / 43200.0f);
 
                     Timer_Text[i].text = Utils.GetTimer(Data_Manager.Main_Players_Data.Buff_Timers[i]);
                 }
@@ -103,7 +103,7 @@ public class UI_ADS_Buff : UI_Base
 
             else // 광고 구매자는 6시간 적용
             {
-                Data_Manager.Main_Players_Data.Buff_Timers[state_Value] = 21600.0f;
+                Data_Manager.Main_Players_Data.Buff_Timers[state_Value] = 43200.0f;
                 Set_Buff(state_Value, Get_Buff);
             }
 

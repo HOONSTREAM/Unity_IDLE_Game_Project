@@ -143,6 +143,8 @@ public class Main_UI : MonoBehaviour
     [Header("TUTORIAL")]
     [SerializeField]
     private GameObject Hand_Icon_Daily_Quest;
+    [SerializeField]
+    private GameObject Tutorial_Panel;
 
 
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
@@ -169,10 +171,7 @@ public class Main_UI : MonoBehaviour
     private void Start()
     {
         Show_Tutorial_First_Game_Start();
-
-        UI_Daily_Quest.OnDailyQuestUIOpened -= HandleDailyQuestUIOpened;
-        UI_Daily_Quest.OnDailyQuestUIOpened += HandleDailyQuestUIOpened;
-
+       
         Cleric_Component = GameObject.Find("Cleric").gameObject.GetComponent<Character>();
 
         Main_UI_PlayerInfo_Text_Check();
@@ -328,7 +327,7 @@ public class Main_UI : MonoBehaviour
 
                     else
                     {
-                        Data_Manager.Main_Players_Data.buff_x2_speed = 21600.0f;
+                        Data_Manager.Main_Players_Data.buff_x2_speed = 43200.0f;
                         Data_Manager.Main_Players_Data.isFastMode = true;
                     }
                                                                                           
@@ -883,10 +882,7 @@ public class Main_UI : MonoBehaviour
             StartCoroutine(Tutorial_Coroutine());
         }
     }
-    private void HandleDailyQuestUIOpened()
-    {
-        Hand_Icon_Daily_Quest.SetActive(false);
-    }
+      
 
     #region Coroutine
     IEnumerator Dead_Delay()

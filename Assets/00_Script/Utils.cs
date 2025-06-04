@@ -13,7 +13,7 @@ public class Utils
     public static readonly int TIER_SEASON = 1;  
 
     public static readonly int GOLD_DUNGEON_MULTIPLE_HARD = 10;
-    public static readonly int TIER_DUNGEON_FIRST_HARD = 22;
+    public static readonly int TIER_DUNGEON_FIRST_HARD = 30;
     public static readonly int DIA_DUNGEON_MULTIPLE_HARD = 20;
 
 

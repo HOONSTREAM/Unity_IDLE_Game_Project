@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,9 +12,19 @@ public class Daily_Quest_Parts : MonoBehaviour
     DailyQuest m_Quest;
     public GameObject CollectedPanel;
     UI_Daily_Quest parent;
+    public GameObject Hand_Icon;
+
+    public static Action Pressed_Daily_Quest_Parts_Reward;
 
     public void Init(DailyQuest quest, UI_Daily_Quest parentData)
     {
+        Hand_Icon.gameObject.SetActive(false);
+
+        if (TypeCount(quest.Type) >= quest.Goal)
+        {
+            Hand_Icon.gameObject.SetActive(true);
+        }
+
         parent = parentData;
         CheckInit(quest.Type);
         m_Quest = quest;
@@ -21,7 +32,9 @@ public class Daily_Quest_Parts : MonoBehaviour
         Description.text = quest.Quest_Description;
         RewardValue.text = quest.RewardCount.ToString();
         RewardImage.sprite = Utils.Get_Atlas(quest.Reward);
-        Count.text = string.Format("({0}/{1})", TypeCount(quest.Type), quest.Goal);       
+        Count.text = string.Format("({0}/{1})", TypeCount(quest.Type), quest.Goal);
+
+       
     }
 
     public void GetReward()
@@ -46,6 +59,9 @@ public class Daily_Quest_Parts : MonoBehaviour
             case Daily_Quest_Type.Dungeon_Dia: Data_Manager.Main_Players_Data.Dungeon_Dia_Clear = true; break;
 
         }
+
+        Pressed_Daily_Quest_Parts_Reward.Invoke();
+        Hand_Icon.gameObject.SetActive(false);
         parent.Init();
 
         Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
@@ -66,6 +82,12 @@ public class Daily_Quest_Parts : MonoBehaviour
         }
 
         CollectedPanel.SetActive(GetCollected);
+
+        if (CollectedPanel.activeSelf) // 보상 수령하였으면 핸드 아이콘 비활성화
+        {
+            Hand_Icon.gameObject.SetActive(false);
+        }
+
     }
 
     public int TypeCount(Daily_Quest_Type type)

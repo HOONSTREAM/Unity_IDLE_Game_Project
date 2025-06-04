@@ -11,6 +11,7 @@ public class UI_Daily_Quest : UI_Base
     List<Transform> InitPanels = new List<Transform>();
 
     public static event Action OnDailyQuestUIOpened;
+    public static event Action OnDailyQuestUIClosed;
 
     public override bool Init()
     {
@@ -33,14 +34,12 @@ public class UI_Daily_Quest : UI_Base
             InitPanels.Add(go.transform);
         }
 
-        //for (int i = 0; i < InitPanels.Count; i++)
-        //{
-        //    if (Data_Manager.Main_Players_Data.DailyQuests[i] == true)
-        //    {
-        //        InitPanels[i].SetAsLastSibling();
-        //    }
-        //}
-
         return base.Init();
+    }
+
+    public override void DisableOBJ()
+    {
+        OnDailyQuestUIClosed?.Invoke();
+        base.DisableOBJ();
     }
 }

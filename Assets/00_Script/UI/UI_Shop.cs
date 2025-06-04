@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,9 @@ using UnityEngine.UI;
 
 public class UI_Shop : UI_Base
 {
+
+    public static Action UI_Shop_First_Opened;
+
     #region 확률정보 패널
     [Header("Gacha_Percent_Info")]
     [SerializeField]
@@ -79,7 +83,8 @@ public class UI_Shop : UI_Base
     [SerializeField]
     private TextMeshProUGUI DIAMOND_GACHA_COUNT_TEXT;
 
-
+    [SerializeField]
+    private GameObject Tutorial_Panel;
 
     [Space(20f)]
     [Header("Money_Amount")]
@@ -90,7 +95,12 @@ public class UI_Shop : UI_Base
 
     private const int GACHA_PRICE_11 = 500;
     private const int GACHA_PRICE_55 = 2500;
-   
+
+    private void Awake()
+    {
+        UI_Shop_First_Opened -= Start_Tutorial_Hero_Gacha;
+        UI_Shop_First_Opened += Start_Tutorial_Hero_Gacha;
+    }
 
     public override bool Init()
     {
@@ -99,6 +109,7 @@ public class UI_Shop : UI_Base
         Set_Summon_Button();      
         Get_Init();
         Relic_Init();
+      
         return base.Init();
     }
 
@@ -247,7 +258,6 @@ public class UI_Shop : UI_Base
 
         Init();
     }
-
     public void Get_Free_Dia_Button()
     {
         if (Data_Manager.Main_Players_Data.FREE_DIA == true)
@@ -263,8 +273,6 @@ public class UI_Shop : UI_Base
 
         Init();
     }
-
-
     public void GachaButton_Relic(int value, bool ADS = false)
     {
         StartCoroutine(Relic_Gacha_Delay_Coroutine(value,ADS));
@@ -490,6 +498,45 @@ public class UI_Shop : UI_Base
     public void Disable_Dia_Gacha_Infomation_Panel()
     {
         Dia_Gacha_Infomation_Panel.gameObject.SetActive(false);
+    }
+
+    public void Start_Tutorial(Button original_Button)
+    {
+        Tutorial_Panel.gameObject.SetActive(true);
+
+        GameObject copy = Instantiate(original_Button.gameObject);
+        RectTransform copyRect = copy.GetComponent<RectTransform>();
+        RectTransform original_Rect = original_Button.GetComponent<RectTransform>();
+
+        copy.transform.SetParent(Tutorial_Panel.transform);
+
+        copyRect.anchorMin = new Vector2(0.5f, 0.5f);
+        copyRect.anchorMax = new Vector2(0.5f, 0.5f);
+        copyRect.pivot = new Vector2(0.5f, 0.5f);
+        copyRect.sizeDelta = original_Rect.sizeDelta;
+
+        copyRect.position = original_Rect.position;
+        copyRect.localScale = Vector3.one;
+
+        Button copy_Button = copy.GetComponent<Button>();
+        copy_Button.onClick = original_Button.onClick;
+        copy_Button.onClick.AddListener(() => End_Tutorial());
+    }
+
+    private void End_Tutorial()
+    {
+        for (int i = 0; i < Tutorial_Panel.transform.childCount; i++)
+        {
+            Destroy(Tutorial_Panel.transform.GetChild(i).gameObject);
+
+        }
+
+        Tutorial_Panel.gameObject.SetActive(false);
+    }
+
+    private void Start_Tutorial_Hero_Gacha()
+    {
+        Start_Tutorial(Hero_Summon_Button_11);
     }
     public override void DisableOBJ()
     {
