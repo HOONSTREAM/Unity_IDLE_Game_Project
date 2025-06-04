@@ -139,19 +139,13 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private Transform[] Button_Images;
 
-    [Space(20f)]
-    [Header("TUTORIAL")]
-    [SerializeField]
-    private GameObject Hand_Icon_Daily_Quest;
-    [SerializeField]
-    private GameObject Tutorial_Panel;
-
-
+    
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
     private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
 
     private bool isPopup = false;
     private Coroutine Legendary_Coroutine;
+    public static Action Dead_Frame_Pressed_Tutorial;
 
 
     private float clearPoolTimer = 0f;
@@ -422,11 +416,18 @@ public class Main_UI : MonoBehaviour
 
     public void Set_Boss_State()
     {
+
         if (!Can_Boss_Try)
         {
             Base_Canvas.instance.Get_TOP_Popup().Initialize("최소 10초 후에 도전 가능 합니다.");
             return;
         }
+
+        if (Utils.is_Tutorial)
+        {
+            Dead_Frame_Pressed_Tutorial?.Invoke();
+        }
+       
 
         Can_Boss_Try = false;
         Stage_Manager.isDead = false;
@@ -482,7 +483,6 @@ public class Main_UI : MonoBehaviour
             Base_Manager.BACKEND.Log_Clear_Dungeon(Stage_Manager.Dungeon_Enter_Type);
         }
     }
-
 
     public void Boss_Slider_Count(double hp = default, double MaxHp = default, double dmg = default)
     {
@@ -877,13 +877,11 @@ public class Main_UI : MonoBehaviour
     private void Show_Tutorial_First_Game_Start()
     {
         if (Data_Manager.Main_Players_Data.Player_Money == 0.0d && Data_Manager.Main_Players_Data.Player_Level == 0)
-        {
-            Debug.Log("처음 시작하는 유저");
+        {           
             StartCoroutine(Tutorial_Coroutine());
         }
     }
       
-
     #region Coroutine
     IEnumerator Dead_Delay()
     {
@@ -993,11 +991,9 @@ public class Main_UI : MonoBehaviour
     }
     IEnumerator Tutorial_Coroutine()
     {
-        yield return new WaitForSecondsRealtime(1.0f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅 파티 키우기 세계에 오신것을 환영합니다!");
-        yield return new WaitForSecondsRealtime(3.0f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("일일퀘스트를 따라, 여정을 시작하세요!");
-        Hand_Icon_Daily_Quest.gameObject.SetActive(true);      
+        yield return null;
+        Utils.is_Tutorial = true;
+        Base_Canvas.instance.Start_First_Tutorial();
     }
     #endregion
 }

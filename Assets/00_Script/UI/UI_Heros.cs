@@ -1,4 +1,5 @@
 using AssetKits.ParticleImage;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,11 +68,23 @@ public class UI_Heros : UI_Base
 
     private bool is_Hero_inBattle = false;
     private UI_Heros_Parts Clicked_Heros_Parts;
+    public static bool is_Hero_Set_Tutorial = false;
+    public static Action Pressed_Hero_Exit;
+    
     #endregion
 
     public override bool Init()
     {
         // 영웅배치패널 초기화
+
+        if (Utils.is_Tutorial)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("3명 이상의 영웅을 배치해보세요!");
+            is_Hero_Set_Tutorial = true;
+          
+        }
+
+       
 
         Main_Set_Hero_Panel();
 
@@ -107,7 +120,19 @@ public class UI_Heros : UI_Base
         return base.Init();
     }
     public override void DisableOBJ()
-    {        
+    {
+        if (is_Hero_Set_Tutorial)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅을 배치해보세요!");
+            return;
+        }
+
+        if (Utils.is_Tutorial)
+        {
+            Pressed_Hero_Exit?.Invoke();
+        }
+       
+
         Main_UI.Instance.Layer_Check(-1); // 버튼을 다시 원래 크기로 되돌립니다.
 
         Main_UI.Instance.FadeInOut(false, true, () =>
@@ -174,8 +199,12 @@ public class UI_Heros : UI_Base
     /// </summary>
     /// <param name="value"></param>
     public void Set_Character_Button(int value)
-    {
-        Debug.Log("Set_Character_Button실행");
+    {       
+        if (Base_Manager.Character.Set_Character.Count(c => c != null) >= 2)
+        {
+            is_Hero_Set_Tutorial = false;
+        }
+
         Base_Manager.Character.Get_Character(value, Character.Character_EN_Name);
         Initialize();
         Main_Set_Hero_Panel();

@@ -50,6 +50,10 @@ public class Base_Canvas : MonoBehaviour
     private Button Heros_Dictionary_Button;
     [SerializeField]
     private Button Rank_Button;
+    [SerializeField]
+    private Button Dead_Frame_Button;   
+    [SerializeField]
+    private GameObject Tutorial_Levelup_Button_Panel;
 
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
@@ -65,7 +69,8 @@ public class Base_Canvas : MonoBehaviour
 
     [SerializeField]
     private GameObject Tutorial_Panel;
-
+    [SerializeField]
+    private GameObject All_Block_Panel;
 
     
 
@@ -88,6 +93,14 @@ public class Base_Canvas : MonoBehaviour
         UI_Daily_Quest.OnDailyQuestUIOpened += Tutorial_Daily_Quest;
         Daily_Quest_Parts.Pressed_Daily_Quest_Parts_Reward -= Tutorial_Daily_Close_And_Goto_Shop;
         Daily_Quest_Parts.Pressed_Daily_Quest_Parts_Reward += Tutorial_Daily_Close_And_Goto_Shop;
+        UI_Shop.UI_Shop_First_Closed -= Start_Hero_Set_Tutorial;
+        UI_Shop.UI_Shop_First_Closed += Start_Hero_Set_Tutorial;
+        UI_Heros.Pressed_Hero_Exit -= Start_Press_DeadFrame_Tutorial;
+        UI_Heros.Pressed_Hero_Exit += Start_Press_DeadFrame_Tutorial;
+        Main_UI.Dead_Frame_Pressed_Tutorial -= Start_Tutorial_Levelup_Button;
+        Main_UI.Dead_Frame_Pressed_Tutorial += Start_Tutorial_Levelup_Button;
+        LevelUp_Button.Pressed_Levelup_Button_Tutorial -= Start_Levelup_Button_tutorial;
+        LevelUp_Button.Pressed_Levelup_Button_Tutorial += Start_Levelup_Button_tutorial;
 
         if (Data_Manager.Main_Players_Data.isBuyLAUNCH_EVENT)
         {
@@ -115,6 +128,7 @@ public class Base_Canvas : MonoBehaviour
 
             Get_UI("Shop", false, true, true, 5);
             UI_Shop.UI_Shop_First_Opened?.Invoke();
+
             }); 
 
         Dungeon_Button.onClick.AddListener(() =>
@@ -147,15 +161,64 @@ public class Base_Canvas : MonoBehaviour
 
             Get_UI("UI_Rank", false, false, true);
         });
-
-        StartCoroutine(Delay_Start_Tutorial_Coroutine());
-
+       
     }
     private void Update()
     {
         Get_Escape_Panel();        
     }
 
+    private void Start_Tutorial_Levelup_Button()
+    {
+        All_Block_Panel.gameObject.SetActive(true);
+        StartCoroutine(Start_Tutorial_Level_Button_Coroutine());
+    }
+    IEnumerator Start_Tutorial_Level_Button_Coroutine()
+    {
+        yield return new WaitForSecondsRealtime(3.0f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("몬스터와 보스를 처치하고 획득한 골드로, 강해질 수 있습니다.");
+        yield return new WaitForSecondsRealtime(2.0f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("성장방법은, 레벨업, 영웅강화, 각인 등이 있습니다.");
+        yield return new WaitForSecondsRealtime(2.0f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨업을 해서, 더욱 강해져봅시다!");
+        All_Block_Panel.gameObject.SetActive(false);
+        Tutorial_Levelup_Button_Panel.gameObject.SetActive(true);              
+    }
+    private void Start_Levelup_Button_tutorial()
+    {
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("기본 튜토리얼을 모두 마쳤습니다!");
+        Tutorial_Levelup_Button_Panel.gameObject.SetActive(false);    
+        Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+        Utils.is_Tutorial = false;
+    } 
+    private void Start_Hero_Set_Tutorial()
+    {       
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("이제 영웅을 배치하여, 전투에 임해봅니다.");
+        Start_Tutorial(Hero_Button);
+    }
+    private void Start_Press_DeadFrame_Tutorial()
+    {
+        StartCoroutine(DeadFrame_Tutorial_Coroutine());
+    }
+    IEnumerator DeadFrame_Tutorial_Coroutine()
+    {
+        All_Block_Panel.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(1.5f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("이런, 클레릭이 혼자 싸우다 패배했습니다.");
+        yield return new WaitForSecondsRealtime(2.5f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("전투에서 패배하게되면, BOSS 버튼이 열리고, 방치모드에 들어갑니다.");
+        yield return new WaitForSecondsRealtime(2.5f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("방치모드란, 데미지를 받지않고 무한 성장이 가능한 모드입니다.");
+        yield return new WaitForSecondsRealtime(2.5f);
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("이제, 영웅들을 불렀으니, 다음 스테이지에서 만나볼까요?");
+        All_Block_Panel.gameObject.SetActive(false);
+        Start_Tutorial(Dead_Frame_Button);
+
+    }
+    public void Start_First_Tutorial()
+    {
+        StartCoroutine(Delay_Start_Tutorial_Coroutine());
+    }
     private void Get_Escape_Panel()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -288,6 +351,12 @@ public class Base_Canvas : MonoBehaviour
     }
     public void Start_Tutorial(Button original_Button)
     {
+        if (!Utils.is_Tutorial)
+        {
+            Tutorial_Panel.gameObject.SetActive(false);
+            return;
+        }
+
         Tutorial_Panel.gameObject.SetActive(true);
 
         GameObject copy = Instantiate(original_Button.gameObject);
@@ -322,29 +391,43 @@ public class Base_Canvas : MonoBehaviour
 
     IEnumerator Delay_Start_Tutorial_Coroutine()
     {
+        All_Block_Panel.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2.0f);
         Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅 파티 키우기 세계에 오신 것을 환영합니다!");
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return new WaitForSecondsRealtime(2.0f);
         Base_Canvas.instance.Get_TOP_Popup().Initialize("일일 퀘스트를 통하여, 기본 조작을 익혀봅니다.");
         yield return new WaitForSecondsRealtime(1.0f);
+        All_Block_Panel.gameObject.SetActive(false);
         Start_Tutorial(Daily_Quest_Button);
     }
 
     private void Tutorial_Daily_Quest()
     {
-        if (Data_Manager.Main_Players_Data.DiaMond < 500) // 다이아가 500개 미만이면, 튜토리얼 진행중으로 간주
+        if (Utils.is_Tutorial)
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("출석 보상을 수령해봅니다.");
-        }
-        else
-        {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("일일 퀘스트 창을 닫고, 상점으로 향해볼까요?");
-        }
+            if (Data_Manager.Main_Players_Data.DiaMond < 500) // 다이아가 500개 미만이면, 튜토리얼 진행중으로 간주
+            {
+                UI_Daily_Quest.is_Tutorial_Attendance = true;
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("출석 보상을 수령해봅니다.");
+            }
+            else
+            {
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("일일 퀘스트 창을 닫고, 상점으로 향해볼까요?");
+                UI_Daily_Quest.is_Tutorial_Attendance = false;
+            }
+        }       
     }
 
+    /// <summary>
+    /// 일일퀘스트 창 튜토리얼을 마친 뒤에 발생하는 이벤트 메서드 체이닝 (상점 뽑기)
+    /// </summary>
    private void Tutorial_Daily_Close_And_Goto_Shop()
     {
-        Start_Tutorial(Shop_Button);
+        if (Utils.is_Tutorial)
+        {
+            Start_Tutorial(Shop_Button);
+        }
+       
     }
 
 }

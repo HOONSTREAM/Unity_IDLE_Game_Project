@@ -13,10 +13,16 @@ public class UI_Daily_Quest : UI_Base
     public static event Action OnDailyQuestUIOpened;
     public static event Action OnDailyQuestUIClosed;
 
+    public static bool is_Tutorial_Attendance = false;
+
+
     public override bool Init()
     {
-        OnDailyQuestUIOpened?.Invoke();
-
+        if (Utils.is_Tutorial)
+        {
+            OnDailyQuestUIOpened?.Invoke();
+        }
+       
         if (Garbage_Object.Count > 0)
         {
             for (int i = 0; i < Garbage_Object.Count; i++) Destroy(Garbage_Object[i]);
@@ -39,6 +45,11 @@ public class UI_Daily_Quest : UI_Base
 
     public override void DisableOBJ()
     {
+        if (is_Tutorial_Attendance)
+        {
+            return;
+        }
+
         OnDailyQuestUIClosed?.Invoke();
         base.DisableOBJ();
     }

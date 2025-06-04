@@ -27,6 +27,7 @@ public class Utils
     public static bool is_push_alarm_agree = false;
 
     public static bool is_Skill_Effect_Save_Mode = true;
+    public static bool is_Tutorial = false;
 
 
     public static int GetRandomDiamond()

@@ -60,7 +60,11 @@ public class Daily_Quest_Parts : MonoBehaviour
 
         }
 
-        Pressed_Daily_Quest_Parts_Reward.Invoke();
+        if (Utils.is_Tutorial)
+        {
+            Pressed_Daily_Quest_Parts_Reward?.Invoke();
+        }
+       
         Hand_Icon.gameObject.SetActive(false);
         parent.Init();
 

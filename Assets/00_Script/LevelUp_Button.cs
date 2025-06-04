@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -25,6 +26,7 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     private bool notified_1 = false;
 
     private Coroutine levelUpCoroutine;
+    public static Action Pressed_Levelup_Button_Tutorial;
 
     private void Start()
     {
@@ -104,6 +106,11 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     public void Exp_Up()
     {
+        if (Utils.is_Tutorial)
+        {
+            Pressed_Levelup_Button_Tutorial?.Invoke();
+        }
+
         if (Stage_Manager.M_State == Stage_State.Dead)
         {
             Base_Canvas.instance.Get_Toast_Popup().Initialize("사망 상태에서는, 레벨업이 불가합니다.");

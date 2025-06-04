@@ -10,6 +10,7 @@ public class UI_Shop : UI_Base
 {
 
     public static Action UI_Shop_First_Opened;
+    public static Action UI_Shop_First_Closed;
 
     #region 확률정보 패널
     [Header("Gacha_Percent_Info")]
@@ -39,6 +40,8 @@ public class UI_Shop : UI_Base
     private Button Hero_Summon_Button_11;
     [SerializeField]
     private Button Hero_Summon_Button_55;
+    [SerializeField]
+    private Button Exit_Button;
     [SerializeField]
     private TextMeshProUGUI ADS_Hero_Count;
     [SerializeField]
@@ -98,8 +101,16 @@ public class UI_Shop : UI_Base
 
     private void Awake()
     {
-        UI_Shop_First_Opened -= Start_Tutorial_Hero_Gacha;
-        UI_Shop_First_Opened += Start_Tutorial_Hero_Gacha;
+        if (Utils.is_Tutorial)
+        {
+            UI_Shop_First_Opened -= Start_Tutorial_Hero_Gacha;
+            UI_Shop_First_Opened += Start_Tutorial_Hero_Gacha;
+            UI_Gacha.Pressed_Tutorial_Gacha_Close_Button -= Start_Tutorial_Hero_Set;
+            UI_Gacha.Pressed_Tutorial_Gacha_Close_Button += Start_Tutorial_Hero_Set;
+            UI_Gacha.Pressed_Tutorial_Gacha_Close_Button -= End_Tutorial;
+            UI_Gacha.Pressed_Tutorial_Gacha_Close_Button += End_Tutorial;
+        }
+              
     }
 
     public override bool Init()
@@ -528,7 +539,6 @@ public class UI_Shop : UI_Base
         for (int i = 0; i < Tutorial_Panel.transform.childCount; i++)
         {
             Destroy(Tutorial_Panel.transform.GetChild(i).gameObject);
-
         }
 
         Tutorial_Panel.gameObject.SetActive(false);
@@ -536,10 +546,29 @@ public class UI_Shop : UI_Base
 
     private void Start_Tutorial_Hero_Gacha()
     {
-        Start_Tutorial(Hero_Summon_Button_11);
+        if (Utils.is_Tutorial)
+        {
+            Start_Tutorial(Hero_Summon_Button_11);
+        }
+        
+    }
+    private void Start_Tutorial_Hero_Set()
+    {
+        if (Utils.is_Tutorial)
+        {
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅을 뽑았으니, 영웅을 배치해봅니다. 상점에서 나가볼까요?");
+            Tutorial_Panel.gameObject.SetActive(false);
+            Start_Tutorial(Exit_Button);
+        }
+       
     }
     public override void DisableOBJ()
     {
+        if (Utils.is_Tutorial)
+        {
+            UI_Shop_First_Closed?.Invoke();
+        }
+
         Main_UI.Instance.Layer_Check(-1);
         _ = Base_Manager.BACKEND.WriteData();
         base.DisableOBJ();

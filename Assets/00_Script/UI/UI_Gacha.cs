@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,6 +29,7 @@ public class UI_Gacha : UI_Base
     private int Hero_Amount_Value_Count;
     private List<GameObject> Reset_Gacha_Hero_Card_List = new List<GameObject>();
 
+    public static Action Pressed_Tutorial_Gacha_Close_Button;
 
     private const int GACHA_RESUMMON_PRICE_11 = 500;
     private const int GACHA_RESUMMON_PRICE_55 = 2500;
@@ -125,7 +127,7 @@ public class UI_Gacha : UI_Base
 
             
             float R_Percentage = 0.0f;
-            float Percentage = Random.Range(0.0f, 100.0f);
+            float Percentage = UnityEngine.Random.Range(0.0f, 100.0f);
             var go = Instantiate(Gacha_Hero_Parts, Content); // 캐릭터 카드를 생성합니다.
             Reset_Gacha_Hero_Card_List.Add(go.gameObject);
             go.gameObject.SetActive(true);
@@ -154,8 +156,6 @@ public class UI_Gacha : UI_Base
             {
                 tooltip.Init(Ch_Scriptable_Data);
             }
-
-            //Base_Manager.BACKEND.Log_HeroSummon(Ch_Scriptable_Data, Hero_Amount_Value);
 
             go.sprite = Utils.Get_Atlas(rarity.ToString());
             go.transform.GetChild(1).GetComponent<Image>().sprite = Utils.Get_Atlas(Ch_Scriptable_Data.name);
@@ -194,6 +194,12 @@ public class UI_Gacha : UI_Base
         Blocking_Close_Button.gameObject.SetActive(false);
         Blocking_ReGaCha_Button.gameObject.SetActive(false);
         GameObject.Find("Shop").gameObject.GetComponent<UI_Shop>().Init();
+    }
+
+    public override void DisableOBJ()
+    {
+        Pressed_Tutorial_Gacha_Close_Button?.Invoke();
+        base.DisableOBJ();
     }
 
 }
