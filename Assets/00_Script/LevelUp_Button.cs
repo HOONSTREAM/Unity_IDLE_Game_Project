@@ -105,7 +105,7 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     }
 
     public void Exp_Up()
-    {
+    {       
         if (Utils.is_Tutorial)
         {
             Pressed_Levelup_Button_Tutorial?.Invoke();

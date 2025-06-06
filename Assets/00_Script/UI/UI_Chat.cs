@@ -27,29 +27,48 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
     private Queue<GameObject> chatItemPool = new Queue<GameObject>();
     private Dictionary<string, List<GameObject>> userChatItems = new Dictionary<string, List<GameObject>>();
     private bool isProcessing = false;
-    
-
+   
     private void Start()
     {
-        ChatClient = new ChatClient(this, new ChatClientArguments());
-
-        ChatClient.SendJoinOpenChannel(SERVER_GROUP_NAME, CHANNEL_NAME);
-
+       
         chatPanelPrefab = Resources.Load<GameObject>("PreFabs/ChatList_Panel");
 
         StartCoroutine(Loading_Chat_Obj_Coroutine());
+     
+        StartCoroutine(RejoinChatChannel());
+
     }
     private void Update()
     {
         ChatClient?.Update();
     }
+    public void EnqueueMessage(MessageInfo messageInfo)
+    {
+        messageQueue.Enqueue(messageInfo);
+        if (!isProcessing)
+            StartCoroutine(ProcessMessagesBatch());
+    }
     public void SendChatMessage()
     {
-        if (ChatInput == null || ChatClient == null || string.IsNullOrEmpty(ChatInput.text)) return;
+        if (ChatInput == null || string.IsNullOrEmpty(ChatInput.text)) return;
 
         string text = ChatInput.text;
         ChatInput.text = string.Empty;
-        ChatClient.SendChatMessage(SERVER_GROUP_NAME, CHANNEL_NAME, CHANNEL_NUMBER, text);
+
+        if (Chat_Manager.instance != null && Chat_Manager.instance.IsConnected)
+        {
+            
+            Chat_Manager.instance.SendUserMessage(text);
+        }
+    }
+    private IEnumerator RejoinChatChannel()
+    {
+        if (Chat_Manager.instance == null) yield break;
+
+        Chat_Manager.instance.LeaveChannel(); // 채널 퇴장
+        yield return new WaitForSeconds(0.5f); // 잠깐 대기
+
+        Chat_Manager.instance.RejoinChannel(); // 다시 입장 → 메시지 새로 수신
     }
     private GameObject GetChatItem()
     {
@@ -146,12 +165,29 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         chatItem.transform.SetParent(ChatContent.transform, false);
         chatItem.SetActive(true);
 
-        chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = messageInfo.Message;
-        chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = rank == "UnRank" ? "[UnRank]" : $"[랭킹 {rank}위]";
-        chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = color;
-        chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = messageInfo.GamerName;
-        chatItem.transform.GetChild(4).GetComponent<Image>().sprite = sprite;
+        var msgText = chatItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        var rankText = chatItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        var nameText = chatItem.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        var tierImage = chatItem.transform.GetChild(4).GetComponent<Image>();
 
+        if (messageInfo.Message.StartsWith("[SYSTEM]"))
+        {
+            msgText.text = messageInfo.Message.Replace("[SYSTEM]", "");
+            msgText.color = Color.cyan;
+            rankText.text = "[시스템]";
+            rankText.color = Color.cyan;
+            nameText.text = ""; // 시스템 메세지이므로 닉네임 생략
+            tierImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            msgText.text = messageInfo.Message;
+            rankText.text = rank == "UnRank" ? "[UnRank]" : $"[랭킹 {rank}위]";
+            rankText.color = color;
+            nameText.text = messageInfo.GamerName;
+            tierImage.sprite = sprite;
+            tierImage.gameObject.SetActive(true);
+        }
         // 캐싱
         if (!userChatItems.ContainsKey(messageInfo.GamerName))
             userChatItems[messageInfo.GamerName] = new List<GameObject>();
@@ -159,11 +195,16 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         userChatItems[messageInfo.GamerName].Add(chatItem);
     }
     public override void DisableOBJ()
-    {
-        ChatClient?.Dispose();
+    {       
         base.DisableOBJ();
     }
+    public void SendSystemStyledChat(string message)
+    {
+        if (ChatClient == null || string.IsNullOrEmpty(message))
+            return;
 
+        ChatClient.SendChatMessage(SERVER_GROUP_NAME, CHANNEL_NAME, CHANNEL_NUMBER, message);
+    }
     public void OnJoinChannel(ChannelInfo channelInfo)
     {
         Debug.Log($"채널 입장 완료: {channelInfo.ChannelGroup}/{channelInfo.ChannelName}");
@@ -198,6 +239,10 @@ public class UI_Chat : UI_Base, BackndChat.IChatClientListener
         StartCoroutine(UpdateRanksAfterLoad());
 
         isProcessing = false;
+    }
+    public void ReceiveInitialMessages(List<MessageInfo> messages)
+    {
+        StartCoroutine(ProcessInitialMessagesBatch(new List<MessageInfo>(messages)));
     }
     private IEnumerator UpdateRanksAfterLoad()
     {

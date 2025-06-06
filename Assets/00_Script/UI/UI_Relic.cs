@@ -351,9 +351,16 @@ public class UI_Relic : UI_Base
             if (holder.Hero_Card_Amount == 0)
             {
                 holder.Hero_Card_Amount += 1;
+                
             }
 
             Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+
+            if(Data.rarity >= Rarity.Epic)
+            {
+                Utils.SendSystemLikeMessage($"★ <color=#FFFF00>유물 [{Data.Item_Name}]</color>을(를) 강화했습니다!");
+            }
+            
             Base_Manager.SOUND.Play(Sound.BGS, "Victory");
         }
         Get_Relic_Information(Data, Clicked_Relic_Parts);

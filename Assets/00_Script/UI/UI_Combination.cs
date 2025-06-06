@@ -273,6 +273,7 @@ public class UI_Combination : UI_Base
                 var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Summon_Hero"];
                 Base_Manager.Inventory.Get_Item(item);
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 다크히어로 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[소환서 - 다크히어로]</color>를 제작했습니다!");
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
                 Set_Chaos_DarkHero_Book();
             }
@@ -299,6 +300,7 @@ public class UI_Combination : UI_Base
                 var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Summon_Chaos_Caster"];
                 Base_Manager.Inventory.Get_Item(item);
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 카오스캐스터 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[소환서 - 카오스캐스터]</color>를 제작했습니다!");
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
                 Set_Chaos_Chaos_Caster_Book();
             }
@@ -365,6 +367,7 @@ public class UI_Combination : UI_Base
                 Base_Manager.BACKEND.Log_Get_Dia("Combination_Dia");
                 
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("다이아몬드 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[다이아몬드 500개]</color>를 제작했습니다!");
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
 
                 Set_Meat_To_Dia();
@@ -387,7 +390,7 @@ public class UI_Combination : UI_Base
 
                 Base_Manager.BACKEND.Log_Get_Combination_Hondon_Ball("Combination_Hondon_Ball");
 
-                Base_Canvas.instance.Get_Toast_Popup().Initialize("혼돈의 구슬 제작 성공");
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("혼돈의 구슬 제작 성공");               
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
 
                 Set_Hondon_Potion_To_Hondon_Ball();

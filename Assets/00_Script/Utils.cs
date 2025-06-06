@@ -30,6 +30,17 @@ public class Utils
     public static bool is_Tutorial = false;
 
 
+    public static void SendSystemLikeMessage(string content)
+    {
+        if (Chat_Manager.instance == null || !Chat_Manager.instance.IsConnected)
+        {
+            Debug.LogWarning("[SYSTEM MSG] ChatManager가 준비되지 않았습니다.");
+            return;
+        }
+
+        Chat_Manager.instance.SendSystemMessage(content);
+    }
+
     public static int GetRandomDiamond()
     {
         float rand = UnityEngine.Random.Range(0f, 100f);
