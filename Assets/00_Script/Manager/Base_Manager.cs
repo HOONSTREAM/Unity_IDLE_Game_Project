@@ -199,10 +199,7 @@ public class Base_Manager : MonoBehaviour
             if (Utils.Offline_Timer_Check() >= Utils.OFFLINE_TIME_CHECK)
             {
                 if (Base_Canvas.instance != null)
-                    Base_Canvas.instance.Get_UI("OFFLINE_REWARD");
-
-                if (Base_Manager.SOUND != null)
-                    Base_Manager.SOUND.Play(Sound.BGS, "OFFLINE");
+                    Base_Canvas.instance.Get_UI("OFFLINE_REWARD");               
             }
         }
 

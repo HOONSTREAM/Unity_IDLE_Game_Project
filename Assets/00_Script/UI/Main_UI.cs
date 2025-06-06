@@ -138,8 +138,12 @@ public class Main_UI : MonoBehaviour
     [Header("BUTTONS")]
     [SerializeField]
     private Transform[] Button_Images;
+    [Space(20f)]
+    [Header("Fake_Loading_Panel")]
+    [SerializeField]
+    private GameObject Fake_Loading_Panel;
 
-    
+
     private List<TextMeshProUGUI> Bottom_Popup_Text = new List<TextMeshProUGUI>();
     private List<Coroutine> Bottom_Popup_Coroutine = new List<Coroutine>();
 
@@ -200,6 +204,8 @@ public class Main_UI : MonoBehaviour
             Utils.is_Skill_Effect_Save_Mode = false;
         }
 
+        StartCoroutine(FadeOutCoroutine());
+
     }
     private void Update()
     {
@@ -219,7 +225,36 @@ public class Main_UI : MonoBehaviour
             clearPoolTimer = 0f; // isDead가 아니면 타이머 초기화
         }
     }
-  
+
+    private IEnumerator FadeOutCoroutine()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        float elapsedTime = 0f;
+        Color initialColor_1 = Fake_Loading_Panel.gameObject.GetComponent<Image>().color;
+        Color initialColor_2 = Fake_Loading_Panel.gameObject.transform.GetChild(0).GetComponent<Image>().color;
+        while (elapsedTime < 1.0f)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / 1.0f);
+            Fake_Loading_Panel.gameObject.GetComponent<Image>().color = 
+                new Color(initialColor_1.r, initialColor_1.g, initialColor_1.b, alpha);
+            Fake_Loading_Panel.gameObject.transform.GetChild(0).GetComponent<Image>().color =
+                 new Color(initialColor_2.r, initialColor_2.g, initialColor_2.b, alpha);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        
+        Fake_Loading_Panel.gameObject.GetComponent<Image>().color = 
+            new Color(initialColor_1.r, initialColor_1.g, initialColor_1.b, 0f);
+        Fake_Loading_Panel.gameObject.transform.GetChild(0).GetComponent<Image>().color =
+                new Color(initialColor_2.r, initialColor_2.g, initialColor_2.b, 0f);
+
+        yield return new WaitForSeconds(1.0f);
+        Fake_Loading_Panel.gameObject.SetActive(false);
+    }
+
     private void Check_ADS_Fast_Mode()
     {
         if (Data_Manager.Main_Players_Data.buff_x2_speed > 0.0f)

@@ -179,28 +179,7 @@ public class Loading_Scene : MonoBehaviour
     /// 로고 페이드인아웃을 진행하고, 게임버전 체크를 진행합니다.
     /// </summary>
     public void LoadingMain()
-    {
-        var logoObj = GameObject.Find("LOGO");
-
-        if (logoObj != null)
-        {
-            var fadeOut = logoObj.GetComponent<Logo_FadeOut>();
-
-            if (fadeOut != null)
-            {
-                fadeOut.StartFadeOut();
-            }
-            else
-            {
-                Debug.LogWarning("LOGO 오브젝트에는 Logo_FadeOut 컴포넌트가 없습니다.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("LOGO 오브젝트가 씬에 존재하지 않습니다.");
-        }
-
-
+    {       
         bool check;
 
 #if UNITY_EDITOR
