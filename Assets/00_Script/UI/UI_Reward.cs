@@ -13,6 +13,7 @@ public class UI_Reward : UI_Base
     {
         switch (iapName)
         {
+
             case IAP_Holder.remove_ads: GetRewardInit("PACKAGE_ADS", 1); break;
             case IAP_Holder.package_1: GetRewardInit("PACKAGE_TODAY", 1); break;
             case IAP_Holder.package_2: GetRewardInit("PACKAGE_STRONG", 1); break;
@@ -25,9 +26,8 @@ public class UI_Reward : UI_Base
             case IAP_Holder.gold_30: GetRewardInit("Dungeon_Gold", 8); break;
             case IAP_Holder.start: GetRewardInit("START_Package", 1); break;
             case IAP_Holder.package_3: GetRewardInit("PACKAGE_DIAMOND", 1); break;
-            case IAP_Holder.hondon_2000: GetRewardInit("Hondon_Potion", 2000); break;
+            case IAP_Holder.hondon_2000: GetRewardInit("Scroll_Comb", 150000); break;
             case IAP_Holder.dia_gacha: GetRewardInit("Dia", Utils.GetRandomDiamond()); break;
-
 
         }
     }
@@ -44,8 +44,8 @@ public class UI_Reward : UI_Base
                 Base_Manager.BACKEND.Log_Get_Dia($"{ItemName}Dia_{Count}");
                 break;
 
-            case "Hondon_Potion":
-                Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount += 2000;                
+            case "Scroll_Comb":
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount += 150000;                
                 break;
 
             case "PACKAGE_ADS": 

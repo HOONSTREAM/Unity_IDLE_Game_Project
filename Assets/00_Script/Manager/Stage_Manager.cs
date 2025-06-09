@@ -96,7 +96,12 @@ public class Stage_Manager
                 Base_Manager.instance.StopAllPoolCoroutines(); 
                 Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
                 Data_Manager.Main_Players_Data.Player_Stage++;
-                Data_Manager.Main_Players_Data.Player_Max_Stage = Data_Manager.Main_Players_Data.Player_Stage;
+
+                if(Data_Manager.Main_Players_Data.Player_Max_Stage < Data_Manager.Main_Players_Data.Player_Stage)
+                {
+                    Data_Manager.Main_Players_Data.Player_Max_Stage = Data_Manager.Main_Players_Data.Player_Stage;
+                }
+                
 
                 if (bossTimerCoroutine != null)
                 {

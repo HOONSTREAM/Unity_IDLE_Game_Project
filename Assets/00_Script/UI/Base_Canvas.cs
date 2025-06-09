@@ -66,6 +66,8 @@ public class Base_Canvas : MonoBehaviour
     [HideInInspector]
     public Skill_ToolTip skill_tooltip = null;
     [HideInInspector]
+    public Status_ToolTip Status_tooltip = null;
+    [HideInInspector]
     public UI_Base UI;
     public static bool isSavingMode = false;
 
@@ -335,6 +337,15 @@ public class Base_Canvas : MonoBehaviour
         }
 
         return skill_tooltip;
+    }
+    public Status_ToolTip Get_Status_Item_Tooltip()
+    {
+        if (Status_tooltip == null) // 기존 툴팁이 없을 때만 새로 생성
+        {           
+            Status_tooltip = Instantiate(Resources.Load<Status_ToolTip>("UI/Status_ToolTip"), Base_Canvas.instance.transform);                  
+        }
+
+        return Status_tooltip;
     }
     public UI_Toast_Popup Get_Toast_Popup()
     {

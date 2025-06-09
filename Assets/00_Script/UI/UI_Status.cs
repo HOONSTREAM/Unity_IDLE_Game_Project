@@ -26,9 +26,11 @@ public class UI_Status : UI_Base
     private TextMeshProUGUI Player_Level_Text,User_NickName,Tier_Name,Ability, ATK, HP;
     [SerializeField]
     private TextMeshProUGUI GoldDrop, ItemDrop, Atk_Speed, Critical, Cri_Damage;
+    
 
     public override bool Init()
     {
+        
         Ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
         Player_Level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
         BackendReturnObject bro = Backend.BMember.GetUserInfo();

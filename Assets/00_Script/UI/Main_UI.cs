@@ -231,8 +231,14 @@ public class Main_UI : MonoBehaviour
         }
     }
 
+    public void Fake_Loading_Panel_Fade()
+    {
+        StartCoroutine(FadeOutCoroutine());
+    }
     private IEnumerator FadeOutCoroutine()
     {
+        Fake_Loading_Panel.gameObject.SetActive(true);
+
         yield return new WaitForSeconds(1.0f);
 
         float elapsedTime = 0f;
@@ -485,14 +491,12 @@ public class Main_UI : MonoBehaviour
     /// </summary>
     public void Set_Mode_Change_Idle_Mode()
     {
-
         Base_Manager.SOUND.Play(Sound.BGS, "Victory");
         Stage_Manager.isDead = true;
         Base_Manager.Stage.State_Change(Stage_State.Ready);
         Slider_Object_Check(Slider_Type.Default);
         Mode_Change_Button.gameObject.SetActive(false);
         
-
     }
 
     public void Monster_Slider_Count()

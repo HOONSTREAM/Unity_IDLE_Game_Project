@@ -83,7 +83,9 @@ public class UI_Smelt : UI_Base
 
         Opening = false;
 
-        _=Base_Manager.BACKEND.WriteData();
+        Base_Canvas.instance.Get_Toast_Popup().Initialize("각인이 완료되었습니다.");
+        Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+        _ =Base_Manager.BACKEND.WriteData();
     }
     private void Smelt_Request_Item_Count_Check()
     {
@@ -95,10 +97,19 @@ public class UI_Smelt : UI_Base
         var go = Instantiate(Smelt_Panel, Vertical_Content);
         Garbage.Add(go);
         go.SetActive(true);
+        go.transform.GetChild(1).gameObject.SetActive(false);
+        go.transform.GetChild(2).gameObject.SetActive(false);
         go.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Utils.String_Color_Rarity((Rarity)rarityValue) + StatusString(status);
         go.transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Utils.String_Color_Rarity((Rarity)rarityValue) + string.Format("{0:0.00}%", valueCount);
         go.GetComponent<Animator>().SetTrigger("Open");
-     
+        StartCoroutine(Smelt_Delay_Coroutine());
+        go.transform.GetChild(1).gameObject.SetActive(true);
+        go.transform.GetChild(2).gameObject.SetActive(true);     
+    }
+
+    private IEnumerator Smelt_Delay_Coroutine()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
     }
 
     /// <summary>

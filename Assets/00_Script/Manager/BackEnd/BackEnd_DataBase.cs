@@ -151,7 +151,8 @@ public partial class BackEnd_Manager : MonoBehaviour
             Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
             {
                 if (callback.IsSuccess())
-                {
+                {                    
+                    Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.DPS_LEADERBOARD_UUID, "USER", inDate, param);
                     Debug.Log("리더보드와 데이터 저장 성공");
                 }
                 else
