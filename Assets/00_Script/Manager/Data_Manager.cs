@@ -50,6 +50,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Last_Daily_Reset_Time = Utils.Get_Server_Time().ToString("yyyy-MM-dd");
         Data_Manager.Main_Players_Data.EXP = default;
         Data_Manager.Main_Players_Data.Player_Stage = 1;
+        Data_Manager.Main_Players_Data.Player_Max_Stage = 1;
         Data_Manager.Main_Players_Data.EXP_Upgrade_Count = 0;
         Data_Manager.Main_Players_Data.Buff_Timers[0] = 0;
         Data_Manager.Main_Players_Data.Buff_Timers[1] = 0;
@@ -113,6 +114,7 @@ public class BackendGameData
         param.Add("PLAYER_LEVEL", Data_Manager.Main_Players_Data.Player_Level);
         param.Add("PLAYER_EXP", Data_Manager.Main_Players_Data.EXP);
         param.Add("PLAYER_STAGE", Data_Manager.Main_Players_Data.Player_Stage);
+        param.Add("PLAYER_HIGH_STAGE", Data_Manager.Main_Players_Data.Player_Max_Stage);
         param.Add("EXP_UPGRADE_COUNT", Data_Manager.Main_Players_Data.EXP_Upgrade_Count);
         param.Add("BUFF_TIMER", Data_Manager.Main_Players_Data.Buff_Timers);            
         param.Add("QUEST_COUNT", Data_Manager.Main_Players_Data.Quest_Count);
@@ -307,6 +309,7 @@ public class Data
     public int Player_Level;
     public double EXP;
     public int Player_Stage = 1;
+    public int Player_Max_Stage = 1;
     public int EXP_Upgrade_Count;
     public float[] Buff_Timers = { 0.0f, 0.0f, 0.0f };
     public float buff_x2_speed;   

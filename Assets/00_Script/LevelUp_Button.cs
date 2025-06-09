@@ -30,7 +30,6 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     private void Start()
     {
-        InitEXP();
         Auto_Levelup_Stop_Button.gameObject.SetActive(false);
     }
 
@@ -117,25 +116,37 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
             return;
         }
 
-        if (Data_Manager.Main_Players_Data.Player_Money < Utils.Data.levelData.Get_LEVELUP_MONEY())
-        {
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("골드가 부족합니다.");
-            return;
-        }
-
+        
         ApplyLevelUp();
     }
 
     private void ApplyLevelUp()
     {
-        double levelUpCost = Utils.Data.levelData.Get_LEVELUP_MONEY();
-        Data_Manager.Main_Players_Data.Player_Money -= levelUpCost;
+        double unitCost = Utils.Data.levelData.Get_LEVELUP_MONEY();  // 1회 클릭당 드는 골드
+        Debug.Log($"{unitCost}의 1회 클릭당 드는 골드");
+        double unitExp = Utils.Data.levelData.Get_EXP();             // 1회 클릭당 증가하는 EXP
+        Debug.Log($"{unitExp}의 1회 클릭당 증가하는 EXP");
+        double maxExp = Utils.Data.levelData.Get_MAXEXP();           // 전체 EXP (100%)
+        Debug.Log($"{maxExp}의 전체 EXP");
+
+        double totalCost = unitCost * (maxExp / unitExp);            // 총 필요 골드
+        Debug.Log($"{totalCost}의 레벨업 필요 골드");
+
+        if (Data_Manager.Main_Players_Data.Player_Money < totalCost)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("골드가 부족합니다.");
+            return;
+        }
+
+        Data_Manager.Main_Players_Data.Player_Money -= totalCost;
         Data_Manager.Main_Players_Data.Levelup++;
-        Base_Manager.Player.EXP_UP();
+        Data_Manager.Main_Players_Data.Player_Level++;
 
-        InitEXP();
+        // ATK / HP 재계산
+        Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_Levelup_Next_ATK();
+        Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_Levelup_Next_HP();
+
         Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
-
         transform.DORewind();
         transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.25f);
     }
@@ -163,38 +174,30 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     private IEnumerator LevelUpAllCoroutine()
     {
         int levelsGained = 0;
-        int countPerFrame = 20;
 
         while (true)
         {
-            for (int i = 0; i < countPerFrame; i++)
-            {
-                double currentCost = Utils.Data.levelData.Get_LEVELUP_MONEY();
+            double unitCost = Utils.Data.levelData.Get_LEVELUP_MONEY();
+            double maxExp = Utils.Data.levelData.Get_MAXEXP();
+            double totalCost = unitCost * maxExp;
 
-                if (Data_Manager.Main_Players_Data.Player_Money < currentCost)
-                {
-                    Auto_Levelup_Stop_Button.gameObject.SetActive(false);
-                    break;
-                }
-                    
-                Data_Manager.Main_Players_Data.Player_Money -= currentCost;
-                Data_Manager.Main_Players_Data.Levelup++;
-                Base_Manager.Player.EXP_UP();
-                levelsGained++;
-            }
-
-            double nextCost = Utils.Data.levelData.Get_LEVELUP_MONEY();
-            if (Data_Manager.Main_Players_Data.Player_Money < nextCost)              
+            if (Data_Manager.Main_Players_Data.Player_Money < totalCost)
                 break;
 
+            Data_Manager.Main_Players_Data.Player_Money -= totalCost;
+            Data_Manager.Main_Players_Data.Levelup++;
+            Data_Manager.Main_Players_Data.Player_Level++;
+
+            // ATK/HP 갱신
+            Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_Levelup_Next_ATK();
+            Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_Levelup_Next_HP();
+
+            levelsGained++;
             yield return null; // 프레임 분산
         }
 
-        
-
         if (levelsGained > 0)
         {
-            InitEXP();
             Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
             transform.DORewind();
             transform.DOPunchScale(new Vector3(0.4f, 0.4f, 0.4f), 0.4f);
@@ -202,19 +205,9 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         else
         {
             Base_Canvas.instance.Get_Toast_Popup().Initialize("레벨업 가능한 골드가 없습니다.");
-            
         }
 
         levelUpCoroutine = null;
-    }
-
-    private void InitEXP()
-    {
-        Main_Exp_Silder.fillAmount = Base_Manager.Player.EXP_Percentage();
-        Exp_Text.text = string.Format("{0:0.0}", Base_Manager.Player.EXP_Percentage() * 100.0f) + "%";
-        ATK_Text.text = "+" + StringMethod.ToCurrencyString(Utils.Data.levelData.Get_Levelup_Next_ATK());
-        HP_Text.text = "+" + StringMethod.ToCurrencyString(Utils.Data.levelData.Get_Levelup_Next_ATK());
-        Get_Exp_Text.text = "<color=#00FF00>EXP</color> +" + string.Format("{0:0.0}", Base_Manager.Player.Next_EXP()) + "%";
     }
 
     public void StopAutoLevelUp()

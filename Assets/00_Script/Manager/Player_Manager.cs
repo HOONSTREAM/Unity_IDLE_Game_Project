@@ -102,7 +102,7 @@ public class Player_Manager
     /// <param name="rarity"></param>
     /// <param name="holder"></param>
     /// <returns></returns>
-    public double Get_ATK(Rarity rarity, Holder holder, string Hero_name)
+    public double Get_ATK(Rarity rarity, Holder holder, string Hero_name, bool NextUnit = false)
     {
         
         var holdingEffect = Check_Player_Holding_Effects();
@@ -111,6 +111,12 @@ public class Player_Manager
         var playerData = Data_Manager.Main_Players_Data;
 
         int cardLevel = holder.Hero_Level + 1;
+
+        if (NextUnit) // 다음레벨 공격력을 미리 검사함.
+        {
+            cardLevel = holder.Hero_Level + 2;
+        }
+
         double rarityMultiplier = RarityBonusTable.RarityMultiplier.TryGetValue(rarity, out double value) ? value : 1.0;
         double baseATK = Base_Manager.Data.Data_Character_Dictionary[Hero_name].Data.Base_ATK;
 
@@ -183,13 +189,19 @@ public class Player_Manager
     /// <param name="rarity"></param>
     /// <param name="holder"></param>
     /// <returns></returns>
-    public double Get_HP(Rarity rarity, Holder holder)
+    public double Get_HP(Rarity rarity, Holder holder, bool NextUnit = false)
     {
         var holdingEffect = Check_Player_Holding_Effects();
         var relicEffect = Check_Relic_Holding_Effects();
         var playerData = Data_Manager.Main_Players_Data;
 
         int cardLevel = holder.Hero_Level + 1;
+
+        if (NextUnit) // 다음레벨 체력을 미리 검사함.
+        {
+            cardLevel = holder.Hero_Level + 2;
+        }
+
         double rarityMultiplier = RarityBonusTable.RarityMultiplier.TryGetValue(rarity, out double rarityValue) ? rarityValue : 1.0;
         
 
@@ -264,7 +276,7 @@ public class Player_Manager
 
         return Total_HP;
 
-    }
+    }    
     /// <summary>
     /// 플레이어의 최종 전투력을 리턴합니다.
     /// </summary>
@@ -274,7 +286,7 @@ public class Player_Manager
         var value = Calculate_Player_ATK() + Calculate_Player_HP();
 
         return (ulong)value;
-    }
+    }   
     #endregion
 
     #region 부가능력치 계산

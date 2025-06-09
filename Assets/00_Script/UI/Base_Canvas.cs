@@ -51,7 +51,9 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Rank_Button;
     [SerializeField]
-    private Button Dead_Frame_Button;   
+    private Button Dead_Frame_Button;
+    [SerializeField]
+    private Button Select_Stage_Button;
     [SerializeField]
     private GameObject Tutorial_Levelup_Button_Panel;
 
@@ -148,6 +150,7 @@ public class Base_Canvas : MonoBehaviour
         Combination_Button.onClick.AddListener(() => Get_UI("UI_Combination", false, false, true));
         Post_Box_Button.onClick.AddListener(() => Get_UI("UI_PostBox", false, false, true));
         Chat_Button.onClick.AddListener(() => Get_UI("@Chat", false, false, true));
+        Select_Stage_Button.onClick.AddListener(() => Get_UI("UI_SELECT_STAGE", false, false, true));
 
         Rank_Button.onClick.AddListener(() =>
         {

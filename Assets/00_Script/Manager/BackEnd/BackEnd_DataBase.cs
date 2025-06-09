@@ -72,6 +72,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("PLAYER_LEVEL", data.Player_Level);
         param.Add("PLAYER_EXP", data.EXP);
         param.Add("PLAYER_STAGE", data.Player_Stage);
+        param.Add("PLAYER_HIGH_STAGE", data.Player_Max_Stage);
         param.Add("EXP_UPGRADE_COUNT", data.EXP_Upgrade_Count);
         param.Add("BUFF_TIMER", data.Buff_Timers);
         param.Add("ADS_TIMER", data.ADS_Timer);
@@ -954,6 +955,50 @@ public partial class BackEnd_Manager : MonoBehaviour
                 {
                     Debug.Log("Attendance_Date 컬럼이 존재합니다.");
                     data.Attendance_Last_Date = (gameDataJson[0]["Attendance_Date"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("PLAYER_HIGH_STAGE"))
+                {
+                    Debug.Log("PLAYER_HIGH_STAGE 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("PLAYER_HIGH_STAGE", data.Player_Max_Stage);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("PLAYER_HIGH_STAGE 컬럼이 존재합니다.");
+                    data.Player_Max_Stage = int.Parse(gameDataJson[0]["PLAYER_HIGH_STAGE"].ToString());
                 }
                 #endregion
 

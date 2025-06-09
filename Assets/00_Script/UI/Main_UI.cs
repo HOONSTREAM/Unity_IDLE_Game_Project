@@ -28,6 +28,11 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _levelup_money_text; // 캐릭터의 레벨업에 필요한 돈을 결정합니다.
     [SerializeField]
+    private TextMeshProUGUI _levelup_atk_amount; // 레벨업 시 공격력 증가량
+    [SerializeField]
+    private TextMeshProUGUI _levelup_hp_amount; // 레벨업 시 체력 증가량
+
+    [SerializeField]
     private TextMeshProUGUI _gold_text;
     [SerializeField]
     private TextMeshProUGUI _dia_text;
@@ -859,7 +864,14 @@ public class Main_UI : MonoBehaviour
     /// </summary>
     public void Main_UI_PlayerInfo_Text_Check()
     {
-        double Levelup_money_Value = Utils.Data.levelData.Get_LEVELUP_MONEY();
+        double unitCost = Utils.Data.levelData.Get_LEVELUP_MONEY();  // 1회 클릭당 드는 골드
+        
+        double unitExp = Utils.Data.levelData.Get_EXP();             // 1회 클릭당 증가하는 EXP
+        
+        double maxExp = Utils.Data.levelData.Get_MAXEXP();           // 전체 EXP (100%)
+        
+
+        double totalCost = unitCost * (maxExp / unitExp);            // 총 필요 골드
 
         Tier_Text.text = Utils.Set_Tier_Name();
         Tier_Image.sprite = Utils.Get_Atlas(Data_Manager.Main_Players_Data.Player_Tier.ToString());
@@ -874,8 +886,14 @@ public class Main_UI : MonoBehaviour
         Main_Char_HP_Text.text = StringMethod.ToCurrencyString(Cleric_Component.HP);
         _player_ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
 
-        _levelup_money_text.text = StringMethod.ToCurrencyString((Levelup_money_Value));
-        _levelup_money_text.color = Utils.Check_Levelup_Gold(Levelup_money_Value) ? Color.green : Color.red;
+        _levelup_money_text.text = StringMethod.ToCurrencyString((totalCost));
+        _levelup_money_text.color = Utils.Check_Levelup_Gold(totalCost) ? Color.green : Color.red;
+
+        var temp_atk = Utils.Data.levelData.Get_Levelup_Next_LEVEL_ATK() - Utils.Data.levelData.Get_Levelup_Next_ATK();
+        var temp_hp = Utils.Data.levelData.Get_Levelup_Next_LEVEL_HP() - Utils.Data.levelData.Get_Levelup_Next_HP();
+
+        _levelup_atk_amount.text = $"+ <color=#FFFF00>{StringMethod.ToCurrencyString(temp_atk)}</color>";
+        _levelup_hp_amount.text = $"+ <color=#FFFF00>{StringMethod.ToCurrencyString(temp_hp)}</color>";
 
         _gold_text.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money);
         _dia_text.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
