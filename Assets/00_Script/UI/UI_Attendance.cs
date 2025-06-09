@@ -76,11 +76,12 @@ public class UI_Attendance : UI_Base
 
     private void GiveReward(int day)
     {
-        int rewardAmount = (day == 15) ? 10000 : (day == 25) ? 20000 : 1000;
+        int rewardAmount = (day == 5 || day == 10 || day == 15 || day == 20) ? 10000 :
+                   (day == 25) ? 20000 : 1000;
 
         Base_Canvas.instance.Get_UI("UI_Reward");
         Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit("Dia", rewardAmount);
-
+        Base_Manager.BACKEND.Log_Get_Dia($"Attendance_Dia_{rewardAmount},Day : {day}");
         Base_Canvas.instance.Get_Toast_Popup().Initialize($"{day}일차 출석 보상으로 다이아 {rewardAmount}개를 받았습니다!");        
     }
 
