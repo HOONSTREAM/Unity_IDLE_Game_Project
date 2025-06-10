@@ -57,24 +57,52 @@ public class UI_Status : UI_Base
             Status_Bottom_Buttons[index].onClick.AddListener(() => Status_Menu_Check((Status_Type)index));
         }
 
-        Status_Item_Init();
-
+        if(Data_Manager.Main_Players_Data.Player_Max_Stage >= 20000)
+        {
+            Status_Item_Init();
+        }
+        
         return base.Init();
     }
 
     
     public void Status_Item_Init()
     {
+        var itemHolder = Base_Manager.Data.Status_Item_Holder;
+
+        // 모든 아이템이 Item_Amount == 0인지 확인
+        bool allZero = itemHolder.Values.All(item => item.Item_Amount <= 0);
+
+        if (allZero)
+        {
+            // 기본 장비 지급
+            if (itemHolder.ContainsKey("Weapon_1"))
+                itemHolder["Weapon_1"].Item_Amount = 1;
+
+            if (itemHolder.ContainsKey("Ring_1"))
+                itemHolder["Ring_1"].Item_Amount = 1;
+
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("20000층에 도달하여, 기본 성장장비가 지급됩니다.");
+        }
+
         var sort_Dictionary = Base_Manager.Data.Status_Item_Dictionary.OrderByDescending(x => x.Value.rarity);
 
         foreach (var item in sort_Dictionary)
         {
             if (Base_Manager.Data.Status_Item_Holder.ContainsKey(item.Value.name))
-            {                
-                Status_Parts_Weapon.Init(Utils.User_Status_Weapon_Item_Level(), Base_Manager.Data.Status_Item_Holder[item.Key]);
-                Status_Parts_ACC.Init(Utils.User_Status_ACC_Item_Level(), Base_Manager.Data.Status_Item_Holder[item.Key]);
+            {
+                if(Base_Manager.Data.Status_Item_Holder[item.Key].Item_Amount > 0 && item.Value.Position == "무기")
+                {
+                    Status_Parts_Weapon.Init(Utils.User_Status_Weapon_Item_Level(), Base_Manager.Data.Status_Item_Holder[item.Key]);
+                }
+                
+                if(Base_Manager.Data.Status_Item_Holder[item.Key].Item_Amount > 0 && item.Value.Position == "악세사리")
+                {
+                    Status_Parts_ACC.Init(Utils.User_Status_ACC_Item_Level(), Base_Manager.Data.Status_Item_Holder[item.Key]);
+                }               
             }
-        }       
+        }
+     
     }
     /// <summary>
     /// 유저가 원하는 메뉴를 누르면 바가 움직이는 기능을 구현합니다.

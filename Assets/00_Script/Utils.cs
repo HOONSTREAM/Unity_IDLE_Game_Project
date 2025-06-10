@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -37,21 +38,38 @@ public class Utils
     /// </summary>
     public static string User_Status_Weapon_Item_Level()
     {
-        if (Data_Manager.Main_Players_Data.Player_Level > 1)
+        var sort_Dictionary = Base_Manager.Data.Status_Item_Dictionary.OrderByDescending(x => x.Value.rarity);
+
+        foreach (var item in sort_Dictionary)
         {
-            return "Weapon_1";
+            if (Base_Manager.Data.Status_Item_Holder.ContainsKey(item.Value.name))
+            {
+                if (Base_Manager.Data.Status_Item_Holder[item.Key].Item_Amount > 0 && item.Value.Position == "무기")
+                {
+                    return item.Key;
+                }
+            }
         }
-        
-        return "Weapon_1";
+
+        return null;
+ 
     }
     public static string User_Status_ACC_Item_Level()
     {
-        if (Data_Manager.Main_Players_Data.Player_Level > 1)
+        var sort_Dictionary = Base_Manager.Data.Status_Item_Dictionary.OrderByDescending(x => x.Value.rarity);
+
+        foreach (var item in sort_Dictionary)
         {
-            return "Ring_1";
+            if (Base_Manager.Data.Status_Item_Holder.ContainsKey(item.Value.name))
+            {
+                if (Base_Manager.Data.Status_Item_Holder[item.Key].Item_Amount > 0 && item.Value.Position == "악세사리")
+                {
+                    return item.Key;
+                }
+            }
         }
 
-        return "Ring_1";
+        return null;
     }
 
     public static void SendSystemLikeMessage(string content)

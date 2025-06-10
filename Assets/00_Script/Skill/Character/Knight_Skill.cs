@@ -17,7 +17,7 @@ public class Knight_Skill : Skill_Base
     IEnumerator Set_Skill_Coroutine()
     {
         float originalAtkSpeed = m_Player.ATK_Speed;
-        double originalHP = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[KNIGHT_NAME]);
+        double originalHP = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[KNIGHT_NAME], KNIGHT_NAME);
 
         try
         {

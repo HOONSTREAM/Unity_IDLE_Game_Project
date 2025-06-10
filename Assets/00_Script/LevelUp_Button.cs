@@ -95,7 +95,7 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
         int Exp_Amount = (int)maxExp / (int)unitExp;
 
-        Data_Manager.Main_Players_Data.EXP_Upgrade_Count += Exp_Amount;
+       
 
         if (Data_Manager.Main_Players_Data.Player_Money < totalCost)
         {
@@ -110,6 +110,8 @@ public class LevelUp_Button : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         // ATK / HP Àç°è»ê
         Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_Levelup_Next_ATK();
         Data_Manager.Main_Players_Data.HP = Utils.Data.levelData.Get_Levelup_Next_HP();
+
+        Data_Manager.Main_Players_Data.EXP_Upgrade_Count += Exp_Amount;
 
         Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
         transform.DORewind();

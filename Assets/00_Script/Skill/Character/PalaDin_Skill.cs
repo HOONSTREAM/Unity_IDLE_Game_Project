@@ -18,7 +18,7 @@ public class PalaDin_Skill : Skill_Base
 
     IEnumerator Set_Skill_Coroutine()
     {
-        double originalHP = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[PALADIN_NAME]);
+        double originalHP = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[PALADIN_NAME], PALADIN_NAME);
 
         try
         {

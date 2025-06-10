@@ -50,6 +50,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             await SaveDefaultData(isMidnightRange);
             await SaveCharacterData();
             await SaveItemData();
+            await Save_Status_Item_Data();
             await SaveSmeltData();
             await SaveSetHeroData();
             await SaveSetRelicData();
@@ -213,6 +214,19 @@ public partial class BackEnd_Manager : MonoBehaviour
         Backend.GameData.Update("ITEM", new Where(), param, callback =>
         {
             Debug.Log(callback.IsSuccess() ? "아이템 저장 성공" : "아이템 저장 실패");
+        });
+
+        await Task.Yield();
+    }
+    private async Task Save_Status_Item_Data()
+    {
+        Param param = new Param();
+        string json = JsonConvert.SerializeObject(Base_Manager.Data.Status_Item_Holder);
+        param.Add("status_Item", json);
+
+        Backend.GameData.Update("STATUS_ITEM", new Where(), param, callback =>
+        {
+            Debug.Log(callback.IsSuccess() ? "성장장비 저장 성공" : "성장장비 저장 실패");
         });
 
         await Task.Yield();
@@ -1234,6 +1248,80 @@ public partial class BackEnd_Manager : MonoBehaviour
             Debug.LogError("인벤토리 데이터 조회에 실패했습니다. : " + item_bro);
         }
 
+        #endregion
+
+        #region STATUS_ITEM_DATA
+        Debug.Log("'STATUS_ITEM' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        var status_item_bro = Backend.GameData.GetMyData("STATUS_ITEM", new Where());
+
+        // 1. 응답 자체가 실패한 경우 - Insert하지 않음
+        if (!status_item_bro.IsSuccess())
+        {
+            Debug.LogError("성장장비 데이터 조회 실패 - 서버 오류 : " + status_item_bro);
+            return; // 또는 재시도 등 로직 추가
+        }
+
+        // 2. 조회는 성공했으나, 유저 데이터가 존재하지 않는 경우 - Insert
+        if (status_item_bro.Rows().Count == 0)
+        {
+            Debug.LogWarning("성장장비 데이터 없음. 새로 Insert 시도.");
+
+            Param status_item_param = new Param();
+            status_item_param.Add("status_Item", Base_Manager.Data.Status_Item_Holder);
+
+            var insertResult = Backend.GameData.Insert("STATUS_ITEM", status_item_param);
+            if (insertResult.IsSuccess())
+            {
+                Debug.Log("성장장비 데이터 추가 성공 : " + insertResult);
+            }
+            else
+            {
+                Debug.LogError("성장장비 데이터 추가 실패 : " + insertResult);
+            }
+
+            return;
+        }
+
+        // 3. 데이터 존재할 경우 파싱 처리
+        var status_rows = BackendReturnObject.Flatten(status_item_bro.Rows());
+
+        foreach (JsonData row in status_rows)
+        {
+            if (row.ContainsKey("status_Item"))
+            {
+                string charJsonData = row["status_Item"].ToString();
+                Dictionary<string, JsonData> status_item_Data = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(charJsonData);
+
+                foreach (var dict in status_item_Data.Keys)
+                {
+                    int Enhancement = status_item_Data[dict].ContainsKey("Enhancement") ? int.Parse(status_item_Data[dict]["Enhancement"].ToString()) : 0;                   
+                    double Additional_ATK = status_item_Data[dict].ContainsKey("Additional_ATK") ? double.Parse(status_item_Data[dict]["Additional_ATK"].ToString()) : 0;
+                    double Additional_HP = status_item_Data[dict].ContainsKey("Additional_HP") ? double.Parse(status_item_Data[dict]["Additional_HP"].ToString()) : 0;
+                    double Additional_STR = status_item_Data[dict].ContainsKey("Additional_STR") ? double.Parse(status_item_Data[dict]["Additional_STR"].ToString()) : 0;
+                    double Additional_DEX = status_item_Data[dict].ContainsKey("Additional_DEX") ? double.Parse(status_item_Data[dict]["Additional_DEX"].ToString()) : 0;
+                    double Additional_VIT = status_item_Data[dict].ContainsKey("Additional_VIT") ? double.Parse(status_item_Data[dict]["Additional_VIT"].ToString()) : 0;
+                    int Item_Level = status_item_Data[dict].ContainsKey("Item_Level") ? int.Parse(status_item_Data[dict]["Item_Level"].ToString()) : 0;
+                    int Item_Amount = status_item_Data[dict].ContainsKey("Item_Amount") ? int.Parse(status_item_Data[dict]["Item_Amount"].ToString()) : 0;
+
+                    Status_Item_Holder holder = new Status_Item_Holder
+                    {
+                        Enhancement = Enhancement,                       
+                        Additional_ATK = Additional_ATK,
+                        Additional_HP = Additional_HP,
+                        Additional_STR = Additional_STR,
+                        Additional_DEX = Additional_DEX,
+                        Additional_VIT = Additional_VIT,
+                        Item_Level = Item_Level,
+                        Item_Amount = Item_Amount
+                    };
+
+                    Base_Manager.Data.Status_Item_Holder[dict] = holder;
+                }
+            }
+        }
+
+        Base_Manager.Data.Init();
+        Debug.Log("성장장비 데이터 불러오기에 성공하였습니다.");
         #endregion
 
         #region SMELT_DATA

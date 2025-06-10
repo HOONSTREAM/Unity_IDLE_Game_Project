@@ -82,6 +82,32 @@ public class Player_Manager
         // 유저 ATK 추가
         baseATK += playerData.ATK;
 
+
+        foreach (var kvp in Base_Manager.Data.Status_Item_Holder)
+        {
+            string itemKey = kvp.Key;
+            var holderData = kvp.Value;
+
+            // 해당 이름의 ScriptableObject 불러오기
+            var scriptable = Base_Manager.Data.Status_Item_Dictionary[itemKey];
+           
+            if (holderData.Item_Amount > 0)
+            {
+                if (scriptable != null)
+                {
+                   
+                    baseATK += scriptable.Base_ATK;
+                    baseATK += scriptable.Base_STR * 1000000.0;
+                  
+                }
+              
+                baseATK += holderData.Additional_ATK;
+               
+                baseATK += holderData.Additional_STR * 1000000.0;
+            }
+        }
+
+
         // 광고 버프
         baseATK *= adsBuffValue;
 
@@ -142,7 +168,7 @@ public class Player_Manager
     /// <param name="rarity"></param>
     /// <param name="holder"></param>
     /// <returns></returns>
-    public double Get_HP(Rarity rarity, Holder holder, bool NextUnit = false)
+    public double Get_HP(Rarity rarity, Holder holder, string Hero_name, bool NextUnit = false)
     {
         var holdingEffect = Check_Player_Holding_Effects();
         var relicEffect = Check_Relic_Holding_Effects();
@@ -156,15 +182,41 @@ public class Player_Manager
         }
 
         double rarityMultiplier = RarityBonusTable.RarityMultiplier.TryGetValue(rarity, out double rarityValue) ? rarityValue : 1.0;
-        
+        double baseHP = Base_Manager.Data.Data_Character_Dictionary[Hero_name].Data.Base_HP;
 
 
         // 레벨 기반 HP 계산 (정수 곱셈 사용)
         double levelFactor = cardLevel * cardLevel;
-        double baseHP = levelFactor * 5.0 * rarityMultiplier;
+
+        baseHP *= levelFactor * 5.0 * rarityMultiplier;
 
         // 유저 HP 추가
         baseHP += playerData.HP;
+
+        // 성장장비 적용
+        foreach (var kvp in Base_Manager.Data.Status_Item_Holder)
+        {
+            string itemKey = kvp.Key;
+            var holderData = kvp.Value;
+
+            // 해당 이름의 ScriptableObject 불러오기
+            var scriptable = Base_Manager.Data.Status_Item_Dictionary[itemKey];
+
+            if (holderData.Item_Amount > 0)
+            {
+                if (scriptable != null)
+                {
+                    
+                    baseHP += scriptable.Base_HP;
+                    baseHP += scriptable.Base_VIT * 1000000.0;
+                    
+                }
+                baseHP += holderData.Additional_HP;
+                
+                baseHP += holderData.Additional_VIT * 1000000.0;
+                
+            }
+        }
 
         // 제련 효과
         baseHP *= 1.0 + (Base_Manager.Data.Get_smelt_value(Smelt_Status.HP) * 0.01);
@@ -223,7 +275,7 @@ public class Player_Manager
         {
             if (data.Value.Hero_Card_Amount > 0)
             {             
-                Total_HP += Base_Manager.Player.Get_HP(Base_Manager.Data.Data_Character_Dictionary[data.Key].Data.Rarity, data.Value);
+                Total_HP += Base_Manager.Player.Get_HP(Base_Manager.Data.Data_Character_Dictionary[data.Key].Data.Rarity, data.Value, data.Key);
             }
         }
 
@@ -469,7 +521,7 @@ public class Player_Manager
             { Rarity.Rare, 3.5 },
             { Rarity.Epic, 20.5 },
             { Rarity.Legendary, 60.0 },
-            { Rarity.Chaos, 120.0 }
+            { Rarity.Chaos, 180.0 }
         };
 
     }

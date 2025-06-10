@@ -278,7 +278,7 @@ public class UI_Heros : UI_Base
         Rarity_Text.text = Utils.String_Color_Rarity(Data.Rarity) + Data.KO_Rarity.ToString();
         Description_Text.text = CSV_Importer.Hero_DES_Design[heroID]["Hero_DES"].ToString();
         double atk = Base_Manager.Player.Get_ATK(Data.Rarity, Base_Manager.Data.character_Holder[Data.name], Data.name);
-        double hp = Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.character_Holder[Data.name]);
+        double hp = Base_Manager.Player.Get_HP(Data.Rarity, Base_Manager.Data.character_Holder[Data.name], Data.name);
 
         ATK.text = StringMethod.ToCurrencyString(atk);
         HP.text = StringMethod.ToCurrencyString(hp);

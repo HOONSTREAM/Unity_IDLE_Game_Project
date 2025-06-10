@@ -13,7 +13,13 @@ public class Status_ToolTip_Controller : MonoBehaviour, IPointerDownHandler
     }
 
     public void OnPointerDown(PointerEventData eventData)
-    {       
+    {
+        if (Data_Manager.Main_Players_Data.Player_Max_Stage < 20000)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("스테이지 20000층 이상부터 해금됩니다.");
+            return;
+        }
+
         Base_Canvas.instance.Get_Status_Item_Tooltip().Show_Status_Item_ToolTip(eventData.position, item);
     }
     

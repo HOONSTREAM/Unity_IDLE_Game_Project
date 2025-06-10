@@ -217,6 +217,22 @@ public class BackendGameData
             Debug.LogError("인벤토리 데이터를 추가하는데 실패했습니다. : " + item_bro);
         }
 
+        Param Status_item_param = new Param();
+
+        Status_item_param.Add("status_Item", Base_Manager.Data.Status_Item_Holder);
+
+
+        var Status_item_bro = Backend.GameData.Insert("STATUS_ITEM", Status_item_param);
+
+        if (Status_item_bro.IsSuccess())
+        {
+            Debug.Log("성장장비 데이터를 추가하는데 성공했습니다. : " + Status_item_bro);
+        }
+        else
+        {
+            Debug.LogError("성장장비 데이터를 추가하는데 실패했습니다. : " + Status_item_bro);
+        }
+
         Param smelt_param = new Param();
 
         smelt_param.Add("Smelt", Base_Manager.Data.User_Main_Data_Smelt_Array);
@@ -299,16 +315,15 @@ public class Status_Holder
 }
 
 public class Status_Item_Holder
-{
-    public Status_Item_Scriptable Data;
-    public int Enhancement;
-    public int Set_Effect_Amount; //세트효과 활성화 수
+{    
+    public int Enhancement;    
     public double Additional_ATK;
     public double Additional_HP;
     public double Additional_STR;
     public double Additional_DEX;
-    public double Additional_INT;
+    public double Additional_VIT;
     public double Item_Level;
+    public int Item_Amount;
 }
 
 
@@ -429,8 +444,7 @@ public class Data_Manager
     public Dictionary<string, Status_Item_Holder> Status_Item_Holder = new Dictionary<string, Status_Item_Holder>();
     public Dictionary<string, Status_Item_Scriptable> Status_Item_Dictionary = new Dictionary<string, Status_Item_Scriptable>(); // 스테이터스 성장장비 딕셔너리
     public Dictionary<string, Item_Scriptable> Data_Drop_Item_Dictionary = new Dictionary<string, Item_Scriptable>(); // 장비를 미 포함한 드롭아이템 딕셔너리
-    public Item_Scriptable[] Main_Set_Item = new Item_Scriptable[9]; // 유물 장착칸
-    public Status_Item_Scriptable[] Status_Set_Item = new Status_Item_Scriptable[2]; // 스테이터스 성장장비
+    public Item_Scriptable[] Main_Set_Item = new Item_Scriptable[9]; // 유물 장착칸   
     public List<Smelt_Holder> User_Main_Data_Smelt_Array = new List<Smelt_Holder>();
 
 

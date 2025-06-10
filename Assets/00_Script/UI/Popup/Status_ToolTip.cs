@@ -15,19 +15,16 @@ public class Status_ToolTip : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI Item_Name_Text, Rarity_Text, Item_Level_Text, Item_Position_Text, Item_Enhance_Level_Text;
     [SerializeField]
-    private TextMeshProUGUI Base_ATK, Base_HP, Base_STR, Base_DEX, Base_INT;
+    private TextMeshProUGUI Base_ATK, Base_HP, Base_STR, Base_DEX, Base_VIT;
     [SerializeField]
-    private TextMeshProUGUI Additional_ATK, Additional_HP, Additional_STR, Additional_DEX, Additional_INT;
-    [SerializeField]
-    private TextMeshProUGUI Set_Effect_Amount; // 세트효과 활성화 수 
-    [SerializeField]
-    private TextMeshProUGUI Set_Effect_Weapon, Set_Effect_ACC, Set_Effect_Description;
+    private TextMeshProUGUI Additional_ATK, Additional_HP, Additional_STR, Additional_DEX, Additional_VIT;   
     [SerializeField]
     private TextMeshProUGUI Weapon_Description;
     [SerializeField]
     private ParticleImage[] Legendary_Particle;
 
     private GameObject ToolTip_Background;
+    private Status_Item_Scriptable Selected_Status_Item;
 
     private string start_percent;
     private string effect_percent = default;
@@ -71,6 +68,7 @@ public class Status_ToolTip : MonoBehaviour
 
     public void Show_Status_Item_ToolTip(Vector2 screenPos, Status_Item_Scriptable status_item)
     {
+        Selected_Status_Item = status_item;
         RectTransform canvasRect = Base_Canvas.instance.GetComponent<RectTransform>();
 
         // 피벗은 (0.5, 0.5) 기준
@@ -91,48 +89,83 @@ public class Status_ToolTip : MonoBehaviour
         Base_HP.text = $"체력 : {status_item.Base_HP.ToString()}"; 
         Base_STR.text = $"STR : {status_item.Base_STR.ToString()}";
         Base_DEX.text = $"DEX : {status_item.Base_DEX.ToString()}";
-        Base_INT.text = $"INT : {status_item.Base_INT.ToString()}";
+        Base_VIT.text = $"VIT : {status_item.Base_VIT.ToString()}";
 
         Additional_ATK.text = $"추가 공격력 : {Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_ATK.ToString()}"; 
         Additional_HP.text = $"추가 체력 : {Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_HP.ToString()}";
         Additional_STR.text = $"추가 STR : {Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_STR.ToString()}";
         Additional_DEX.text = $"추가 DEX : {Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_DEX.ToString()}";
-        Additional_INT.text = $"추가 INT : {Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_INT.ToString()}";
+        Additional_VIT.text = $"추가 VIT : {Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_VIT.ToString()}";
 
-        Set_Effect_Amount.text = $"세트 효과 : ( {Base_Manager.Data.Status_Item_Holder[status_item.name].Set_Effect_Amount.ToString()} / 2 )"; 
-        Set_Effect_Weapon.text = status_item.Set_Effect_Weapon_Name;
-        Set_Effect_ACC.text = status_item.Set_Effect_ACC_Name;
-        Set_Effect_Description.text = status_item.Set_Effect_Description;
         Weapon_Description.text = status_item.Item_Description;
 
         switch (status_item.rarity)
         {
             case Rarity.Common:
                 Legendary_Particle[0].gameObject.SetActive(true);
-                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.4f);
                 break;
             case Rarity.UnCommon:
+                Legendary_Particle[0].gameObject.SetActive(false);
                 Legendary_Particle[1].gameObject.SetActive(true);
-                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0f, 1f, 0f, 1f);
+                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0f, 1f, 0f, 0.4f);
                 break;
             case Rarity.Rare:
+                Legendary_Particle[0].gameObject.SetActive(false);
+                Legendary_Particle[1].gameObject.SetActive(false);
                 Legendary_Particle[2].gameObject.SetActive(true);
-                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0f, 0f, 1f, 1f);
+                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.4f);
                 break;
             case Rarity.Epic:
+                Legendary_Particle[0].gameObject.SetActive(false);
+                Legendary_Particle[1].gameObject.SetActive(false);
+                Legendary_Particle[2].gameObject.SetActive(false);
                 Legendary_Particle[3].gameObject.SetActive(true);
-                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0.5f, 0f, 0.5f, 1f);
+                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(0.5f, 0f, 0.5f, 0.4f);
                 break;
             case Rarity.Legendary:
+                Legendary_Particle[0].gameObject.SetActive(false);
+                Legendary_Particle[1].gameObject.SetActive(false);
+                Legendary_Particle[2].gameObject.SetActive(false);
+                Legendary_Particle[3].gameObject.SetActive(false);
                 Legendary_Particle[4].gameObject.SetActive(true);
-                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(1f, 1f, 0f, 1f);
+                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(1f, 1f, 0f, 0.4f);
                 break;
             case Rarity.Chaos:
+                Legendary_Particle[0].gameObject.SetActive(false);
+                Legendary_Particle[1].gameObject.SetActive(false);
+                Legendary_Particle[2].gameObject.SetActive(false);
+                Legendary_Particle[3].gameObject.SetActive(false);
+                Legendary_Particle[4].gameObject.SetActive(false);
                 Legendary_Particle[5].gameObject.SetActive(true);
-                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(1f, 0f, 0f, 1f);
+                this.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(1f, 0f, 0f, 0.4f);
                 break;
 
         }
+    }
+
+    public void Increase_Rarity()
+    {
+        if(Selected_Status_Item != null)
+        {
+            if (Selected_Status_Item.rarity == Rarity.Common && Selected_Status_Item.Position == "무기")
+            {
+                Base_Manager.Data.Status_Item_Holder[Selected_Status_Item.name].Item_Amount = 0;
+                Base_Manager.Data.Status_Item_Holder["Weapon_2"].Item_Amount = 1;
+                Destroy(this.gameObject);
+                Destroy(ToolTip_Background);
+                GameObject.Find("@Status").gameObject.GetComponent<UI_Status>().Init();
+            }
+            if (Selected_Status_Item.rarity == Rarity.Common && Selected_Status_Item.Position == "악세사리")
+            {
+                Base_Manager.Data.Status_Item_Holder[Selected_Status_Item.name].Item_Amount = 0;
+                Base_Manager.Data.Status_Item_Holder["Ring_2"].Item_Amount = 1;
+                Destroy(this.gameObject);
+                Destroy(ToolTip_Background);
+                GameObject.Find("@Status").gameObject.GetComponent<UI_Status>().Init();
+            }
+        }
+        
     }
 
 }

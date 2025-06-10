@@ -187,7 +187,7 @@ public class Player : Character
     public void Set_ATK_HP_Sub_Hero()
     {
         ATK = Base_Manager.Player.Get_ATK(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name],CH_Data.name);
-        HP = Base_Manager.Player.Get_HP(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name]);
+        HP = Base_Manager.Player.Get_HP(CH_Data.Rarity, Base_Manager.Data.character_Holder[CH_Data.name], CH_Data.name);
         ATK_Speed = CH_Data.M_Attack_Speed + Base_Manager.Player.Calculate_Atk_Speed_Percentage();
     }
 
