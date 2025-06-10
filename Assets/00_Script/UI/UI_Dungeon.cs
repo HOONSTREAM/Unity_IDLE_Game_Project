@@ -54,9 +54,9 @@ public class UI_Dungeon : UI_Base
 
         for(int i = 0; i < Data_Manager.Main_Players_Data.Dungeon_Clear_Level.Length; i++) // 최고난이도 적용
         {
-            if (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] >= 99)
+            if (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] >= Utils.DIA_AND_GOLD_DUNGEON_MAX_LEVEL)
             {
-                Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] = 99;
+                Data_Manager.Main_Players_Data.Dungeon_Clear_Level[i] = Utils.DIA_AND_GOLD_DUNGEON_MAX_LEVEL;
             }
         }
   
@@ -140,13 +140,13 @@ public class UI_Dungeon : UI_Base
                 Data_Manager.Main_Players_Data.USER_DPS_LEVEL = temp;
             }
 
-            if (Data_Manager.Main_Players_Data.USER_DPS_LEVEL >= 199)
+            if (Data_Manager.Main_Players_Data.USER_DPS_LEVEL >= Utils.DPS_DUNGEON_MAX_LEVEL)
             {
-                Data_Manager.Main_Players_Data.USER_DPS_LEVEL = 199;
+                Data_Manager.Main_Players_Data.USER_DPS_LEVEL = Utils.DPS_DUNGEON_MAX_LEVEL;
             }
         }
 
-        if(Data_Manager.Main_Players_Data.USER_DPS_LEVEL < 199)
+        if(Data_Manager.Main_Players_Data.USER_DPS_LEVEL < Utils.DPS_DUNGEON_MAX_LEVEL)
         {
             NOW_USER_DPS_LEVEL.text = $"<color=#FFFF00>{Data_Manager.Main_Players_Data.USER_DPS_LEVEL}</color>단계";
             Now_User_DPS.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.USER_DPS);
@@ -206,6 +206,15 @@ public class UI_Dungeon : UI_Base
     }
     public void Get_Dungeon(int value)
     {
+        if(value == 3)
+        {
+            if(Data_Manager.Main_Players_Data.USER_DPS_LEVEL >= 249)
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("최고 단계에 달성하셨습니다.");
+                return;
+            }
+        }
+
         var playerData = Data_Manager.Main_Players_Data;
         
 
@@ -378,9 +387,9 @@ public class UI_Dungeon : UI_Base
             Dungeon_Levels[KeyValue].text = (Level[KeyValue] + 1).ToString();
         }
 
-        if (Level[KeyValue] >= 99)
+        if (Level[KeyValue] >= Utils.DIA_AND_GOLD_DUNGEON_MAX_LEVEL)
         {
-            Level[KeyValue] = 99;
+            Level[KeyValue] = Utils.DIA_AND_GOLD_DUNGEON_MAX_LEVEL;
             Dungeon_Levels[KeyValue].text = (Level[KeyValue] + 1).ToString();
             Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 난이도에 도달하였습니다.");           
         }
@@ -420,7 +429,7 @@ public class UI_Dungeon : UI_Base
         var playerData = Data_Manager.Main_Players_Data;
         int currentLevel = playerData.USER_DPS_LEVEL;
 
-        if(playerData.USER_DPS_LEVEL >= 199)
+        if(playerData.USER_DPS_LEVEL >= Utils.DPS_DUNGEON_MAX_LEVEL)
         {
             Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 전투력에 달성하였습니다.");
             return;

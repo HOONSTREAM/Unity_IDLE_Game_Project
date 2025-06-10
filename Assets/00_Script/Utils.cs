@@ -15,7 +15,8 @@ public class Utils
     public static readonly int GOLD_DUNGEON_MULTIPLE_HARD = 10;
     public static readonly int TIER_DUNGEON_FIRST_HARD = 30;
     public static readonly int DIA_DUNGEON_MULTIPLE_HARD = 20;
-
+    public static readonly int DPS_DUNGEON_MAX_LEVEL = 249;
+    public static readonly int DIA_AND_GOLD_DUNGEON_MAX_LEVEL = 199;
 
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");
     public static int[] summon_level = { 10, 45, 110, 250, 300, 500, 750, 1000, 1240 };
@@ -30,6 +31,28 @@ public class Utils
     public static bool is_Skill_Effect_Save_Mode = true;
     public static bool is_Tutorial = false;
 
+
+    /// <summary>
+    /// 유저의 스테이터스 성장장비 무기의 등급을 불러옵니다.
+    /// </summary>
+    public static string User_Status_Weapon_Item_Level()
+    {
+        if (Data_Manager.Main_Players_Data.Player_Level > 1)
+        {
+            return "Weapon_1";
+        }
+        
+        return "Weapon_1";
+    }
+    public static string User_Status_ACC_Item_Level()
+    {
+        if (Data_Manager.Main_Players_Data.Player_Level > 1)
+        {
+            return "Ring_1";
+        }
+
+        return "Ring_1";
+    }
 
     public static void SendSystemLikeMessage(string content)
     {

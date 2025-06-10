@@ -2,8 +2,8 @@ using BackEnd;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +19,10 @@ public class UI_Status : UI_Base
     private Button[] Status_Bottom_Buttons;
     [SerializeField]
     private GameObject[] Panel_Objs;
+    [SerializeField]
+    private UI_Status_Parts Status_Parts_Weapon;
+    [SerializeField]
+    private UI_Status_Parts Status_Parts_ACC;
 
     [SerializeField]
     private Image Tier_Image;
@@ -53,11 +57,25 @@ public class UI_Status : UI_Base
             Status_Bottom_Buttons[index].onClick.AddListener(() => Status_Menu_Check((Status_Type)index));
         }
 
+        Status_Item_Init();
+
         return base.Init();
     }
 
     
+    public void Status_Item_Init()
+    {
+        var sort_Dictionary = Base_Manager.Data.Status_Item_Dictionary.OrderByDescending(x => x.Value.rarity);
 
+        foreach (var item in sort_Dictionary)
+        {
+            if (Base_Manager.Data.Status_Item_Holder.ContainsKey(item.Value.name))
+            {                
+                Status_Parts_Weapon.Init(Utils.User_Status_Weapon_Item_Level(), Base_Manager.Data.Status_Item_Holder[item.Key]);
+                Status_Parts_ACC.Init(Utils.User_Status_ACC_Item_Level(), Base_Manager.Data.Status_Item_Holder[item.Key]);
+            }
+        }       
+    }
     /// <summary>
     /// 유저가 원하는 메뉴를 누르면 바가 움직이는 기능을 구현합니다.
     /// </summary>

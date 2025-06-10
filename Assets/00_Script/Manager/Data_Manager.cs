@@ -292,6 +292,26 @@ public class Item_Holder
     public Holder holder;
 }
 
+public class Status_Holder
+{
+    public Status_Item_Scriptable Data;
+    public Status_Item_Holder holder;
+}
+
+public class Status_Item_Holder
+{
+    public Status_Item_Scriptable Data;
+    public int Enhancement;
+    public int Set_Effect_Amount; //세트효과 활성화 수
+    public double Additional_ATK;
+    public double Additional_HP;
+    public double Additional_STR;
+    public double Additional_DEX;
+    public double Additional_INT;
+    public double Item_Level;
+}
+
+
 public class Holder
 {
     public int Hero_Level;
@@ -406,15 +426,19 @@ public class Data_Manager
     public Dictionary<string, Holder> Item_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Holder> character_Holder = new Dictionary<string, Holder>();
     public Dictionary<string, Item_Scriptable> Data_Item_Dictionary = new Dictionary<string, Item_Scriptable>(); // 장비를 포함한 모든 아이템 딕셔너리
+    public Dictionary<string, Status_Item_Holder> Status_Item_Holder = new Dictionary<string, Status_Item_Holder>();
+    public Dictionary<string, Status_Item_Scriptable> Status_Item_Dictionary = new Dictionary<string, Status_Item_Scriptable>(); // 스테이터스 성장장비 딕셔너리
     public Dictionary<string, Item_Scriptable> Data_Drop_Item_Dictionary = new Dictionary<string, Item_Scriptable>(); // 장비를 미 포함한 드롭아이템 딕셔너리
     public Item_Scriptable[] Main_Set_Item = new Item_Scriptable[9]; // 유물 장착칸
+    public Status_Item_Scriptable[] Status_Set_Item = new Status_Item_Scriptable[2]; // 스테이터스 성장장비
     public List<Smelt_Holder> User_Main_Data_Smelt_Array = new List<Smelt_Holder>();
 
 
     public void Init()
     {
         Set_Character();
-        Set_Item();       
+        Set_Item();
+        Set_Status_Item();
     }
     public Character_Scriptable Get_Rarity_Character(Rarity rarity)
     {
@@ -509,6 +533,35 @@ public class Data_Manager
                 }             
             }
             
+        }
+    }
+    private void Set_Status_Item()
+    {
+        var datas = Resources.LoadAll<Status_Item_Scriptable>("Scriptable/Status_Item");
+
+        foreach (var data in datas)
+        {
+            var item = new Status_Holder();
+
+            item.Data = data;
+
+            Status_Item_Holder holder = new Status_Item_Holder();
+
+            if (Status_Item_Holder.ContainsKey(data.name))
+            {
+                holder = Status_Item_Holder[data.name];
+            }
+            else
+            {
+                Status_Item_Holder.Add(data.name, holder);
+            }
+
+            item.holder = holder;
+
+            if (!Status_Item_Dictionary.ContainsKey(data.name))
+            {
+                Status_Item_Dictionary.Add(data.name, item.Data);
+            }
         }
     }
     public void Set_Player_ATK_HP()
