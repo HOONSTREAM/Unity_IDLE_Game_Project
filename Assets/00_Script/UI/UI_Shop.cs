@@ -218,41 +218,66 @@ public class UI_Shop : UI_Base
     }
     public void ADS_Free_Dia_Button()
     {
-        if (Data_Manager.Main_Players_Data.ADS_FREE_DIA == true)
+        if (Data_Manager.Main_Players_Data.ADS_FREE_DIA)
         {
             Base_Canvas.instance.Get_Toast_Popup().Initialize("금일 최대 횟수를 이용하였습니다. 자정이후 초기화됩니다.");
             return;
         }
 
-        Data_Manager.Main_Players_Data.ADS_FREE_DIA = true;
-
         Base_Manager.ADS.ShowRewardedAds(() =>
         {
-            Base_Canvas.instance.Get_UI("UI_Reward");
-            Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit("Dia", 800); // 보상지급
+            StartCoroutine(WaitForUIRewardAndGive("Dia", 800));
         });
 
+        Data_Manager.Main_Players_Data.ADS_FREE_DIA = true;
         Base_Manager.BACKEND.Log_Get_Dia("ADS_FREE_DIA_SHOP");
 
         Init();
     }
     public void ADS_Free_Steel_Button()
     {
-        if (Data_Manager.Main_Players_Data.ADS_FREE_STEEL == true)
+        if (Data_Manager.Main_Players_Data.ADS_FREE_STEEL)
         {
             Base_Canvas.instance.Get_Toast_Popup().Initialize("금일 최대 횟수를 이용하였습니다. 자정이후 초기화됩니다.");
             return;
         }
 
-        Data_Manager.Main_Players_Data.ADS_FREE_STEEL = true;
         Base_Manager.ADS.ShowRewardedAds(() =>
         {
-            Base_Canvas.instance.Get_UI("UI_Reward");
-            Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit("Steel", 150); // 보상지급
+            StartCoroutine(WaitForUIRewardAndGive("Steel", 150));
         });
-        
+
+        Data_Manager.Main_Players_Data.ADS_FREE_STEEL = true;
 
         Init();
+    }
+    private IEnumerator WaitForUIRewardAndGive(string rewardType, int amount)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        // UI 열기 시도 (비동기 생성)
+        Base_Canvas.instance.Get_UI("UI_Reward");
+
+        float timeout = 2f;
+        float elapsed = 0f;
+
+        // UI_Holder에 Reward UI가 올라올 때까지 최대 2초 대기
+        while (elapsed < timeout)
+        {
+            var top = Utils.UI_Holder.Peek();
+            if (top != null && top.GetComponent<UI_Reward>() != null)
+            {
+                var reward = top.GetComponent<UI_Reward>();
+                reward.GetRewardInit(rewardType, amount);
+                yield break;
+            }
+
+            yield return null;
+            elapsed += Time.unscaledDeltaTime;
+        }
+
+        // 실패 시 예외 메시지 출력
+        Debug.LogError("UI_Reward 로딩 타임아웃");
+        Base_Canvas.instance.Get_Toast_Popup().Initialize("보상 UI를 불러오지 못했습니다.");
     }
     public void Get_Free_Scroll_Comb_Button()
     {

@@ -30,6 +30,8 @@ public class UI_Status : UI_Base
     private TextMeshProUGUI Player_Level_Text,User_NickName,Tier_Name,Ability, ATK, HP;
     [SerializeField]
     private TextMeshProUGUI GoldDrop, ItemDrop, Atk_Speed, Critical, Cri_Damage;
+    [SerializeField]
+    private TextMeshProUGUI STR, DEX, VIT;
     
 
     public override bool Init()
@@ -45,6 +47,10 @@ public class UI_Status : UI_Base
         GoldDrop.text = $"{100 + Base_Manager.Player.Calculate_Gold_Drop_Percentage() * 100}%";
         ItemDrop.text = $"{100 + (Base_Manager.Player.Calculate_Item_Drop_Percentage())}%";     
         Atk_Speed.text = $"{100 + Base_Manager.Player.Calculate_Atk_Speed_Percentage() * 100}%";
+
+        Calculate_Status_Stat_Text();
+
+
         Critical.text = string.Format("{0:0.0}%", Base_Manager.Player.Calculate_Critical_Percentage());
         Cri_Damage.text = string.Format("{0:0.0}%", Base_Manager.Player.Calculate_Cri_Damage_Percentage());
         Tier_Name.text = Utils.Set_Tier_Name();
@@ -65,7 +71,46 @@ public class UI_Status : UI_Base
         return base.Init();
     }
 
-    
+    /// <summary>
+    /// 스테이터스 창에 나타나는 성장장비의 총 스텟 합계를 계산하여 스테이터스 창에 나타냅니다.
+    /// </summary>
+    private void Calculate_Status_Stat_Text()
+    {
+
+        double STR_Temp = 0;
+        double DEX_Temp = 0;
+        double VIT_Temp = 0;
+
+        foreach (var kvp in Base_Manager.Data.Status_Item_Holder)
+        {
+            string itemKey = kvp.Key;
+            var holderData = kvp.Value;
+
+            // 해당 이름의 ScriptableObject 불러오기
+            var scriptable = Base_Manager.Data.Status_Item_Dictionary[itemKey];
+
+            if (holderData.Item_Amount > 0)
+            {
+                if (scriptable != null)
+                {
+                    STR_Temp += scriptable.Base_STR;
+                    DEX_Temp += scriptable.Base_DEX;
+                    VIT_Temp += scriptable.Base_VIT;
+                }
+
+                STR_Temp += holderData.Additional_STR;
+                DEX_Temp += holderData.Additional_DEX;
+                VIT_Temp += holderData.Additional_VIT;
+            }
+
+        }
+
+        STR.text = STR_Temp.ToString();
+        DEX.text = DEX_Temp.ToString();
+        VIT.text = VIT_Temp.ToString();
+
+    }
+
     public void Status_Item_Init()
     {
         var itemHolder = Base_Manager.Data.Status_Item_Holder;
@@ -82,7 +127,7 @@ public class UI_Status : UI_Base
             if (itemHolder.ContainsKey("Ring_1"))
                 itemHolder["Ring_1"].Item_Amount = 1;
 
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("20000층에 도달하여, 기본 성장장비가 지급됩니다.");
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("20000층에 도달하여,성장장비가 지급됩니다.");
         }
 
         var sort_Dictionary = Base_Manager.Data.Status_Item_Dictionary.OrderByDescending(x => x.Value.rarity);

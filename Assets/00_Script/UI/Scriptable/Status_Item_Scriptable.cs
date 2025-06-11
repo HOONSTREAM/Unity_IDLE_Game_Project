@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class Status_Item_Scriptable : ScriptableObject
 {
-    public string Item_Name;
-    public int Item_Level;
+    public string Item_Name;    
     public string Position;  
     public Rarity rarity;
     public string KO_rarity;
