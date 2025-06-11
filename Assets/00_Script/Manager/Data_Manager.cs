@@ -67,10 +67,13 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.EndDate = Utils.Get_Server_Time();
         Data_Manager.Main_Players_Data.Daily_Enter_Key[0] = 3;
         Data_Manager.Main_Players_Data.Daily_Enter_Key[1] = 3;
+        Data_Manager.Main_Players_Data.Daily_Enter_Key[2] = 3;
         Data_Manager.Main_Players_Data.User_Key_Assets[0] = 0;
         Data_Manager.Main_Players_Data.User_Key_Assets[1] = 0;
+        Data_Manager.Main_Players_Data.User_Key_Assets[2] = 0;
         Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] = 0;
         Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] = 0;
+        Data_Manager.Main_Players_Data.Dungeon_Clear_Level[2] = 0;
         Data_Manager.Main_Players_Data.isBuyADPackage = false;
         Data_Manager.Main_Players_Data.isBuyTodayPackage = false;
         Data_Manager.Main_Players_Data.isBuySTRONGPackage = false;
@@ -381,9 +384,9 @@ public class Data
     public string Last_Daily_Reset_Time;
 
     //Dungeon
-    public int[] Daily_Enter_Key = { 3, 3 }; // 일일마다 초기화 되는 키
-    public int[] User_Key_Assets = { 0, 0 }; // 유저가 보상으로 얻은 키 
-    public int[] Dungeon_Clear_Level = { 0, 0 }; //유저가 최종적으로 클리어한 난이도
+    public int[] Daily_Enter_Key = { 3, 3, 3 }; // 일일마다 초기화 되는 키
+    public int[] User_Key_Assets = { 0, 0, 0 }; // 유저가 보상으로 얻은 키 
+    public int[] Dungeon_Clear_Level = { 0, 0, 0 }; //유저가 최종적으로 클리어한 난이도
 
     //광고구매 여부
     public bool isBuyADPackage = false;

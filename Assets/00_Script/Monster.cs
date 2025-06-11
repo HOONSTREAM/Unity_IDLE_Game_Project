@@ -217,18 +217,25 @@ public class Monster : Character
 
                 else if (Stage_Manager.Dungeon_Enter_Type == 2)
                 {
-                    Base_Manager.Pool.m_pool_Dictionary["Tier_Dungeon"].Return(this.gameObject);
+                    Base_Manager.Pool.m_pool_Dictionary["Enhancement_Dungeon"].Return(this.gameObject);
                     Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
                     Base_Manager.BACKEND.Log_Clear_Dungeon(Stage_Manager.Dungeon_Enter_Type);
                 }
 
                 else if (Stage_Manager.Dungeon_Enter_Type == 3)
                 {
+                    Base_Manager.Pool.m_pool_Dictionary["Tier_Dungeon"].Return(this.gameObject);
+                    Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
+                    Base_Manager.BACKEND.Log_Clear_Dungeon(Stage_Manager.Dungeon_Enter_Type);
+                }
+
+                else if (Stage_Manager.Dungeon_Enter_Type == 4)
+                {
                     Base_Manager.Pool.m_pool_Dictionary["DPS_Dungeon"].Return(this.gameObject);
                     Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
                     Base_Manager.BACKEND.Log_Clear_Dungeon(Stage_Manager.Dungeon_Enter_Type);
                 }
-                
+
             }
         }
 

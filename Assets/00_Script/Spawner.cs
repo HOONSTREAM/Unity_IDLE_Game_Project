@@ -56,7 +56,8 @@ public class Spawner : MonoBehaviour
         Maps[1].gameObject.SetActive(false);
         Maps[2].gameObject.SetActive(false);
         Maps[3].gameObject.SetActive(false);
-
+        Maps[4].gameObject.SetActive(false);
+       
         Main_Game_Map.gameObject.SetActive(true);
 
         Stage_Manager.isDungeon_Map_Change = false;
@@ -105,14 +106,21 @@ public class Spawner : MonoBehaviour
             StartCoroutine(BossSetCoroutine());
         }
 
-        if(Value == 2) // 승급 던전
+        if (Value == 2) // 미스릴 던전
+        {
+            Stop_Coroutine_And_Delete_Monster();
+            Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
+            StartCoroutine(Enhancement_BossSetCoroutine());
+        }
+
+        if (Value == 3) // 승급 던전
         {
             Stop_Coroutine_And_Delete_Monster();
             Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
             StartCoroutine(Tier_BossSetCoroutine());
         }
 
-        if (Value == 3) // 티어 던전
+        if (Value == 4) // DPS 던전
         {
             Stop_Coroutine_And_Delete_Monster();
             Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
@@ -229,6 +237,48 @@ public class Spawner : MonoBehaviour
         {
             // 풀링이 생성될때의 기능을 구현한다.
             value.GetComponent<Monster>().Init(difficulty); 
+        });
+
+        monster = go.GetComponent<Monster>();
+        Vector3 Pos = monster.transform.position; // 같은 변수를 사용할 때는, 한 변수로 묶어서 사용하면 메모리 절약이 됨. (중복계산방지)
+
+
+        // 일정 소환거리 내부에 플레이어가 존재하면, 보스 소환 시, 넉백을 합니다.
+        for (int i = 0; i < m_players.Count; i++)
+        {
+            if (Vector3.Distance(Pos, m_players[i].transform.position) <= 3.0f)
+            {
+                m_players[i].transform.LookAt(monster.transform.position);
+                m_players[i].Knock_Back();
+            }
+
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        m_monsters.Add(monster);
+
+        Base_Manager.Stage.State_Change(Stage_State.BossPlay);
+    }
+    IEnumerator Enhancement_BossSetCoroutine()
+    {
+        yield return new WaitForSeconds(2.0f);
+        Monster monster = null;
+
+        int dungeon_level = Stage_Manager.Dungeon_Level;
+        int difficulty = Utils.ENHANCEMENT_DUNGEON_FIRST_HARD;
+
+        if (difficulty == 0)
+        {
+            difficulty = Utils.TIER_DUNGEON_FIRST_HARD;
+        }
+
+        Debug.Log($"{difficulty}의 티어던전 난이도 설정");
+
+        var go = Base_Manager.Pool.Pooling_OBJ("Enhancement_Dungeon").Get((value) =>
+        {
+            // 풀링이 생성될때의 기능을 구현한다.
+            value.GetComponent<Monster>().Init(Stage_Manager.Dungeon_Level * difficulty);
         });
 
         monster = go.GetComponent<Monster>();

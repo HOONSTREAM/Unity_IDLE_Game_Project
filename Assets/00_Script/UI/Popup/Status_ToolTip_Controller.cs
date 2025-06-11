@@ -14,9 +14,9 @@ public class Status_ToolTip_Controller : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (Data_Manager.Main_Players_Data.Player_Max_Stage < 20000)
+        if (Data_Manager.Main_Players_Data.Player_Max_Stage < 10000)
         {
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("스테이지 20000층 이상부터 해금됩니다.");
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("스테이지 10000층 이상부터 해금됩니다.");
             return;
         }
 

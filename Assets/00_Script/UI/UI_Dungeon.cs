@@ -35,12 +35,12 @@ public class UI_Dungeon : UI_Base
     private TextMeshProUGUI NOW_USER_DPS_LEVEL;
     [SerializeField]
     private TextMeshProUGUI DPS_REWARD_TEXT;
-    [SerializeField] 
-    private Button[] Key01ArrowButton, Key02ArrowButton;
+    [SerializeField]
+    private Button[] Key01ArrowButton, Key02ArrowButton, Key03ArrowButton;
     [SerializeField]
     private TextMeshProUGUI User_Dia_Amount, User_Coin_Amount;
 
-    private int[] Level = new int[2];
+    private int[] Level = new int[3];
     
 
     public override bool Init()
@@ -70,17 +70,22 @@ public class UI_Dungeon : UI_Base
             Dungeon_Enter_Request_Key[i].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[i] +
                 Data_Manager.Main_Players_Data.User_Key_Assets[i]) <= 0 ? Color.red : Color.green;
 
-            Dungeon_Level_Guide_Text[i].text = i == 0
-                ? $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도"
-                : $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
+            if (i == 0)
+                Dungeon_Level_Guide_Text[i].text = $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
+            else if (i == 1)
+                Dungeon_Level_Guide_Text[i].text = $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
+            else if (i == 2)
+                Dungeon_Level_Guide_Text[i].text = $"스테이지 <color=#FFFF00>{((Level[i] + 1) * Utils.ENHANCEMENT_DUNGEON_FIRST_HARD)}</color>층 수준의 난이도";
         }
 
         for(int i = 0; i < 2; i++)
         {
-            Dungeon_Enter_Request_Key[2].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[0] +
+            Dungeon_Enter_Request_Key[3].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[0] +
                 Data_Manager.Main_Players_Data.User_Key_Assets[0]) <= 0 ? Color.red : Color.green;
-            Dungeon_Enter_Request_Key[3].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[1] +
+            Dungeon_Enter_Request_Key[4].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[1] +
                 Data_Manager.Main_Players_Data.User_Key_Assets[1]) <= 0 ? Color.red : Color.green;
+            Dungeon_Enter_Request_Key[5].color = (Data_Manager.Main_Players_Data.Daily_Enter_Key[2] +
+                Data_Manager.Main_Players_Data.User_Key_Assets[2]) <= 0 ? Color.red : Color.green;
         }
 
         
@@ -92,7 +97,8 @@ public class UI_Dungeon : UI_Base
         Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 
             Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
         Clear_Assets[1].text = StringMethod.ToCurrencyString(value);
-        Clear_Assets[2].text = $"<color=##FFF00>{Utils.Set_Next_Tier_Name()}</color> 승급";
+        Clear_Assets[2].text = $"{(int)(Data_Manager.Main_Players_Data.Dungeon_Clear_Level[2] / 3) + 3}";
+        Clear_Assets[3].text = $"<color=##FFF00>{Utils.Set_Next_Tier_Name()}</color> 승급";
 
         Player_Tier currentTier = Data_Manager.Main_Players_Data.Player_Tier;
 
@@ -106,8 +112,13 @@ public class UI_Dungeon : UI_Base
 
         Key01ArrowButton[0].onClick.AddListener(() => ArrowButton(0, -1));
         Key01ArrowButton[1].onClick.AddListener(() => ArrowButton(0, 1));
+
         Key02ArrowButton[0].onClick.AddListener(() => ArrowButton(1, -1));
         Key02ArrowButton[1].onClick.AddListener(() => ArrowButton(1, 1));
+
+        Key03ArrowButton[0].onClick.AddListener(() => ArrowButton(2, -1));
+        Key03ArrowButton[1].onClick.AddListener(() => ArrowButton(2, 1));
+
 
         DPS_Init();
 
@@ -206,7 +217,16 @@ public class UI_Dungeon : UI_Base
     }
     public void Get_Dungeon(int value)
     {
-        if(value == 3)
+        if(value == 2)
+        {
+            if(Data_Manager.Main_Players_Data.Player_Max_Stage < 10000)
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("10000층 이상부터 진입가능합니다.");
+                return;
+            }
+        }
+
+        if(value == 4) // DPS
         {
             if(Data_Manager.Main_Players_Data.USER_DPS_LEVEL >= 249)
             {
@@ -218,10 +238,10 @@ public class UI_Dungeon : UI_Base
         var playerData = Data_Manager.Main_Players_Data;
         
 
-        bool isTierDungeon = value == 2;
-        bool isNormalDungeon = value != 2;
+        bool isTierDungeon = value == 3;
+        bool isNormalDungeon = value != 3;
             
-        if(value != 3)
+        if(value != 4)
         {
             if (isTierDungeon && playerData.Player_Tier >= Player_Tier.Tier_Challenger_10)
             {
@@ -265,16 +285,17 @@ public class UI_Dungeon : UI_Base
                 playerData.Dungeon_Dia++;
                 Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 모든 적을 소탕하세요!");
                 break;
-
             case 1:
                 playerData.Dungeon_Gold++;
                 Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 보스를 처치하세요!");
                 break;
-
             case 2:
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 보스를 처치하세요!");
+                break;
+            case 3:              
                 Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 처치하고 승급하세요!");
                 break;
-            case 3:
+            case 4:                                 
                 Base_Canvas.instance.Get_TOP_Popup().Initialize("제한시간 안에 최대한 높은 데미지를 가하세요!");
                 break;
         }
@@ -371,7 +392,37 @@ public class UI_Dungeon : UI_Base
                 Base_Manager.SOUND.Play(Sound.BGS, "Victory");
 
                 break;
-           
+
+            case 2:
+
+                if (Dungeon_Clear_Level == 0)
+                {
+                    Base_Canvas.instance.Get_TOP_Popup().Initialize("클리어 한 난이도가 없습니다.");
+                    return;
+                }             
+
+                if (Data_Manager.Main_Players_Data.User_Key_Assets[value] > 0)
+                {
+                    Data_Manager.Main_Players_Data.User_Key_Assets[value]--;
+                }
+                else
+                {
+                    Data_Manager.Main_Players_Data.Daily_Enter_Key[value]--;
+                }
+                
+                int Bonus = (int)Dungeon_Clear_Level / 3;
+                Debug.Log($"{Bonus}의 추가 지급");
+                Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount += (3 + Bonus);
+
+                _ = Base_Manager.BACKEND.WriteData();
+
+                Base_Canvas.instance.Get_TOP_Popup().Initialize("미스릴던전 소탕이 완료되었습니다 !");
+                Init();
+                Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+
+                break;
+
+
         }
         
 
@@ -380,7 +431,7 @@ public class UI_Dungeon : UI_Base
     {
         Level[KeyValue] += value;
 
-        
+
         if (Level[KeyValue] <= 0)
         {
             Level[KeyValue] = 0;
@@ -391,10 +442,10 @@ public class UI_Dungeon : UI_Base
         {
             Level[KeyValue] = Utils.DIA_AND_GOLD_DUNGEON_MAX_LEVEL;
             Dungeon_Levels[KeyValue].text = (Level[KeyValue] + 1).ToString();
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 난이도에 도달하였습니다.");           
+            Base_Canvas.instance.Get_TOP_Popup().Initialize("최고 난이도에 도달하였습니다.");
         }
 
-        
+
 
         else if (Level[KeyValue] > Data_Manager.Main_Players_Data.Dungeon_Clear_Level[KeyValue])
         {
@@ -404,12 +455,12 @@ public class UI_Dungeon : UI_Base
 
         Dungeon_Levels[KeyValue].text = (Level[KeyValue] + 1).ToString();
 
-        if(KeyValue == 0)
+        if (KeyValue == 0)
         {
             Clear_Assets[0].text = ((Level[KeyValue] + 1) * Stage_Manager.MULTIPLE_REWARD_DIAMOND_DUNGEON).ToString();
         }
 
-        else if(KeyValue == 1)
+        else if (KeyValue == 1)
         {
             double Gold_Value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, (Level[KeyValue] + 1),
                 Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
@@ -417,9 +468,28 @@ public class UI_Dungeon : UI_Base
             Clear_Assets[1].text = StringMethod.ToCurrencyString(Gold_Value);
         }
 
-        Dungeon_Level_Guide_Text[KeyValue].text = KeyValue == 0
-           ? $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도"
-           : $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
+        else if (KeyValue == 2)
+        {
+            int Bonus = (Level[KeyValue]) / 3;
+
+            Clear_Assets[2].text = $"{3 + Bonus}";
+        }
+
+        if (KeyValue == 0)
+        {
+            Dungeon_Level_Guide_Text[KeyValue].text =
+                $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.DIA_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
+        }
+        else if (KeyValue == 1)
+        {
+            Dungeon_Level_Guide_Text[KeyValue].text =
+                $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.GOLD_DUNGEON_MULTIPLE_HARD)}</color>층 수준의 난이도";
+        }
+        else if (KeyValue == 2)
+        {
+            Dungeon_Level_Guide_Text[KeyValue].text =
+                $"스테이지 <color=#FFFF00>{((Level[KeyValue] + 1) * Utils.ENHANCEMENT_DUNGEON_FIRST_HARD)}</color>층 수준의 난이도";
+        }
     }
     /// <summary>
     /// DPS던전의 보상단계를 체크하고, 보상합니다.

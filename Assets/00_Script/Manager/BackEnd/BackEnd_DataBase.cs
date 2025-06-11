@@ -7,6 +7,7 @@ using BackEnd;
 using BackEnd.BackndNewtonsoft.Json.Linq;
 using LitJson;
 using System.Threading.Tasks;
+using UnityEngine.UIElements;
 
 public partial class BackEnd_Manager : MonoBehaviour
 {
@@ -1015,6 +1016,62 @@ public partial class BackEnd_Manager : MonoBehaviour
                     Debug.Log("PLAYER_HIGH_STAGE 컬럼이 존재합니다.");
                     data.Player_Max_Stage = int.Parse(gameDataJson[0]["PLAYER_HIGH_STAGE"].ToString());
                 }
+                if (gameDataJson[0]["USER_KEY_ASSETS"].Count == 2)
+                {
+                    Debug.Log("기존 유저의 User_Key_Assets 배열이 2개이므로, 3개로 확장합니다.");
+
+                    // 새로운 배열 선언 및 기존 값 복사
+                    
+                    int temp_1 = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][0].ToString());
+                    int temp_2 = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][1].ToString());
+
+
+                    data.User_Key_Assets = new int[3] { temp_1, temp_2, 0 };
+                }
+                else
+                {
+                    Debug.Log("User_Key_Assets 배열이 3개입니다.");
+                    data.User_Key_Assets[0] = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][0].ToString());
+                    data.User_Key_Assets[1] = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][1].ToString());
+                    data.User_Key_Assets[2] = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][2].ToString());
+                }
+                if (gameDataJson[0]["DAILY_ENTER_KEY"].Count == 2)
+                {
+                    Debug.Log("기존 유저의 Daily_Enter_Key 배열이 2개이므로, 3개로 확장합니다.");
+
+                    // 새로운 배열 선언 및 기존 값 복사
+                    int temp_1 = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][0].ToString());
+                    int temp_2 = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][1].ToString());
+                    data.Daily_Enter_Key = new int[3] { temp_1, temp_2, 3 }; // 기본값
+
+                }
+                else
+                {
+                    Debug.Log("DAILY_ENTER_KEY 배열이 3개입니다.");
+                    data.Daily_Enter_Key[0] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][0].ToString());
+                    data.Daily_Enter_Key[1] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][1].ToString());
+                    data.Daily_Enter_Key[2] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][2].ToString());
+
+                }
+                if (gameDataJson[0]["DUNGEON_CLEAR_LEVEL"].Count == 2)
+                {
+                    Debug.Log("기존 유저의 Dungeon_Clear_Level 배열이 2개이므로, 3개로 확장합니다.");
+
+                    // 새로운 배열 선언 및 기존 값 복사
+                   
+                    int temp_1 = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][0].ToString());
+                    int temp_2 = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][1].ToString());
+
+                    data.Dungeon_Clear_Level = new int[3] { temp_1, temp_2, 0 }; // 기본값
+
+                }
+                else
+                {
+                    Debug.Log("DUNGEON_CLEAR_LEVEL 배열이 3개입니다.");
+                    data.Dungeon_Clear_Level[0] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][0].ToString());
+                    data.Dungeon_Clear_Level[1] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][1].ToString());
+                    data.Dungeon_Clear_Level[2] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][2].ToString());
+                }
                 #endregion
 
                 data.ATK = double.Parse(gameDataJson[0]["ATK"].ToString());
@@ -1046,15 +1103,6 @@ public partial class BackEnd_Manager : MonoBehaviour
 
                 data.EndDate = DateTime.Parse(gameDataJson[0]["END_DATE"].ToString());
                 data.StartDate = Utils.Get_Server_Time();
-
-                data.Daily_Enter_Key[0] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][0].ToString());
-                data.Daily_Enter_Key[1] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][1].ToString());
-
-                data.User_Key_Assets[0] = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][0].ToString());
-                data.User_Key_Assets[1] = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][1].ToString());
-
-                data.Dungeon_Clear_Level[0] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][0].ToString());
-                data.Dungeon_Clear_Level[1] = int.Parse(gameDataJson[0]["DUNGEON_CLEAR_LEVEL"][1].ToString());
 
                 DateTime startDate = data.StartDate;
                 DateTime endDate = data.EndDate;
@@ -1456,6 +1504,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         //던전 일일 입장권 초기화
         data.Daily_Enter_Key[0] = 2;
         data.Daily_Enter_Key[1] = 2;
+        data.Daily_Enter_Key[2] = 2;
 
         //일일 퀘스트 초기화
         data.Daily_Attendance = 1;

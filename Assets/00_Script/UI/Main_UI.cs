@@ -96,6 +96,10 @@ public class Main_UI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI Gold_Dungeon_Hp_Text;
     [SerializeField]
+    private Image Enhancement_Dungeon_Slider_Fill;
+    [SerializeField]
+    private TextMeshProUGUI Enhancement_Dungeon_Hp_Text;
+    [SerializeField]
     private Image Tier_Dungeon_Slider_Fill;
     [SerializeField]
     private TextMeshProUGUI Tier_Dungeon_Hp_Text;
@@ -553,10 +557,14 @@ public class Main_UI : MonoBehaviour
                     Gold_Dungeon_Hp_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
                     break;
                 case 2:
+                    Enhancement_Dungeon_Slider_Fill.fillAmount = value;
+                    Enhancement_Dungeon_Hp_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
+                    break;
+                case 3:
                     Tier_Dungeon_Slider_Fill.fillAmount = value;
                     Tier_Dungeon_Hp_Text.text = string.Format("{0:0.0}", value * 100.0f) + "%";
                     break;
-                case 3:                   
+                case 4:                   
                     DPS_Dungeon_Hp_Text.text = StringMethod.ToCurrencyString(Accmulate_DMG);
                     break;
 
@@ -723,13 +731,17 @@ public class Main_UI : MonoBehaviour
             int Stage_Value = (Stage_Manager.Dungeon_Level + 1); // 0층에서 시작하므로 +1을 해줍니다.
             Dungeon_Stage_Text.text = $"골드던전 {Stage_Value} 층";
         }
-
         else if (Value == 2)
+        {
+            int Stage_Value = (Stage_Manager.Dungeon_Level + 1); // 0층에서 시작하므로 +1을 해줍니다.
+            Dungeon_Stage_Text.text = $"미스릴던전 {Stage_Value} 층";
+        }
+        else if (Value == 3)
         {
             Dungeon_Stage_Text.text = $"승급던전 도전 중";
         }
 
-        else if (Value == 3)
+        else if (Value == 4)
         {
             Dungeon_Stage_Text.text = $"시험의탑 도전 중";
         }
@@ -751,16 +763,16 @@ public class Main_UI : MonoBehaviour
         }
         int clear_Level = Stage_Manager.Dungeon_Level;
 
-        if (Value == 0 || Value == 1)
+        if (Value == 0 || Value == 1 || Value == 2) // 다이아 던전 , 골드 던전 , 미스릴 던전
         {
             
             if (Stage_Manager.Dungeon_Level == Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]) // 클리어레벨이 최종클리어레벨과 동일할 때에만 레벨증가
             {
                 Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value]++;
 
-                if (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value] >= 100)
+                if (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value] >= Utils.DIA_AND_GOLD_DUNGEON_MAX_LEVEL)
                 {
-                    Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value] = 100;
+                    Data_Manager.Main_Players_Data.Dungeon_Clear_Level[Value] = Utils.DIA_AND_GOLD_DUNGEON_MAX_LEVEL;
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("던전 최고 레벨에 도달하였습니다.");
                 }
             }
@@ -796,6 +808,15 @@ public class Main_UI : MonoBehaviour
                 break;
 
             case 2:
+
+                int Bonus = (int)clear_Level / 3;
+                Debug.Log($"{Bonus}의 추가 지급");
+                Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount += (3 + Bonus);
+                _ = Base_Manager.BACKEND.WriteData();
+
+                break;
+
+            case 3:
                                
                 Player_Tier tier = Data_Manager.Main_Players_Data.Player_Tier;
                 Player_Tier next_tier = tier + 1;
@@ -803,9 +824,9 @@ public class Main_UI : MonoBehaviour
                 _ = Base_Manager.BACKEND.WriteData();
                 break;
 
-            case 3:
+            case 4:
 
-                Debug.Log($"{StringMethod.ToCurrencyString(Accmulate_DMG)}가 저장될 예정입니다.");
+                
 
                 if(Accmulate_DMG >= Data_Manager.Main_Players_Data.USER_DPS) 
                 {
@@ -816,7 +837,7 @@ public class Main_UI : MonoBehaviour
                 _ = Base_Manager.BACKEND.WriteData();
 
                 break;
-                
+           
         }
 
         Main_UI_PlayerInfo_Text_Check();
@@ -1035,7 +1056,7 @@ public class Main_UI : MonoBehaviour
             yield return null;
         }
 
-        if(Stage_Manager.Dungeon_Enter_Type == 3)
+        if(Stage_Manager.Dungeon_Enter_Type == 4)
         {
             Base_Manager.Stage.State_Change(Stage_State.Dungeon_Clear, Stage_Manager.Dungeon_Enter_Type);
         }

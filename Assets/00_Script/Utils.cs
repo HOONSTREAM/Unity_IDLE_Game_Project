@@ -15,6 +15,7 @@ public class Utils
 
     public static readonly int GOLD_DUNGEON_MULTIPLE_HARD = 10;
     public static readonly int TIER_DUNGEON_FIRST_HARD = 30;
+    public static readonly int ENHANCEMENT_DUNGEON_FIRST_HARD = 10000;
     public static readonly int DIA_DUNGEON_MULTIPLE_HARD = 20;
     public static readonly int DPS_DUNGEON_MAX_LEVEL = 249;
     public static readonly int DIA_AND_GOLD_DUNGEON_MAX_LEVEL = 199;

@@ -378,6 +378,8 @@ public class Player_Manager
     }
     public float Calculate_Cri_Damage_Percentage()
     {
+        double Dex_Value = 0;
+
         var holding_effect = Check_Player_Holding_Effects();
         var holding_effect_Relic = Check_Relic_Holding_Effects();
 
@@ -385,6 +387,35 @@ public class Player_Manager
         var Relic_Value = (holding_effect_Relic.GetValueOrDefault(Holding_Effect_Type.CRITICAL_DAMAGE, 0.0) * 100);
 
         var total_Value = 140.0f + Base_Manager.Data.Get_smelt_value(Smelt_Status.CRITICAL_DAMAGE) + (float)Value + (float)Relic_Value;
+
+        foreach (var kvp in Base_Manager.Data.Status_Item_Holder)
+        {
+            string itemKey = kvp.Key;
+            var holderData = kvp.Value;
+
+            
+            // 해당 이름의 ScriptableObject 불러오기
+            var scriptable = Base_Manager.Data.Status_Item_Dictionary[itemKey];
+
+            if (holderData.Item_Amount > 0)
+            {
+                if (scriptable != null)
+                {
+
+                    Dex_Value += scriptable.Base_DEX;
+                    
+
+                }
+
+                Dex_Value += holderData.Additional_DEX;              
+            }
+
+        }
+
+        
+        float dexBonus = (float)Dex_Value * 10.0f;
+        
+        total_Value += dexBonus;
 
         if (Base_Manager.Item.Set_Item_Check("CRI_DMG"))
         {

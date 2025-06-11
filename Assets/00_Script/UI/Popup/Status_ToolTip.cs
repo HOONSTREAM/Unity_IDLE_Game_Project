@@ -368,6 +368,12 @@ public class Status_ToolTip : MonoBehaviour
             return;
         }
 
+        if(Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount < 1)
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("미스릴이 부족합니다.");
+            return;
+        }
+        Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount--;
         float successRate = enhancementRates[currentEnhance];
         float rand = UnityEngine.Random.Range(0f, 100f);
 
@@ -405,6 +411,7 @@ public class Status_ToolTip : MonoBehaviour
 
         Destroy(this.gameObject);
         Destroy(ToolTip_Background);
+        _ = Base_Manager.BACKEND.WriteData();
         GameObject.Find("@Status").GetComponent<UI_Status>().Init();
     }
 

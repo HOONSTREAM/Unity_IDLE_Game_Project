@@ -25,6 +25,7 @@ public enum IAP_Holder
     package_3,
     hondon_2000,
     dia_gacha,
+    enhancement,
 }
 
 public enum Sound
