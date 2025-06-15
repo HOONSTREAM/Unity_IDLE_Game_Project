@@ -50,8 +50,7 @@ public class Main_Quest : MonoBehaviour
     public void Get_NextQuest()
     {
         monster_index = 0;
-        Data_Manager.Main_Players_Data.EXP_Upgrade_Count = 0;
-
+        
         now_quest = Data[Data_Manager.Main_Players_Data.Quest_Count];
         m_State = (Quest_Type)Enum.Parse(typeof(Quest_Type), now_quest["Key"].ToString());
         if (m_State == Quest_Type.Monster) GetEnemy = true;
@@ -99,7 +98,7 @@ public class Main_Quest : MonoBehaviour
         });
 
         Data_Manager.Main_Players_Data.Quest_Count++;
-        
+        Data_Manager.Main_Players_Data.EXP_Upgrade_Count = 0;
         Get_NextQuest();
 
     }

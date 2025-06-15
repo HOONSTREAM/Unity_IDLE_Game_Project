@@ -1305,8 +1305,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         // 1. 응답 자체가 실패한 경우 - Insert하지 않음
         if (!status_item_bro.IsSuccess())
         {
-            Debug.LogError("성장장비 데이터 조회 실패 - 서버 오류 : " + status_item_bro);
-            return; // 또는 재시도 등 로직 추가
+            Debug.LogError("성장장비 데이터 조회 실패 - 서버 오류 : " + status_item_bro);          
         }
 
         // 2. 조회는 성공했으나, 유저 데이터가 존재하지 않는 경우 - Insert
@@ -1325,9 +1324,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             else
             {
                 Debug.LogError("성장장비 데이터 추가 실패 : " + insertResult);
-            }
-
-            return;
+            }         
         }
 
         // 3. 데이터 존재할 경우 파싱 처리

@@ -209,13 +209,15 @@ public class Base_Canvas : MonoBehaviour
     {
         All_Block_Panel.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(1.5f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("이런, 클레릭이 혼자 싸우다 패배했습니다.");
+        Main_UI.Instance.Set_Mode_Change_Idle_Mode();
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("이런, 전투에서 패배해서 BOSS 버튼이 열렸습니다.");
         yield return new WaitForSecondsRealtime(2.5f);
         Base_Canvas.instance.Get_TOP_Popup().Initialize("전투에서 패배하게되면, BOSS 버튼이 열리고, 방치모드에 들어갑니다.");
         yield return new WaitForSecondsRealtime(2.5f);
         Base_Canvas.instance.Get_TOP_Popup().Initialize("방치모드란, 데미지를 받지않고 무한 성장이 가능한 모드입니다.");
         yield return new WaitForSecondsRealtime(2.5f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("이제, 영웅들을 불렀으니, 다음 스테이지에서 만나볼까요?");
+        Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅을 배치했으니, BOSS 버튼을 눌러서, 다음 층으로 진행할 수 있습니다.");
+        yield return new WaitForSecondsRealtime(1.5f);
         All_Block_Panel.gameObject.SetActive(false);
         Start_Tutorial(Dead_Frame_Button);
 
