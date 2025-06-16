@@ -132,11 +132,11 @@ public class UI_Gacha : UI_Base
             Reset_Gacha_Hero_Card_List.Add(go.gameObject);
             go.gameObject.SetActive(true);
 
-            yield return new WaitForSecondsRealtime(0.05f);
+            yield return new WaitForSecondsRealtime(0.02f);
 
             if(rarity != Rarity.Legendary)
             {
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < 6; j++)
                 {
                     R_Percentage += Utils.Gacha_Percentage()[j];
                     if (Percentage <= R_Percentage)

@@ -23,6 +23,10 @@ public class UI_Setting : UI_Base
     private TextMeshProUGUI user_nick_name;
     [SerializeField]
     private GameObject Announcement_Text_UI;
+    [SerializeField]
+    private TMP_InputField Coupon_Input;
+    [SerializeField]
+    private GameObject Coupon_UI;
 
     private bool canSave = true; // 세이브 함수를 5초간격으로 호출할 수 있도록 규정 (함수 과다호출 및 과다 서버 비용 발생 방지)
 
@@ -64,6 +68,102 @@ public class UI_Setting : UI_Base
         Base_Canvas.instance.Get_Toast_Popup().Initialize("클립보드에 UUID를 복사하였습니다.");
     }
 
+    #region COUPON
+    public void Coupon()
+    {
+        if (Coupon_Input == null || string.IsNullOrEmpty(Coupon_Input.text)) return;
+
+        string text = Coupon_Input.text;
+        Coupon_Input.text = string.Empty;
+
+        ReceiveCoupon(text);
+    }
+
+    private void ReceiveCoupon(string couponcode)
+    {
+        Backend.Coupon.UseCoupon(couponcode, (callback) =>
+        {
+            if (!callback.IsSuccess())
+            {
+                FailedToReceive(callback);
+                return;
+            }
+
+            try
+            {
+                LitJson.JsonData jsonData = callback.GetFlattenJSON()["itemObject"];
+
+                if(jsonData.Count <= 0)
+                {
+                    Base_Canvas.instance.Get_Toast_Popup().Initialize("쿠폰에 아이템이 없습니다.");
+                    return;
+                }
+
+                SaveToLocal(jsonData);
+
+            }
+
+            catch(System.Exception e)
+            {
+                Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"{e}");
+            }
+
+        });
+    }
+    private void FailedToReceive(BackendReturnObject callback)
+    {
+        if(callback.GetMessage().Contains("전부 사용된"))
+        {
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("쿠폰 발행 개수가 소진되었거나, 기간이 만료 된 쿠폰입니다.");
+            return;
+        }
+        else if(callback.GetMessage().Contains("이미 사용하신 쿠폰"))
+        {
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("해당 쿠폰은 이미 사용하셨습니다.");
+            return;
+        }
+        else
+        {
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("쿠폰 코드가 잘못되었거나, 이미 사용 된 쿠폰입니다.");
+            return;
+        }
+
+        //Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"쿠폰 사용 중 에러가 발생하였습니다. :{callback}");
+
+    }
+    private void SaveToLocal(LitJson.JsonData items)
+    {
+        Debug.Log($"제이슨데이터 : {items}");
+
+        try
+        {
+            string getItems = string.Empty;
+
+            foreach(LitJson.JsonData item in items)
+            {
+                int itemId = int.Parse(item["item"]["ItemId"].ToString());
+                string itemName = item["item"]["ItemName"].ToString();
+                string itemInfo = item["item"]["ItemInfo"].ToString();
+                int itemCount = int.Parse(item["itemCount"].ToString());
+
+                if (itemName.Equals("Dia"))
+                {
+                    Data_Manager.Main_Players_Data.DiaMond += itemCount;
+                    Base_Manager.BACKEND.Log_Get_Dia($"Coupon_{itemCount}");
+                    Base_Canvas.instance.Get_Toast_Popup().Initialize("쿠폰 사용이 완료되었습니다.");
+                    _ = Base_Manager.BACKEND.WriteData();                   
+                }
+            }
+        }
+        
+        catch(System.Exception e)
+        {
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize($"쿠폰 아이템 저장 중 에러 발생 : {e}");
+            Debug.LogError(e);
+        }
+    }
+
+    #endregion
     public void Get_User_Gamer_id()
     {
         BackendReturnObject bro = Backend.BMember.GetUserInfo();

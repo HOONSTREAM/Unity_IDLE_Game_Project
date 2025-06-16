@@ -129,7 +129,7 @@ public class UI_Relic_Gacha : UI_Base
             var go = Instantiate(Gacha_Relic_Parts, Content); // 캐릭터 카드를 생성합니다.
             Reset_Gacha_Relic_Card_List.Add(go.gameObject);
             go.gameObject.SetActive(true);
-            yield return new WaitForSecondsRealtime(0.05f);
+            yield return new WaitForSecondsRealtime(0.02f);
 
             if (rarity != Rarity.Legendary)
             {

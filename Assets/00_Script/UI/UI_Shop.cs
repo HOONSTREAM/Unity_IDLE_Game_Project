@@ -17,11 +17,17 @@ public class UI_Shop : UI_Base
     [SerializeField]
     private GameObject Infomation_Panel;
     [SerializeField]
+    private GameObject Information_Panel_Relic;
+    [SerializeField]
     private GameObject Dia_Gacha_Infomation_Panel;
     [SerializeField]
     private TextMeshProUGUI[] Percentage_Text;
     [SerializeField]
     private TextMeshProUGUI Summon_Level_Text;
+    [SerializeField]
+    private TextMeshProUGUI[] Percentage_Text_Relic;
+    [SerializeField]
+    private TextMeshProUGUI Relic_Summon_Level_Text;
     #endregion
 
     [Space(20f)]
@@ -95,6 +101,7 @@ public class UI_Shop : UI_Base
     private TextMeshProUGUI Dia_Amount;
 
     private int Information_Panel_Summon_Level;
+    private int Information_Panel_Relic_Summon_Level;
 
     private const int GACHA_PRICE_11 = 500;
     private const int GACHA_PRICE_55 = 2500;
@@ -490,6 +497,14 @@ public class UI_Shop : UI_Base
 
         Percentage_Check(Utils.Calculate_Summon_Level(Data_Manager.Main_Players_Data.Hero_Summon_Count));
     }
+
+    public void Get_Infomation_Panel_Relic()
+    {
+        Information_Panel_Relic.gameObject.SetActive(true);
+
+        Percentage_Check_Relic(Utils.Calculate_Summon_Level(Data_Manager.Main_Players_Data.Relic_Summon_Count));
+    }
+
     public void Get_Dia_Gacha_Information_Panel()
     {
         Dia_Gacha_Infomation_Panel.gameObject.SetActive(true);
@@ -511,6 +526,18 @@ public class UI_Shop : UI_Base
         Summon_Level_Text.text = "LEVEL." + (value + 1).ToString();
 
     }
+    private void Percentage_Check_Relic(int value)
+    {
+        Information_Panel_Relic_Summon_Level = value;
+
+        for (int i = 0; i < (Percentage_Text_Relic.Length); i++)
+        {
+            Percentage_Text_Relic[i].text = string.Format("{0:0.00000}", CSV_Importer.Summon_Design_Relic[value][((Rarity)i).ToString()].ToString()) + "%";
+        }
+
+        Relic_Summon_Level_Text.text = "LEVEL." + (value + 1).ToString();
+
+    }
     public void  Level_Arrow_Button(int value)
     {
         Information_Panel_Summon_Level += value;
@@ -527,9 +554,29 @@ public class UI_Shop : UI_Base
 
         Percentage_Check(Information_Panel_Summon_Level);
     }
+    public void Level_Arrow_Button_Relic(int value)
+    {
+        Information_Panel_Relic_Summon_Level += value;
+
+
+        if (Information_Panel_Relic_Summon_Level < 0)
+        {
+            Information_Panel_Relic_Summon_Level = 9;
+        }
+        else if (Information_Panel_Relic_Summon_Level > 9)
+        {
+            Information_Panel_Relic_Summon_Level = 0;
+        }
+
+        Percentage_Check_Relic(Information_Panel_Relic_Summon_Level);
+    }
     public void Disable_Information_Panel()
     {
         Infomation_Panel.gameObject.SetActive(false);
+    }
+    public void Disable_Information_Panel_Relic()
+    {
+        Information_Panel_Relic.gameObject.SetActive(false);
     }
     public void Disable_Dia_Gacha_Infomation_Panel()
     {

@@ -20,13 +20,14 @@ public class Main_Quest : MonoBehaviour
     Quest_Type m_State;
     public static bool GetEnemy = false;
     bool reward = false;
-    
+
+    private readonly int MAX_QUEST_COUNT = 4999;
 
     private void Start()
     {
         Data = CSV_Importer.Quest_Design;
 
-        if (Data_Manager.Main_Players_Data.Quest_Count >= 3000)
+        if (Data_Manager.Main_Players_Data.Quest_Count >= MAX_QUEST_COUNT)
         {
             All_Quest_Complete_OBJ.gameObject.SetActive(true);
             HandObj.gameObject.SetActive(false);
@@ -38,7 +39,7 @@ public class Main_Quest : MonoBehaviour
 
     private void Update()
     {
-        if(Data_Manager.Main_Players_Data.Quest_Count <= 3000)
+        if(Data_Manager.Main_Players_Data.Quest_Count <= MAX_QUEST_COUNT)
         {
             GetQuest();
         }    
@@ -65,7 +66,7 @@ public class Main_Quest : MonoBehaviour
     /// </summary>
     void GetQuest()
     {
-        if(Data_Manager.Main_Players_Data.Quest_Count >= 3000)
+        if(Data_Manager.Main_Players_Data.Quest_Count >= MAX_QUEST_COUNT)
         {
             return;
         }
@@ -83,7 +84,7 @@ public class Main_Quest : MonoBehaviour
 
     public void GetQuestButton()
     {
-        if(Data_Manager.Main_Players_Data.Quest_Count >= 3000)
+        if(Data_Manager.Main_Players_Data.Quest_Count >= MAX_QUEST_COUNT)
         {
             All_Quest_Complete_OBJ.gameObject.SetActive(true);
             HandObj.gameObject.SetActive(false);

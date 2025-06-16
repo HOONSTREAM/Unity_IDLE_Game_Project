@@ -15,7 +15,7 @@ public class Utils
 
     public static readonly int GOLD_DUNGEON_MULTIPLE_HARD = 10;
     public static readonly int TIER_DUNGEON_FIRST_HARD = 30;
-    public static readonly int ENHANCEMENT_DUNGEON_FIRST_HARD = 10000;
+    public static readonly int ENHANCEMENT_DUNGEON_FIRST_HARD = 2000;
     public static readonly int DIA_DUNGEON_MULTIPLE_HARD = 20;
     public static readonly int DPS_DUNGEON_MAX_LEVEL = 249;
     public static readonly int DIA_AND_GOLD_DUNGEON_MAX_LEVEL = 199;
@@ -197,7 +197,7 @@ public class Utils
 
     public static float[] Gacha_Percentage()
     {
-        float[] Summon_Percentage = new float[5];
+        float[] Summon_Percentage = new float[6];
 
         for(int i = 0; i<Summon_Percentage.Length; i++)
         {
@@ -215,7 +215,7 @@ public class Utils
         for (int i = 0; i < Summon_Percentage.Length; i++)
         {
             Summon_Percentage[i] =
-                float.Parse(CSV_Importer.Summon_Design[Calculate_Summon_Level(Data_Manager.Main_Players_Data.Relic_Summon_Count)][((Rarity)i).ToString()].ToString());
+                float.Parse(CSV_Importer.Summon_Design_Relic[Calculate_Summon_Level(Data_Manager.Main_Players_Data.Relic_Summon_Count)][((Rarity)i).ToString()].ToString());
         }
 
         return Summon_Percentage;

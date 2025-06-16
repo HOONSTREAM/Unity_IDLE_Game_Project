@@ -222,9 +222,7 @@ public class BackEnd_PostSystem : MonoBehaviour
                     }
                 }
 
-                Debug.Log($"{chartName} - {chartFileName}");
-                Debug.Log($"{ItemId} {itemName} : {itemInfo}, 획득 수량 : {itemCount}");
-                Debug.Log($"아이템을 수령했습니다. : {itemName} - {itemCount}개");
+              
 
             }
         }

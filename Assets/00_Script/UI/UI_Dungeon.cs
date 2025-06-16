@@ -219,9 +219,9 @@ public class UI_Dungeon : UI_Base
     {
         if(value == 2)
         {
-            if(Data_Manager.Main_Players_Data.Player_Max_Stage < 10000)
+            if(Data_Manager.Main_Players_Data.Player_Max_Stage < Utils.ENHANCEMENT_DUNGEON_FIRST_HARD)
             {
-                Base_Canvas.instance.Get_Toast_Popup().Initialize("10000층 이상부터 진입가능합니다.");
+                Base_Canvas.instance.Get_Toast_Popup().Initialize($"{Utils.ENHANCEMENT_DUNGEON_FIRST_HARD}층 이상부터 진입가능합니다.");
                 return;
             }
         }

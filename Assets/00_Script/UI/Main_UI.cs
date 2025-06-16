@@ -387,7 +387,29 @@ public class Main_UI : MonoBehaviour
         }
          
     }
- 
+
+    public void Get_Fast_Mode_Free_Start_User()
+    {
+        bool fast = Data_Manager.Main_Players_Data.isFastMode;
+
+        if (fast == false)
+        {
+            if (Data_Manager.Main_Players_Data.buff_x2_speed <= 0.0f)
+            {
+                Data_Manager.Main_Players_Data.buff_x2_speed = 1800.0f;
+                Data_Manager.Main_Players_Data.isFastMode = true;
+            }
+
+            Time.timeScale = Data_Manager.Main_Players_Data.isFastMode ? 1.6f : 1.0f;
+        }
+
+        else
+        {
+
+        }
+
+    }
+
     /// <summary>
     /// 아이템을 획득하였을때, 팝업을 노출하는 메서드입니다.
     /// </summary>

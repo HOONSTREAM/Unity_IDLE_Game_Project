@@ -151,7 +151,19 @@ public class Base_Canvas : MonoBehaviour
         Attendance_Button.onClick.AddListener(() => Get_UI("UI_Attendance", false, false, true));
         Combination_Button.onClick.AddListener(() => Get_UI("UI_Combination", false, false, true));
         Post_Box_Button.onClick.AddListener(() => Get_UI("UI_PostBox", false, false, true));
-        Chat_Button.onClick.AddListener(() => Get_UI("@Chat", false, false, true));
+
+        Chat_Button.onClick.AddListener(() =>
+        {
+            if (Data_Manager.Main_Players_Data.Player_Stage >= 50)
+            {
+                Get_UI("@Chat", false, false, true);
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("스테이지 50층 이상부터 해금됩니다.");
+            }
+        });
+
         Select_Stage_Button.onClick.AddListener(() => Get_UI("UI_SELECT_STAGE", false, false, true));
 
         Rank_Button.onClick.AddListener(() =>
@@ -217,7 +229,7 @@ public class Base_Canvas : MonoBehaviour
         Base_Canvas.instance.Get_TOP_Popup().Initialize("방치모드란, 데미지를 받지않고 무한 성장이 가능한 모드입니다.");
         yield return new WaitForSecondsRealtime(2.5f);
         Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅을 배치했으니, BOSS 버튼을 눌러서, 다음 층으로 진행할 수 있습니다.");
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return new WaitForSecondsRealtime(1.8f);
         All_Block_Panel.gameObject.SetActive(false);
         Start_Tutorial(Dead_Frame_Button);
 
@@ -410,6 +422,8 @@ public class Base_Canvas : MonoBehaviour
         All_Block_Panel.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2.0f);
         Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅 파티 키우기 세계에 오신 것을 환영합니다!");
+        Main_UI.Instance.Get_Fast_Mode_Free_Start_User();
+        Base_Canvas.instance.Get_Toast_Popup().Initialize("광고버프체험! 2배속이 30분 지급됩니다.");
         yield return new WaitForSecondsRealtime(2.0f);
         Base_Canvas.instance.Get_TOP_Popup().Initialize("일일 퀘스트를 통하여, 기본 조작을 익혀봅니다.");
         yield return new WaitForSecondsRealtime(1.0f);
