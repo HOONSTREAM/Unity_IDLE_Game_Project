@@ -63,7 +63,7 @@ public class UI_Status : UI_Base
             Status_Bottom_Buttons[index].onClick.AddListener(() => Status_Menu_Check((Status_Type)index));
         }
 
-        if(Data_Manager.Main_Players_Data.Player_Max_Stage >= 10000)
+        if(Data_Manager.Main_Players_Data.Player_Max_Stage >= Utils.ENHANCEMENT_DUNGEON_FIRST_HARD)
         {
             Status_Item_Init();
         }
@@ -127,7 +127,7 @@ public class UI_Status : UI_Base
             if (itemHolder.ContainsKey("Ring_1"))
                 itemHolder["Ring_1"].Item_Amount = 1;
 
-            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("10000층에 도달하여,성장장비가 지급됩니다.");
+            Base_Canvas.instance.Get_MainGame_Error_UI().Initialize("2000층에 도달하여,성장장비가 지급됩니다.");
         }
 
         var sort_Dictionary = Base_Manager.Data.Status_Item_Dictionary.OrderByDescending(x => x.Value.rarity);
