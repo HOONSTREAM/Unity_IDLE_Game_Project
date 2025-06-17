@@ -411,7 +411,17 @@ public class UI_Dungeon : UI_Base
                 }
                 
                 int Bonus = (int)Dungeon_Clear_Level / 3;
-                Debug.Log($"{Bonus}의 추가 지급");
+                
+                if(Bonus >= 25) // 보너스는 최대 25개
+                {
+                    Bonus = 25;
+                }
+
+                if(Dungeon_Clear_Level >= 199)
+                {
+                    Bonus = 30;
+                }
+
                 Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount += (3 + Bonus);
 
                 _ = Base_Manager.BACKEND.WriteData();

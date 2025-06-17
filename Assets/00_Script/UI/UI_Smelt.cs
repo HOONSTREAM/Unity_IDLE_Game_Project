@@ -96,15 +96,12 @@ public class UI_Smelt : UI_Base
     {
         var go = Instantiate(Smelt_Panel, Vertical_Content);
         Garbage.Add(go);
-        go.SetActive(true);
-        go.transform.GetChild(1).gameObject.SetActive(false);
-        go.transform.GetChild(2).gameObject.SetActive(false);
-        go.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Utils.String_Color_Rarity((Rarity)rarityValue) + StatusString(status);
-        go.transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Utils.String_Color_Rarity((Rarity)rarityValue) + string.Format("{0:0.00}%", valueCount);
+        go.SetActive(true);      
+        go.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = Utils.String_Color_Rarity((Rarity)rarityValue) + StatusString(status);
+        go.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Utils.String_Color_Rarity((Rarity)rarityValue) + string.Format("{0:0.00}%", valueCount);
         go.GetComponent<Animator>().SetTrigger("Open");
         StartCoroutine(Smelt_Delay_Coroutine());
-        go.transform.GetChild(1).gameObject.SetActive(true);
-        go.transform.GetChild(2).gameObject.SetActive(true);     
+        
     }
 
     private IEnumerator Smelt_Delay_Coroutine()
