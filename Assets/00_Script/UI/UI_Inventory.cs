@@ -25,7 +25,7 @@ public class UI_Inventory : UI_Base
 
 
     [SerializeField]
-    private TextMeshProUGUI Gold_DG_Dia, Dia_DG_Dia, Gold, Dia;
+    private TextMeshProUGUI Gold_DG_Dia, Dia_DG_Dia,Enhancement_DG, Gold, Dia;
     public override bool Init()
     {
         if(Garbage_Inven_Change.Count > 0)
@@ -83,6 +83,7 @@ public class UI_Inventory : UI_Base
 
             Dia_DG_Dia.text = (Data_Manager.Main_Players_Data.Daily_Enter_Key[0] + Data_Manager.Main_Players_Data.User_Key_Assets[0]).ToString();
             Gold_DG_Dia.text = (Data_Manager.Main_Players_Data.Daily_Enter_Key[1] + Data_Manager.Main_Players_Data.User_Key_Assets[1]).ToString();
+            Enhancement_DG.text = (Data_Manager.Main_Players_Data.Daily_Enter_Key[2] + Data_Manager.Main_Players_Data.User_Key_Assets[2]).ToString();
             Gold.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money);
             Dia.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
 

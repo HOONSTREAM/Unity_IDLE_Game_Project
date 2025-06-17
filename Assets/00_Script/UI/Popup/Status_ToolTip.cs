@@ -387,26 +387,36 @@ public class Status_ToolTip : MonoBehaviour
             holder.Additional_VIT += bonus;
 
             Base_Canvas.instance.Get_Toast_Popup().Initialize($"성공! +{holder.Enhancement} 강화되었습니다.");
-            Base_Manager.SOUND.Play(Sound.BGS, "Enhancement");
+            Base_Manager.SOUND.Play(Sound.BGS, "Success");
         }
         else
         {
-            int previousEnhance = holder.Enhancement;
-            holder.Enhancement = Mathf.Max(0, holder.Enhancement - 1);
+            if (Base_Manager.Data.Item_Holder["DEF_Enhancement"].Hero_Card_Amount >= 1)
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("강화 보호권을 소모하여 하락을 막습니다.");
+                Base_Manager.Data.Item_Holder["DEF_Enhancement"].Hero_Card_Amount--;
+                Base_Manager.SOUND.Play(Sound.BGS, "Lose");
+            }
+            else
+            {
+                int previousEnhance = holder.Enhancement;
+                holder.Enhancement = Mathf.Max(0, holder.Enhancement - 1);
 
-            // 이전 강화 수치에 따른 보너스를 감소
-            int lostBonus = GetEnhanceBonus(previousEnhance, Selected_Status_Item);
-            holder.Additional_STR -= lostBonus;
-            holder.Additional_DEX -= lostBonus;
-            holder.Additional_VIT -= lostBonus;
+                // 이전 강화 수치에 따른 보너스를 감소
+                int lostBonus = GetEnhanceBonus(previousEnhance, Selected_Status_Item);
+                holder.Additional_STR -= lostBonus;
+                holder.Additional_DEX -= lostBonus;
+                holder.Additional_VIT -= lostBonus;
 
-            // 하한선 보호
-            holder.Additional_STR = Mathf.Max(0, (float)holder.Additional_STR);
-            holder.Additional_DEX = Mathf.Max(0, (float)holder.Additional_DEX);
-            holder.Additional_VIT = Mathf.Max(0, (float)holder.Additional_VIT);
+                // 하한선 보호
+                holder.Additional_STR = Mathf.Max(0, (float)holder.Additional_STR);
+                holder.Additional_DEX = Mathf.Max(0, (float)holder.Additional_DEX);
+                holder.Additional_VIT = Mathf.Max(0, (float)holder.Additional_VIT);
 
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("강화에 실패했습니다. 강화 수치가 하락합니다.");
-            Base_Manager.SOUND.Play(Sound.BGS, "Lose");
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("강화에 실패했습니다. 강화 수치가 하락합니다.");
+                Base_Manager.SOUND.Play(Sound.BGS, "Lose");
+            }
+            
         }
 
         Destroy(this.gameObject);

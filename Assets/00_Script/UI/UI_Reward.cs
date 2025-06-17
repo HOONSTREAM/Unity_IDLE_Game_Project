@@ -29,7 +29,7 @@ public class UI_Reward : UI_Base
             case IAP_Holder.hondon_2000: GetRewardInit("Scroll_Comb", 150000); break;
             case IAP_Holder.dia_gacha: GetRewardInit("Dia", Utils.GetRandomDiamond()); break;
             case IAP_Holder.enhancement: GetRewardInit("Dungeon_Enhancement", 5); break;
-
+            case IAP_Holder.def_enhancement: GetRewardInit("DEF_Enhancement", 1); break;
         }
     }
 
@@ -77,6 +77,8 @@ public class UI_Reward : UI_Base
                 break;
 
             case "Steel": Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += Count; break;
+
+            case "DEF_Enhancement": Base_Manager.Data.Item_Holder["DEF_Enhancement"].Hero_Card_Amount += Count; break;
 
             case "Dungeon_Dia":
                 Data_Manager.Main_Players_Data.User_Key_Assets[0] += Count;

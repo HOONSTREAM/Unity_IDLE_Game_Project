@@ -114,6 +114,7 @@ public class UI_Gacha : UI_Base
 
         for (int i = 0; i < Hero_Amount_Value; i++)
         {
+            
             Data_Manager.Main_Players_Data.Hero_Summon_Count++;
             Data_Manager.Main_Players_Data.Summon++; //일일퀘스트 조건 상승 (영웅소환)
             Data_Manager.Main_Players_Data.Hero_Pickup_Count++;
@@ -133,8 +134,8 @@ public class UI_Gacha : UI_Base
             go.gameObject.SetActive(true);
 
             yield return new WaitForSecondsRealtime(0.02f);
-
-            if(rarity != Rarity.Legendary)
+            
+            if (rarity != Rarity.Legendary)
             {
                 for (int j = 0; j < 6; j++)
                 {
@@ -169,17 +170,22 @@ public class UI_Gacha : UI_Base
                 go.transform.GetChild(0).gameObject.SetActive(false);
             }
 
+            
+            
+
             ScrollRect scrollRect = Content.GetComponentInParent<ScrollRect>();
             if (scrollRect != null)
             {
                 Canvas.ForceUpdateCanvases(); // 레이아웃 강제 업데이트
                 scrollRect.verticalNormalizedPosition = 0.0f; // 가장 아래로 스크롤
+                                
             }
 
 
         }
 
 
+        
         StartCoroutine(Block_Button_Coroutine());
     }
 
