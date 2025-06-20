@@ -104,7 +104,14 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.FREE_COMB_SCROLL = false;
         Data_Manager.Main_Players_Data.DIA_GACHA_COUNT = 0;
 
+        Data_Manager.Main_Players_Data.Attendance_Day = 0;
+        Data_Manager.Main_Players_Data.Get_Attendance_Reward = false;
+        Data_Manager.Main_Players_Data.Attendance_Last_Date = default;
 
+        Data_Manager.Main_Players_Data.isBUY_DIA_PASS = false;
+        Data_Manager.Main_Players_Data.DIA_PASS_ATTENDANCE_DAY = 0;
+        Data_Manager.Main_Players_Data.Get_DIA_PASS_Reward = false;
+        Data_Manager.Main_Players_Data.DIA_PASS_Last_Date = default;
 
         Param param = new Param();
 
@@ -162,9 +169,18 @@ public class BackendGameData
         param.Add("FREE_DIA", Data_Manager.Main_Players_Data.FREE_DIA);
         param.Add("FREE_COMB_SCROLL", Data_Manager.Main_Players_Data.FREE_COMB_SCROLL);
         param.Add("DIA_GACHA_COUNT", Data_Manager.Main_Players_Data.DIA_GACHA_COUNT);
+
+        // 출석 데이터
         param.Add("Attendance_Day", Data_Manager.Main_Players_Data.Attendance_Day);
         param.Add("Get_Attendance_Reward", Data_Manager.Main_Players_Data.Get_Attendance_Reward);
         param.Add("Attendance_Date", Data_Manager.Main_Players_Data.Attendance_Last_Date);
+
+        // 다이아 패스 데이터
+        param.Add("is_BUY_DIA_PASS", Data_Manager.Main_Players_Data.isBUY_DIA_PASS);
+        param.Add("DIA_ATTENDANCE_DAY", Data_Manager.Main_Players_Data.DIA_PASS_ATTENDANCE_DAY);
+        param.Add("Get_DIA_PASS_REWARD", Data_Manager.Main_Players_Data.Get_DIA_PASS_Reward);
+        param.Add("DIA_PASS_ATTENDANCE_DATE", Data_Manager.Main_Players_Data.DIA_PASS_Last_Date);
+
 
         var bro = Backend.GameData.Insert("USER", param);
         string inDate = bro.GetInDate();
@@ -430,6 +446,12 @@ public class Data
     public int Attendance_Day = 0;
     public bool Get_Attendance_Reward = false;
     public string Attendance_Last_Date = default;
+
+    //다이아 패스 출석
+    public bool isBUY_DIA_PASS = false;
+    public int DIA_PASS_ATTENDANCE_DAY = 0;
+    public bool Get_DIA_PASS_Reward = false;
+    public string DIA_PASS_Last_Date = default;
 
 }
 

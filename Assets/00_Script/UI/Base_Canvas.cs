@@ -55,6 +55,8 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Select_Stage_Button;
     [SerializeField]
+    private Button DIA_PASS_Button;
+    [SerializeField]
     private GameObject Tutorial_Levelup_Button_Panel;
 
     [HideInInspector]
@@ -120,6 +122,7 @@ public class Base_Canvas : MonoBehaviour
         Base_Manager.SOUND.Play(Sound.BGM, "Village");
 
         Hero_Button.onClick.AddListener(() => Get_UI("@Heros", true, false, true, 1));
+        DIA_PASS_Button.onClick.AddListener(() => Get_UI("@PASS", false, false, true));
         Relic_Button.onClick.AddListener(() => Get_UI("UI_RELIC", false, false, true, 2));
         Inventory_Button.onClick.AddListener(() => Get_UI("UI_INVENTORY"));
         Saving_Mode_Button.onClick.AddListener(() => {

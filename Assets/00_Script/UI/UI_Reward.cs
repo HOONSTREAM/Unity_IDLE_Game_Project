@@ -30,6 +30,7 @@ public class UI_Reward : UI_Base
             case IAP_Holder.dia_gacha: GetRewardInit("Dia", Utils.GetRandomDiamond()); break;
             case IAP_Holder.enhancement: GetRewardInit("Dungeon_Enhancement", 5); break;
             case IAP_Holder.def_enhancement: GetRewardInit("DEF_Enhancement", 1); break;
+            case IAP_Holder.dia_pass: GetRewardInit("DIA_PASS", 1); break;
         }
     }
 
@@ -54,10 +55,15 @@ public class UI_Reward : UI_Base
                 Data_Manager.Main_Players_Data.DiaMond += 3000;
                 Base_Manager.BACKEND.Log_Get_Dia("Get_Package_ADS");
                 Base_Manager.Data.Item_Holder["SWORD"].Hero_Card_Amount += 15;
-                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 1000;                              
-
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 1000;
                 break;
 
+            case "DIA_PASS":
+                Data_Manager.Main_Players_Data.DiaMond += 30000;
+                Data_Manager.Main_Players_Data.isBUY_DIA_PASS = true;
+                Base_Manager.BACKEND.Log_Get_Dia($"DIA_PASS_Purchase");
+                break;
+                
             case "PACKAGE_STRONG":
                 Data_Manager.Main_Players_Data.isBuySTRONGPackage = true;
                 Data_Manager.Main_Players_Data.DiaMond += 2500;

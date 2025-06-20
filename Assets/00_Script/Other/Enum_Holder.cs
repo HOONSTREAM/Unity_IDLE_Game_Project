@@ -27,6 +27,7 @@ public enum IAP_Holder
     dia_gacha,
     enhancement,
     def_enhancement,
+    dia_pass,
 }
 
 public enum Sound
