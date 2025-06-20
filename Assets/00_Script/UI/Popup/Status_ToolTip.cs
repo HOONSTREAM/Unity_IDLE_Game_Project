@@ -58,12 +58,16 @@ public class Status_ToolTip : MonoBehaviour
             if (((RectTransform)transform).rect.Contains(localMousePos))
                 return;
 
-            // 툴팁 바깥을 클릭하면 제거
-            Base_Canvas.instance.item_tooltip = null;          
-            Destroy(ToolTip_Background);
-            Destroy(gameObject);
         }
 
+    }
+
+    public void Exit_Tooltip()
+    {
+        Base_Canvas.instance.item_tooltip = null;
+        Destroy(ToolTip_Background);
+        Destroy(gameObject);
+        _ = Base_Manager.BACKEND.WriteData();
     }
 
     public void Show_Status_Item_ToolTip(Vector2 screenPos, Status_Item_Scriptable status_item)
@@ -77,7 +81,15 @@ public class Status_ToolTip : MonoBehaviour
         // 가운데 위치로 고정
         Rect.anchoredPosition = Vector2.zero;
 
+        Calculate_Status_Item_Stat(status_item);
+    }
 
+    /// <summary>
+    /// 성장장비 툴팁 내 능력치를 갱신하여 나타냅니다.
+    /// </summary>
+    /// <param name="status_item"></param>
+    private void Calculate_Status_Item_Stat(Status_Item_Scriptable status_item)
+    {
         Item_Image.sprite = Utils.Get_Atlas(status_item.name);
         Item_Name_Text.text = Utils.String_Color_Rarity(status_item.rarity) + status_item.Item_Name;
         Rarity_Text.text = Utils.String_Color_Rarity(status_item.rarity) + status_item.KO_rarity.ToString();
@@ -86,12 +98,12 @@ public class Status_ToolTip : MonoBehaviour
         Item_Enhance_Level_Text.text = $"{Utils.String_Color_Rarity(status_item.rarity) + "+"} {Utils.String_Color_Rarity(status_item.rarity) + Base_Manager.Data.Status_Item_Holder[status_item.name].Enhancement.ToString()}";
 
         Base_ATK.text = $"공격력 : {StringMethod.ToCurrencyString(status_item.Base_ATK)}";
-        Base_HP.text = $"체력 : {StringMethod.ToCurrencyString(status_item.Base_HP)}"; 
+        Base_HP.text = $"체력 : {StringMethod.ToCurrencyString(status_item.Base_HP)}";
         Base_STR.text = $"STR : {status_item.Base_STR.ToString()}";
         Base_DEX.text = $"DEX : {status_item.Base_DEX.ToString()}";
         Base_VIT.text = $"VIT : {status_item.Base_VIT.ToString()}";
 
-        Additional_ATK.text = $"추가 공격력 : {StringMethod.ToCurrencyString(Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_ATK)}"; 
+        Additional_ATK.text = $"추가 공격력 : {StringMethod.ToCurrencyString(Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_ATK)}";
         Additional_HP.text = $"추가 체력 : {StringMethod.ToCurrencyString(Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_HP)}";
         Additional_STR.text = $"추가 STR : {Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_STR.ToString()}";
         Additional_DEX.text = $"추가 DEX : {Base_Manager.Data.Status_Item_Holder[status_item.name].Additional_DEX.ToString()}";
@@ -338,9 +350,8 @@ public class Status_ToolTip : MonoBehaviour
                 holder.Additional_HP += bonus;
 
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("성장장비 레벨업 진행완료");
-                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
-                Destroy(this.gameObject);
-                Destroy(ToolTip_Background);
+                Calculate_Status_Item_Stat(Selected_Status_Item);
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");                
                 GameObject.Find("@Status").GetComponent<UI_Status>().Init();
             }
         }
@@ -375,10 +386,19 @@ public class Status_ToolTip : MonoBehaviour
         }
         Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount--;
         float successRate = enhancementRates[currentEnhance];
+        float BonusRate = Base_Manager.Data.Item_Holder["Bonus_Enhancement"].Hero_Card_Amount >= 1 ? 10.0f : 0.0f;
         float rand = UnityEngine.Random.Range(0f, 100f);
 
-        if (rand < successRate)
+        Debug.Log($"{successRate}의 기본성공확률과 {BonusRate}의 추가 확률이 더해짐.");
+
+        if (rand < successRate + BonusRate)
         {
+            
+            if(Base_Manager.Data.Item_Holder["Bonus_Enhancement"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Bonus_Enhancement"].Hero_Card_Amount--;
+            }
+
             holder.Enhancement++;
 
             int bonus = GetEnhanceBonus(holder.Enhancement, Selected_Status_Item);
@@ -387,18 +407,30 @@ public class Status_ToolTip : MonoBehaviour
             holder.Additional_VIT += bonus;
 
             Base_Canvas.instance.Get_Toast_Popup().Initialize($"성공! +{holder.Enhancement} 강화되었습니다.");
+            Calculate_Status_Item_Stat(Selected_Status_Item);
             Base_Manager.SOUND.Play(Sound.BGS, "Success");
         }
         else
         {
             if (Base_Manager.Data.Item_Holder["DEF_Enhancement"].Hero_Card_Amount >= 1)
             {
+                if (Base_Manager.Data.Item_Holder["Bonus_Enhancement"].Hero_Card_Amount >= 1)
+                {
+                    Base_Manager.Data.Item_Holder["Bonus_Enhancement"].Hero_Card_Amount--;
+                }
+
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("강화 보호권을 소모하여 하락을 막습니다.");
+                Calculate_Status_Item_Stat(Selected_Status_Item);
                 Base_Manager.Data.Item_Holder["DEF_Enhancement"].Hero_Card_Amount--;
                 Base_Manager.SOUND.Play(Sound.BGS, "Lose");
             }
             else
             {
+                if (Base_Manager.Data.Item_Holder["Bonus_Enhancement"].Hero_Card_Amount >= 1)
+                {
+                    Base_Manager.Data.Item_Holder["Bonus_Enhancement"].Hero_Card_Amount--;
+                }
+
                 int previousEnhance = holder.Enhancement;
                 holder.Enhancement = Mathf.Max(0, holder.Enhancement - 1);
 
@@ -414,14 +446,13 @@ public class Status_ToolTip : MonoBehaviour
                 holder.Additional_VIT = Mathf.Max(0, (float)holder.Additional_VIT);
 
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("강화에 실패했습니다. 강화 수치가 하락합니다.");
+                Calculate_Status_Item_Stat(Selected_Status_Item);
                 Base_Manager.SOUND.Play(Sound.BGS, "Lose");
             }
             
         }
-
-        Destroy(this.gameObject);
-        Destroy(ToolTip_Background);
-        _ = Base_Manager.BACKEND.WriteData();
+       
+       
         GameObject.Find("@Status").GetComponent<UI_Status>().Init();
     }
 
