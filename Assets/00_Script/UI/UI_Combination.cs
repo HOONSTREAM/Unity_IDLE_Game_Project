@@ -27,10 +27,16 @@ public class UI_Combination : UI_Base
 
 
     private bool is_Comb_Scroll = false;
+
     private bool is_Chaos_DarkHero_Book = false;
     private bool is_Summon_DarkHero = false;
+
     private bool is_Chaos_Caster_Book = false;
     private bool is_Summon_Chaos_Caster = false;
+
+    private bool is_Aqua_Book = false;
+    private bool is_Summon_Aqua = false;
+
     private bool is_Meat_To_Dia = false;
     private bool is_Potion_To_Ball = false;
 
@@ -48,6 +54,8 @@ public class UI_Combination : UI_Base
         is_Potion_To_Ball = false;
         is_Chaos_Caster_Book = false;
         is_Summon_Chaos_Caster = false;
+        is_Summon_Aqua = false;
+        is_Aqua_Book = false;
 
         return base.Init();
     }
@@ -234,6 +242,64 @@ public class UI_Combination : UI_Base
         First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Comb_Book_Summon_Chaos_Caster"].Hero_Card_Amount, holder.Hero_Card_Amount);
         First_Parts_Count_Text.color = Utils.Item_Count("Comb_Book_Summon_Chaos_Caster", 1) ? Color.green : Color.red;
     }
+    /// <summary>
+    /// 아쿠아 템페스트 소환서
+    /// </summary>
+    public void Set_Chaos_Aqua_Book()
+    {
+        Init();
+        is_Aqua_Book = true;
+
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Comb_Book_Summon_Aqua", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+        Second_Comb_Parts.gameObject.SetActive(true);
+        Third_Comb_Parts.gameObject.SetActive(true);
+        Four_Comb_Parts.gameObject.SetActive(true);
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 50000;
+        First_Comb_Parts.Init("Book", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Book", 50000) ? Color.green : Color.red;
+        Holder holder_2 = new Holder();
+        holder_2.Hero_Card_Amount = 3500;
+        Second_Comb_Parts.Init("Hondon_Ball", holder_2);
+        Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
+        Second_Parts_Count_Text.color = Utils.Item_Count("Hondon_Ball", 3500) ? Color.green : Color.red;
+        Holder holder_3 = new Holder();
+        holder_3.Hero_Card_Amount = 2000;
+        Third_Comb_Parts.Init("Steel", holder_3);
+        Third_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, holder_3.Hero_Card_Amount);
+        Third_Parts_Count_Text.color = Utils.Item_Count("Steel", 2000) ? Color.green : Color.red;
+        Holder holder_4 = new Holder();
+        holder_4.Hero_Card_Amount = 50000;
+        Four_Comb_Parts.Init("Scroll_Comb", holder_4);
+        Four_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount, holder_4.Hero_Card_Amount);
+        Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 50000) ? Color.green : Color.red;
+    }
+    /// <summary>
+    /// 혼돈등급 아쿠아 템페스트 소환
+    /// </summary>
+    public void Set_Summon_Aqua()
+    {
+        Init();
+
+        is_Summon_Aqua = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Summon_Aqua", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Comb_Book_Summon_Aqua", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Comb_Book_Summon_Aqua"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Comb_Book_Summon_Aqua", 1) ? Color.green : Color.red;
+    }
 
     public void Combination()
     {
@@ -313,6 +379,55 @@ public class UI_Combination : UI_Base
 
         }
 
+        else if (is_Aqua_Book)
+        {
+            if (Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount >= 50000 &&
+                Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount >= 3500 &&
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount >= 2000 &&
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount >= 50000)
+            {
+                Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount -= 5000;
+                Base_Manager.Data.Item_Holder["Hondon_Ball"].Hero_Card_Amount -= 3500;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 2000;
+                Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount -= 50000;
+                var item = Base_Manager.Data.Data_Item_Dictionary["Comb_Book_Summon_Aqua"];
+                Base_Manager.Inventory.Get_Item(item);
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 아쿠아 템페스트 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[소환서 - 아쿠아 템페스트]</color>를 제작했습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+                Set_Chaos_Aqua_Book();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("소환서 - 아쿠아 템페스트 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+
+        }
+
+        else if (is_Summon_Aqua)
+        {
+            if (Base_Manager.Data.Item_Holder["Comb_Book_Summon_Aqua"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Comb_Book_Summon_Aqua"].Hero_Card_Amount -= 1;
+
+                Base_Manager.Data.character_Holder["Aqua_Tempest"].Hero_Card_Amount++;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("아쿠아 템페스트 제작 성공");
+                
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Summon_Aqua();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("아쿠아 템페스트 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
         else if (is_Summon_DarkHero)
         {
             if (Base_Manager.Data.Item_Holder["Comb_Book_Summon_Hero"].Hero_Card_Amount >= 1)
@@ -322,7 +437,7 @@ public class UI_Combination : UI_Base
                 Base_Manager.Data.character_Holder["DarkHero"].Hero_Card_Amount++;
                 
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("다크히어로 제작 성공");
-                Base_Manager.BACKEND.Log_Try_Combination_DarkHero();
+                
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
 
                 Set_Summon_DarkHero_Summon();
@@ -344,7 +459,7 @@ public class UI_Combination : UI_Base
                 Base_Manager.Data.character_Holder["Chaos_Caster"].Hero_Card_Amount++;
                 
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("카오스캐스터 제작 성공");
-                Base_Manager.BACKEND.Log_Try_Combination_Chaos_Caster();
+                
                 Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
 
                 Set_Summon_Chaos_Caster_Summon();

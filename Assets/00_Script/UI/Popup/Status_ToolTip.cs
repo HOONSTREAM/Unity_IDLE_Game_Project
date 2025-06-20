@@ -39,7 +39,7 @@ public class Status_ToolTip : MonoBehaviour
     {
         int tooltipIndex = transform.GetSiblingIndex();
         ToolTip_Background = Instantiate(Resources.Load<GameObject>("UI/ToolTip_Background"), Base_Canvas.instance.transform);
-        ToolTip_Background.transform.SetSiblingIndex(tooltipIndex - 1);
+        ToolTip_Background.transform.SetSiblingIndex(tooltipIndex);
     }
 
     private void Update()
@@ -407,6 +407,12 @@ public class Status_ToolTip : MonoBehaviour
             holder.Additional_VIT += bonus;
 
             Base_Canvas.instance.Get_Toast_Popup().Initialize($"성공! +{holder.Enhancement} 강화되었습니다.");
+
+            if(holder.Enhancement >= 4)
+            {
+                Utils.SendSystemLikeMessage($"★ 성장 장비 <color=#FFFF00> +{holder.Enhancement} </color>강화에 성공하였습니다!");
+            }
+            
             Calculate_Status_Item_Stat(Selected_Status_Item);
             Base_Manager.SOUND.Play(Sound.BGS, "Success");
         }
