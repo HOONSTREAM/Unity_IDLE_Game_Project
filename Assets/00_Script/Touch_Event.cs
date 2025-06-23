@@ -29,7 +29,7 @@ public class Touch_Event : MonoBehaviour
 
                 // 파티클 시스템 위치 이동
                 Touch_Effect.transform.position = new Vector3(touchPos.x, touchPos.y, Touch_Effect.transform.position.z);
-
+                Touch_Effect.transform.SetSiblingIndex(0);
 
                 Base_Manager.SOUND.Play(Sound.BGS, "Touch_Effect");
                 // 파티클 시스템 재생

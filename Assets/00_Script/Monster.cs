@@ -164,6 +164,7 @@ public class Monster : Character
         
 
         HP -= dmg;
+        
 
         if (isBoss)
         {
@@ -263,7 +264,7 @@ public class Monster : Character
         Base_Manager.Pool.Pooling_OBJ("Smoke").Get((value) =>
         {
             value.transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
-            Base_Manager.instance.Return_Pool(value.GetComponent<ParticleSystem>().duration, value, "Smoke");
+            Base_Manager.instance.Return_Pool(value.GetComponent<ParticleSystem>().main.duration, value, "Smoke");
 
         });
 

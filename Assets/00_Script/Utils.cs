@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -32,6 +33,34 @@ public class Utils
 
     public static bool is_Skill_Effect_Save_Mode = true;
     public static bool is_Tutorial = false;
+
+
+    private static readonly string[] Normal_Monster_Prefabs = 
+    {
+    "Monster_Slime",
+    "Monster_Skeleton",
+    "Monster_Bat",
+    "Monster_Dragon",
+    "Monster_EvilMage",
+    "Monster_Plant",
+    "Monster_Golem",
+    "Monster_Orc",
+    "Monster_Spider",
+    "Monster_Turtle",
+    "Monster_Mushroom"
+  
+    };
+
+    private static readonly string[] Boss_Monster_Prefabs =
+    {
+        "Boss_KingSlime",
+        "Boss_LizardKing",
+        "Boss_Beholder",
+        "Boss_Chest",
+        "Boss_Crab",
+        "Boss_Demon",
+        "Boss_Specter",
+    };
 
 
     /// <summary>
@@ -595,15 +624,8 @@ public class Utils
     /// <returns></returns>
     public static string GetStage_MonsterPrefab(int stage)
     {
-        if (stage < 200)
-            return "Monster_Slime";
-        else 
-            return "Monster_Skeleton";
-       
-        //else if (stage < 400)
-        //    return "Monster_Troll";
-        //else
-        //    return "Monster_Dragon"; // 400층 이상
+        int index = stage % Normal_Monster_Prefabs.Length;       
+        return Normal_Monster_Prefabs[index];
     }
     /// <summary>
     /// 스테이지 별로, 보스를 다르게 소환 시킵니다.
@@ -612,14 +634,8 @@ public class Utils
     /// <returns></returns>
     public static string GetStage_BossPrefab(int stage)
     {
-        if (stage < 200)
-            return "Boss_KingSlime";
-        else
-            return "Boss_LizardKing";
-        //else if (stage < 400)
-        //    return "Monster_Troll";
-        //else
-        //    return "Monster_Dragon"; // 400층 이상
+        int index = stage % Boss_Monster_Prefabs.Length;
+        return Boss_Monster_Prefabs[index];
     }
 
 

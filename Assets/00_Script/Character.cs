@@ -102,6 +102,7 @@ public class Character : MonoBehaviour
         {
             value.transform.position = m_target.transform.position;
             value.GetComponent<Bullet>().Attack_Init(m_target, ATK);
+            Base_Manager.SOUND.Play(Sound.BGS, "PUNCH");
         });
     }
 

@@ -26,8 +26,11 @@ public class Status_ToolTip : MonoBehaviour
     private GameObject ToolTip_Background;
     private Status_Item_Scriptable Selected_Status_Item;
 
-    private string start_percent;
-    private string effect_percent = default;
+
+    private bool isEnhanceCooldown = false;
+    private float enhanceCooldownTimer = 0f;
+    private float enhanceCooldownDuration = 1.0f;
+
 
     private void Awake()
     {
@@ -44,6 +47,17 @@ public class Status_ToolTip : MonoBehaviour
 
     private void Update()
     {
+
+        if (isEnhanceCooldown)
+        {
+            enhanceCooldownTimer += Time.deltaTime;
+
+            if (enhanceCooldownTimer >= enhanceCooldownDuration)
+            {
+                enhanceCooldownTimer = 0f;
+                isEnhanceCooldown = false;
+            }
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -360,6 +374,14 @@ public class Status_ToolTip : MonoBehaviour
 
     public void Increase_Enhancement()
     {
+        if (isEnhanceCooldown)
+        {            
+            return;
+        }
+
+
+        isEnhanceCooldown = true;
+
         if (Selected_Status_Item == null) return;
 
         var holder = Base_Manager.Data.Status_Item_Holder[Selected_Status_Item.name];

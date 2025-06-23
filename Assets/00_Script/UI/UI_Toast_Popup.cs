@@ -11,7 +11,7 @@ public class UI_Toast_Popup : MonoBehaviour
     public void Initialize(string temp)
     {
         Toast_Popup_Text.text = temp;
-        Destroy(this.gameObject, 2.0f);
+        Destroy(this.gameObject, 5.0f);
     }
 
 

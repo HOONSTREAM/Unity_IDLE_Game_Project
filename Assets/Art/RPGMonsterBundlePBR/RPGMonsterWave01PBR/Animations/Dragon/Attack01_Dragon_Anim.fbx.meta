@@ -1,109 +1,305 @@
 fileFormatVersion: 2
 guid: 9d48a2f79c784522bda1ae569d019f2c
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Belly01
-    100004: Belly02
-    100006: Body
-    100008: Dragon
-    100010: Eye01_L
-    100012: Eye01_R
-    100014: Eye02_L
-    100016: Eye02_R
-    100018: EyeRoot
-    100020: FrontLeg01_L
-    100022: FrontLeg01_R
-    100024: FrontLeg02_L
-    100026: FrontLeg02_R
-    100028: FrontLeg03_L
-    100030: FrontLeg03_R
-    100032: Head
-    100034: Jaw01
-    100036: Jaw02
-    100038: RearLeg01_L
-    100040: RearLeg01_R
-    100042: RearLeg02_L
-    100044: RearLeg02_R
-    100046: RearLeg03_L
-    100048: RearLeg03_R
-    100050: Spine01
-    100052: Spine02
-    100054: Tail01
-    100056: Tail02
-    100058: Tail03
-    100060: UpperJaw01
-    100062: UpperJaw02
-    100064: Wing01_L
-    100066: Wing01_R
-    100068: Wing02_L
-    100070: Wing02_R
-    100072: Wing03_L
-    100074: Wing03_R
-    100076: Wing04_L
-    100078: Wing04_R
-    100080: Wing05_L
-    100082: Wing05_R
-    100084: Wing06_L
-    100086: Wing06_R
-    100088: Wing07_L
-    100090: Wing07_R
-    100092: WingRoot
-    400000: //RootNode
-    400002: Belly01
-    400004: Belly02
-    400006: Body
-    400008: Dragon
-    400010: Eye01_L
-    400012: Eye01_R
-    400014: Eye02_L
-    400016: Eye02_R
-    400018: EyeRoot
-    400020: FrontLeg01_L
-    400022: FrontLeg01_R
-    400024: FrontLeg02_L
-    400026: FrontLeg02_R
-    400028: FrontLeg03_L
-    400030: FrontLeg03_R
-    400032: Head
-    400034: Jaw01
-    400036: Jaw02
-    400038: RearLeg01_L
-    400040: RearLeg01_R
-    400042: RearLeg02_L
-    400044: RearLeg02_R
-    400046: RearLeg03_L
-    400048: RearLeg03_R
-    400050: Spine01
-    400052: Spine02
-    400054: Tail01
-    400056: Tail02
-    400058: Tail03
-    400060: UpperJaw01
-    400062: UpperJaw02
-    400064: Wing01_L
-    400066: Wing01_R
-    400068: Wing02_L
-    400070: Wing02_R
-    400072: Wing03_L
-    400074: Wing03_R
-    400076: Wing04_L
-    400078: Wing04_R
-    400080: Wing05_L
-    400082: Wing05_R
-    400084: Wing06_L
-    400086: Wing06_R
-    400088: Wing07_L
-    400090: Wing07_R
-    400092: WingRoot
-    4300000: Dragon
-    7400000: Attack01
-    9500000: //RootNode
-    13700000: Dragon
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: Belly01
+  - first:
+      1: 100004
+    second: Belly02
+  - first:
+      1: 100006
+    second: Body
+  - first:
+      1: 100008
+    second: Dragon
+  - first:
+      1: 100010
+    second: Eye01_L
+  - first:
+      1: 100012
+    second: Eye01_R
+  - first:
+      1: 100014
+    second: Eye02_L
+  - first:
+      1: 100016
+    second: Eye02_R
+  - first:
+      1: 100018
+    second: EyeRoot
+  - first:
+      1: 100020
+    second: FrontLeg01_L
+  - first:
+      1: 100022
+    second: FrontLeg01_R
+  - first:
+      1: 100024
+    second: FrontLeg02_L
+  - first:
+      1: 100026
+    second: FrontLeg02_R
+  - first:
+      1: 100028
+    second: FrontLeg03_L
+  - first:
+      1: 100030
+    second: FrontLeg03_R
+  - first:
+      1: 100032
+    second: Head
+  - first:
+      1: 100034
+    second: Jaw01
+  - first:
+      1: 100036
+    second: Jaw02
+  - first:
+      1: 100038
+    second: RearLeg01_L
+  - first:
+      1: 100040
+    second: RearLeg01_R
+  - first:
+      1: 100042
+    second: RearLeg02_L
+  - first:
+      1: 100044
+    second: RearLeg02_R
+  - first:
+      1: 100046
+    second: RearLeg03_L
+  - first:
+      1: 100048
+    second: RearLeg03_R
+  - first:
+      1: 100050
+    second: Spine01
+  - first:
+      1: 100052
+    second: Spine02
+  - first:
+      1: 100054
+    second: Tail01
+  - first:
+      1: 100056
+    second: Tail02
+  - first:
+      1: 100058
+    second: Tail03
+  - first:
+      1: 100060
+    second: UpperJaw01
+  - first:
+      1: 100062
+    second: UpperJaw02
+  - first:
+      1: 100064
+    second: Wing01_L
+  - first:
+      1: 100066
+    second: Wing01_R
+  - first:
+      1: 100068
+    second: Wing02_L
+  - first:
+      1: 100070
+    second: Wing02_R
+  - first:
+      1: 100072
+    second: Wing03_L
+  - first:
+      1: 100074
+    second: Wing03_R
+  - first:
+      1: 100076
+    second: Wing04_L
+  - first:
+      1: 100078
+    second: Wing04_R
+  - first:
+      1: 100080
+    second: Wing05_L
+  - first:
+      1: 100082
+    second: Wing05_R
+  - first:
+      1: 100084
+    second: Wing06_L
+  - first:
+      1: 100086
+    second: Wing06_R
+  - first:
+      1: 100088
+    second: Wing07_L
+  - first:
+      1: 100090
+    second: Wing07_R
+  - first:
+      1: 100092
+    second: WingRoot
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: Belly01
+  - first:
+      4: 400004
+    second: Belly02
+  - first:
+      4: 400006
+    second: Body
+  - first:
+      4: 400008
+    second: Dragon
+  - first:
+      4: 400010
+    second: Eye01_L
+  - first:
+      4: 400012
+    second: Eye01_R
+  - first:
+      4: 400014
+    second: Eye02_L
+  - first:
+      4: 400016
+    second: Eye02_R
+  - first:
+      4: 400018
+    second: EyeRoot
+  - first:
+      4: 400020
+    second: FrontLeg01_L
+  - first:
+      4: 400022
+    second: FrontLeg01_R
+  - first:
+      4: 400024
+    second: FrontLeg02_L
+  - first:
+      4: 400026
+    second: FrontLeg02_R
+  - first:
+      4: 400028
+    second: FrontLeg03_L
+  - first:
+      4: 400030
+    second: FrontLeg03_R
+  - first:
+      4: 400032
+    second: Head
+  - first:
+      4: 400034
+    second: Jaw01
+  - first:
+      4: 400036
+    second: Jaw02
+  - first:
+      4: 400038
+    second: RearLeg01_L
+  - first:
+      4: 400040
+    second: RearLeg01_R
+  - first:
+      4: 400042
+    second: RearLeg02_L
+  - first:
+      4: 400044
+    second: RearLeg02_R
+  - first:
+      4: 400046
+    second: RearLeg03_L
+  - first:
+      4: 400048
+    second: RearLeg03_R
+  - first:
+      4: 400050
+    second: Spine01
+  - first:
+      4: 400052
+    second: Spine02
+  - first:
+      4: 400054
+    second: Tail01
+  - first:
+      4: 400056
+    second: Tail02
+  - first:
+      4: 400058
+    second: Tail03
+  - first:
+      4: 400060
+    second: UpperJaw01
+  - first:
+      4: 400062
+    second: UpperJaw02
+  - first:
+      4: 400064
+    second: Wing01_L
+  - first:
+      4: 400066
+    second: Wing01_R
+  - first:
+      4: 400068
+    second: Wing02_L
+  - first:
+      4: 400070
+    second: Wing02_R
+  - first:
+      4: 400072
+    second: Wing03_L
+  - first:
+      4: 400074
+    second: Wing03_R
+  - first:
+      4: 400076
+    second: Wing04_L
+  - first:
+      4: 400078
+    second: Wing04_R
+  - first:
+      4: 400080
+    second: Wing05_L
+  - first:
+      4: 400082
+    second: Wing05_R
+  - first:
+      4: 400084
+    second: Wing06_L
+  - first:
+      4: 400086
+    second: Wing06_R
+  - first:
+      4: 400088
+    second: Wing07_L
+  - first:
+      4: 400090
+    second: Wing07_R
+  - first:
+      4: 400092
+    second: WingRoot
+  - first:
+      43: 4300000
+    second: Dragon
+  - first:
+      74: 7400000
+    second: Attack01
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Dragon
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 0
@@ -112,9 +308,8 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -132,6 +327,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Attack01
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 40
       wrapMode: 0
@@ -152,7 +348,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.3931923
+        functionName: Attack
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -258,25 +461,36 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
     indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -285,10 +499,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -298,13 +512,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

@@ -145,6 +145,7 @@ public class Spawner : MonoBehaviour
             {
                 // 풀링이 생성될때의 기능을 구현한다.
                 value.GetComponent<Monster>().Init(Player_Stage);
+                Base_Manager.SOUND.Play(Sound.BGS, "Boss");
             });
 
             monster = go.GetComponent<Monster>();

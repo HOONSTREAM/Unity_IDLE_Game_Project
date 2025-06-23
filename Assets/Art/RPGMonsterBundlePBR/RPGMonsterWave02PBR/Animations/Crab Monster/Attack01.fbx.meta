@@ -1,138 +1,392 @@
 fileFormatVersion: 2
 guid: fe986b974a3d466f9aeff53d39f614d8
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Body
-    100004: Claw01
-    100006: Claw02
-    100008: Claw03
-    100010: Claw04
-    100012: Claw05
-    100014: Claw06
-    100016: CrabMesh
-    100018: Eye01
-    100020: Eye02
-    100022: Eye03
-    100024: EyePatch
-    100026: FrontLeftLeg01
-    100028: FrontLeftLeg02
-    100030: FrontLeftLeg03
-    100032: FrontLeftLeg04
-    100034: FrontLeftLeg05
-    100036: FrontRightLeg01
-    100038: FrontRightLeg02
-    100040: FrontRightLeg03
-    100042: FrontRightLeg04
-    100044: FrontRightLeg05
-    100046: Hand
-    100048: Head
-    100050: Horn01
-    100052: Horn02
-    100054: Horn03
-    100056: joint1
-    100058: LowerArm
-    100060: Mouth
-    100062: RearLeftLeg01
-    100064: RearLeftLeg02
-    100066: RearLeftLeg03
-    100068: RearLeftLeg04
-    100070: RearLeftLeg05
-    100072: RearRightLeg01
-    100074: RearRightLeg02
-    100076: RearRightLeg03
-    100078: RearRightLeg04
-    100080: RearRightLeg05
-    100082: Spike0101
-    100084: Spike0102
-    100086: Spike0201
-    100088: Spike0202
-    100090: Spike0301
-    100092: Spike0302
-    100094: Spike0401
-    100096: Spike0402
-    100098: Spike0501
-    100100: Spike0502
-    100102: Spike0601
-    100104: Spike0602
-    100106: Spike0701
-    100108: Spike0702
-    100110: Spike0801
-    100112: Spike0802
-    100114: SpikeCTRL
-    100116: Spine01
-    100118: Spine02
-    100120: UpperArm
-    400000: //RootNode
-    400002: Body
-    400004: Claw01
-    400006: Claw02
-    400008: Claw03
-    400010: Claw04
-    400012: Claw05
-    400014: Claw06
-    400016: CrabMesh
-    400018: Eye01
-    400020: Eye02
-    400022: Eye03
-    400024: EyePatch
-    400026: FrontLeftLeg01
-    400028: FrontLeftLeg02
-    400030: FrontLeftLeg03
-    400032: FrontLeftLeg04
-    400034: FrontLeftLeg05
-    400036: FrontRightLeg01
-    400038: FrontRightLeg02
-    400040: FrontRightLeg03
-    400042: FrontRightLeg04
-    400044: FrontRightLeg05
-    400046: Hand
-    400048: Head
-    400050: Horn01
-    400052: Horn02
-    400054: Horn03
-    400056: joint1
-    400058: LowerArm
-    400060: Mouth
-    400062: RearLeftLeg01
-    400064: RearLeftLeg02
-    400066: RearLeftLeg03
-    400068: RearLeftLeg04
-    400070: RearLeftLeg05
-    400072: RearRightLeg01
-    400074: RearRightLeg02
-    400076: RearRightLeg03
-    400078: RearRightLeg04
-    400080: RearRightLeg05
-    400082: Spike0101
-    400084: Spike0102
-    400086: Spike0201
-    400088: Spike0202
-    400090: Spike0301
-    400092: Spike0302
-    400094: Spike0401
-    400096: Spike0402
-    400098: Spike0501
-    400100: Spike0502
-    400102: Spike0601
-    400104: Spike0602
-    400106: Spike0701
-    400108: Spike0702
-    400110: Spike0801
-    400112: Spike0802
-    400114: SpikeCTRL
-    400116: Spine01
-    400118: Spine02
-    400120: UpperArm
-    2100000: lambert1
-    4300000: CrabMesh
-    7400000: Attack01
-    9500000: //RootNode
-    13700000: CrabMesh
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: Body
+  - first:
+      1: 100004
+    second: Claw01
+  - first:
+      1: 100006
+    second: Claw02
+  - first:
+      1: 100008
+    second: Claw03
+  - first:
+      1: 100010
+    second: Claw04
+  - first:
+      1: 100012
+    second: Claw05
+  - first:
+      1: 100014
+    second: Claw06
+  - first:
+      1: 100016
+    second: CrabMesh
+  - first:
+      1: 100018
+    second: Eye01
+  - first:
+      1: 100020
+    second: Eye02
+  - first:
+      1: 100022
+    second: Eye03
+  - first:
+      1: 100024
+    second: EyePatch
+  - first:
+      1: 100026
+    second: FrontLeftLeg01
+  - first:
+      1: 100028
+    second: FrontLeftLeg02
+  - first:
+      1: 100030
+    second: FrontLeftLeg03
+  - first:
+      1: 100032
+    second: FrontLeftLeg04
+  - first:
+      1: 100034
+    second: FrontLeftLeg05
+  - first:
+      1: 100036
+    second: FrontRightLeg01
+  - first:
+      1: 100038
+    second: FrontRightLeg02
+  - first:
+      1: 100040
+    second: FrontRightLeg03
+  - first:
+      1: 100042
+    second: FrontRightLeg04
+  - first:
+      1: 100044
+    second: FrontRightLeg05
+  - first:
+      1: 100046
+    second: Hand
+  - first:
+      1: 100048
+    second: Head
+  - first:
+      1: 100050
+    second: Horn01
+  - first:
+      1: 100052
+    second: Horn02
+  - first:
+      1: 100054
+    second: Horn03
+  - first:
+      1: 100056
+    second: joint1
+  - first:
+      1: 100058
+    second: LowerArm
+  - first:
+      1: 100060
+    second: Mouth
+  - first:
+      1: 100062
+    second: RearLeftLeg01
+  - first:
+      1: 100064
+    second: RearLeftLeg02
+  - first:
+      1: 100066
+    second: RearLeftLeg03
+  - first:
+      1: 100068
+    second: RearLeftLeg04
+  - first:
+      1: 100070
+    second: RearLeftLeg05
+  - first:
+      1: 100072
+    second: RearRightLeg01
+  - first:
+      1: 100074
+    second: RearRightLeg02
+  - first:
+      1: 100076
+    second: RearRightLeg03
+  - first:
+      1: 100078
+    second: RearRightLeg04
+  - first:
+      1: 100080
+    second: RearRightLeg05
+  - first:
+      1: 100082
+    second: Spike0101
+  - first:
+      1: 100084
+    second: Spike0102
+  - first:
+      1: 100086
+    second: Spike0201
+  - first:
+      1: 100088
+    second: Spike0202
+  - first:
+      1: 100090
+    second: Spike0301
+  - first:
+      1: 100092
+    second: Spike0302
+  - first:
+      1: 100094
+    second: Spike0401
+  - first:
+      1: 100096
+    second: Spike0402
+  - first:
+      1: 100098
+    second: Spike0501
+  - first:
+      1: 100100
+    second: Spike0502
+  - first:
+      1: 100102
+    second: Spike0601
+  - first:
+      1: 100104
+    second: Spike0602
+  - first:
+      1: 100106
+    second: Spike0701
+  - first:
+      1: 100108
+    second: Spike0702
+  - first:
+      1: 100110
+    second: Spike0801
+  - first:
+      1: 100112
+    second: Spike0802
+  - first:
+      1: 100114
+    second: SpikeCTRL
+  - first:
+      1: 100116
+    second: Spine01
+  - first:
+      1: 100118
+    second: Spine02
+  - first:
+      1: 100120
+    second: UpperArm
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: Body
+  - first:
+      4: 400004
+    second: Claw01
+  - first:
+      4: 400006
+    second: Claw02
+  - first:
+      4: 400008
+    second: Claw03
+  - first:
+      4: 400010
+    second: Claw04
+  - first:
+      4: 400012
+    second: Claw05
+  - first:
+      4: 400014
+    second: Claw06
+  - first:
+      4: 400016
+    second: CrabMesh
+  - first:
+      4: 400018
+    second: Eye01
+  - first:
+      4: 400020
+    second: Eye02
+  - first:
+      4: 400022
+    second: Eye03
+  - first:
+      4: 400024
+    second: EyePatch
+  - first:
+      4: 400026
+    second: FrontLeftLeg01
+  - first:
+      4: 400028
+    second: FrontLeftLeg02
+  - first:
+      4: 400030
+    second: FrontLeftLeg03
+  - first:
+      4: 400032
+    second: FrontLeftLeg04
+  - first:
+      4: 400034
+    second: FrontLeftLeg05
+  - first:
+      4: 400036
+    second: FrontRightLeg01
+  - first:
+      4: 400038
+    second: FrontRightLeg02
+  - first:
+      4: 400040
+    second: FrontRightLeg03
+  - first:
+      4: 400042
+    second: FrontRightLeg04
+  - first:
+      4: 400044
+    second: FrontRightLeg05
+  - first:
+      4: 400046
+    second: Hand
+  - first:
+      4: 400048
+    second: Head
+  - first:
+      4: 400050
+    second: Horn01
+  - first:
+      4: 400052
+    second: Horn02
+  - first:
+      4: 400054
+    second: Horn03
+  - first:
+      4: 400056
+    second: joint1
+  - first:
+      4: 400058
+    second: LowerArm
+  - first:
+      4: 400060
+    second: Mouth
+  - first:
+      4: 400062
+    second: RearLeftLeg01
+  - first:
+      4: 400064
+    second: RearLeftLeg02
+  - first:
+      4: 400066
+    second: RearLeftLeg03
+  - first:
+      4: 400068
+    second: RearLeftLeg04
+  - first:
+      4: 400070
+    second: RearLeftLeg05
+  - first:
+      4: 400072
+    second: RearRightLeg01
+  - first:
+      4: 400074
+    second: RearRightLeg02
+  - first:
+      4: 400076
+    second: RearRightLeg03
+  - first:
+      4: 400078
+    second: RearRightLeg04
+  - first:
+      4: 400080
+    second: RearRightLeg05
+  - first:
+      4: 400082
+    second: Spike0101
+  - first:
+      4: 400084
+    second: Spike0102
+  - first:
+      4: 400086
+    second: Spike0201
+  - first:
+      4: 400088
+    second: Spike0202
+  - first:
+      4: 400090
+    second: Spike0301
+  - first:
+      4: 400092
+    second: Spike0302
+  - first:
+      4: 400094
+    second: Spike0401
+  - first:
+      4: 400096
+    second: Spike0402
+  - first:
+      4: 400098
+    second: Spike0501
+  - first:
+      4: 400100
+    second: Spike0502
+  - first:
+      4: 400102
+    second: Spike0601
+  - first:
+      4: 400104
+    second: Spike0602
+  - first:
+      4: 400106
+    second: Spike0701
+  - first:
+      4: 400108
+    second: Spike0702
+  - first:
+      4: 400110
+    second: Spike0801
+  - first:
+      4: 400112
+    second: Spike0802
+  - first:
+      4: 400114
+    second: SpikeCTRL
+  - first:
+      4: 400116
+    second: Spine01
+  - first:
+      4: 400118
+    second: Spine02
+  - first:
+      4: 400120
+    second: UpperArm
+  - first:
+      21: 2100000
+    second: lambert1
+  - first:
+      43: 4300000
+    second: CrabMesh
+  - first:
+      74: 7400000
+    second: Attack01
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: CrabMesh
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -141,9 +395,8 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -161,6 +414,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Attack01
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 22
       wrapMode: 0
@@ -181,7 +435,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.42219612
+        functionName: Attack
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -193,25 +454,36 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -220,10 +492,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -233,13 +505,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

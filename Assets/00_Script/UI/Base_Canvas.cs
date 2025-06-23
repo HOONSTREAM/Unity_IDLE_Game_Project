@@ -167,7 +167,17 @@ public class Base_Canvas : MonoBehaviour
             }
         });
 
-        Select_Stage_Button.onClick.AddListener(() => Get_UI("UI_SELECT_STAGE", false, false, true));
+        Select_Stage_Button.onClick.AddListener(() =>
+        {
+            if(Stage_Manager.isDungeon)
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("던전 진행 중에는 사용할 수 없습니다.");
+                return;
+            }
+
+            Get_UI("UI_SELECT_STAGE", false, false, true);
+        });
+
 
         Rank_Button.onClick.AddListener(() =>
         {
