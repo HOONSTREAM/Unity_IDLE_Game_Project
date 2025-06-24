@@ -20,7 +20,7 @@ public class Utils
     public static readonly int DIA_AND_GOLD_DUNGEON_MAX_LEVEL = 199;
 
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");
-    public static int[] summon_level = { 10, 45, 110, 250, 300, 500, 750, 1000, 1240 };
+    public static int[] summon_level = { 10, 45, 110, 250, 300, 500, 1300, 2800, 4040 };
     public static Stack<UI_Base> UI_Holder = new Stack<UI_Base>();
     public static Level_Design Data = Resources.Load<Level_Design>("Scriptable/Level_Design");
 
