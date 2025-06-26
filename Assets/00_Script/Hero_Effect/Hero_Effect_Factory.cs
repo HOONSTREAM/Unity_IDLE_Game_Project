@@ -114,6 +114,7 @@ public static class HeroEffectFactory
             { "Hammer_Knight", new List<IHeroEffect> { new Increase_Critical_Percentage_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
             { "Chaos_Caster", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect(), new Increase_GoldDrop_Effect() } },
             { "Aqua_Tempest", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_CriticalDamage_Effect(), new Increase_Critical_Percentage_Effect() } },
+            { "Guardian", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect(), new NONE_Effect() } }
 
         };
 

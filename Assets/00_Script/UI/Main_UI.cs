@@ -823,7 +823,7 @@ public class Main_UI : MonoBehaviour
             case 1:
 
                 int levelCount = (clear_Level + 1);
-                var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON; ;
+                var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * (Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON * 100);
 
                 Data_Manager.Main_Players_Data.Player_Money += value;
                 _ = Base_Manager.BACKEND.WriteData();

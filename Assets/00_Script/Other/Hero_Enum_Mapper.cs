@@ -28,6 +28,7 @@ public static class Hero_Enum_Mapper
         { "Hammer_Knight", 19 },
         { "Chaos_Caster", 20 },
         { "Aqua_Tempest", 21 },
+        { "Guardian", 22 },
 
     };
 

@@ -379,7 +379,6 @@ public class Status_ToolTip : MonoBehaviour
             return;
         }
 
-
         isEnhanceCooldown = true;
 
         if (Selected_Status_Item == null) return;
@@ -401,18 +400,19 @@ public class Status_ToolTip : MonoBehaviour
             return;
         }
 
-        if(Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount < 1)
+        if(Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount < (currentEnhance + 1))
         {
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("미스릴이 부족합니다.");
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("강화에 필요한 미스릴이 부족합니다.");
             return;
         }
-        Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount--;
+
+        Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount = Base_Manager.Data.Item_Holder["Enhancement"].Hero_Card_Amount - (currentEnhance + 1);
         float successRate = enhancementRates[currentEnhance];
         float BonusRate = Base_Manager.Data.Item_Holder["Bonus_Enhancement"].Hero_Card_Amount >= 1 ? 10.0f : 0.0f;
+
         float rand = UnityEngine.Random.Range(0f, 100f);
 
-        Debug.Log($"{successRate}의 기본성공확률과 {BonusRate}의 추가 확률이 더해짐.");
-
+      
         if (rand < successRate + BonusRate)
         {
             

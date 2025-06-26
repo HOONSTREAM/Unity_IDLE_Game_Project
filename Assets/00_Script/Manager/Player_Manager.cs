@@ -71,18 +71,17 @@ public class Player_Manager
         }
 
         double rarityMultiplier = RarityBonusTable.RarityMultiplier.TryGetValue(rarity, out double value) ? value : 1.0;
+        
         double baseATK = Base_Manager.Data.Data_Character_Dictionary[Hero_name].Data.Base_ATK;
 
         // 카드 레벨 영향 (정수 승 계산)
         double levelFactor = cardLevel * cardLevel;
 
-        // 기본 공격력 계산 (레벨 + 레어리티)
-        baseATK *= levelFactor * 5.0 * rarityMultiplier;
-
-        // 유저 ATK 추가
         baseATK += playerData.ATK;
 
-
+        // 기본 공격력 계산 (레벨 + 레어리티)
+        baseATK *= levelFactor * ((int)Base_Manager.Data.Data_Character_Dictionary[Hero_name].Data.Rarity + 1) * (rarityMultiplier);
+        
         foreach (var kvp in Base_Manager.Data.Status_Item_Holder)
         {
             string itemKey = kvp.Key;
@@ -107,7 +106,7 @@ public class Player_Manager
             }
         }
 
-
+        
         // 광고 버프
         baseATK *= adsBuffValue;
 
@@ -159,6 +158,8 @@ public class Player_Manager
         baseATK *= 1.0 + holdingEffect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0);
         baseATK *= 1.0 + holdingEffectRelic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0);
 
+       
+
         return baseATK;
     }
 
@@ -188,10 +189,9 @@ public class Player_Manager
         // 레벨 기반 HP 계산 (정수 곱셈 사용)
         double levelFactor = cardLevel * cardLevel;
 
-        baseHP *= levelFactor * 5.0 * rarityMultiplier;
-
-        // 유저 HP 추가
         baseHP += playerData.HP;
+
+        baseHP *= levelFactor * 5.0 * rarityMultiplier;
 
         // 성장장비 적용
         foreach (var kvp in Base_Manager.Data.Status_Item_Holder)
@@ -548,11 +548,11 @@ public class Player_Manager
         public static readonly Dictionary<Rarity, double> RarityMultiplier = new Dictionary<Rarity, double>()
         {
             { Rarity.Common, 1.0 },
-            { Rarity.UnCommon, 2.0 },
-            { Rarity.Rare, 3.5 },
-            { Rarity.Epic, 20.5 },
-            { Rarity.Legendary, 60.0 },
-            { Rarity.Chaos, 180.0 }
+            { Rarity.UnCommon, 1.2 },
+            { Rarity.Rare, 1.5 },
+            { Rarity.Epic, 2.0 },
+            { Rarity.Legendary, 30.0 },
+            { Rarity.Chaos, 150.0 }
         };
 
     }
