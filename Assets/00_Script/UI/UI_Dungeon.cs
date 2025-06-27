@@ -228,7 +228,7 @@ public class UI_Dungeon : UI_Base
 
         if(value == 4) // DPS
         {
-            if(Data_Manager.Main_Players_Data.USER_DPS_LEVEL >= 249)
+            if(Data_Manager.Main_Players_Data.USER_DPS_LEVEL >= Utils.DPS_DUNGEON_MAX_LEVEL)
             {
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("최고 단계에 달성하셨습니다.");
                 return;

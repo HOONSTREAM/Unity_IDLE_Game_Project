@@ -206,24 +206,24 @@ public class Base_Canvas : MonoBehaviour
     IEnumerator Start_Tutorial_Level_Button_Coroutine()
     {
         yield return new WaitForSecondsRealtime(3.0f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("몬스터와 보스를 처치하고 획득한 골드로, 강해질 수 있습니다.");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("몬스터와 보스를 처치하고 획득한 골드로, 강해질 수 있습니다.");
         yield return new WaitForSecondsRealtime(2.0f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("성장방법은, 레벨업, 영웅강화, 각인 등이 있습니다.");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("성장방법은, 레벨업, 영웅강화, 각인 등이 있습니다.");
         yield return new WaitForSecondsRealtime(2.0f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("레벨업을 해서, 더욱 강해져봅시다!");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("레벨업을 해서, 더욱 강해져봅시다!");
         All_Block_Panel.gameObject.SetActive(false);
         Tutorial_Levelup_Button_Panel.gameObject.SetActive(true);              
     }
     private void Start_Levelup_Button_tutorial()
     {
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("기본 튜토리얼을 모두 마쳤습니다!");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("기본 튜토리얼을 모두 마쳤습니다!");
         Tutorial_Levelup_Button_Panel.gameObject.SetActive(false);    
         Base_Manager.SOUND.Play(Sound.BGS, "Victory");
         Utils.is_Tutorial = false;
     } 
     private void Start_Hero_Set_Tutorial()
     {       
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("이제 영웅을 배치하여, 전투에 임해봅니다.");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("이제 영웅을 배치하여, 전투에 임해봅니다.");
         Start_Tutorial(Hero_Button);
     }
     private void Start_Press_DeadFrame_Tutorial()
@@ -235,13 +235,13 @@ public class Base_Canvas : MonoBehaviour
         All_Block_Panel.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(1.5f);
         Main_UI.Instance.Set_Mode_Change_Idle_Mode();
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("이런, 전투에서 패배해서 BOSS 버튼이 열렸습니다.");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("이런, 전투에서 패배해서 BOSS 버튼이 열렸습니다.");
         yield return new WaitForSecondsRealtime(2.5f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("전투에서 패배하게되면, BOSS 버튼이 열리고, 방치모드에 들어갑니다.");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("전투에서 패배하게되면, BOSS 버튼이 열리고, 방치모드에 들어갑니다.");
         yield return new WaitForSecondsRealtime(2.5f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("방치모드란, 데미지를 받지않고 무한 성장이 가능한 모드입니다.");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("방치모드란, 데미지를 받지않고 무한 성장이 가능한 모드입니다.");
         yield return new WaitForSecondsRealtime(2.5f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅을 배치했으니, BOSS 버튼을 눌러서, 다음 층으로 진행할 수 있습니다.");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("영웅을 배치했으니, BOSS 버튼을 눌러서, 다음 층으로 진행할 수 있습니다.");
         yield return new WaitForSecondsRealtime(1.8f);
         All_Block_Panel.gameObject.SetActive(false);
         Start_Tutorial(Dead_Frame_Button);
@@ -382,6 +382,10 @@ public class Base_Canvas : MonoBehaviour
     {
         return Instantiate(Resources.Load<UI_TOP_POPUP>("UI/TOP_POPUP"), transform); //transform은 해당위치에 생성하라는 인자
     }
+    public UI_Tutorial_Popup Get_Tutorial_Popup()
+    {
+        return Instantiate(Resources.Load<UI_Tutorial_Popup>("UI/Tutorial_Popup"), transform); //transform은 해당위치에 생성하라는 인자
+    }
     public MainGame_Error_UI Get_MainGame_Error_UI()
     {
         return Instantiate(Resources.Load<MainGame_Error_UI>("UI/MainGame_Error_UI"), transform); //transform은 해당위치에 생성하라는 인자
@@ -434,11 +438,11 @@ public class Base_Canvas : MonoBehaviour
     {
         All_Block_Panel.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2.0f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅 파티 키우기 세계에 오신 것을 환영합니다!");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("영웅 파티 키우기 세계에 오신 것을 환영합니다!");
         Main_UI.Instance.Get_Fast_Mode_Free_Start_User();
         Base_Canvas.instance.Get_Toast_Popup().Initialize("광고버프체험! 2배속이 30분 지급됩니다.");
         yield return new WaitForSecondsRealtime(2.0f);
-        Base_Canvas.instance.Get_TOP_Popup().Initialize("일일 퀘스트를 통하여, 기본 조작을 익혀봅니다.");
+        Base_Canvas.instance.Get_Tutorial_Popup().Initialize("일일 퀘스트를 통하여, 기본 조작을 익혀봅니다.");
         yield return new WaitForSecondsRealtime(1.0f);
         All_Block_Panel.gameObject.SetActive(false);
         Start_Tutorial(Daily_Quest_Button);
@@ -451,11 +455,11 @@ public class Base_Canvas : MonoBehaviour
             if (Data_Manager.Main_Players_Data.DiaMond < 500) // 다이아가 500개 미만이면, 튜토리얼 진행중으로 간주
             {
                 UI_Daily_Quest.is_Tutorial_Attendance = true;
-                Base_Canvas.instance.Get_TOP_Popup().Initialize("출석 보상을 수령해봅니다.");
+                Base_Canvas.instance.Get_Tutorial_Popup().Initialize("출석 보상을 수령해봅니다.");
             }
             else
             {
-                Base_Canvas.instance.Get_TOP_Popup().Initialize("일일 퀘스트 창을 닫고, 상점으로 향해볼까요?");
+                Base_Canvas.instance.Get_Tutorial_Popup().Initialize("일일 퀘스트 창을 닫고, 상점으로 향해볼까요?");
                 UI_Daily_Quest.is_Tutorial_Attendance = false;
             }
         }       

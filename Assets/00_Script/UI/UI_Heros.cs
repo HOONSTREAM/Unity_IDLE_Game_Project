@@ -79,7 +79,7 @@ public class UI_Heros : UI_Base
 
         if (Utils.is_Tutorial)
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("2명 이상의 영웅을 배치해보세요!");
+            Base_Canvas.instance.Get_Tutorial_Popup().Initialize("2명 이상의 영웅을 배치해보세요!");
             is_Hero_Set_Tutorial = true;        
         }
 

@@ -645,7 +645,7 @@ public class UI_Shop : UI_Base
     {
         if (Utils.is_Tutorial)
         {
-            Base_Canvas.instance.Get_TOP_Popup().Initialize("영웅을 뽑았으니, 영웅을 배치해봅니다. 상점에서 나가볼까요?");
+            Base_Canvas.instance.Get_Tutorial_Popup().Initialize("영웅을 뽑았으니, 영웅을 배치해봅니다. 상점에서 나가볼까요?");
             Tutorial_Panel.gameObject.SetActive(false);
             Start_Tutorial(Exit_Button);
         }
