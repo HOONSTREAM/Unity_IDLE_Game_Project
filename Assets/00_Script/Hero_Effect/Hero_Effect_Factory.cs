@@ -6,7 +6,7 @@ using static I_Hero_Effect;
 
 public class NONE_Effect : IHeroEffect
 {
-    public string Get_Effect_Name() => "보유효과 없음";
+    public string Get_Effect_Name() => "보유효과 미해방";
     public Holding_Effect_Type Get_Effect_Type() => Holding_Effect_Type.NONE;
 
     public double ApplyEffect(Character_Scriptable data)
@@ -114,7 +114,8 @@ public static class HeroEffectFactory
             { "Hammer_Knight", new List<IHeroEffect> { new Increase_Critical_Percentage_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
             { "Chaos_Caster", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect(), new Increase_GoldDrop_Effect() } },
             { "Aqua_Tempest", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_CriticalDamage_Effect(), new Increase_Critical_Percentage_Effect() } },
-            { "Guardian", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect(), new NONE_Effect() } }
+            { "Guardian", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
+            { "Guardian", new List<IHeroEffect> { new Increase_CriticalDamage_Effect(), new Increase_HP_Effect(), new NONE_Effect() } }
 
         };
 
