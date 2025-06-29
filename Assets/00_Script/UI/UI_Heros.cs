@@ -324,6 +324,8 @@ public class UI_Heros : UI_Base
             Base_Manager.BACKEND.Log_Hero_Upgrade(Data, holder);
             Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
             Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+            Base_Manager.Player.MarkPlayerEffectDirty(); // 기존 영웅 보유효과 재캐싱
+
         }
         else
         {
@@ -361,6 +363,7 @@ public class UI_Heros : UI_Base
 
         Base_Manager.SOUND.Play(Sound.BGS, "Victory");
         Base_Canvas.instance.Get_TOP_Popup().Initialize("강화에 성공하여, 능력이 강화됩니다 !");
+        Base_Manager.Player.MarkPlayerEffectDirty(); // 기존 영웅 보유효과 재 캐싱
 
         _ = Base_Manager.BACKEND.WriteData();
     }

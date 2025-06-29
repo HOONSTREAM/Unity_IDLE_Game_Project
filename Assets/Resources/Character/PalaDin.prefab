@@ -17930,9 +17930,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5477149617445697677}
   - component: {fileID: 7966983704539894233}
-  - component: {fileID: 3459675429115123274}
   - component: {fileID: 6474338534073135276}
   - component: {fileID: 8329739980494911239}
+  - component: {fileID: 3799382628366791322}
   m_Layer: 6
   m_Name: PalaDin
   m_TagString: Untagged
@@ -18044,33 +18044,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3459675429115123274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764147241498289015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47d5e75a09e07aa4d8fde89d35603465, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HP: 100
-  ATK: 10
-  ATK_Speed: 1
-  isDead: 0
-  Use_Skill: 0
-  Skill_none_Attack: 0
-  m_target: {fileID: 0}
-  m_BulletTransform: {fileID: 0}
-  Bullet_Name: 
-  CH_Data: {fileID: 0}
-  CH_Name: PalaDin
-  MP: 0
-  Trail_Object: {fileID: 6414520686968955635}
-  Provocation_Effect: {fileID: 366932441477217337}
-  isMainCharacter: 0
 --- !u!114 &6474338534073135276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18099,6 +18072,33 @@ MonoBehaviour:
   buble_chat: {fileID: 6662034728973356291, guid: f514e621660f24742861c9422b5d81d9, type: 3}
   speech_Types: "\uB09C\uACF5\uBD88\uB77D!"
   cam: {fileID: 0}
+--- !u!114 &3799382628366791322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764147241498289015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d5e75a09e07aa4d8fde89d35603465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
+  ATK: 10
+  ATK_Speed: 1
+  isDead: 0
+  Use_Skill: 0
+  Skill_none_Attack: 0
+  m_target: {fileID: 0}
+  m_BulletTransform: {fileID: 0}
+  Bullet_Name: 
+  CH_Data: {fileID: 0}
+  CH_Name: PalaDin
+  MP: 0
+  Trail_Object: {fileID: 6414520686968955635}
+  Provocation_Effect: {fileID: 366932441477217337}
+  isMainCharacter: 0
 --- !u!1 &1821940530935457653
 GameObject:
   m_ObjectHideFlags: 0

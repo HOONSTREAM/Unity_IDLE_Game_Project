@@ -16,6 +16,124 @@ public class Player_Manager
 
     public bool isAutoLeveling = false; // 자동 레벨업 중 여부
 
+    #region 보유효과 캐싱
+
+    private Dictionary<Holding_Effect_Type, double> cachedPlayerHoldingEffects;
+    private Dictionary<Holding_Effect_Type, double> cachedRelicHoldingEffects;
+    private bool isEffectDirty_PlayerEffect = true;
+    private bool isEffectDirty_RelicEffect = true;
+
+    /// <summary>
+    /// 플레이어 (영웅 보유효과)가 변경되었음을 알리는 더티플래그 변수를 호출하는 메서드
+    /// </summary>
+    public void MarkPlayerEffectDirty() => isEffectDirty_PlayerEffect = true;
+    /// <summary>
+    /// 플레이어 (유물 보유효과)가 변경되었음을 알리는 더티플래그 변수를 호출하는 메서드
+    /// </summary>
+    public void MarkRelicEffectDirty() => isEffectDirty_RelicEffect = true;
+
+    /// <summary>
+    /// 변경이 되지않았으면 캐시된 보유효과를 반환하고, 그렇지않으면 새로 계산합니다.
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<Holding_Effect_Type, double> Check_Player_Holding_Effects()
+    {
+        if (!isEffectDirty_PlayerEffect && cachedPlayerHoldingEffects != null)
+            return cachedPlayerHoldingEffects;
+
+        cachedPlayerHoldingEffects = CalCulate_Player_Holding_Effects();
+        isEffectDirty_PlayerEffect = false;
+        return cachedPlayerHoldingEffects;
+    }
+
+    public Dictionary<Holding_Effect_Type, double> Check_Relic_Holding_Effects()
+    {
+        if (!isEffectDirty_RelicEffect && cachedRelicHoldingEffects != null)
+            return cachedRelicHoldingEffects;
+
+        cachedRelicHoldingEffects = CalCulate_Relic_Holding_Effects();
+        isEffectDirty_RelicEffect = false;
+        return cachedRelicHoldingEffects;
+    }
+    /// <summary>
+    /// 영웅 보유 상태를 점검하여 보유효과를 계산합니다.
+    /// </summary>
+    /// <returns></returns>
+    private Dictionary<Holding_Effect_Type, double> CalCulate_Player_Holding_Effects()
+    {
+        Dictionary<Holding_Effect_Type, double> holdingEffectValues = new Dictionary<Holding_Effect_Type, double>();
+
+        var datas = Base_Manager.Data.character_Holder;
+
+        foreach (var data in datas)
+        {
+            if (data.Value.Hero_Card_Amount > 0)
+            {
+                var effects = HeroEffectFactory.Get_Holding_Effects(data.Key);
+
+                foreach (var effect in effects)
+                {
+                    Holding_Effect_Type type = effect.Get_Effect_Type();
+
+                    double effectValue = effect.ApplyEffect(Base_Manager.Data.Data_Character_Dictionary[data.Key].Data);
+
+                    if (!holdingEffectValues.ContainsKey(type))
+                    {
+                        holdingEffectValues[type] = 0.0;
+                    }
+
+                    holdingEffectValues[type] += effectValue;
+
+
+                }
+            }
+        }
+
+
+
+        return holdingEffectValues;
+    }
+
+    /// <summary>
+    /// 유물 보유상태를 점검하여 보유효과를 계산합니다.
+    /// </summary>
+    /// <returns></returns>
+    private Dictionary<Holding_Effect_Type, double> CalCulate_Relic_Holding_Effects()
+    {
+        Dictionary<Holding_Effect_Type, double> holdingEffectValues = new Dictionary<Holding_Effect_Type, double>();
+
+        var datas = Base_Manager.Data.Item_Holder;
+
+        foreach (var data in datas)
+        {
+            if (data.Value.Hero_Card_Amount > 0)
+            {
+                var effects = RelicEffectFactory.Get_Holding_Effects_Relic(data.Key);
+
+                foreach (var effect in effects)
+                {
+                    Holding_Effect_Type type = effect.Get_Effect_Type();
+
+                    double effectValue = effect.ApplyEffect(Base_Manager.Data.Data_Item_Dictionary[data.Key]);
+
+                    if (!holdingEffectValues.ContainsKey(type))
+                    {
+                        holdingEffectValues[type] = 0.0;
+                    }
+
+                    holdingEffectValues[type] += effectValue;
+
+
+                }
+            }
+        }
+
+
+
+        return holdingEffectValues;
+    }
+    #endregion
+
     public void Init()
     {       
         for (int i = 0; i < Spawner.m_players.Count; i++) // 각 서브 히어로 공격력 및 체력 세팅
@@ -429,84 +547,6 @@ public class Player_Manager
     #endregion
 
     #region 보유효과 계산
-
-    /// <summary>
-    /// 영웅 보유 상태를 점검하여 보유효과를 계산합니다.
-    /// </summary>
-    /// <returns></returns>
-    private Dictionary<Holding_Effect_Type, double> Check_Player_Holding_Effects()
-    {
-        Dictionary<Holding_Effect_Type, double> holdingEffectValues = new Dictionary<Holding_Effect_Type, double>();
-
-        var datas = Base_Manager.Data.character_Holder;
-
-        foreach (var data in datas)
-        {
-            if (data.Value.Hero_Card_Amount > 0)
-            {
-                var effects = HeroEffectFactory.Get_Holding_Effects(data.Key);
-
-                foreach (var effect in effects)
-                {
-                    Holding_Effect_Type type = effect.Get_Effect_Type();
-
-                    double effectValue = effect.ApplyEffect(Base_Manager.Data.Data_Character_Dictionary[data.Key].Data);
-
-                    if (!holdingEffectValues.ContainsKey(type))
-                    {
-                        holdingEffectValues[type] = 0.0;
-                    }
-
-                    holdingEffectValues[type] += effectValue;
-
-                    
-                }
-            }
-        }
-
-       
-
-        return holdingEffectValues;
-    }
-
-    /// <summary>
-    /// 유물 보유상태를 점검하여 보유효과를 계산합니다.
-    /// </summary>
-    /// <returns></returns>
-    private Dictionary<Holding_Effect_Type, double> Check_Relic_Holding_Effects()
-    {
-        Dictionary<Holding_Effect_Type, double> holdingEffectValues = new Dictionary<Holding_Effect_Type, double>();
-
-        var datas = Base_Manager.Data.Item_Holder;
-
-        foreach (var data in datas)
-        {
-            if (data.Value.Hero_Card_Amount > 0)
-            {
-                var effects = RelicEffectFactory.Get_Holding_Effects_Relic(data.Key);
-
-                foreach (var effect in effects)
-                {
-                    Holding_Effect_Type type = effect.Get_Effect_Type();
-
-                    double effectValue = effect.ApplyEffect(Base_Manager.Data.Data_Item_Dictionary[data.Key]);
-
-                    if (!holdingEffectValues.ContainsKey(type))
-                    {
-                        holdingEffectValues[type] = 0.0;
-                    }
-
-                    holdingEffectValues[type] += effectValue;
-
-
-                }
-            }
-        }
-
-
-
-        return holdingEffectValues;
-    }
 
     public static class TierBonusTable
     {

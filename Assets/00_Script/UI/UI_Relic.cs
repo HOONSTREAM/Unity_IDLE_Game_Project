@@ -362,6 +362,7 @@ public class UI_Relic : UI_Base
             }
             
             Base_Manager.SOUND.Play(Sound.BGS, "Victory");
+            Base_Manager.Player.MarkPlayerEffectDirty(); // 기존 유물 보유효과 재 캐싱
         }
         Get_Relic_Information(Data, Clicked_Relic_Parts);
 
