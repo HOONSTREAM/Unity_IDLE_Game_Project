@@ -124,6 +124,11 @@ public class UI_Heros_Dictionary : UI_Base
     } 
     public void Get_Hero_Information(Character_Scriptable Data, UI_Heros_Parts_Dictionary parts)
     {
+        if(Data.Character_EN_Name == "Cleric")
+        {
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("메인 영웅 '클레릭' 입니다.");
+            return;
+        }
         Clicked_Heros_Parts = parts;
 
         

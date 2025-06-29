@@ -20,6 +20,11 @@ public class Hit_Text : MonoBehaviour
     {
         cam = Camera.main;
 
+        if (cam == null)
+        {
+            Debug.LogError("Main Camera not found! Make sure there is a camera tagged as 'MainCamera' in the scene.");
+        }
+
     }
 
     public void Init(Vector3 pos, double dmg, Color color, bool isMonster = false, bool Critical = false)
@@ -54,12 +59,12 @@ public class Hit_Text : MonoBehaviour
     private void Update()
     {
 
-        if (Base_Canvas.isSavingMode) { return;}
+        if (Base_Canvas.isSavingMode || cam == null) return;
 
         Vector3 targetpos = new Vector3(Target.x, Target.y + UpRange, Target.z);
         transform.position = cam.WorldToScreenPoint(targetpos);
 
-        if(UpRange <= 0.3f)
+        if (UpRange <= 0.3f)
         {
             UpRange += Time.deltaTime;
         }
