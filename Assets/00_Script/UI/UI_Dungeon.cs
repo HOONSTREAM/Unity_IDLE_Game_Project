@@ -90,8 +90,11 @@ public class UI_Dungeon : UI_Base
 
         
         int levelCount = (Data_Manager.Main_Players_Data.Dungeon_Clear_Level[1] + 1); 
+
+
         var value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, levelCount, Utils.Data.stageData.DROP_MONEY) * 
-            Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
+            Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON * 100;
+
 
         // 레벨디자인 필요
         Clear_Assets[0].text = ((Data_Manager.Main_Players_Data.Dungeon_Clear_Level[0] + 1) * 

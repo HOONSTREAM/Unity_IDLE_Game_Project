@@ -386,6 +386,10 @@ public class Base_Canvas : MonoBehaviour
     {
         return Instantiate(Resources.Load<UI_Tutorial_Popup>("UI/Tutorial_Popup"), transform); //transform은 해당위치에 생성하라는 인자
     }
+    public UI_Stage_Clear_Popup Get_Stage_Clear_Popup()
+    {
+        return Instantiate(Resources.Load<UI_Stage_Clear_Popup>("UI/Stage_Clear_Popup"), transform); //transform은 해당위치에 생성하라는 인자
+    }
     public MainGame_Error_UI Get_MainGame_Error_UI()
     {
         return Instantiate(Resources.Load<MainGame_Error_UI>("UI/MainGame_Error_UI"), transform); //transform은 해당위치에 생성하라는 인자

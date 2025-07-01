@@ -33,6 +33,15 @@ public class Saving_Mode : UI_Base
     Vector2 Off_Saving_Mode_Start_Pos, Off_Saving_Mode_End_Pos;
     private Camera _camera;
 
+    private float updateInterval = 0.5f;
+    private float nextUpdateTime = 0f;
+    private float gcTimer = 0f;
+    private const float gcInterval = 60f; // 30분
+    private string cachedBattery = "";
+    private string cachedTime = "";
+    private string cachedStage = "";
+    private string cachedGold = "";
+
     public override bool Init()
     {
         _camera = Camera.main;
@@ -44,22 +53,32 @@ public class Saving_Mode : UI_Base
 
         return base.Init();
     }
-
-    public override void DisableOBJ()
-    {
-        Base_Canvas.isSavingMode = false;
-        _camera.enabled = true;
-        base.DisableOBJ();
-    }
     private void Update()
     {
-        Battery_Text.text = (SystemInfo.batteryLevel * 100.0f).ToString() + "%";
-        Battery_Fill_Image.fillAmount = SystemInfo.batteryLevel;
+        gcTimer += Time.unscaledDeltaTime; // 30분간격 명시적 GC 수행
 
-        Time_Text.text = System.DateTime.Now.ToString("HH:mm:ss"); //핸드폰시간기준, 오프라인보상에 사용하면 버그로 악용될 수 있다.
-        Now_Player_Stage.text = $"<color=#FFFF00>{Data_Manager.Main_Players_Data.Player_Stage}</color>층 돌파중...";
-        Gold_Text.text = $"<color=#FFFF00>{StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money)}</color>골드 획득중...";
+        if (gcTimer >= gcInterval)
+        {
+            gcTimer = 0f;
+            System.GC.Collect();
+            Debug.Log("GC 실행됨");
+        }
 
+        Try_Disable_Save_Mode();
+
+        if (Time.unscaledTime < nextUpdateTime) // 0.5초마다 업데이트 실행
+            return;
+
+        nextUpdateTime = Time.unscaledTime + updateInterval;
+       
+        Save_Mode_Text_Update(); // 절전모드 텍스트 업데이트       
+    }
+
+    /// <summary>
+    /// 사용자가 터치를 조작해 절전모드 해제를 시도합니다.
+    /// </summary>
+    private void Try_Disable_Save_Mode()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             Off_Saving_Mode_Start_Pos = Input.mousePosition;
@@ -93,16 +112,40 @@ public class Saving_Mode : UI_Base
             Color currentColor = Off_Saving_Image.color;
             Off_Saving_Image.color = new Color(currentColor.r, currentColor.g, currentColor.b, 1.0f); // 알파값 복원
         }
-    
+
 
     }
 
-    IEnumerator OFF_Saving_Mode_Coroutine()
+    private void Save_Mode_Text_Update()
     {
-        yield return new WaitForSeconds(2.0f);
-        
-    }
+        string nowBattery = $"{SystemInfo.batteryLevel * 100.0f:F0}%";
+        if (cachedBattery != nowBattery)
+        {
+            cachedBattery = nowBattery;
+            Battery_Text.text = nowBattery;
+        }
 
+        string nowTime = System.DateTime.Now.ToString("HH:mm:ss");
+        if (cachedTime != nowTime)
+        {
+            cachedTime = nowTime;
+            Time_Text.text = nowTime;
+        }
+
+        string nowStage = $"<color=#FFFF00>{Data_Manager.Main_Players_Data.Player_Stage}</color>층 돌파중...";
+        if (cachedStage != nowStage)
+        {
+            cachedStage = nowStage;
+            Now_Player_Stage.text = nowStage;
+        }
+
+        string nowGold = $"<color=#FFFF00>{StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money)}</color>골드 획득중...";
+        if (cachedGold != nowGold)
+        {
+            cachedGold = nowGold;
+            Gold_Text.text = nowGold;
+        }
+    }
     public void Get_Item_Saving_Mode(Item_Scriptable item)
     {
         if (saving_item_Dict.ContainsKey(item.name))
@@ -120,5 +163,11 @@ public class Saving_Mode : UI_Base
         var go = Instantiate(item_parts, Content);
         item_parts_saving_mode.Add(item.name, go);
         go.Init(items.Data.name, saving_item_Dict[item.name].holder);
+    }
+    public override void DisableOBJ()
+    {
+        Base_Canvas.isSavingMode = false;
+        _camera.enabled = true;
+        base.DisableOBJ();
     }
 }

@@ -22,7 +22,7 @@ public class Hit_Text : MonoBehaviour
 
         if (cam == null)
         {
-            Debug.LogError("Main Camera not found! Make sure there is a camera tagged as 'MainCamera' in the scene.");
+            return;
         }
 
     }

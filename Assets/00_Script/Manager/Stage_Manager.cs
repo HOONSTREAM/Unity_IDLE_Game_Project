@@ -93,6 +93,14 @@ public class Stage_Manager
             case Stage_State.Clear:
 
                 Debug.Log("Stage : Clear");
+
+                if (!Base_Canvas.isSavingMode)
+                {
+                    Base_Manager.SOUND.Play(Sound.BGS, "Clear");
+                    Base_Canvas.instance.Get_Stage_Clear_Popup().Initialize("스테이지 클리어");
+                }
+                
+                
                 Base_Manager.instance.StopAllPoolCoroutines(); 
                 Base_Manager.Pool.Clear_Pool(); // 풀링객체 초기화
                 Data_Manager.Main_Players_Data.Player_Stage++;
