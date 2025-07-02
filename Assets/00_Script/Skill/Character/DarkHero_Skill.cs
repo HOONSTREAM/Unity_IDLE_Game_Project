@@ -47,7 +47,7 @@ public class DarkHero_Skill : Skill_Base
 
             if (!Utils.is_Skill_Effect_Save_Mode && DarkHero_Skill_Effect != null)
             {
-                DarkHero_Skill_Effect.transform.position = new Vector3(0.0f, 15.0f, 0.0f);
+                DarkHero_Skill_Effect.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
             }
 
             yield return new WaitForSecondsRealtime(2.0f);
