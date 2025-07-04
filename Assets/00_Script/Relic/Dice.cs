@@ -13,6 +13,8 @@ public class Dice : MonoBehaviour
     [SerializeField]
     private ParticleSystem particle;
 
+    private int RandomValue_Bonus_Gold;
+
     private void Start()
     {
         StartCoroutine(Gold_blast());
@@ -21,16 +23,23 @@ public class Dice : MonoBehaviour
     {
         for(int i = 0; i < 10; i++)
         {
-            int RandomValue = Random.Range(1, 7);
-            Gold_Text.text = RandomValue.ToString();
+            int RandomValue = Random.Range(1, 7);        
+            RandomValue_Bonus_Gold = RandomValue;
+            if (!Utils.is_Skill_Effect_Save_Mode)
+            {
+                Gold_Text.text = RandomValue.ToString();
+            }
             yield return new WaitForSeconds(0.1f);
         }
 
-        ApplyGoldBonus();
+        if (!Utils.is_Skill_Effect_Save_Mode)
+        {
+            particle.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1.0f);
+            Destroy(this.gameObject);
+        }
 
-        particle.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.0f);
-        Destroy(this.gameObject);  
+        ApplyGoldBonus();
     }
 
     /// <summary>
@@ -39,7 +48,7 @@ public class Dice : MonoBehaviour
     private void ApplyGoldBonus()
     {
         // Dice 주사위 값 기반 보너스 비율 결정 (1:5%, 6:30%)
-        float bonusPercentage = GetGoldBonusPercentage(int.Parse(Gold_Text.text));
+        float bonusPercentage = GetGoldBonusPercentage(RandomValue_Bonus_Gold);
 
         // 현재 플레이어의 골드
         double baseGold = Utils.Data.stageData.Get_DROP_MONEY() *
