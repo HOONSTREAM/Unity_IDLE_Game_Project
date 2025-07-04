@@ -12,6 +12,8 @@ public class Dice : MonoBehaviour
     private TextMeshProUGUI Gold_Text;
     [SerializeField]
     private ParticleSystem particle;
+    [SerializeField]
+    private GameObject Dice_Object;
 
     private int RandomValue_Bonus_Gold;
 
@@ -21,12 +23,15 @@ public class Dice : MonoBehaviour
     }
     IEnumerator Gold_blast()
     {
-        for(int i = 0; i < 10; i++)
+        Dice_Object.gameObject.SetActive(false);
+
+        for (int i = 0; i < 10; i++)
         {
             int RandomValue = Random.Range(1, 7);        
             RandomValue_Bonus_Gold = RandomValue;
             if (!Utils.is_Skill_Effect_Save_Mode)
             {
+                Dice_Object.gameObject.SetActive(true);
                 Gold_Text.text = RandomValue.ToString();
             }
             yield return new WaitForSeconds(0.1f);
@@ -61,7 +66,7 @@ public class Dice : MonoBehaviour
         // 플레이어 골드에 반영
         Data_Manager.Main_Players_Data.Player_Money += totalGold;
 
-        Debug.Log($"주사위 결과: {Gold_Text.text}, 추가 보너스: {bonusPercentage}%, 지급된 골드: {StringMethod.ToCurrencyString(totalGold)}");
+        Debug.Log($"주사위 결과: {RandomValue_Bonus_Gold}, 추가 보너스: {bonusPercentage}%, 지급된 골드: {StringMethod.ToCurrencyString(totalGold)}");
         Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
     }
 

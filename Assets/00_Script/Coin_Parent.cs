@@ -8,7 +8,7 @@ public class Coin_Parent : MonoBehaviour
 {
     private Vector3 target;
     private Camera cam;
-    RectTransform[] childs = new RectTransform[5];
+    RectTransform[] childs = new RectTransform[2];
 
     [Range(0.0f, 500.0f)]
     [SerializeField]

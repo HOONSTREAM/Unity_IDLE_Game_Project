@@ -44,12 +44,15 @@ public class Saving_Mode : UI_Base
 
     public override bool Init()
     {
+
+        Base_Manager.SOUND._audioSource[0].volume = 0.0f;
+        Base_Manager.SOUND._audioSource[1].volume = 0.0f;
+
         _camera = Camera.main;
         _camera.enabled = false;
         onSaving?.Invoke();
 
-        Base_Manager.SOUND._audioSource[0].volume = 0.0f;
-        Base_Manager.SOUND._audioSource[1].volume = 0.0f;
+       
 
         return base.Init();
     }
