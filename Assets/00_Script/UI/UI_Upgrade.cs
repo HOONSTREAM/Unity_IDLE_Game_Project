@@ -43,7 +43,7 @@ public class UI_Upgrade : UI_Base
                 Base_Manager.BACKEND.Log_Hero_Upgrade(Character_Data.Value.Data, Character_Data.Value.holder);
             }
 
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSecondsRealtime(0.05f);
         }
 
         var heroes = parentBase.GetComponent<UI_Heros>();

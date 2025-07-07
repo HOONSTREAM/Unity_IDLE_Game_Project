@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Announcement_UI : MonoBehaviour
@@ -8,7 +9,8 @@ public class Announcement_UI : MonoBehaviour
     private GameObject Update_Text_UI;
     [SerializeField]
     private GameObject Book_Update_Text_UI;
-
+    [SerializeField]
+    private TextMeshProUGUI Version_text;
 
     void Start()
     {
@@ -33,7 +35,7 @@ public class Announcement_UI : MonoBehaviour
         Announcement_Text_UI.gameObject.SetActive(false);
         Update_Text_UI.gameObject.SetActive(false);
         Book_Update_Text_UI.gameObject.SetActive(false);
-
+        Version_text.text = $"Vers : {Application.version}";
         Update_Text_UI.gameObject.SetActive(true);
     }
     public void Book_Update_Button()
@@ -42,7 +44,6 @@ public class Announcement_UI : MonoBehaviour
         Announcement_Text_UI.gameObject.SetActive(false);
         Update_Text_UI.gameObject.SetActive(false);
         Book_Update_Text_UI.gameObject.SetActive(false);
-
         Book_Update_Text_UI.gameObject.SetActive(true);
     }
 

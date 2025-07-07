@@ -132,9 +132,7 @@ public class UI_Setting : UI_Base
 
     }
     private void SaveToLocal(LitJson.JsonData items)
-    {
-        Debug.Log($"제이슨데이터 : {items}");
-
+    {       
         try
         {
             string getItems = string.Empty;
