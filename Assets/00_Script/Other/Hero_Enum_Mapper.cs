@@ -32,6 +32,7 @@ public static class Hero_Enum_Mapper
         { "Scimitar", 23 },
         { "Sword_Dancer", 24 },
         { "Baiken", 25 },
+        { "Star", 26 },
 
     };
 

@@ -16,7 +16,7 @@ public class Utils
     public static readonly int TIER_DUNGEON_FIRST_HARD = 30;
     public static readonly int ENHANCEMENT_DUNGEON_FIRST_HARD = 2000;
     public static readonly int DIA_DUNGEON_MULTIPLE_HARD = 20;
-    public static readonly int DPS_DUNGEON_MAX_LEVEL = 298;
+    public static readonly int DPS_DUNGEON_MAX_LEVEL = 398;
     public static readonly int DIA_AND_GOLD_DUNGEON_MAX_LEVEL = 199;
 
     public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Atlas");

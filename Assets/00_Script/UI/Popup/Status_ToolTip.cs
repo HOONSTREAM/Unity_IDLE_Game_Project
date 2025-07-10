@@ -388,7 +388,7 @@ public class Status_ToolTip : MonoBehaviour
 
         float[] enhancementRates = new float[]
         {
-        100f, 35f, 15.5f, 9f, 5f,
+        100f, 35f, 12.5f, 7f, 5f,
         1f, 0.5f, 0.3f, 0.1f, 0.05f
         };
 

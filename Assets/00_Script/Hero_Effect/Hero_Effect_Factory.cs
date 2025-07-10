@@ -117,9 +117,8 @@ public static class HeroEffectFactory
             { "Guardian", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
             { "Scimitar", new List<IHeroEffect> { new Increase_CriticalDamage_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
             { "Sword_Dancer", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_ItemDrop_Effect(), new NONE_Effect() } },
-            { "Baiken", new List<IHeroEffect> { new Increase_Critical_Percentage_Effect(), new Increase_ItemDrop_Effect(), new NONE_Effect() } }
-
-
+            { "Baiken", new List<IHeroEffect> { new Increase_Critical_Percentage_Effect(), new Increase_ItemDrop_Effect(), new NONE_Effect() } },
+            { "Star", new List<IHeroEffect> { new Increase_GoldDrop_Effect(), new Increase_CriticalDamage_Effect(), new NONE_Effect() } }
 
         };
 
