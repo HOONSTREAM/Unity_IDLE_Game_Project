@@ -33,6 +33,8 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button Smelt_Button;
     [SerializeField]
+    private Button Research_Button;
+    [SerializeField]
     private Button LAUNCH_EVENT_Button;
     [SerializeField]
     private Button Setting_Button;
@@ -145,6 +147,7 @@ public class Base_Canvas : MonoBehaviour
                 Get_UI("UI_Dungeon", false, false, true, 3);
             }
         });
+        Research_Button.onClick.AddListener(() => Get_UI("UI_Research", false, false, true));
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
         Status_Button.onClick.AddListener(() => Get_UI("@Status", false, false, true, 0));       
         LAUNCH_EVENT_Button.onClick.AddListener(() => Get_UI("LAUNCH_EVENT", false, false, true));
