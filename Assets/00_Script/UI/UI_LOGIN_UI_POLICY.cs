@@ -112,7 +112,7 @@ public class UI_LOGIN_UI_POLICY : MonoBehaviour
         {           
             BackendGameData.Instance.Initialize_User_Data();
             _ = Base_Manager.BACKEND.WriteData();
-            Loading_Scene.instance.Main_Game_Start();
+            Loading_Scene.instance.Cut_Scene_Start();
 
             PlayerPrefs.SetFloat("BGM", 1.0f);
             PlayerPrefs.SetFloat("BGS", 1.0f);

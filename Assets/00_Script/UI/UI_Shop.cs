@@ -591,18 +591,25 @@ public class UI_Shop : UI_Base
         RectTransform copyRect = copy.GetComponent<RectTransform>();
         RectTransform original_Rect = original_Button.GetComponent<RectTransform>();
 
-        copy.transform.SetParent(Tutorial_Panel.transform);
+        // 부모 먼저 설정 (WorldPositionStays: false)
+        copy.transform.SetParent(Tutorial_Panel.transform, false);
 
-        copyRect.anchorMin = new Vector2(0.5f, 0.5f);
-        copyRect.anchorMax = new Vector2(0.5f, 0.5f);
-        copyRect.pivot = new Vector2(0.5f, 0.5f);
+        // 크기, 앵커, 피벗 맞추기
+        copyRect.anchorMin = original_Rect.anchorMin;
+        copyRect.anchorMax = original_Rect.anchorMax;
+        copyRect.pivot = original_Rect.pivot;
         copyRect.sizeDelta = original_Rect.sizeDelta;
 
-        copyRect.position = original_Rect.position;
-        copyRect.localScale = Vector3.one;
+        // 월드 포지션을 로컬로 변환하여 적용
+        Vector3 worldPos = original_Rect.position;
+        Vector3 localPos = Tutorial_Panel.transform.InverseTransformPoint(worldPos);
+        copyRect.localPosition = localPos;
 
+        // 스케일 일치
+        copyRect.localScale = original_Rect.localScale;
+
+        // 클릭 이벤트 처리
         Button copy_Button = copy.GetComponent<Button>();
-
         if (Utils.is_Tutorial)
         {
             copy_Button.onClick = original_Button.onClick;
@@ -612,8 +619,8 @@ public class UI_Shop : UI_Base
                 copy_Button.onClick.RemoveAllListeners();
             });
         }
-        
     }
+   
 
     private void End_Tutorial()
     {

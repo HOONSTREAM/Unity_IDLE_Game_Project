@@ -16,7 +16,7 @@ public class Loading_Scene : MonoBehaviour
     private GameObject sliderParent;
     public Slider slider;
     public TextMeshProUGUI version_text;
-    private AsyncOperation asyncOperation;
+    private AsyncOperation asyncOperation;    
     public GameObject TapToStart_Object;
 
 
@@ -46,12 +46,14 @@ public class Loading_Scene : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-        }
+        }       
     }
+
+
     private void Start()
     {
         version_text.text = "Version : " + Application.version;
-        sliderParent = slider.transform.parent.gameObject;        
+        sliderParent = slider.transform.parent.gameObject;      
     }
     /// <summary>
     /// 메인게임 씬의 로드를 마치고, 구글로그인을 진행합니다.
@@ -59,10 +61,11 @@ public class Loading_Scene : MonoBehaviour
     /// <returns></returns>
     IEnumerator LoadData_Coroutine()
     {
-        yield return new WaitForSeconds(3.0f);
 
-        asyncOperation = SceneManager.LoadSceneAsync("MainGame");
+        asyncOperation = SceneManager.LoadSceneAsync("Cut_Scene");
         asyncOperation.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(3.0f);
 
         while (asyncOperation.progress < 0.9f)
         {
@@ -202,10 +205,14 @@ public class Loading_Scene : MonoBehaviour
     /// <summary>
     /// 이 메서드가 실행되면, 씬이 전환됩니다.
     /// </summary>
+    public void Cut_Scene_Start()
+    {        
+        asyncOperation.allowSceneActivation = true;
+    }
     public void Main_Game_Start()
     {
         Base_Manager.Get_MainGame_Start = true;
-        asyncOperation.allowSceneActivation = true;
+        SceneManager.LoadScene("MainGame");              
     }
     /// <summary>
     /// 로그인 창 하단 로딩 바를 진행시킵니다.
