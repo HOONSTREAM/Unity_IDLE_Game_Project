@@ -54,6 +54,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             await Save_Status_Item_Data();
             await SaveSmeltData();
             await SaveSetHeroData();
+            await Save_Research_Stat_Data();
             await SaveSetRelicData();
         }
         catch (Exception e)
@@ -234,6 +235,19 @@ public partial class BackEnd_Manager : MonoBehaviour
         Backend.GameData.Update("STATUS_ITEM", new Where(), param, callback =>
         {
             Debug.Log(callback.IsSuccess() ? "성장장비 저장 성공" : "성장장비 저장 실패");
+        });
+
+        await Task.Yield();
+    }
+    private async Task Save_Research_Stat_Data()
+    {
+        Param param = new Param();
+        string json = JsonConvert.SerializeObject(Base_Manager.Data.User_Main_Data_Research_Array);
+        param.Add("Research_Stat", json);
+
+        Backend.GameData.Update("RESEARCH_STAT", new Where(), param, callback =>
+        {
+            Debug.Log(callback.IsSuccess() ? "연구정수 저장 성공" : "연구정수 저장 실패");
         });
 
         await Task.Yield();
@@ -534,8 +548,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                     }
                 }
                 else
-                {
-                    Debug.Log("USER_DPS 컬럼이 존재합니다.");
+                {                   
                     data.USER_DPS = double.Parse(gameDataJson[0]["USER_DPS"].ToString());
                 }
                 if (!gameDataJson[0].ContainsKey("USER_DPS_LEVEL"))
@@ -1035,8 +1048,7 @@ public partial class BackEnd_Manager : MonoBehaviour
                     data.User_Key_Assets = new int[3] { temp_1, temp_2, 0 };
                 }
                 else
-                {
-                    Debug.Log("User_Key_Assets 배열이 3개입니다.");
+                {                  
                     data.User_Key_Assets[0] = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][0].ToString());
                     data.User_Key_Assets[1] = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][1].ToString());
                     data.User_Key_Assets[2] = int.Parse(gameDataJson[0]["USER_KEY_ASSETS"][2].ToString());
@@ -1052,12 +1064,10 @@ public partial class BackEnd_Manager : MonoBehaviour
 
                 }
                 else
-                {
-                    Debug.Log("DAILY_ENTER_KEY 배열이 3개입니다.");
+                {                   
                     data.Daily_Enter_Key[0] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][0].ToString());
                     data.Daily_Enter_Key[1] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][1].ToString());
                     data.Daily_Enter_Key[2] = int.Parse(gameDataJson[0]["DAILY_ENTER_KEY"][2].ToString());
-
                 }
                 if (gameDataJson[0]["DUNGEON_CLEAR_LEVEL"].Count == 2)
                 {
@@ -1548,6 +1558,67 @@ public partial class BackEnd_Manager : MonoBehaviour
 
         Base_Manager.Data.Init();
         Debug.Log("성장장비 데이터 불러오기에 성공하였습니다.");
+        #endregion
+
+        #region RESEARCH_STAT_DATA
+        Debug.Log("'RESEARCH_STAT' 테이블의 데이터를 조회하는 함수를 호출합니다.");
+        var Research_bro = Backend.GameData.GetMyData("RESEARCH_STAT", new Where());
+
+        // 1. 응답 자체가 실패한 경우 - Insert하지 않음
+        if (!Research_bro.IsSuccess())
+        {
+            Debug.LogError("연구정수 데이터 조회 실패 - 서버 오류 : " + Research_bro);
+        }
+
+        // 2. 조회는 성공했으나, 유저 데이터가 존재하지 않는 경우 - Insert
+        if (Research_bro.Rows().Count == 0)
+        {
+            Debug.LogWarning("연구정수 데이터 없음. 새로 Insert 시도.");
+
+            Param research_param = new Param();
+            research_param.Add("Research_Stat", Base_Manager.Data.User_Main_Data_Research_Array);
+
+            var insertResult = Backend.GameData.Insert("RESEARCH_STAT", research_param);
+            if (insertResult.IsSuccess())
+            {
+                Debug.Log("연구정수 데이터 추가 성공 : " + insertResult);
+            }
+            else
+            {
+                Debug.LogError("연구정수 데이터 추가 실패 : " + insertResult);
+            }
+        }
+
+        // 3. 데이터 존재할 경우 파싱 처리
+        if (Research_bro.Rows().Count > 0)
+        {
+
+            var rows = BackendReturnObject.Flatten(Research_bro.Rows());
+
+            foreach (JsonData row in rows)
+            {
+                if (row.ContainsKey("Research_Stat"))
+                {
+                    string Research_Json_Data = row["Research_Stat"].ToString();
+                    List<Research_Holder> research_List = JsonConvert.DeserializeObject<List<Research_Holder>>(Research_Json_Data);
+                    Base_Manager.Data.User_Main_Data_Research_Array = research_List;
+                }
+
+                else
+                {
+                    Debug.LogWarning("'연구정수' 데이터가 올바른 JSON 형식이 아닙니다.");
+                }
+
+            }
+
+            Base_Manager.Data.Init();
+
+            Debug.Log("영웅정수 데이터 불러오기에 성공하였습니다.");
+        }
+        else
+        {
+            Debug.LogError("영웅정수 데이터 조회에 실패했습니다. : " + Research_bro);
+        }      
         #endregion
 
         #region SMELT_DATA

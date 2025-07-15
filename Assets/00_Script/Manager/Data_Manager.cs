@@ -253,6 +253,22 @@ public class BackendGameData
             Debug.LogError("성장장비 데이터를 추가하는데 실패했습니다. : " + Status_item_bro);
         }
 
+        Param Research_Stat_Param = new Param();
+
+        Research_Stat_Param.Add("Research_Stat", Base_Manager.Data.User_Main_Data_Research_Array);
+
+
+        var Research_bro = Backend.GameData.Insert("RESEARCH_STAT", Research_Stat_Param);
+
+        if (Research_bro.IsSuccess())
+        {
+            Debug.Log("연구정수 데이터를 추가하는데 성공했습니다. : " + Research_bro);
+        }
+        else
+        {
+            Debug.LogError("연구정수 데이터를 추가하는데 실패했습니다. : " + Research_bro);
+        }
+
         Param smelt_param = new Param();
 
         smelt_param.Add("Smelt", Base_Manager.Data.User_Main_Data_Smelt_Array);
@@ -320,6 +336,14 @@ public class Smelt_Holder
     public Rarity rarity;
     public Smelt_Status smelt_holder;
     public float smelt_value;
+}
+
+public class Research_Holder
+{
+    public int Research_ALL_LEVEL;
+    public Research_Stat Research_Stat_type;
+    public float Research_Value;
+    public int Research_Level;
 }
 
 public class Item_Holder
@@ -453,7 +477,7 @@ public class Data
     public int DIA_PASS_ATTENDANCE_DAY = 0;
     public bool Get_DIA_PASS_Reward = false;
     public string DIA_PASS_Last_Date = default;
-
+    
 }
 
 public class Data_Manager
@@ -472,6 +496,7 @@ public class Data_Manager
     public Dictionary<string, Item_Scriptable> Data_Drop_Item_Dictionary = new Dictionary<string, Item_Scriptable>(); // 장비를 미 포함한 드롭아이템 딕셔너리
     public Item_Scriptable[] Main_Set_Item = new Item_Scriptable[9]; // 유물 장착칸   
     public List<Smelt_Holder> User_Main_Data_Smelt_Array = new List<Smelt_Holder>();
+    public List<Research_Holder> User_Main_Data_Research_Array = new List<Research_Holder>();
 
 
     public void Init()
@@ -479,6 +504,7 @@ public class Data_Manager
         Set_Character();
         Set_Item();
         Set_Status_Item();
+        Set_Research_Stat();
     }
     public Character_Scriptable Get_Rarity_Character(Rarity rarity)
     {
@@ -604,6 +630,20 @@ public class Data_Manager
             }
         }
     }
+    private void Set_Research_Stat()
+    {
+        if(Base_Manager.Data.User_Main_Data_Research_Array.Count == 0)
+        {
+            Base_Manager.Data.User_Main_Data_Research_Array.Add(new Research_Holder { Research_ALL_LEVEL = 0, Research_Stat_type = Research_Stat.ATK, Research_Level = 0, Research_Value = 0});
+            Base_Manager.Data.User_Main_Data_Research_Array.Add(new Research_Holder { Research_ALL_LEVEL = 0, Research_Stat_type = Research_Stat.HP, Research_Level = 0, Research_Value = 0 });
+            Base_Manager.Data.User_Main_Data_Research_Array.Add(new Research_Holder { Research_ALL_LEVEL = 0, Research_Stat_type = Research_Stat.ATK_SPEED, Research_Level = 0, Research_Value = 0 });
+            Base_Manager.Data.User_Main_Data_Research_Array.Add(new Research_Holder { Research_ALL_LEVEL = 0, Research_Stat_type = Research_Stat.MONEY, Research_Level = 0, Research_Value = 0 });
+            Base_Manager.Data.User_Main_Data_Research_Array.Add(new Research_Holder { Research_ALL_LEVEL = 0, Research_Stat_type = Research_Stat.ITEM, Research_Level = 0, Research_Value = 0 });
+            Base_Manager.Data.User_Main_Data_Research_Array.Add(new Research_Holder { Research_ALL_LEVEL = 0, Research_Stat_type = Research_Stat.CRITICAL_DAMAGE, Research_Level = 0, Research_Value = 0 });
+            Base_Manager.Data.User_Main_Data_Research_Array.Add(new Research_Holder { Research_ALL_LEVEL = 0, Research_Stat_type = Research_Stat.CRITICAL_PERCENTAGE, Research_Level = 0, Research_Value = 0 });
+        }
+        
+    }
     public void Set_Player_ATK_HP()
     {
         Data_Manager.Main_Players_Data.ATK = Utils.Data.levelData.Get_Levelup_Next_ATK();
@@ -628,6 +668,23 @@ public class Data_Manager
 
         return value;
     }
+
+    public float Get_Research_Value(Research_Stat stat)
+    {
+        float value = 0.0f;
+
+        for (int i = 0; i < User_Main_Data_Research_Array.Count; i++)
+        {
+            if (User_Main_Data_Research_Array[i].Research_Stat_type == stat)
+            {
+                value = User_Main_Data_Research_Array[i].Research_Value;
+            }
+        }
+
+        return value;
+    }
+
+    
 
 }
 

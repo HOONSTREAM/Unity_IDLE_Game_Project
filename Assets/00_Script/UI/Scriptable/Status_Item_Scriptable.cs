@@ -16,5 +16,4 @@ public class Status_Item_Scriptable : ScriptableObject
     public double Base_DEX;
     public double Base_VIT;    
     public string Item_Description; // 아이템 설명
-
 }
