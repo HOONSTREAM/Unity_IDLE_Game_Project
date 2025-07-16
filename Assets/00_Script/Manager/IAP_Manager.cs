@@ -28,6 +28,7 @@ public class IAP_Manager : IStoreListener
     public readonly string DEF_Enhancement = "def_enhancement";
     public readonly string DIA_PASS = "dia_pass";
     public readonly string Enhancement_Package = "enhancement_package";
+    public readonly string RESEARCH_TICKET = "ticket";
 
     private IStoreController Store_Controller; // 구매 과정을 제어하는 함수 제공자
     private IExtensionProvider Store_Extension_Provider; // 여러 플랫폼을 위한 확정 처리 제공자
@@ -54,6 +55,7 @@ public class IAP_Manager : IStoreListener
         builder.AddProduct(DEF_Enhancement, ProductType.Consumable, new IDs() { { DEF_Enhancement, GooglePlay.Name } });
         builder.AddProduct(DIA_PASS, ProductType.Consumable, new IDs() { { DIA_PASS, GooglePlay.Name } });
         builder.AddProduct(Enhancement_Package, ProductType.Consumable, new IDs() { { Enhancement_Package, GooglePlay.Name } });
+        builder.AddProduct(RESEARCH_TICKET, ProductType.Consumable, new IDs() { { RESEARCH_TICKET, GooglePlay.Name } });
 
         UnityPurchasing.Initialize(this, builder);
     }

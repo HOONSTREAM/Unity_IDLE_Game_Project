@@ -147,7 +147,20 @@ public class Base_Canvas : MonoBehaviour
                 Get_UI("UI_Dungeon", false, false, true, 3);
             }
         });
-        Research_Button.onClick.AddListener(() => Get_UI("UI_Research", false, false, true));
+        
+        Research_Button.onClick.AddListener(() =>
+        {
+            if (Data_Manager.Main_Players_Data.Player_Max_Stage >= 1000)
+            {
+                Get_UI("UI_Research", false, false, true);
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("스테이지 1000층 이상부터 해금됩니다.");
+                return;
+            }
+        });
+
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
         Status_Button.onClick.AddListener(() => Get_UI("@Status", false, false, true, 0));       
         LAUNCH_EVENT_Button.onClick.AddListener(() => Get_UI("LAUNCH_EVENT", false, false, true));
@@ -160,7 +173,7 @@ public class Base_Canvas : MonoBehaviour
 
         Chat_Button.onClick.AddListener(() =>
         {
-            if (Data_Manager.Main_Players_Data.Player_Stage >= 50)
+            if (Data_Manager.Main_Players_Data.Player_Max_Stage >= 50)
             {
                 Get_UI("@Chat", false, false, true);
             }

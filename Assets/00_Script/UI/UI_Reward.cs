@@ -32,6 +32,8 @@ public class UI_Reward : UI_Base
             case IAP_Holder.def_enhancement: GetRewardInit("DEF_Enhancement", 1); break;
             case IAP_Holder.dia_pass: GetRewardInit("DIA_PASS", 1); break;
             case IAP_Holder.enhancement_package: GetRewardInit("PACKAGE_ENHANCEMENT", 1); break;
+            case IAP_Holder.ticket: GetRewardInit("Research_Item_Ticket", 1); break;
+
 
         }
     }
@@ -50,6 +52,10 @@ public class UI_Reward : UI_Base
 
             case "Scroll_Comb":
                 Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount += 150000;                
+                break;
+
+            case "Research_Item_Ticket":
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount += 3;
                 break;
 
             case "PACKAGE_ADS": 

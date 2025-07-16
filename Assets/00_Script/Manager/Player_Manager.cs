@@ -133,6 +133,36 @@ public class Player_Manager
         return holdingEffectValues;
     }
     #endregion
+    #region 연구 정수 효과 캐싱
+    private double cachedResearchAtk = 0;
+    private double cachedResearchHP = 0;
+    private float cachedResearchAtkSpeed = 0;
+    private float cachedResearchGoldDrop = 0;
+    private float cachedResearchItemDrop = 0;
+    private float cachedResearchCriDmg = 0;
+    private float cachedResearchCriPer = 0;
+
+    private bool isResearchDirty = true;
+
+    public void MarkResearchDirty() => isResearchDirty = true;
+
+    private void RefreshResearchCache()
+    {
+        if (!isResearchDirty) return;
+
+        var researchArray = Base_Manager.Data.User_Main_Data_Research_Array;
+
+        cachedResearchAtk = researchArray[0].Research_Value;
+        cachedResearchHP = researchArray[1].Research_Value;
+        cachedResearchAtkSpeed = researchArray[2].Research_Value;
+        cachedResearchGoldDrop = researchArray[3].Research_Value;
+        cachedResearchItemDrop = researchArray[4].Research_Value;
+        cachedResearchCriDmg = researchArray[5].Research_Value;
+        cachedResearchCriPer = researchArray[6].Research_Value;
+
+        isResearchDirty = false;
+    }
+    #endregion
 
     public void Init()
     {       
@@ -224,7 +254,6 @@ public class Player_Manager
             }
         }
 
-        
         // 광고 버프
         baseATK *= adsBuffValue;
 
@@ -276,7 +305,9 @@ public class Player_Manager
         baseATK *= 1.0 + holdingEffect.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0);
         baseATK *= 1.0 + holdingEffectRelic.GetValueOrDefault(Holding_Effect_Type.ATK, 0.0);
 
-       
+        // 연구
+        RefreshResearchCache();
+        baseATK += cachedResearchAtk;
 
         return baseATK;
     }
@@ -336,6 +367,7 @@ public class Player_Manager
             }
         }
 
+        
         // 제련 효과
         baseHP *= 1.0 + (Base_Manager.Data.Get_smelt_value(Smelt_Status.HP) * 0.01);
 
@@ -354,6 +386,9 @@ public class Player_Manager
         // 보유 효과 (유닛 & 유물)
         baseHP *= 1.0 + holdingEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0);
         baseHP *= 1.0 + relicEffect.GetValueOrDefault(Holding_Effect_Type.HP, 0.0);
+
+        RefreshResearchCache();
+        baseHP += cachedResearchHP;
 
         return baseHP;
     }
@@ -432,7 +467,10 @@ public class Player_Manager
             var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
             total_value *= effect_value;          
         }
-      
+
+        RefreshResearchCache();
+        total_value += cachedResearchItemDrop;
+
         return total_value;
     }
     public float Calculate_Atk_Speed_Percentage()
@@ -451,7 +489,11 @@ public class Player_Manager
             var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
             total_Value *= effect_value;
         }
-
+        Debug.Log($"계산 전 atk speed : {total_Value}");
+        RefreshResearchCache();
+        total_Value += (cachedResearchAtkSpeed / 100);
+        Debug.Log($"계산 후 atk speed : {total_Value}");
+        
         return total_Value;
     }
     public float Calculate_Gold_Drop_Percentage()
@@ -473,6 +515,9 @@ public class Player_Manager
             Total_Value += (effect_value / 100);
         }
 
+        RefreshResearchCache();
+        Total_Value += (cachedResearchGoldDrop / 100);
+
         return Total_Value;
     }
     public float Calculate_Critical_Percentage()
@@ -491,6 +536,9 @@ public class Player_Manager
             var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
             Total_Value += effect_value;
         }
+
+        RefreshResearchCache();
+        Total_Value += cachedResearchCriPer;
 
         return Total_Value;
     }
@@ -541,6 +589,9 @@ public class Player_Manager
             var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
             total_Value += effect_value;
         }
+
+        RefreshResearchCache();
+        total_Value += cachedResearchCriDmg;
 
         return total_Value;
     }

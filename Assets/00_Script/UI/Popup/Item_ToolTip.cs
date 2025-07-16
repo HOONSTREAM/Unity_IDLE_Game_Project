@@ -146,7 +146,7 @@ public class Item_ToolTip : MonoBehaviour
             Description_Text.text = string.Format(item.Item_Description);
         }
 
-        Legendary_Particle.gameObject.SetActive(item.rarity == Rarity.Legendary);
+        Legendary_Particle.gameObject.SetActive(item.rarity >= Rarity.Legendary);
     }
 
 }

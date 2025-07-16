@@ -495,7 +495,7 @@ public class Status_ToolTip : MonoBehaviour
             case Rarity.Rare: rarityFactor = 4; break;
             case Rarity.Epic: rarityFactor = 5; break;
             case Rarity.Legendary: rarityFactor = 8; break;
-            case Rarity.Chaos: rarityFactor = 15; break;
+            case Rarity.Chaos: rarityFactor = 30; break;
         }
 
         int multiplier = 0;
@@ -504,13 +504,13 @@ public class Status_ToolTip : MonoBehaviour
             case 1: multiplier = 1; break;
             case 2: multiplier = 2; break;
             case 3: multiplier = 4; break;
-            case 4: multiplier = 8; break;
-            case 5: multiplier = 16; break;
-            case 6: multiplier = 32; break;
-            case 7: multiplier = 64; break;
-            case 8: multiplier = 128; break;
-            case 9: multiplier = 240; break;
-            case 10: multiplier = 400; break;
+            case 4: multiplier = 30; break;
+            case 5: multiplier = 50; break;
+            case 6: multiplier = 80; break;
+            case 7: multiplier = 160; break;
+            case 8: multiplier = 220; break;
+            case 9: multiplier = 300; break;
+            case 10: multiplier = 500; break;
         }
 
         return rarityFactor * multiplier;

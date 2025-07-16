@@ -29,6 +29,7 @@ public enum IAP_Holder
     def_enhancement,
     dia_pass,
     enhancement_package,
+    ticket,
 }
 
 public enum Sound
