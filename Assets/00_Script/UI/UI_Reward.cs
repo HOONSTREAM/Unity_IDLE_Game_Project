@@ -33,7 +33,7 @@ public class UI_Reward : UI_Base
             case IAP_Holder.dia_pass: GetRewardInit("DIA_PASS", 1); break;
             case IAP_Holder.enhancement_package: GetRewardInit("PACKAGE_ENHANCEMENT", 1); break;
             case IAP_Holder.ticket: GetRewardInit("Research_Item_Ticket", 1); break;
-
+            case IAP_Holder.research_book: GetRewardInit("Research_Levelup_Book", 1); break;
 
         }
     }
@@ -56,6 +56,10 @@ public class UI_Reward : UI_Base
 
             case "Research_Item_Ticket":
                 Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount += 3;
+                break;
+
+            case "Research_Levelup_Book":
+                Base_Manager.Data.Item_Holder["Research_Levelup_Book"].Hero_Card_Amount += 1;
                 break;
 
             case "PACKAGE_ADS": 

@@ -93,33 +93,33 @@ public class UI_Research : UI_Base
             $"{RESEARCH_FIRST_MAX_LEVEL * (Base_Manager.Data.User_Main_Data_Research_Array[6].Research_ALL_LEVEL + 1)}";
 
 
-        Button_ATK_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1)}";
+        Button_ATK_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT}";
         Button_ATK_Amount.color = Utils.Item_Count("Slime_Potion", 
-            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1))) ? Color.green : Color.red;
+            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)) ? Color.green : Color.red;
 
-        Button_HP_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[1].Research_ALL_LEVEL + 1)}";
+        Button_HP_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT}";
         Button_HP_Amount.color = Utils.Item_Count("Spider_Potion",
-            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[1].Research_ALL_LEVEL + 1))) ? Color.green : Color.red;
+            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)) ? Color.green : Color.red;
 
-        Button_ATK_SPEED_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[2].Research_ALL_LEVEL + 1)}";
+        Button_ATK_SPEED_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT}";
         Button_ATK_SPEED_Amount.color = Utils.Item_Count("Orc_Potion",
-            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[2].Research_ALL_LEVEL + 1))) ? Color.green : Color.red;
+            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)) ? Color.green : Color.red;
 
-        Button_GOLD_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[3].Research_ALL_LEVEL + 1)}";
+        Button_GOLD_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT}";
         Button_GOLD_Amount.color = Utils.Item_Count("Skeleton_Potion",
-            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[3].Research_ALL_LEVEL + 1))) ? Color.green : Color.red;
+            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)) ? Color.green : Color.red;
 
-        Button_ITEM_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[4].Research_ALL_LEVEL + 1)}";
+        Button_ITEM_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT}";
         Button_ITEM_Amount.color = Utils.Item_Count("Plant_Potion",
-            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[4].Research_ALL_LEVEL + 1))) ? Color.green : Color.red;
+            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)) ? Color.green : Color.red;
 
-        Button_CRI_DMG_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[5].Research_ALL_LEVEL + 1)}";
+        Button_CRI_DMG_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT}";
         Button_CRI_DMG_Amount.color = Utils.Item_Count("Mushroom_Potion",
-            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[5].Research_ALL_LEVEL + 1))) ? Color.green : Color.red;
+            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)) ? Color.green : Color.red;
 
-        Button_CRI_PER_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[6].Research_ALL_LEVEL + 1)}";
+        Button_CRI_PER_Amount.text = $"{RESEARCH_REQUEST_FIRST_ITEM_AMOUNT}";
         Button_CRI_PER_Amount.color = Utils.Item_Count("Turtle_Potion",
-            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[6].Research_ALL_LEVEL + 1))) ? Color.green : Color.red;
+            (RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)) ? Color.green : Color.red;
         return base.Init();
     }
     public override void DisableOBJ()
@@ -140,39 +140,39 @@ public class UI_Research : UI_Base
         {
             case 0:
                 if (Base_Manager.Data.Item_Holder["Slime_Potion"].Hero_Card_Amount < 
-                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1))                   
+                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)                   
                 {
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 재료가 부족합니다.");
                     return;
                 }
                 else // 연구 등급상승
                 {
-                    Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 1000000f;
+                    Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 20000000f;
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Level++;
                     Base_Manager.Data.Item_Holder["Slime_Potion"].Hero_Card_Amount -= 
-                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1);
+                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT;
                     Base_Manager.Player.MarkResearchDirty();
                 }
                     break;
             case 1:
                 if (Base_Manager.Data.Item_Holder["Spider_Potion"].Hero_Card_Amount <
-                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1))
+                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)
                 {
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 재료가 부족합니다.");
                     return;
                 }
                 else // 연구 등급상승
                 {
-                    Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 1000000f;
+                    Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 20000000f;
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Level++;
                     Base_Manager.Data.Item_Holder["Spider_Potion"].Hero_Card_Amount -=
-                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1);
+                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT;
                     Base_Manager.Player.MarkResearchDirty();
                 }
                 break;
             case 2:
                 if (Base_Manager.Data.Item_Holder["Orc_Potion"].Hero_Card_Amount <
-                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1))
+                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)
                 {
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 재료가 부족합니다.");
                     return;
@@ -182,13 +182,13 @@ public class UI_Research : UI_Base
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 0.15f;
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Level++;
                     Base_Manager.Data.Item_Holder["Orc_Potion"].Hero_Card_Amount -=
-                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1);
+                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT;
                     Base_Manager.Player.MarkResearchDirty();
                 }
                 break;
             case 3:
                 if (Base_Manager.Data.Item_Holder["Skeleton_Potion"].Hero_Card_Amount <
-                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1))
+                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)
                 {
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 재료가 부족합니다.");
                     return;
@@ -198,13 +198,13 @@ public class UI_Research : UI_Base
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 1.28f;
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Level++;
                     Base_Manager.Data.Item_Holder["Skeleton_Potion"].Hero_Card_Amount -=
-                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1);
+                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT;
                     Base_Manager.Player.MarkResearchDirty();
                 }
                 break;
             case 4:
                 if (Base_Manager.Data.Item_Holder["Plant_Potion"].Hero_Card_Amount <
-                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1))
+                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)
                 {
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 재료가 부족합니다.");
                     return;
@@ -214,13 +214,13 @@ public class UI_Research : UI_Base
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 0.2f;
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Level++;
                     Base_Manager.Data.Item_Holder["Plant_Potion"].Hero_Card_Amount -=
-                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1);
+                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT;
                     Base_Manager.Player.MarkResearchDirty();
                 }
                 break;
             case 5:
                 if (Base_Manager.Data.Item_Holder["Mushroom_Potion"].Hero_Card_Amount <
-                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1))
+                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)
                 {
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 재료가 부족합니다.");
                     return;
@@ -230,13 +230,13 @@ public class UI_Research : UI_Base
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 0.25f;
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Level++;
                     Base_Manager.Data.Item_Holder["Mushroom_Potion"].Hero_Card_Amount -=
-                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1);
+                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT;
                     Base_Manager.Player.MarkResearchDirty();
                 }
                 break;
             case 6:
                 if (Base_Manager.Data.Item_Holder["Turtle_Potion"].Hero_Card_Amount <
-                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1))
+                    RESEARCH_REQUEST_FIRST_ITEM_AMOUNT)
                 {
                     Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 재료가 부족합니다.");
                     return;
@@ -246,7 +246,7 @@ public class UI_Research : UI_Base
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Value += 0.05f;
                     Base_Manager.Data.User_Main_Data_Research_Array[Stat_Number].Research_Level++;
                     Base_Manager.Data.Item_Holder["Turtle_Potion"].Hero_Card_Amount -=
-                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT * (Base_Manager.Data.User_Main_Data_Research_Array[0].Research_ALL_LEVEL + 1);
+                        RESEARCH_REQUEST_FIRST_ITEM_AMOUNT;
                     Base_Manager.Player.MarkResearchDirty();
                 }
                 break;
@@ -271,8 +271,7 @@ public class UI_Research : UI_Base
 
         if (Base_Manager.Data.Item_Holder["Research_Levelup_Book"].Hero_Card_Amount < 1)
         {
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 비급서가 부족합니다.");
-            Base_Manager.Data.Item_Holder["Research_Levelup_Book"].Hero_Card_Amount++;
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 비급서가 부족합니다.");           
             return;
         }
         // 종합 연구레벨 상승

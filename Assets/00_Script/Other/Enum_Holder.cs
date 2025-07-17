@@ -30,6 +30,8 @@ public enum IAP_Holder
     dia_pass,
     enhancement_package,
     ticket,
+    research_book,
+
 }
 
 public enum Sound

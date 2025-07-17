@@ -25,7 +25,7 @@ public class UI_Combination : UI_Base
     [SerializeField]
     private TextMeshProUGUI Four_Parts_Count_Text;
 
-
+    #region Combination_Items
     private bool is_Comb_Scroll = false;
 
     private bool is_Chaos_DarkHero_Book = false;
@@ -39,7 +39,19 @@ public class UI_Combination : UI_Base
 
     private bool is_Meat_To_Dia = false;
     private bool is_Potion_To_Ball = false;
+    #endregion
 
+    #region Research_Items
+    private bool is_Slime_Potion = false;
+    private bool is_Spider_Potion = false;
+    private bool is_Skeleton_Potion = false;
+    private bool is_Plant_Potion = false;
+    private bool is_Orc_Potion = false;
+    private bool is_Mushroom_Potion = false;
+    private bool is_Turtle_Potion = false;
+
+    private bool is_Research_Levelup_Book = false;
+    #endregion
     public override bool Init()
     {
         First_Comb_Parts.gameObject.SetActive(false);
@@ -47,6 +59,8 @@ public class UI_Combination : UI_Base
         Third_Comb_Parts.gameObject.SetActive(false);
         Four_Comb_Parts.gameObject.SetActive(false);
         Selected_Item_Parts.gameObject.SetActive(false);
+
+        #region Combination_Items
         is_Comb_Scroll = false;
         is_Chaos_DarkHero_Book = false;
         is_Summon_DarkHero = false;
@@ -56,9 +70,24 @@ public class UI_Combination : UI_Base
         is_Summon_Chaos_Caster = false;
         is_Summon_Aqua = false;
         is_Aqua_Book = false;
+        #endregion
+
+        #region Research_Items
+        is_Slime_Potion = false;
+        is_Spider_Potion = false;
+        is_Skeleton_Potion = false;
+        is_Plant_Potion = false;
+        is_Orc_Potion = false;
+        is_Mushroom_Potion = false;
+        is_Turtle_Potion = false;
+
+        is_Research_Levelup_Book = false;
+        #endregion
 
         return base.Init();
     }
+
+    #region Combination_Items
     /// <summary>
     /// 조합스크롤 제작식을 노출시킵니다.
     /// </summary>
@@ -300,7 +329,166 @@ public class UI_Combination : UI_Base
         First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Comb_Book_Summon_Aqua"].Hero_Card_Amount, holder.Hero_Card_Amount);
         First_Parts_Count_Text.color = Utils.Item_Count("Comb_Book_Summon_Aqua", 1) ? Color.green : Color.red;
     }
+    #endregion
 
+    #region Research_Items
+    public void Set_Slime_Potion()
+    {
+        Init();
+
+        is_Slime_Potion = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 2000;
+        Selected_Item_Parts.Init("Slime_Potion", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Research_Item_Ticket", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Research_Item_Ticket", 1) ? Color.green : Color.red;
+
+    }
+    public void Set_Spider_Potion()
+    {
+        Init();
+
+        is_Spider_Potion = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 2000;
+        Selected_Item_Parts.Init("Spider_Potion", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Research_Item_Ticket", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Research_Item_Ticket", 1) ? Color.green : Color.red;
+
+    }
+    public void Set_Skeleton_Potion()
+    {
+        Init();
+
+        is_Skeleton_Potion = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 2000;
+        Selected_Item_Parts.Init("Skeleton_Potion", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Research_Item_Ticket", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Research_Item_Ticket", 1) ? Color.green : Color.red;
+
+    }
+    public void Set_Plant_Potion()
+    {
+        Init();
+
+        is_Plant_Potion = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 2000;
+        Selected_Item_Parts.Init("Plant_Potion", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Research_Item_Ticket", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Research_Item_Ticket", 1) ? Color.green : Color.red;
+
+    }
+    public void Set_Orc_Potion()
+    {
+        Init();
+
+        is_Orc_Potion = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 2000;
+        Selected_Item_Parts.Init("Orc_Potion", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Research_Item_Ticket", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Research_Item_Ticket", 1) ? Color.green : Color.red;
+
+    }
+    public void Set_Mushroom_Potion()
+    {
+        Init();
+
+        is_Mushroom_Potion = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 2000;
+        Selected_Item_Parts.Init("Mushroom_Potion", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Research_Item_Ticket", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Research_Item_Ticket", 1) ? Color.green : Color.red;
+
+    }
+    public void Set_Turtle_Potion()
+    {
+        Init();
+
+        is_Turtle_Potion = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 2000;
+        Selected_Item_Parts.Init("Turtle_Potion", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Research_Item_Ticket", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Research_Item_Ticket", 1) ? Color.green : Color.red;
+
+    }
+    public void Set_Research_Levelup_Book()
+    {
+        Init();
+
+        is_Research_Levelup_Book = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Research_Levelup_Book", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+        Second_Comb_Parts.gameObject.SetActive(true);
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 100;
+        First_Comb_Parts.Init("Research_Book_Stone", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Research_Book_Stone"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Research_Book_Stone", 100) ? Color.green : Color.red;
+        Holder holder_2 = new Holder();
+        holder_2.Hero_Card_Amount = 3000;
+        Second_Comb_Parts.Init("Steel", holder_2);
+        Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
+        Second_Parts_Count_Text.color = Utils.Item_Count("Steel", 3000) ? Color.green : Color.red;
+    }
+    #endregion
     public void Combination()
     {
         
