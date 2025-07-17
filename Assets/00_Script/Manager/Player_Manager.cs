@@ -489,10 +489,10 @@ public class Player_Manager
             var effect_value = float.Parse(CSV_Importer.RELIC_HPUP_Design[Base_Manager.Data.Item_Holder[value].Hero_Level]["effect_percent"].ToString());
             total_Value *= effect_value;
         }
-        Debug.Log($"계산 전 atk speed : {total_Value}");
+        
         RefreshResearchCache();
         total_Value += (cachedResearchAtkSpeed / 100);
-        Debug.Log($"계산 후 atk speed : {total_Value}");
+       
         
         return total_Value;
     }
@@ -579,7 +579,7 @@ public class Player_Manager
         }
 
         
-        float dexBonus = (float)Dex_Value * 10.0f;
+        float dexBonus = (float)Dex_Value;
         
         total_Value += dexBonus;
 

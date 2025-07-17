@@ -490,8 +490,7 @@ public class UI_Combination : UI_Base
     }
     #endregion
     public void Combination()
-    {
-        
+    {        
         if (is_Comb_Scroll)
         {
             if(Base_Manager.Data.Item_Holder["Potion"].Hero_Card_Amount >= 10000 && Base_Manager.Data.Item_Holder["scroll"].Hero_Card_Amount >= 15000)
@@ -705,7 +704,181 @@ public class UI_Combination : UI_Base
             }
 
         }
-        
+
+        else if (is_Slime_Potion)
+        {
+            if (Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount --;
+
+                Base_Manager.Data.Item_Holder["Slime_Potion"].Hero_Card_Amount += 2000;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("붉은 성수 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[붉은 성수 2000개]</color>를 제작했습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Slime_Potion();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("붉은 성수 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
+        else if (is_Spider_Potion)
+        {
+            if (Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount--;
+
+                Base_Manager.Data.Item_Holder["Spider_Potion"].Hero_Card_Amount += 2000;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("맹독 추출액 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[맹독 추출액 2000개]</color>를 제작했습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Spider_Potion();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("맹독 추출액 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
+        else if (is_Skeleton_Potion)
+        {
+            if (Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount--;
+
+                Base_Manager.Data.Item_Holder["Skeleton_Potion"].Hero_Card_Amount += 2000;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("망자의 골수액 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[망자의 골수액 2000개]</color>를 제작했습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Skeleton_Potion();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("망자의 골수액 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
+        else if (is_Orc_Potion)
+        {
+            if (Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount--;
+
+                Base_Manager.Data.Item_Holder["Orc_Potion"].Hero_Card_Amount += 2000;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("분노의 근섬유액 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[분노의 근섬유액 2000개]</color>를 제작했습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Orc_Potion();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("분노의 근섬유액 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
+        else if (is_Plant_Potion)
+        {
+            if (Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount--;
+
+                Base_Manager.Data.Item_Holder["Plant_Potion"].Hero_Card_Amount += 2000;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("탐식의 수액 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[탐식의 수액 2000개]</color>를 제작했습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Plant_Potion();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("탐식의 수액 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
+        else if (is_Mushroom_Potion)
+        {
+            if (Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount--;
+
+                Base_Manager.Data.Item_Holder["Mushroom_Potion"].Hero_Card_Amount += 2000;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("포자 추출액 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[포자 추출액 2000개]</color>를 제작했습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Mushroom_Potion();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("포자 추출액 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
+        else if (is_Turtle_Potion)
+        {
+            if (Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount >= 1)
+            {
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount--;
+
+                Base_Manager.Data.Item_Holder["Turtle_Potion"].Hero_Card_Amount += 2000;
+
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("경화 점액 제작 성공");
+                Utils.SendSystemLikeMessage("★ <color=#FFFF00>[경화 점액 2000개]</color>를 제작했습니다!");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+
+                Set_Turtle_Potion();
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("경화점액 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
+
+        else if (is_Research_Levelup_Book)
+        {
+            if (Base_Manager.Data.Item_Holder["Research_Book_Stone"].Hero_Card_Amount >= 100 && Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount >= 3000)
+            {
+                Base_Manager.Data.Item_Holder["Research_Book_Stone"].Hero_Card_Amount -= 100;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount -= 3000;
+                var item = Base_Manager.Data.Data_Item_Dictionary["Research_Levelup_Book"];
+                Base_Manager.Inventory.Get_Item(item, 1);
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 비급서 제작 성공");
+                Base_Manager.SOUND.Play(Sound.BGS, "Gacha");
+                Set_Research_Levelup_Book();
+
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("연구 비급서 제작에 필요한 재료가 부족합니다.");
+                return;
+            }
+
+        }
     }
 
 
