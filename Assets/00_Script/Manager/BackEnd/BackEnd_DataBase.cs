@@ -124,6 +124,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("USER_DPS_LEVEL", data.USER_DPS_LEVEL);
         param.Add("LAST_DAILY_RESET", data.Last_Daily_Reset_Time);
         param.Add("USER_DPS_REWARD", data.DPS_REWARD);
+        param.Add("USER_STAGE_REWARD", data.STAGE_REWARD);
 
         param.Add("ADS_FREE_DIA", data.ADS_FREE_DIA);
         param.Add("ADS_FREE_STEEL", data.ADS_FREE_STEEL);
@@ -638,6 +639,50 @@ public partial class BackEnd_Manager : MonoBehaviour
                 {
                     Debug.Log("USER_DPS_REWARD 컬럼이 존재합니다.");
                     data.DPS_REWARD = (gameDataJson[0]["USER_DPS_REWARD"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("USER_STAGE_REWARD"))
+                {
+                    Debug.Log("USER_STAGE_REWARD 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("USER_STAGE_REWARD", data.STAGE_REWARD);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("USER_STAGE_REWARD 컬럼이 존재합니다.");
+                    data.STAGE_REWARD = (gameDataJson[0]["USER_STAGE_REWARD"].ToString());
                 }
                 if (!gameDataJson[0].ContainsKey("ADS_FREE_DIA"))
                 {

@@ -34,6 +34,7 @@ public class UI_Reward : UI_Base
             case IAP_Holder.enhancement_package: GetRewardInit("PACKAGE_ENHANCEMENT", 1); break;
             case IAP_Holder.ticket: GetRewardInit("Research_Item_Ticket", 1); break;
             case IAP_Holder.research_book: GetRewardInit("Research_Levelup_Book", 1); break;
+            case IAP_Holder.research_package: GetRewardInit("PACKAGE_RESEARCH", 1); break;
 
         }
     }
@@ -70,6 +71,14 @@ public class UI_Reward : UI_Base
                 Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 1000;
                 break;
 
+            case "PACKAGE_RESEARCH":
+                
+                Data_Manager.Main_Players_Data.DiaMond += 5000;
+                Base_Manager.BACKEND.Log_Get_Dia("Get_Package_Research");
+                Base_Manager.Data.Item_Holder["Research_Levelup_Book"].Hero_Card_Amount += 2;
+                Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount += 5;
+                break;
+
             case "PACKAGE_ENHANCEMENT":
                 
                 Data_Manager.Main_Players_Data.DiaMond += 2500;
@@ -86,10 +95,11 @@ public class UI_Reward : UI_Base
                 
             case "PACKAGE_STRONG":
                 Data_Manager.Main_Players_Data.isBuySTRONGPackage = true;
-                Data_Manager.Main_Players_Data.DiaMond += 2500;
+                Data_Manager.Main_Players_Data.DiaMond += 10000;
                 Base_Manager.BACKEND.Log_Get_Dia("Get_Package_Strong");
-                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 600;
-                Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount += 2000;
+                Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 1500;
+                Base_Manager.Data.Item_Holder["DEF_Enhancement"].Hero_Card_Amount += 1;
+                Base_Manager.Data.Item_Holder["Research_Levelup_Book"].Hero_Card_Amount += 1;
                 break;
 
             case "PACKAGE_TODAY":

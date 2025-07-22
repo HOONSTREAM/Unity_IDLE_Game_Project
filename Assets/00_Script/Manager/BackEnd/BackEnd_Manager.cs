@@ -128,6 +128,11 @@ public partial class BackEnd_Manager : MonoBehaviour
         {
             param.Add("DPS_LEVEL", Data_Manager.Main_Players_Data.USER_DPS_LEVEL);
         }
+
+        if(Action == "STAGE_REWARD")
+        {
+            
+        }
         
         param.Add("Time", Utils.Get_Server_Time().ToString("yyyy-MM-dd HH:mm:ss"));
 

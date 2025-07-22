@@ -31,6 +31,7 @@ public enum IAP_Holder
     enhancement_package,
     ticket,
     research_book,
+    research_package,
 
 }
 

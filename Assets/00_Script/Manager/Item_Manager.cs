@@ -50,6 +50,9 @@ public class Item_Manager
 
         foreach (var item in _cachedDropPool)
         {
+            if (item.Item_Chance <= 0)
+                continue;
+
             float adjustedChance = item.Item_Chance * (1 + smeltBonus / 100f);
 
             if (Random.value * 100f <= adjustedChance)

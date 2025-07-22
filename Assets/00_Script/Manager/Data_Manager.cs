@@ -99,6 +99,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.USER_DPS = 0;
         Data_Manager.Main_Players_Data.USER_DPS_LEVEL = 0;
         Data_Manager.Main_Players_Data.DPS_REWARD = default;
+        Data_Manager.Main_Players_Data.STAGE_REWARD = default;
         Data_Manager.Main_Players_Data.ADS_FREE_DIA = false;
         Data_Manager.Main_Players_Data.ADS_FREE_STEEL = false;
         Data_Manager.Main_Players_Data.FREE_DIA = false;
@@ -165,6 +166,7 @@ public class BackendGameData
         param.Add("USER_DPS", Data_Manager.Main_Players_Data.USER_DPS);
         param.Add("USER_DPS_LEVEL", Data_Manager.Main_Players_Data.USER_DPS_LEVEL);
         param.Add("USER_DPS_REWARD", Data_Manager.Main_Players_Data.DPS_REWARD);
+        param.Add("USER_STAGE_REWARD", Data_Manager.Main_Players_Data.STAGE_REWARD);
         param.Add("ADS_FREE_DIA", Data_Manager.Main_Players_Data.ADS_FREE_DIA);
         param.Add("ADS_FREE_STEEL", Data_Manager.Main_Players_Data.ADS_FREE_STEEL);
         param.Add("FREE_DIA", Data_Manager.Main_Players_Data.FREE_DIA);
@@ -397,6 +399,7 @@ public class Data
     public double USER_DPS = 0;
     public int USER_DPS_LEVEL = 0;
     public string DPS_REWARD = default;
+    public string STAGE_REWARD = default;
     
     /// <summary>
     /// 플레이어 유저의 소환 레벨 변수
