@@ -167,6 +167,28 @@ public class Main_UI : MonoBehaviour
 
     #endregion
 
+    #region 텍스트 업데이트 더티플래그
+    // 내부 캐시
+    private int _cachedLevel = -1;
+    private double _cachedUnitCost = 0;
+    private double _cachedUnitExp = 0;
+    private double _cachedMaxExp = 0;
+    private double _cachedTotalCost = 0;
+
+    // Dirty Flag용 이전 값
+    private double _prevHP = -1;
+    private double _prevMoney = -1;
+    private int _prevDia = -1;
+    private int _prevStage = -1;
+    private bool _prevIsDead = false;
+
+    // 텍스트 업데이트용 캐시 문자열
+    private string _prevTier = "";
+    private Sprite _prevTierSprite = null;
+
+    private string _prevLevelText = "";
+    #endregion
+
     private void Awake()
     {
         if(Instance == null)
@@ -911,49 +933,108 @@ public class Main_UI : MonoBehaviour
     /// </summary>
     public void Main_UI_PlayerInfo_Text_Check()
     {
-        double unitCost = Utils.Data.levelData.Get_LEVELUP_MONEY();  // 1회 클릭당 드는 골드
-        
-        double unitExp = Utils.Data.levelData.Get_EXP();             // 1회 클릭당 증가하는 EXP
-        
-        double maxExp = Utils.Data.levelData.Get_MAXEXP();           // 전체 EXP (100%)
-        
+        if (!gameObject.activeInHierarchy) return;
 
-        double totalCost = unitCost * (maxExp / unitExp);            // 총 필요 골드
+        var playerData = Data_Manager.Main_Players_Data;
 
-        Tier_Text.text = Utils.Set_Tier_Name();
-        Tier_Image.sprite = Utils.Get_Atlas(Data_Manager.Main_Players_Data.Player_Tier.ToString());
-
-        _level_Text.text = "LV." + (Data_Manager.Main_Players_Data.Player_Level + 1).ToString();
-
-        if(Cleric_Component.HP <= 0)
+        // 1. Tier 관련
+        string tierName = Utils.Set_Tier_Name();
+        if (_prevTier != tierName)
         {
-            Cleric_Component.HP = 0;
+            _prevTier = tierName;
+            Tier_Text.text = tierName;
         }
 
-        Main_Char_HP_Text.text = StringMethod.ToCurrencyString(Cleric_Component.HP);
-        _player_ability.text = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
+        Sprite tierSprite = Utils.Get_Atlas(playerData.Player_Tier.ToString());
+        if (_prevTierSprite != tierSprite)
+        {
+            _prevTierSprite = tierSprite;
+            Tier_Image.sprite = tierSprite;
+        }
 
-        _levelup_money_text.text = StringMethod.ToCurrencyString((totalCost));
-        _levelup_money_text.color = Utils.Check_Levelup_Gold(totalCost) ? Color.green : Color.red;
+        // 2. 레벨 표시
+        if (_cachedLevel != playerData.Player_Level)
+        {
+            _cachedLevel = playerData.Player_Level;
 
-        var temp_atk = Utils.Data.levelData.Get_Levelup_Next_LEVEL_ATK() - Utils.Data.levelData.Get_Levelup_Next_ATK();
-        var temp_hp = Utils.Data.levelData.Get_Levelup_Next_LEVEL_HP() - Utils.Data.levelData.Get_Levelup_Next_HP();
+            _cachedUnitCost = Utils.Data.levelData.Get_LEVELUP_MONEY();
+            _cachedUnitExp = Utils.Data.levelData.Get_EXP();
+            _cachedMaxExp = Utils.Data.levelData.Get_MAXEXP();
 
-        _levelup_atk_amount.text = $"+ <color=#FFFF00>{StringMethod.ToCurrencyString(temp_atk)}</color>";
-        _levelup_hp_amount.text = $"+ <color=#FFFF00>{StringMethod.ToCurrencyString(temp_hp)}</color>";
+            _cachedTotalCost = _cachedUnitCost * (_cachedMaxExp / _cachedUnitExp);
+        }
 
-        _gold_text.text = StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money);
-        _dia_text.text = Data_Manager.Main_Players_Data.DiaMond.ToString();
+        string levelText = "LV." + (playerData.Player_Level + 1).ToString();
+        if (_prevLevelText != levelText)
+        {
+            _prevLevelText = levelText;
+            _level_Text.text = levelText;
+        }
 
-        _stage_repeat_text.text = Stage_Manager.isDead ? "반복중 ..." : "진행중 ...";
-        _stage_repeat_text.color = Stage_Manager.isDead ? Color.yellow : StageColor;
+        // 3. 체력
+        double hp = Cleric_Component.HP < 0 ? 0 : Cleric_Component.HP;
+        if (_prevHP != hp)
+        {
+            _prevHP = hp;
+            Main_Char_HP_Text.text = StringMethod.ToCurrencyString(hp);
+        }
 
-        int stage_Value = Data_Manager.Main_Players_Data.Player_Stage;
+        // 4. 능력치 (ATK/HP)
+        string abilityText = StringMethod.ToCurrencyString(Base_Manager.Player.Player_ALL_Ability_ATK_HP());
+        if (_player_ability.text != abilityText)
+            _player_ability.text = abilityText;
 
-        
-        _stage_Text.text = stage_Value.ToString() + "층";
-        _boss_stage_text.text = stage_Value.ToString() + "층";
+        // 5. 레벨업 비용 표시
+        string costText = StringMethod.ToCurrencyString(_cachedTotalCost);
+        if (_levelup_money_text.text != costText)
+            _levelup_money_text.text = costText;
 
+        Color color = Utils.Check_Levelup_Gold(_cachedTotalCost) ? Color.green : Color.red;
+        if (_levelup_money_text.color != color)
+            _levelup_money_text.color = color;
+
+        // 6. 다음 스탯 향상량 계산
+        double nextAtk = Utils.Data.levelData.Get_Levelup_Next_LEVEL_ATK() - Utils.Data.levelData.Get_Levelup_Next_ATK();
+        double nextHp = Utils.Data.levelData.Get_Levelup_Next_LEVEL_HP() - Utils.Data.levelData.Get_Levelup_Next_HP();
+
+        string atkText = $"+ <color=#FFFF00>{StringMethod.ToCurrencyString(nextAtk)}</color>";
+        if (_levelup_atk_amount.text != atkText)
+            _levelup_atk_amount.text = atkText;
+
+        string hpText = $"+ <color=#FFFF00>{StringMethod.ToCurrencyString(nextHp)}</color>";
+        if (_levelup_hp_amount.text != hpText)
+            _levelup_hp_amount.text = hpText;
+
+        // 7. 골드
+        if (_prevMoney != playerData.Player_Money)
+        {
+            _prevMoney = playerData.Player_Money;
+            _gold_text.text = StringMethod.ToCurrencyString(_prevMoney);
+        }
+
+        // 8. 다이아
+        if (_prevDia != playerData.DiaMond)
+        {
+            _prevDia = playerData.DiaMond;
+            _dia_text.text = playerData.DiaMond.ToString();
+        }
+
+        // 9. 스테이지 반복 상태
+        if (_prevIsDead != Stage_Manager.isDead)
+        {
+            _prevIsDead = Stage_Manager.isDead;
+            _stage_repeat_text.text = _prevIsDead ? "반복중 ..." : "진행중 ...";
+            _stage_repeat_text.color = _prevIsDead ? Color.yellow : StageColor;
+        }
+
+        // 10. 스테이지 표시
+        if (_prevStage != playerData.Player_Stage)
+        {
+            _prevStage = playerData.Player_Stage;
+            string stageStr = _prevStage + "층";
+            _stage_Text.text = stageStr;
+            _boss_stage_text.text = stageStr;
+        }
     }
     public void Get_Legendary_Popup(Item_Scriptable item)
     {
