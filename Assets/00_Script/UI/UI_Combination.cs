@@ -37,6 +37,9 @@ public class UI_Combination : UI_Base
     private bool is_Aqua_Book = false;
     private bool is_Summon_Aqua = false;
 
+    private bool is_Shadow_Book = false;
+    private bool is_Summon_Shadow = false;
+
     private bool is_Meat_To_Dia = false;
     private bool is_Potion_To_Ball = false;
     #endregion
@@ -61,6 +64,7 @@ public class UI_Combination : UI_Base
         Selected_Item_Parts.gameObject.SetActive(false);
 
         #region Combination_Items
+
         is_Comb_Scroll = false;
         is_Chaos_DarkHero_Book = false;
         is_Summon_DarkHero = false;
@@ -70,6 +74,9 @@ public class UI_Combination : UI_Base
         is_Summon_Chaos_Caster = false;
         is_Summon_Aqua = false;
         is_Aqua_Book = false;
+        is_Shadow_Book = false;
+        is_Summon_Shadow = false;
+
         #endregion
 
         #region Research_Items
@@ -328,6 +335,65 @@ public class UI_Combination : UI_Base
         First_Comb_Parts.Init("Comb_Book_Summon_Aqua", holder);
         First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Comb_Book_Summon_Aqua"].Hero_Card_Amount, holder.Hero_Card_Amount);
         First_Parts_Count_Text.color = Utils.Item_Count("Comb_Book_Summon_Aqua", 1) ? Color.green : Color.red;
+    }
+    /// <summary>
+    /// 쉐도우 이클립스 소환서
+    /// </summary>
+    public void Set_Chaos_Shadow_Book()
+    {
+        Init();
+        is_Shadow_Book = true;
+
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Comb_Book_Summon_Shadow", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+        Second_Comb_Parts.gameObject.SetActive(true);
+        Third_Comb_Parts.gameObject.SetActive(true);
+        Four_Comb_Parts.gameObject.SetActive(true);
+
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 50000;
+        First_Comb_Parts.Init("Book", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Book"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Book", 50000) ? Color.green : Color.red;
+        Holder holder_2 = new Holder();
+        holder_2.Hero_Card_Amount = 4000;
+        Second_Comb_Parts.Init("Blood", holder_2);
+        Second_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Blood"].Hero_Card_Amount, holder_2.Hero_Card_Amount);
+        Second_Parts_Count_Text.color = Utils.Item_Count("Blood", 4000) ? Color.green : Color.red;
+        Holder holder_3 = new Holder();
+        holder_3.Hero_Card_Amount = 2000;
+        Third_Comb_Parts.Init("Steel", holder_3);
+        Third_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount, holder_3.Hero_Card_Amount);
+        Third_Parts_Count_Text.color = Utils.Item_Count("Steel", 2000) ? Color.green : Color.red;
+        Holder holder_4 = new Holder();
+        holder_4.Hero_Card_Amount = 50000;
+        Four_Comb_Parts.Init("Scroll_Comb", holder_4);
+        Four_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Scroll_Comb"].Hero_Card_Amount, holder_4.Hero_Card_Amount);
+        Four_Parts_Count_Text.color = Utils.Item_Count("Scroll_Comb", 50000) ? Color.green : Color.red;
+    }
+    /// <summary>
+    /// 혼돈등급 쉐도우 이클립스 소환
+    /// </summary>
+    public void Set_Summon_Shadow()
+    {
+        Init();
+
+        is_Summon_Shadow = true;
+        Selected_Item_Parts.gameObject.SetActive(true);
+        Holder Select_holder = new Holder();
+        Select_holder.Hero_Card_Amount = 1;
+        Selected_Item_Parts.Init("Summon_Shadow", Select_holder);
+
+        First_Comb_Parts.gameObject.SetActive(true);
+        Holder holder = new Holder();
+        holder.Hero_Card_Amount = 1;
+        First_Comb_Parts.Init("Comb_Book_Summon_Shadow", holder);
+        First_Parts_Count_Text.text = string.Format("({0}/{1})", Base_Manager.Data.Item_Holder["Comb_Book_Summon_Shadow"].Hero_Card_Amount, holder.Hero_Card_Amount);
+        First_Parts_Count_Text.color = Utils.Item_Count("Comb_Book_Summon_Shadow", 1) ? Color.green : Color.red;
     }
     #endregion
 
