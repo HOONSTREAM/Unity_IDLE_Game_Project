@@ -35,6 +35,8 @@ public class UI_Reward : UI_Base
             case IAP_Holder.ticket: GetRewardInit("Research_Item_Ticket", 1); break;
             case IAP_Holder.research_book: GetRewardInit("Research_Levelup_Book", 1); break;
             case IAP_Holder.research_package: GetRewardInit("PACKAGE_RESEARCH", 1); break;
+            case IAP_Holder.hondon_comb: GetRewardInit("PACKAGE_HONDON_COMB", 1); break;
+
 
         }
     }
@@ -77,6 +79,14 @@ public class UI_Reward : UI_Base
                 Base_Manager.BACKEND.Log_Get_Dia("Get_Package_Research");
                 Base_Manager.Data.Item_Holder["Research_Levelup_Book"].Hero_Card_Amount += 2;
                 Base_Manager.Data.Item_Holder["Research_Item_Ticket"].Hero_Card_Amount += 5;
+                break;
+
+            case "PACKAGE_HONDON_COMB":
+
+                Data_Manager.Main_Players_Data.DiaMond += 2500;
+                Base_Manager.BACKEND.Log_Get_Dia("get_Package_Hondon_Comb");
+                Base_Manager.Data.Item_Holder["Blood"].Hero_Card_Amount += 4000;
+                Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount += 4000;
                 break;
 
             case "PACKAGE_ENHANCEMENT":

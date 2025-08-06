@@ -639,11 +639,11 @@ public class Player_Manager
         public static readonly Dictionary<Rarity, double> RarityMultiplier = new Dictionary<Rarity, double>()
         {
             { Rarity.Common, 1.0 },
-            { Rarity.UnCommon, 1.2 },
-            { Rarity.Rare, 1.5 },
-            { Rarity.Epic, 2.0 },
-            { Rarity.Legendary, 30.0 },
-            { Rarity.Chaos, 150.0 }
+            { Rarity.UnCommon, 1.01 },
+            { Rarity.Rare, 1.02 },
+            { Rarity.Epic, 1.03 },
+            { Rarity.Legendary, 80.0 },
+            { Rarity.Chaos, 1600.0 }
         };
 
     }

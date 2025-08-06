@@ -32,6 +32,7 @@ public enum IAP_Holder
     ticket,
     research_book,
     research_package,
+    hondon_comb,
 
 }
 
