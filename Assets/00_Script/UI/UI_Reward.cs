@@ -83,7 +83,7 @@ public class UI_Reward : UI_Base
 
             case "PACKAGE_HONDON_COMB":
 
-                Data_Manager.Main_Players_Data.DiaMond += 2500;
+                Data_Manager.Main_Players_Data.DiaMond += 5000;
                 Base_Manager.BACKEND.Log_Get_Dia("get_Package_Hondon_Comb");
                 Base_Manager.Data.Item_Holder["Blood"].Hero_Card_Amount += 4000;
                 Base_Manager.Data.Item_Holder["Hondon_Potion"].Hero_Card_Amount += 4000;
