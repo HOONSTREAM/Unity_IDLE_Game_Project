@@ -76,7 +76,7 @@ public class UI_Attendance : UI_Base
 
     private void GiveReward(int day)
     {
-        int rewardAmount = (day == 5 || day == 10 || day == 15 || day == 20) ? 10000 :
+        int rewardAmount = (day == 5 || day == 10 || day == 15 || day == 20) ? 20000 :
                    (day == 25) ? 20000 : 1000;
 
         Base_Canvas.instance.Get_UI("UI_Reward");

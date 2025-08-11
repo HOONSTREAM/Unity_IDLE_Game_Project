@@ -476,7 +476,7 @@ public class UI_Dungeon : UI_Base
         else if (KeyValue == 1)
         {
             double Gold_Value = Utils.CalculateValue(Utils.Data.stageData.Base_DROP_MONEY, (Level[KeyValue] + 1),
-                Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON;
+                Utils.Data.stageData.DROP_MONEY) * Stage_Manager.MULTIPLE_REWARD_GOLD_DUNGEON * 100;
 
             Clear_Assets[1].text = StringMethod.ToCurrencyString(Gold_Value);
         }

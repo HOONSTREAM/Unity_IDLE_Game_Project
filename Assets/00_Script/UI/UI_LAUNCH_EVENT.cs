@@ -23,6 +23,7 @@ public class UI_LAUNCH_EVENT : UI_Base
 
         Base_Canvas.instance.Get_UI("UI_Reward");
         Utils.UI_Holder.Peek().GetComponent<UI_Reward>().GetRewardInit("Dia", 20000); // 보상지급
+        Base_Manager.Data.character_Holder["Shadow"].Hero_Card_Amount += 1;
         Destroy(this.gameObject);
         Base_Canvas.instance.Destroy_Launch_Event_Button();
         Main_UI.Instance.Main_UI_PlayerInfo_Text_Check();
