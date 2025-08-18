@@ -585,6 +585,12 @@ public class UI_Shop : UI_Base
 
     public void Start_Tutorial(Button original_Button)
     {
+        if (!Utils.is_Tutorial)
+        {
+            Tutorial_Panel.gameObject.SetActive(false);
+            return;
+        }
+
         Tutorial_Panel.gameObject.SetActive(true);
 
         GameObject copy = Instantiate(original_Button.gameObject);
@@ -610,15 +616,8 @@ public class UI_Shop : UI_Base
 
         // 클릭 이벤트 처리
         Button copy_Button = copy.GetComponent<Button>();
-        if (Utils.is_Tutorial)
-        {
-            copy_Button.onClick = original_Button.onClick;
-            copy_Button.onClick.AddListener(() =>
-            {
-                End_Tutorial();
-                copy_Button.onClick.RemoveAllListeners();
-            });
-        }
+        copy_Button.onClick = original_Button.onClick;
+        copy_Button.onClick.AddListener(() => End_Tutorial());
     }
    
 

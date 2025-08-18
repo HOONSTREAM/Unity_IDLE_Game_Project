@@ -424,25 +424,70 @@ public class Base_Canvas : MonoBehaviour
 
         Tutorial_Panel.gameObject.SetActive(true);
 
+        // 1) 복제 + 부모 지정
         GameObject copy = Instantiate(original_Button.gameObject);
         RectTransform copyRect = copy.GetComponent<RectTransform>();
-        RectTransform original_Rect = original_Button.GetComponent<RectTransform>();
+        RectTransform originalRect = original_Button.GetComponent<RectTransform>();
+        RectTransform targetParent = (RectTransform)Tutorial_Panel.transform;
 
-        copy.transform.SetParent(Tutorial_Panel.transform);
+        copy.transform.SetParent(targetParent, false); // worldPositionStays=false
 
-        copyRect.anchorMin = new Vector2(0.5f, 0.5f);
-        copyRect.anchorMax = new Vector2(0.5f, 0.5f);
-        copyRect.pivot = new Vector2(0.5f, 0.5f);
-        copyRect.sizeDelta = original_Rect.sizeDelta;
+        // 2) 원본의 시각적 영역을 타겟 부모 기준 앵커로 매칭
+        MatchVisualRect(originalRect, targetParent, copyRect);
 
-        copyRect.position = original_Rect.position;
-        copyRect.localScale = Vector3.one;
-
+        // 3) 클릭 이벤트 처리
         Button copy_Button = copy.GetComponent<Button>();
         copy_Button.onClick = original_Button.onClick;
         copy_Button.onClick.AddListener(() => End_Tutorial());
     }
 
+    /// <summary>
+    /// 원본 RectTransform의 보이는 영역을 targetParent 기준으로 정확히 복제.
+    /// 해상도/CanvasScaler/카메라 모드에 구애받지 않도록
+    /// WorldCorners → Screen → Local 변환 뒤 앵커 비율로 세팅.
+    /// </summary>
+    static void MatchVisualRect(RectTransform src, RectTransform targetParent, RectTransform dst)
+    {
+        // 소스/타겟 캔버스와 카메라
+        Canvas srcRoot = src.GetComponentInParent<Canvas>().rootCanvas;
+        Canvas dstRoot = targetParent.GetComponentInParent<Canvas>().rootCanvas;
+
+        Camera srcCam = (srcRoot.renderMode == RenderMode.ScreenSpaceOverlay) ? null : srcRoot.worldCamera;
+        Camera dstCam = (dstRoot.renderMode == RenderMode.ScreenSpaceOverlay) ? null : dstRoot.worldCamera;
+
+        // 원본의 월드 코너
+        Vector3[] wc = new Vector3[4];
+        src.GetWorldCorners(wc); // 0:BL, 1:TL, 2:TR, 3:BR
+
+        // 월드→스크린
+        Vector2 blScreen = RectTransformUtility.WorldToScreenPoint(srcCam, wc[0]);
+        Vector2 trScreen = RectTransformUtility.WorldToScreenPoint(srcCam, wc[2]);
+
+        // 스크린→타겟 부모 로컬
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(targetParent, blScreen, dstCam, out Vector2 blLocal);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(targetParent, trScreen, dstCam, out Vector2 trLocal);
+
+        // 로컬 좌표를 타겟 부모의 [0..1] 앵커 비율로 환산
+        Rect pr = targetParent.rect;
+        Vector2 anchorMin = new Vector2(
+            Mathf.InverseLerp(pr.xMin, pr.xMax, blLocal.x),
+            Mathf.InverseLerp(pr.yMin, pr.yMax, blLocal.y)
+        );
+        Vector2 anchorMax = new Vector2(
+            Mathf.InverseLerp(pr.xMin, pr.xMax, trLocal.x),
+            Mathf.InverseLerp(pr.yMin, pr.yMax, trLocal.y)
+        );
+
+        // 앵커/옵셋 확정: 정확히 같은 화면 영역을 차지
+        dst.anchorMin = anchorMin;
+        dst.anchorMax = anchorMax;
+        dst.offsetMin = Vector2.zero;
+        dst.offsetMax = Vector2.zero;
+
+        // 피벗/스케일은 시각에 영향 없지만 일관성 위해 복사
+        dst.pivot = src.pivot;
+        dst.localScale = Vector3.one; // 부모 기준 스케일을 따르게
+    }
     private void End_Tutorial()
     {
         for(int i = 0; i<Tutorial_Panel.transform.childCount; i++)
