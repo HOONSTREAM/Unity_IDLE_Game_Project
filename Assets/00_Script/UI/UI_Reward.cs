@@ -18,10 +18,10 @@ public class UI_Reward : UI_Base
             case IAP_Holder.package_1: GetRewardInit("PACKAGE_TODAY", 1); break;
             case IAP_Holder.package_2: GetRewardInit("PACKAGE_STRONG", 1); break;
             case IAP_Holder.steel_1000: GetRewardInit("Steel", 1000); break;
-            case IAP_Holder.dia_19000: GetRewardInit("Dia", 19000); break;
-            case IAP_Holder.dia_1400: GetRewardInit("Dia", 1400); break;
-            case IAP_Holder.dia_68000: GetRewardInit("Dia", 68000);break;
-            case IAP_Holder.dia_4900: GetRewardInit("Dia", 4900); break;
+            case IAP_Holder.dia_19000: GetRewardInit("Dia", 66000); break;
+            case IAP_Holder.dia_1400: GetRewardInit("Dia", 3300); break;
+            case IAP_Holder.dia_68000: GetRewardInit("Dia", 118000);break;
+            case IAP_Holder.dia_4900: GetRewardInit("Dia", 11000); break;
             case IAP_Holder.dungeon_dia_20: GetRewardInit("Dungeon_Dia", 5); break;
             case IAP_Holder.gold_30: GetRewardInit("Dungeon_Gold", 8); break;
             case IAP_Holder.start: GetRewardInit("START_Package", 1); break;
@@ -145,7 +145,7 @@ public class UI_Reward : UI_Base
             case "PACKAGE_DIAMOND":
                 Data_Manager.Main_Players_Data.isBuyDIAMONDPackage = true;
                 Base_Manager.Data.Item_Holder["Steel"].Hero_Card_Amount += 3000;
-                Data_Manager.Main_Players_Data.DiaMond += 43000;
+                Data_Manager.Main_Players_Data.DiaMond += 63000;
                 Data_Manager.Main_Players_Data.User_Key_Assets[0] += 5;
 
                 break;
