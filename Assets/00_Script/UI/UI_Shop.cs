@@ -84,6 +84,8 @@ public class UI_Shop : UI_Base
     [SerializeField]
     private GameObject START_PACKAGE_OBJ;
     [SerializeField]
+    private GameObject START_DIA_PACK_OBJ;
+    [SerializeField]
     private GameObject DIAMOND_PACKAGE_SOLD_OUT;
     [SerializeField]
     private GameObject DIAMOND_PURCHASE_NOT_OBJ; // 다이아몬드 티어 이하일 때, 구매 불가
@@ -394,6 +396,7 @@ public class UI_Shop : UI_Base
         TODAY_PACKAGE_SOLD_OUT_STRONG.gameObject.SetActive(false);
         ADS_PACKAGE_OBJ.gameObject.SetActive(true);
         START_PACKAGE_OBJ.gameObject.SetActive(true);
+        START_DIA_PACK_OBJ.gameObject.SetActive(true);
         DIAMOND_PACKAGE_SOLD_OUT.gameObject.SetActive(false);
         DIAMOND_PURCHASE_NOT_OBJ.gameObject.SetActive(false);
 
@@ -442,6 +445,11 @@ public class UI_Shop : UI_Base
         if (Data_Manager.Main_Players_Data.isBuySTARTPackage)
         {
             START_PACKAGE_OBJ.gameObject.SetActive(false);
+        }
+
+        if (Data_Manager.Main_Players_Data.isBuy_START_DIA_PACK)
+        {
+            START_DIA_PACK_OBJ.gameObject.SetActive(false);
         }
 
         if (Data_Manager.Main_Players_Data.isBuyDIAMONDPackage)

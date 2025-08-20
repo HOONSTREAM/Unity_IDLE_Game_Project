@@ -32,6 +32,7 @@ public class IAP_Manager : IStoreListener
     public readonly string RESEARCH_BOOK = "research_book";
     public readonly string RESEARCH_PACKAGE = "research_package";
     public readonly string HONDON_COMB_PACKAGE = "hondon_comb";
+    public readonly string START_DIA_PACK = "start_dia";
 
     private IStoreController Store_Controller; // 구매 과정을 제어하는 함수 제공자
     private IExtensionProvider Store_Extension_Provider; // 여러 플랫폼을 위한 확정 처리 제공자
@@ -62,6 +63,8 @@ public class IAP_Manager : IStoreListener
         builder.AddProduct(RESEARCH_BOOK, ProductType.Consumable, new IDs() { { RESEARCH_BOOK, GooglePlay.Name } });
         builder.AddProduct(RESEARCH_PACKAGE, ProductType.Consumable, new IDs() { { RESEARCH_PACKAGE, GooglePlay.Name } });
         builder.AddProduct(HONDON_COMB_PACKAGE, ProductType.Consumable, new IDs() { { HONDON_COMB_PACKAGE, GooglePlay.Name } });
+        builder.AddProduct(START_DIA_PACK, ProductType.NonConsumable, new IDs() { { START_DIA_PACK, GooglePlay.Name } });
+
 
         UnityPurchasing.Initialize(this, builder);
     }

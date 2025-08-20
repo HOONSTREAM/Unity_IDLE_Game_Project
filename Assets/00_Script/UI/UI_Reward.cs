@@ -37,6 +37,14 @@ public class UI_Reward : UI_Base
             case IAP_Holder.research_package: GetRewardInit("PACKAGE_RESEARCH", 1); break;
             case IAP_Holder.hondon_comb: GetRewardInit("PACKAGE_HONDON_COMB", 1); break;
 
+            case IAP_Holder.start_dia: 
+                
+                GetRewardInit("Dia", 11000);
+                Data_Manager.Main_Players_Data.isBuy_START_DIA_PACK = true;
+                
+                break;
+
+
 
         }
     }

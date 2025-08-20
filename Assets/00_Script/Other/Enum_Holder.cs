@@ -33,6 +33,7 @@ public enum IAP_Holder
     research_book,
     research_package,
     hondon_comb,
+    start_dia
 
 }
 

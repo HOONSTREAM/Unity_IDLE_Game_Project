@@ -95,6 +95,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("isBUY_TODAY_Package", data.isBuyTodayPackage);
         param.Add("isBUY_STRONG_Package", data.isBuySTRONGPackage);
         param.Add("isBUY_START_Package", data.isBuySTARTPackage);
+        param.Add("isBUY_START_DIA", data.isBuy_START_DIA_PACK);
         param.Add("isBUY_DIAMOND_Package", data.isBuyDIAMONDPackage);
         param.Add("ADS_HERO_SUMMON_COUNT", data.ADS_Hero_Summon_Count);
         param.Add("ADS_RELIC_SUMMON_COUNT", data.ADS_Relic_Summon_Count);
@@ -421,6 +422,49 @@ public partial class BackEnd_Manager : MonoBehaviour
                 {
                     Debug.Log("isBUY_START_Package 컬럼이 존재합니다.");
                     data.isBuySTARTPackage = bool.Parse(gameDataJson[0]["isBUY_START_Package"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("isBUY_START_DIA"))
+                {
+                    Debug.Log("isBUY_START_DIA 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("isBUY_START_DIA", data.isBuy_START_DIA_PACK);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("isBUY_START_DIA 컬럼이 존재합니다.");
+                    data.isBuy_START_DIA_PACK = bool.Parse(gameDataJson[0]["isBUY_START_DIA"].ToString());
                 }
                 if (!gameDataJson[0].ContainsKey("isBUY_DIAMOND_Package"))
                 {

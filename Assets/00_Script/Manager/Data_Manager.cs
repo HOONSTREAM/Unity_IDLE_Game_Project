@@ -79,6 +79,7 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.isBuyTodayPackage = false;
         Data_Manager.Main_Players_Data.isBuySTRONGPackage = false;
         Data_Manager.Main_Players_Data.isBuySTARTPackage = false;
+        Data_Manager.Main_Players_Data.isBuy_START_DIA_PACK = false;
         Data_Manager.Main_Players_Data.isBuyDIAMONDPackage = false;
         Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree = false;
         Data_Manager.Main_Players_Data.Daily_Attendance = 1;
@@ -144,6 +145,7 @@ public class BackendGameData
         param.Add("isBUY_TODAY_Package", Data_Manager.Main_Players_Data.isBuyTodayPackage);
         param.Add("isBUY_STRONG_Package", Data_Manager.Main_Players_Data.isBuySTRONGPackage);
         param.Add("isBUY_START_Package", Data_Manager.Main_Players_Data.isBuySTARTPackage);
+        param.Add("isBUY_START_DIA", Data_Manager.Main_Players_Data.isBuy_START_DIA_PACK);
         param.Add("isBUY_DIAMOND_Package", Data_Manager.Main_Players_Data.isBuyDIAMONDPackage);
         param.Add("EVENT_PUSH_ALARM", Data_Manager.Main_Players_Data.Event_Push_Alarm_Agree);
         param.Add("Daily_Attendance", Data_Manager.Main_Players_Data.Daily_Attendance);
@@ -439,6 +441,7 @@ public class Data
     public bool isBuySTRONGPackage = false;
     public bool isBuySTARTPackage = false;
     public bool isBuyDIAMONDPackage = false;
+    public bool isBuy_START_DIA_PACK = false;
     public int ADS_Hero_Summon_Count = 0;
 
     public bool ADS_FREE_DIA = false;
