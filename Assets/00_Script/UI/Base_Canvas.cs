@@ -15,6 +15,9 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField] 
     private Transform BACK_LAYER;
     [SerializeField]
+    private GameObject Tutorial_Levelup_Button_Panel; // 영웅단 레벨업 버튼 튜토리얼 안내 패널
+    #region UI BUTTON
+    [SerializeField]
     private Button Hero_Button;
     [SerializeField]
     private Button Inventory_Button;
@@ -59,8 +62,10 @@ public class Base_Canvas : MonoBehaviour
     [SerializeField]
     private Button DIA_PASS_Button;
     [SerializeField]
-    private GameObject Tutorial_Levelup_Button_Panel;
+    private Button Costume_Button;
+    #endregion
 
+    
     [HideInInspector]
     public Item_ToolTip item_tooltip = null;
     [HideInInspector]
@@ -159,6 +164,17 @@ public class Base_Canvas : MonoBehaviour
                 Base_Canvas.instance.Get_Toast_Popup().Initialize("스테이지 1000층 이상부터 해금됩니다.");
                 return;
             }
+        });
+
+        Costume_Button.onClick.AddListener(() =>
+
+        {
+
+            Base_Canvas.instance.Get_Toast_Popup().Initialize("다음 버전에 출시됩니다!");
+            return;
+
+            //Get_UI("UI_Costume", false, false, true);
+                                   
         });
 
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));
