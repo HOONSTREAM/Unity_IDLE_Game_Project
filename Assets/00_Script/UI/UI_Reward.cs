@@ -44,6 +44,7 @@ public class UI_Reward : UI_Base
                 
                 break;
 
+            case IAP_Holder.sword_hondon: GetRewardInit("HONDON_SWORD", 1); break;
 
 
         }
@@ -71,6 +72,10 @@ public class UI_Reward : UI_Base
 
             case "Research_Levelup_Book":
                 Base_Manager.Data.Item_Holder["Research_Levelup_Book"].Hero_Card_Amount += 1;
+                break;
+
+            case "HONDON_SWORD":
+                Data_Manager.Main_Players_Data.isBuy_Hondon_Sword = true;
                 break;
 
             case "PACKAGE_ADS": 

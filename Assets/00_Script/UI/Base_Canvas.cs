@@ -169,12 +169,15 @@ public class Base_Canvas : MonoBehaviour
         Costume_Button.onClick.AddListener(() =>
 
         {
-
-            Base_Canvas.instance.Get_Toast_Popup().Initialize("다음 버전에 출시됩니다!");
-            return;
-
-            //Get_UI("UI_Costume", false, false, true);
-                                   
+            if (Data_Manager.Main_Players_Data.Player_Max_Stage >= 1000)
+            {
+                Get_UI("UI_Hondon_Hall", false, false, true);
+            }
+            else
+            {
+                Base_Canvas.instance.Get_Toast_Popup().Initialize("스테이지 1000층 이상부터 해금됩니다.");
+                return;
+            }                                 
         });
 
         Smelt_Button.onClick.AddListener(() => Get_UI("UI_Smelt", false, false, true, 4));

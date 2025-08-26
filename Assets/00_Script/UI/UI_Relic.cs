@@ -307,14 +307,20 @@ public class UI_Relic : UI_Base
             double Gold_Amount = Data_Manager.Main_Players_Data.Player_Money;
             double atkBonus = Gold_Amount / 10000000 * double.Parse(effect_percent);
 
-            if(atkBonus >= (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1))
+            // 최대 증가량: 유물 레벨당 0.5 (즉, 50%)
+            double maxBonus = (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1) * 0.5;
+
+            if (atkBonus >= maxBonus)
             {
-                atkBonus = (Base_Manager.Data.Item_Holder["GOLD_PER_ATK"].Hero_Level + 1);
+                atkBonus = maxBonus;
             }
 
-            Skill_Description.text = string.Format(CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(), start_percent,
-                effect_percent, (atkBonus * 100).ToString("F2"));
-            
+            Skill_Description.text = string.Format(
+                CSV_Importer.Relic_Skill_Design[RelicID]["Skill_DES"].ToString(),
+                start_percent,
+                effect_percent,
+                (atkBonus * 100).ToString("F2")  // % 단위로 표시
+            );
         }
         #endregion
 

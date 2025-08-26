@@ -116,6 +116,11 @@ public class BackendGameData
         Data_Manager.Main_Players_Data.Get_DIA_PASS_Reward = false;
         Data_Manager.Main_Players_Data.DIA_PASS_Last_Date = default;
 
+        Data_Manager.Main_Players_Data.isBuy_Hondon_Sword = false;
+        Data_Manager.Main_Players_Data.isBuy_Hondon_Armor = false;
+
+        
+
         Param param = new Param();
 
         param.Add("SPEED", Data_Manager.Main_Players_Data.buff_x2_speed);
@@ -185,6 +190,10 @@ public class BackendGameData
         param.Add("DIA_ATTENDANCE_DAY", Data_Manager.Main_Players_Data.DIA_PASS_ATTENDANCE_DAY);
         param.Add("Get_DIA_PASS_REWARD", Data_Manager.Main_Players_Data.Get_DIA_PASS_Reward);
         param.Add("DIA_PASS_ATTENDANCE_DATE", Data_Manager.Main_Players_Data.DIA_PASS_Last_Date);
+
+        // 去捣狼 己开 单捞磐
+        param.Add("HONDON_SWORD", Data_Manager.Main_Players_Data.isBuy_Hondon_Sword);
+        param.Add("HONDON_ARMOR", Data_Manager.Main_Players_Data.isBuy_Hondon_Armor);
 
 
         var bro = Backend.GameData.Insert("USER", param);
@@ -483,7 +492,10 @@ public class Data
     public int DIA_PASS_ATTENDANCE_DAY = 0;
     public bool Get_DIA_PASS_Reward = false;
     public string DIA_PASS_Last_Date = default;
-    
+
+    //去捣狼 己开
+    public bool isBuy_Hondon_Sword = false;
+    public bool isBuy_Hondon_Armor = false;
 }
 
 public class Data_Manager

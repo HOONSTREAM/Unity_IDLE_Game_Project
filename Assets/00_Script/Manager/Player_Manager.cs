@@ -284,7 +284,7 @@ public class Player_Manager
             double atkBonus = (playerData.Player_Money / 10000000.0) * effectValue;
 
             // 최대 증가량은 유물 레벨 * 1.0 (레벨당 최대 100% 증가)
-            double maxBonus = goldLevel * 1.0;
+            double maxBonus = goldLevel * 0.5;
 
             // 보너스 제한
             if (atkBonus > maxBonus)
