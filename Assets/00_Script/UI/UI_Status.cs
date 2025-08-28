@@ -105,6 +105,19 @@ public class UI_Status : UI_Base
 
         }
 
+        // È¥µ·ÀÇ ¼º¿ª ½ºÅÝ °è»ê
+        if (Data_Manager.Main_Players_Data.isBuy_Hondon_Sword)
+        {
+            STR_Temp += 500;
+            DEX_Temp += 500;
+        }
+
+        if (Data_Manager.Main_Players_Data.isBuy_Hondon_Armor)
+        {
+            STR_Temp += 500;
+            DEX_Temp += 500;
+        }
+
         STR.text = STR_Temp.ToString();
         DEX.text = DEX_Temp.ToString();
         VIT.text = VIT_Temp.ToString();
