@@ -38,6 +38,7 @@ public static class Hero_Enum_Mapper
         { "Shadow", 29 },
         { "COLD", 30 },
         { "Lightning", 31 },
+        { "Poison", 32 },
 
     };
 
