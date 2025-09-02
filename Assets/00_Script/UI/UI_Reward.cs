@@ -45,7 +45,7 @@ public class UI_Reward : UI_Base
                 break;
 
             case IAP_Holder.sword_hondon: GetRewardInit("HONDON_SWORD", 1); break;
-
+            case IAP_Holder.shoes_hondon: GetRewardInit("HONDON_SHOES", 1); break;
 
         }
     }
@@ -76,6 +76,10 @@ public class UI_Reward : UI_Base
 
             case "HONDON_SWORD":
                 Data_Manager.Main_Players_Data.isBuy_Hondon_Sword = true;
+                break;
+
+            case "HONDON_SHOES":
+                Data_Manager.Main_Players_Data.isBuy_Hondon_Shoes = true;
                 break;
 
             case "PACKAGE_ADS": 

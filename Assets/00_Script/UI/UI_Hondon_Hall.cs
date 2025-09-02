@@ -10,6 +10,8 @@ public class UI_Hondon_Hall : UI_Base
     [SerializeField]
     private GameObject _hondon_Armor_sold_out_OBJ;
     [SerializeField]
+    private GameObject _hondon_shoes_sold_out_OBJ;
+    [SerializeField]
     private TextMeshProUGUI Player_Diamond;
 
     [SerializeField]
@@ -42,6 +44,9 @@ public class UI_Hondon_Hall : UI_Base
     /// </summary>
     private void Init_Stat_Text()
     {
+        Additional_STR = 0;
+        Additional_DEX = 0;
+
         Player_Additional_STR.text = "0";
         Player_Additional_DEX.text = "0";
         Player_Additional_ATK.text = "증가량 없음";
@@ -49,6 +54,8 @@ public class UI_Hondon_Hall : UI_Base
 
         _hondon_sword_sold_out_OBJ.gameObject.SetActive(false);
         _hondon_Armor_sold_out_OBJ.gameObject.SetActive(false);
+        _hondon_shoes_sold_out_OBJ.gameObject.SetActive(false);
+
     }
 
     public void Purchase(string purchase_name)
@@ -68,15 +75,33 @@ public class UI_Hondon_Hall : UI_Base
         {
             _hondon_sword_sold_out_OBJ.gameObject.SetActive(true);
             Additional_STR += 500;
+            Additional_DEX += 500;
             Player_Additional_STR.text = Additional_STR.ToString();
+            Player_Additional_DEX.text = Additional_DEX.ToString();
             Player_Additional_ATK.text = "2배 증가";
         }
         if (Data_Manager.Main_Players_Data.isBuy_Hondon_Armor)
         {
             _hondon_Armor_sold_out_OBJ.gameObject.SetActive(true);
+            Additional_STR += 500;
             Additional_DEX += 500;
+            Player_Additional_STR.text = Additional_STR.ToString();
             Player_Additional_DEX.text = Additional_DEX.ToString();
             Player_Additional_HP.text = "2배 증가";
+        }
+        if (Data_Manager.Main_Players_Data.isBuy_Hondon_Shoes)
+        {
+            _hondon_shoes_sold_out_OBJ.gameObject.SetActive(true);
+            Additional_STR += 500;
+            Additional_DEX += 500;
+            Player_Additional_STR.text = Additional_STR.ToString();
+            Player_Additional_DEX.text = Additional_DEX.ToString();
+            Player_Additional_ATK.text = "2배 증가";
+
+            if (Data_Manager.Main_Players_Data.isBuy_Hondon_Sword)
+            {
+                Player_Additional_ATK.text = "4배 증가";
+            }
         }
     }
 

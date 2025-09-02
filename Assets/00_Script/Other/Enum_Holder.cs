@@ -35,6 +35,7 @@ public enum IAP_Holder
     hondon_comb,
     start_dia,
     sword_hondon,
+    shoes_hondon,
 
 }
 

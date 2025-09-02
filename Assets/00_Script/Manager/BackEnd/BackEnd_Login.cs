@@ -2,6 +2,7 @@ using BackEnd;
 using PimDeWitte.UnityMainThreadDispatcher;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public partial class BackEnd_Manager : MonoBehaviour
@@ -9,6 +10,7 @@ public partial class BackEnd_Manager : MonoBehaviour
 
     private bool isGoogleLoginRunning = false;
 
+    
     public void StartGoogleLogin()
     {
         if (isGoogleLoginRunning)
@@ -81,6 +83,7 @@ public partial class BackEnd_Manager : MonoBehaviour
             }
 
             var userInfo = Backend.BMember.GetUserInfo();
+
             if (userInfo.IsSuccess() && userInfo.GetReturnValuetoJSON()["row"]["nickname"] != null)
             {
                 // 닉네임 존재 → 데이터 로드 안전 시작
@@ -122,14 +125,15 @@ public partial class BackEnd_Manager : MonoBehaviour
 
     public void ShowPolicyUI_Delayed()
     {
-        StartCoroutine(DelayedPolicyUI());
+        Coroutine_Runner.Instance.StartCoroutine(DelayedPolicyUI());       
     }
 
     private IEnumerator DelayedPolicyUI()
     {
-        yield return null; // 또는 new WaitForEndOfFrame()
+        yield return new WaitForEndOfFrame();
 
         GameObject prefab = Resources.Load<GameObject>("UI/LOGIN_UI_POLICY");
+
         if (prefab == null)
         {
             Debug.LogError("LOGIN_UI_POLICY 리소스를 찾을 수 없습니다.");

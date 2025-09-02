@@ -260,6 +260,17 @@ public class Player_Manager
             baseATK *= 2;
         }
 
+        if (Data_Manager.Main_Players_Data.isBuy_Hondon_Armor)
+        {
+            baseATK += 500 * 1000000.0;
+        }
+
+        if (Data_Manager.Main_Players_Data.isBuy_Hondon_Shoes) // 혼돈의 성역 유물 보유 여부 계산
+        {
+            baseATK += 500 * 1000000.0;
+            baseATK *= 2;
+        }
+
         // 광고 버프
         baseATK *= adsBuffValue;
 
@@ -589,10 +600,18 @@ public class Player_Manager
 
         }
 
+        if (Data_Manager.Main_Players_Data.isBuy_Hondon_Sword) // 혼돈의 성역 유물 보유 여부 계산
+        {
+            Dex_Value += 500;
+        }
         if (Data_Manager.Main_Players_Data.isBuy_Hondon_Armor) // 혼돈의 성역 유물 보유 여부 계산
         {
             Dex_Value += 500;
         }
+        if (Data_Manager.Main_Players_Data.isBuy_Hondon_Shoes) // 혼돈의 성역 유물 보유 여부 계산
+        {
+            Dex_Value += 500;
+        }       
 
 
         float dexBonus = (float)Dex_Value;

@@ -98,6 +98,7 @@ public partial class BackEnd_Manager : MonoBehaviour
         param.Add("ADS_RELIC_SUMMON_COUNT", data.ADS_Relic_Summon_Count);
         param.Add("HONDON_SWORD", data.isBuy_Hondon_Sword);
         param.Add("HONDON_ARMOR", data.isBuy_Hondon_Armor);
+        param.Add("HONDON_SHOES", data.isBuy_Hondon_Shoes);
 
         data.Event_Push_Alarm_Agree = Utils.is_push_alarm_agree;
 
@@ -420,6 +421,49 @@ public partial class BackEnd_Manager : MonoBehaviour
                 {
                     Debug.Log("HONDON_ARMOR 컬럼이 존재합니다.");
                     data.isBuy_Hondon_Armor = bool.Parse(gameDataJson[0]["HONDON_ARMOR"].ToString());
+                }
+                if (!gameDataJson[0].ContainsKey("HONDON_SHOES"))
+                {
+                    Debug.Log("HONDON_ARMOR 컬럼이 없어 새로 추가합니다.");
+                    Param param = new Param();
+                    param.Add("HONDON_SHOES", data.isBuy_Hondon_Shoes);
+
+                    var bro_Get_Table_USER = Backend.GameData.Get("USER", new Where());
+
+                    if (!bro_Get_Table_USER.IsSuccess()) return;
+
+                    string inDate = bro_Get_Table_USER.GetInDate();
+
+                    DateTime now = Utils.Get_Server_Time();
+                    bool isMidnightRange = now.Hour == 0;
+
+                    if (isMidnightRange)
+                    {
+                        Backend.GameData.Update("USER", new Where(), param, callback =>
+                        {
+                            Debug.Log(callback.IsSuccess() ? "데이터 저장 (리더보드 제외) 성공" : "데이터 저장 실패");
+                        });
+                    }
+                    else
+                    {
+                        Backend.Leaderboard.User.UpdateMyDataAndRefreshLeaderboard(Utils.LEADERBOARD_UUID, "USER", inDate, param, callback =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log("리더보드와 데이터 저장 성공");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("리더보드 갱신 실패, 등록 여부 확인 후 처리");
+                                TryReRegisterLeaderboard(param);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.Log("HONDON_SHOES 컬럼이 존재합니다.");
+                    data.isBuy_Hondon_Shoes = bool.Parse(gameDataJson[0]["HONDON_SHOES"].ToString());
                 }
                 if (!gameDataJson[0].ContainsKey("SEASON"))
                 {

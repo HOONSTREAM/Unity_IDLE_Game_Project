@@ -34,6 +34,7 @@ public class IAP_Manager : IStoreListener
     public readonly string HONDON_COMB_PACKAGE = "hondon_comb";
     public readonly string START_DIA_PACK = "start_dia";
     public readonly string HONDON_SWORD = "sword_hondon";
+    public readonly string HONDON_SHOES = "shoes_hondon";
 
     private IStoreController Store_Controller; // 구매 과정을 제어하는 함수 제공자
     private IExtensionProvider Store_Extension_Provider; // 여러 플랫폼을 위한 확정 처리 제공자
@@ -66,6 +67,7 @@ public class IAP_Manager : IStoreListener
         builder.AddProduct(HONDON_COMB_PACKAGE, ProductType.Consumable, new IDs() { { HONDON_COMB_PACKAGE, GooglePlay.Name } });
         builder.AddProduct(START_DIA_PACK, ProductType.NonConsumable, new IDs() { { START_DIA_PACK, GooglePlay.Name } });
         builder.AddProduct(HONDON_SWORD, ProductType.NonConsumable, new IDs() { { HONDON_SWORD, GooglePlay.Name } });
+        builder.AddProduct(HONDON_SHOES, ProductType.NonConsumable, new IDs() { { HONDON_SHOES, GooglePlay.Name } });
 
         UnityPurchasing.Initialize(this, builder);
     }

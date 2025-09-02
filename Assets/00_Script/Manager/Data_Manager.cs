@@ -118,6 +118,7 @@ public class BackendGameData
 
         Data_Manager.Main_Players_Data.isBuy_Hondon_Sword = false;
         Data_Manager.Main_Players_Data.isBuy_Hondon_Armor = false;
+        Data_Manager.Main_Players_Data.isBuy_Hondon_Shoes = false;
 
         
 
@@ -194,6 +195,7 @@ public class BackendGameData
         // 去捣狼 己开 单捞磐
         param.Add("HONDON_SWORD", Data_Manager.Main_Players_Data.isBuy_Hondon_Sword);
         param.Add("HONDON_ARMOR", Data_Manager.Main_Players_Data.isBuy_Hondon_Armor);
+        param.Add("HONDON_SHOES", Data_Manager.Main_Players_Data.isBuy_Hondon_Shoes);
 
 
         var bro = Backend.GameData.Insert("USER", param);
@@ -496,6 +498,7 @@ public class Data
     //去捣狼 己开
     public bool isBuy_Hondon_Sword = false;
     public bool isBuy_Hondon_Armor = false;
+    public bool isBuy_Hondon_Shoes = false;
 }
 
 public class Data_Manager

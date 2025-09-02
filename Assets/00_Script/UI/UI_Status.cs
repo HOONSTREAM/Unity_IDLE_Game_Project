@@ -118,6 +118,12 @@ public class UI_Status : UI_Base
             DEX_Temp += 500;
         }
 
+        if (Data_Manager.Main_Players_Data.isBuy_Hondon_Shoes)
+        {
+            STR_Temp += 500;
+            DEX_Temp += 500;
+        }
+
         STR.text = STR_Temp.ToString();
         DEX.text = DEX_Temp.ToString();
         VIT.text = VIT_Temp.ToString();
