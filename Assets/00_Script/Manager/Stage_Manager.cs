@@ -95,8 +95,7 @@ public class Stage_Manager
                 Debug.Log("Stage : Clear");
 
                 if (!Base_Canvas.isSavingMode)
-                {
-                    Base_Manager.SOUND.Play(Sound.BGS, "Clear");
+                {                   
                     Base_Canvas.instance.Get_Stage_Clear_Popup().Initialize("스테이지 클리어");
                 }
                 
