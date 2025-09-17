@@ -125,6 +125,7 @@ public static class HeroEffectFactory
             { "COLD", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
             { "Lightning", new List<IHeroEffect> { new Increase_ItemDrop_Effect(), new Increase_HP_Effect(), new NONE_Effect() } },
             { "Poison", new List<IHeroEffect> { new Increase_ATK_Effect(), new Increase_ItemDrop_Effect(), new NONE_Effect() } },
+            { "Holy", new List<IHeroEffect> { new Increase_GoldDrop_Effect(), new Increase_HP_Effect(), new Increase_Critical_Percentage_Effect() } },
 
         };
 
