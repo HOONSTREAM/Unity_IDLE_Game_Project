@@ -14,16 +14,16 @@ public class Saving_Mode : UI_Base
     private TextMeshProUGUI Time_Text;
     [SerializeField]
     private Image Battery_Fill_Image;
-    [SerializeField]
-    private Transform Content;
-    [SerializeField]
-    private UI_Inventory_Parts item_parts;
+    //[SerializeField]
+    //private Transform Content;
+    //[SerializeField]
+    //private UI_Inventory_Parts item_parts;
     [SerializeField]
     private Image Off_Saving_Image;
     [SerializeField]
     private TextMeshProUGUI Now_Player_Stage;
 
-    public TextMeshProUGUI Gold_Text;
+    //public TextMeshProUGUI Gold_Text;
 
     public Dictionary<string, Item_Holder> saving_item_Dict = new Dictionary<string, Item_Holder>(); // ºº¿Ã∫Í∏µÂ ªÛ≈¬¿œ∂ß, æ∆¿Ã≈€»πµÊ∑Æ¿ª ¿”Ω√∑Œ ¿˙¿Â«’¥œ¥Ÿ.
     public Dictionary<string, UI_Inventory_Parts> item_parts_saving_mode = new Dictionary<string, UI_Inventory_Parts>();
@@ -142,30 +142,32 @@ public class Saving_Mode : UI_Base
             Now_Player_Stage.text = nowStage;
         }
 
-        string nowGold = $"<color=#FFFF00>{StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money)}</color>∞ÒµÂ »πµÊ¡ﬂ...";
-        if (cachedGold != nowGold)
-        {
-            cachedGold = nowGold;
-            Gold_Text.text = nowGold;
-        }
+        //string nowGold = $"<color=#FFFF00>{StringMethod.ToCurrencyString(Data_Manager.Main_Players_Data.Player_Money)}</color>∞ÒµÂ »πµÊ¡ﬂ...";
+        //if (cachedGold != nowGold)
+        //{
+        //    cachedGold = nowGold;
+        //    Gold_Text.text = nowGold;
+        //}
     }
     public void Get_Item_Saving_Mode(Item_Scriptable item)
     {
-        if (saving_item_Dict.ContainsKey(item.name))
+        if (saving_item_Dict.TryGetValue(item.name, out var holder))
         {
-            saving_item_Dict[item.name].holder.Hero_Card_Amount++;
-            item_parts_saving_mode[item.name].Init(item.name, saving_item_Dict[item.name].holder);
+            holder.holder.Hero_Card_Amount++;
+            if (item_parts_saving_mode.TryGetValue(item.name, out var ui))
+            {
+                ui.Init(item.name, holder.holder);
+            }
             return;
         }
 
-        Item_Holder items = new Item_Holder {Data = item, holder = new Holder()};
+        Item_Holder items = new Item_Holder { Data = item, holder = new Holder() };
         items.holder.Hero_Card_Amount = 1;
-        saving_item_Dict.Add(item.name, items);
+        saving_item_Dict[item.name] = items;
 
-
-        var go = Instantiate(item_parts, Content);
-        item_parts_saving_mode.Add(item.name, go);
-        go.Init(items.Data.name, saving_item_Dict[item.name].holder);
+        //var go = Instantiate(item_parts, Content);
+        //item_parts_saving_mode[item.name] = go;
+        //go.Init(item.name, items.holder);
     }
     public override void DisableOBJ()
     {

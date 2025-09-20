@@ -39,6 +39,7 @@ public class Auto_Save_Mode_Controller : MonoBehaviour
     {
         isSleepMode = true;
         Debug.Log("절전 모드 진입");
+        Utils.is_Skill_Effect_Save_Mode = true;
         Base_Canvas.instance.Get_UI("Saving_Mode");
         Base_Canvas.isSavingMode = true;
     }
