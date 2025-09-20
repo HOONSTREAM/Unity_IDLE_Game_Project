@@ -6,15 +6,19 @@ public class Hunter_Skill : Skill_Base
 {
     [SerializeField]
     private const float HUNTER_SKILL_DURATION_TIME = 15.0f;
+    private bool isSkillActive = false;
 
     public override void Set_Skill()
     {
+        if (isSkillActive) return; // 이미 발동 중이면 무시
         base.Set_Skill();
         StartCoroutine(Set_Skill_Coroutine());
     }
 
     IEnumerator Set_Skill_Coroutine()
     {
+        isSkillActive = true;
+
         var originalAtkSpeed = m_Player.ATK_Speed;
 
         try
@@ -39,6 +43,7 @@ public class Hunter_Skill : Skill_Base
 
             Debug.Log("[Hunter_Skill] ATK_Speed 복구 및 ReturnSkill 실행됨");
             ReturnSkill();
+            isSkillActive = false;
         }
     }
 }

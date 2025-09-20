@@ -7,15 +7,18 @@ public class Knight_Skill : Skill_Base
     [SerializeField]
     private const float KNIGHT_SKILL_DURATION_TIME = 10.0f;
     private const string KNIGHT_NAME = "Knight";
+    private bool isSkillActive = false;
 
     public override void Set_Skill()
     {
+        if (isSkillActive) return; // 이미 발동 중이면 무시
         base.Set_Skill();
         StartCoroutine(Set_Skill_Coroutine());
     }
 
     IEnumerator Set_Skill_Coroutine()
     {
+        isSkillActive = true;
         float originalAtkSpeed = m_Player.ATK_Speed;
         double originalHP = Base_Manager.Player.Get_HP(Rarity.Common, Base_Manager.Data.character_Holder[KNIGHT_NAME], KNIGHT_NAME);
 
@@ -56,6 +59,7 @@ public class Knight_Skill : Skill_Base
 
             Debug.Log("[Knight_Skill] ATK_Speed 및 HP 복구, ReturnSkill 실행됨");
             ReturnSkill();
+            isSkillActive = false;
         }
     }
 }
